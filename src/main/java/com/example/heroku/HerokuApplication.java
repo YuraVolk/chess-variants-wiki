@@ -1,42 +1,79 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.heroku;
 
+import com.google.api.core.ApiFuture;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
+import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.DatabaseReference;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @SpringBootApplication
 public class HerokuApplication {
+  private Firestore app;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void initDB() {
+      try {
+        File f = new File("."); // current directory
+
+        File[] files = f.listFiles();
+        for (File file : files) {
+          if (file.isDirectory()) {
+            System.out.print("directory:");
+          } else {
+            System.out.print("     file:");
+          }
+          System.out.println(file.getCanonicalPath());
+        }
+
+        FileInputStream stream = new FileInputStream("./database-secret.json");
+        GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(credentials)
+                .setDatabaseUrl("https://pc-info-wiki.firebaseio.com/")
+                .build();
+        FirebaseApp.initializeApp(options);
+      } catch (IOException e) {
+        System.out.println("err");
+        e.printStackTrace();
+        FirebaseApp.initializeApp();
+      }
+
+      app = FirestoreClient.getFirestore();
+    }
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
@@ -51,6 +88,21 @@ public class HerokuApplication {
   @RequestMapping("/")
   String index() {
     return "index";
+  }
+
+  @RequestMapping("/api/getPageContent")
+  String page() {
+    ApiFuture<QuerySnapshot> query = app.collection("admins").get();
+    try {
+      QuerySnapshot querySnapshot = query.get();
+      List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+      for (QueryDocumentSnapshot documentSnapshot : documents) {
+        System.out.println(documentSnapshot.getId());
+      }
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 
   @RequestMapping("/db")
