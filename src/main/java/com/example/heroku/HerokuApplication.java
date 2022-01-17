@@ -1,5 +1,7 @@
 package com.example.heroku;
 
+import com.example.heroku.data.Page;
+
 import com.google.api.core.ApiFuture;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -21,9 +23,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import sun.security.krb5.internal.PAEncTSEnc;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -59,8 +64,8 @@ public class HerokuApplication {
           System.out.println(file.getCanonicalPath());
         }
 
-        FileInputStream stream = new FileInputStream("./database-secret.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
+        ClassPathResource configFile = new ClassPathResource("database-secret.json");
+        GoogleCredentials credentials = GoogleCredentials.fromStream(configFile.getInputStream());
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
                 .setDatabaseUrl("https://pc-info-wiki.firebaseio.com/")
@@ -91,18 +96,21 @@ public class HerokuApplication {
   }
 
   @RequestMapping("/api/getPageContent")
-  String page() {
+  @ResponseBody
+  Page page() {
     ApiFuture<QuerySnapshot> query = app.collection("admins").get();
+    String snapshot = "";
     try {
       QuerySnapshot querySnapshot = query.get();
       List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
       for (QueryDocumentSnapshot documentSnapshot : documents) {
-        System.out.println(documentSnapshot.getId());
+        snapshot = documentSnapshot.getId();
       }
     } catch (InterruptedException | ExecutionException e) {
       e.printStackTrace();
     }
-    return "";
+    System.out.println(new Page(snapshot, snapshot));
+    return new Page(snapshot, snapshot);
   }
 
   @RequestMapping("/db")
