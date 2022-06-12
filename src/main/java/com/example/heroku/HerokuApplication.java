@@ -2,18 +2,12 @@ package com.example.heroku;
 
 import com.example.heroku.data.Page;
 
+import com.example.heroku.services.FirestoreDatabaseService;
+import com.example.heroku.services.interfaces.DatabaseInterface;
 import com.google.api.core.ApiFuture;
-import com.google.auth.Credentials;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 
-import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.DatabaseReference;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +17,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.security.krb5.internal.PAEncTSEnc;
 
 import javax.sql.DataSource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,38 +35,12 @@ import java.util.concurrent.ExecutionException;
 @Controller
 @SpringBootApplication
 public class HerokuApplication {
-  private Firestore app;
+  private DatabaseInterface db;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void initDB() {
-      try {
-        File f = new File("."); // current directory
-
-        File[] files = f.listFiles();
-        for (File file : files) {
-          if (file.isDirectory()) {
-            System.out.print("directory:");
-          } else {
-            System.out.print("     file:");
-          }
-          System.out.println(file.getCanonicalPath());
-        }
-
-        ClassPathResource configFile = new ClassPathResource("database-secret.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(configFile.getInputStream());
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(credentials)
-                .setDatabaseUrl("https://pc-info-wiki.firebaseio.com/")
-                .build();
-        FirebaseApp.initializeApp(options);
-      } catch (IOException e) {
-        System.out.println("err");
-        e.printStackTrace();
-        FirebaseApp.initializeApp();
-      }
-
-      app = FirestoreClient.getFirestore();
-    }
+  @EventListener(ApplicationReadyEvent.class)
+  public void initDB() {
+    db = new FirestoreDatabaseService("private/certificates/database-secret.json", "https://pc-info-wiki.firebaseio.com/");
+  }
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
@@ -95,22 +57,12 @@ public class HerokuApplication {
     return "index";
   }
 
-  @RequestMapping("/api/getPageContent")
+  @RequestMapping("/api/page/{pageTitle}")
   @ResponseBody
-  Page page() {
-    ApiFuture<QuerySnapshot> query = app.collection("admins").get();
-    String snapshot = "";
-    try {
-      QuerySnapshot querySnapshot = query.get();
-      List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-      for (QueryDocumentSnapshot documentSnapshot : documents) {
-        snapshot = documentSnapshot.getId();
-      }
-    } catch (InterruptedException | ExecutionException e) {
-      e.printStackTrace();
-    }
-    System.out.println(new Page(snapshot, snapshot));
-    return new Page(snapshot, snapshot);
+  Page page(@PathVariable String pageTitle) {
+    System.out.println(db);
+    db.getPageContent(pageTitle);
+    return new Page();
   }
 
   @RequestMapping("/db")

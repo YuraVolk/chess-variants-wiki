@@ -1,20 +1,27 @@
 package com.example.heroku.data;
 
-public class Page {
-    private String pageContent;
-    private String pageTitle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-    public Page(String pageContent, String pageTitle) {
-        this.pageContent = pageContent;
+public class Page {
+    private String content;
+    private String pageTitle;
+    private List<String> categories = new ArrayList<>();
+
+    public Page() { }
+
+    public Page(String pageContent, List<String> categories) {
+        this.content = pageContent;
         this.pageTitle = pageTitle;
     }
 
-    public String getPageContent() {
-        return pageContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setPageContent(String pageContent) {
-        this.pageContent = pageContent;
+    public void setContent(String pageContent) {
+        this.content = pageContent;
     }
 
     public String getPageTitle() {
@@ -25,11 +32,35 @@ public class Page {
         this.pageTitle = pageTitle;
     }
 
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public String toString() {
         return "Page{" +
-                "pageContent='" + pageContent + '\'' +
+                "content='" + content + '\'' +
                 ", pageTitle='" + pageTitle + '\'' +
+                ", categories=" + categories +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Page)) return false;
+        Page page = (Page) o;
+        return content.equals(page.content) &&
+                pageTitle.equals(page.pageTitle) &&
+                categories.equals(page.categories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content, pageTitle, categories);
     }
 }
