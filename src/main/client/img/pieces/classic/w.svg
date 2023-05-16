@@ -1,0 +1,19 @@
+
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+   viewBox="0 0 180 180" style="enable-background:new 0 0 180 180;" xml:space="preserve">
+
+<style type="text/css">
+  .st0{fill:#BF3B43;}
+  .st1{fill:none;stroke:#040000;stroke-width:2.5;stroke-miterlimit:10;}
+</style>
+<title>w</title>
+<g id="Layer_2">
+  <g id="Layer_1-2">
+    <polygon class="st0" points="29.8,116.7 55.2,116.7 55.2,102.5 77.3,102.5 77.3,116.7 102.7,116.7 102.7,102.5 124.9,102.5
+      124.9,116.7 150.2,116.7 150.2,80.7 126.9,63.3 53.1,63.3 29.8,80.7     "/>
+    <line class="st1" x1="29.8" y1="81.3" x2="150.2" y2="81.3"/>
+    <polygon class="st1" points="126.9,63.3 150.2,80.7 150.2,116.7 124.9,116.7 124.9,102.5 102.7,102.5 102.7,116.7 77.3,116.7
+      77.3,102.5 55.2,102.5 55.2,116.7 29.8,116.7 29.8,80.7 53.1,63.3     "/>
+  </g>
+</g>
+</svg>

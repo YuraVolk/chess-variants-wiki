@@ -1,0 +1,378 @@
+@use "../../index";
+
+.board {
+	position: relative;
+	width: min-content;
+}
+
+.board-row {
+	@include index.alternatingBoardColors(var(--main-square-primary-color), var(--main-square-secondary-color));
+	display: flex;
+	max-width: fit-content;
+	padding-left: 0;
+	list-style-type: none;
+}
+
+.wrap {
+	@include index.scrollbar(10px);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 40rem;
+	height: 60vh;
+	margin-left: 3rem;
+	padding-right: 1rem;
+	overflow-y: scroll;
+}
+
+.board-settings {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	&-button {
+		@include index.button;
+		font-family: 'Source Code Pro', monospace;
+
+		&__icon {
+			@include index.iconSize;
+		}
+
+		&__icon--box-offset {
+			@extend %icon-font-chess-circle-clock-alt;
+		}
+
+		&__icon--no-corners-on {
+			@extend %icon-font-chess-maximize;
+		}
+
+		&__icon--no-corners-off {
+			@extend %icon-font-chess-minimize;
+		}
+	}
+
+
+	&__dimension {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: index.$boardComponentWhiteColor;
+
+		&-select {
+			position: relative;
+			width: 45px;
+			height: 3rem;
+			padding: 5px;
+			border: none;
+			outline: none;
+			background-color: index.$boardComponentDarkColor;
+			color: index.$boardComponentWhiteColor;
+			font-size: 1.4rem;
+			line-height: 1.2;
+			appearance: none;
+			background-image: linear-gradient(45deg, transparent 78.8%, index.$boardComponentWhiteColor 0),
+				linear-gradient(135deg, index.$boardComponentWhiteColor 21.9%, transparent 0);
+			background-size: 6.5px;
+			background-repeat: no-repeat;
+			background-position: calc(90% - 6px - 0.2rem) 1rem, calc(91% - 5px + 0.3rem) 1rem;
+
+			&-option {
+				color: index.$boardComponentWhiteColor;
+			}
+
+			&:hover {
+				appearance: none;
+			}
+		}
+	}
+
+	&__variant-rules-button {
+		@include index.button;
+		width: 100%;
+		gap: 0.7rem;
+		margin-top: 1.3rem;
+
+		&--open {
+			background-color: index.$activeColor;
+		}
+
+		&-icon {
+			@include index.iconSize($size: 3rem);
+			@extend %icon-font-chess-switches;
+			display: inline-block;
+			align-self: flex-start;
+		}
+
+		&--open #{&}-icon {
+			@extend %icon-font-chess-checkmark;
+		}
+
+		&-text {
+			font-family: index.$boardComponentFont;
+			font-size: 1.6rem;
+		}
+
+		&--open #{&}-text {
+			background-color: index.$activeColor;
+		}
+	}
+}
+
+.variant-rules-modal {
+	@include index.scrollbar(8px);
+	position: absolute;
+	width: 50rem;
+	height: calc(100vh - 4rem);
+	top: 2rem;
+	bottom: 2rem;
+	left: 25%;
+	right: 25%;
+	margin: auto;
+	background-color: index.$boardComponentWhiteColor;
+	overflow: auto;
+	border-radius: 10px;
+	box-shadow: 0 0 15rem #262421;
+
+	&-rounded-header {
+		position: relative;
+		z-index: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 8rem;
+		overflow: hidden;
+		padding: 1.8rem 3.7rem;
+		margin-bottom: 1rem;
+
+		&::before {
+			position: absolute;
+			z-index: -1;
+			top: 0;
+			content: "";
+			width: 500px;
+			height: 8rem;
+			border-radius: 1.5rem 1.5rem 130% 130%;
+			background-color: index.$activeColor;
+		}
+
+		&__text {
+			margin-top: 0.1rem;
+			font-weight: 800;
+			font-size: 2.7rem;
+			text-align: center;
+			text-shadow: 0 0.1rem 0 rgba(0, 0, 0, 0.45);
+			color: #fff;
+		}
+	}
+
+	&__button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem;
+		background:index.$activeColor;
+		color: #e2e2e2;
+		border-radius: 2.5px;
+		border: none;
+		width: 98%;
+		font-weight: 600;
+		gap: 0.7rem;
+		margin: 1rem 0.5rem;
+
+		&-icon {
+			@include index.iconSize($size: 3rem);
+			@extend %icon-font-chess-checkmark;
+			display: inline-block;
+			align-self: flex-start;
+		}
+	}
+}
+
+.variant-rules-overlay {
+	position: fixed;
+	inset: 0px;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.variant-boolean-rules {
+	position: relative;
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(3, 1fr);
+	border-top: 1px solid #ccc;
+	padding: 1rem;
+
+	&__tooltip {
+		@include index.tooltip;
+	}
+}
+
+@mixin highlightedButton {
+	position: relative;
+
+	&--active::before {
+		position: absolute;
+		top: -0.3rem;
+		left: -0.3rem;
+		width: calc(100% + 0.6rem);
+		height: calc(100% + 0.6rem);
+		border: 0.3rem solid index.$activeColor;
+		border-radius: 0.6rem;
+		content: "";
+	}
+}
+
+.variant-boolean-rule {
+	@include highlightedButton;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 3rem;
+	padding: 0.5rem 0.5rem 0.5rem 1rem;
+	border-radius: 0.3rem;
+	background-color: #f1f1f1;
+	color: #666564;
+	cursor: pointer;
+	user-select: none;
+
+	&--not-allowed {
+		opacity: 0.33;
+		cursor: not-allowed;
+	}
+
+	&__name {
+		font-family: "Segoe UI";
+	}
+
+	&__icon {
+		@include index.iconSize($size: 2.2rem);
+		color: inherit;
+	}
+}
+
+.parametrized-variant-rules {
+	display: grid;
+	gap: 1.1rem;
+	grid-template-columns: repeat(2, 1fr);
+	padding: 2rem;
+}
+
+.parametrized-variant-rule {
+	display: flex;
+	align-items: center;
+	color: #666564;
+	justify-content: space-between;
+
+	&__name {
+		font-family: "Segoe UI";
+		font-weight: 600;
+	}
+
+	&__select {
+		width: 8rem;
+		background-image: linear-gradient(45deg, transparent 78.8%, #666564 0),
+			linear-gradient(135deg, #666564 21.9%, transparent 0);
+		background-size: 6.5px;
+		background-repeat: no-repeat;
+		background-position: calc(90% - 6px - 0.2rem) 0.85rem, calc(91% - 5px + 0.3rem) 0.85rem;
+		padding: 0.4rem;
+		border: none;
+		appearance: none;
+	}
+
+	&__input {
+		width: 8rem;
+		border: none;
+		padding: 0.4rem;
+
+		&::-webkit-input-placeholder,
+		&::-moz-placeholder,
+		&:-moz-placeholder,
+		&:-ms-input-placeholder {
+			color: transparent;
+		}
+	}
+}
+
+.spare-pieces {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: repeat(7, 1fr);
+
+	& > div {
+		width: 30px;
+		height: 30px;
+	}
+
+	&--expanded {
+		gap: 0.15rem;
+		grid-template-columns: repeat(8, 1fr);
+	}
+
+	&-wrap {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		width: 100%;
+		min-height: fit-content;
+		padding: 10px;
+		margin: 10px -10px;
+		border: 2px solid rgba(0, 0, 0, 0.2);
+		border-radius: 9px;
+		background-color: rgba(39, 38, 35, 0.5);
+	}
+
+	&-selectors {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 0 0.7rem;
+
+		&__hint-text {
+			font-family: "Segoe UI";
+			color: #fff;
+			font-size: 13px;
+			margin-bottom: 6px;
+		}
+
+		&__expand-icon {
+			@include index.iconSize($size: 3.2rem);
+			@extend %icon-font-chess-maximize;
+			color: #8c8a88;
+			cursor: pointer;
+		}
+
+		&__colors {
+			display: grid;
+			gap: 2px;
+			grid-template-columns: repeat(2, 1fr);
+			grid-template-rows: repeat(3, 1fr);
+			margin-top: 5px;
+		}
+
+		&__color {
+			@include index.button;
+			font-family: "Segoe UI";
+		}
+
+		&__fairy-pieces-button {
+			@include index.button;
+		}
+
+		&__fairy-pieces-button {
+			padding: 0.3rem 0.7rem;
+		}
+
+		&__fairy-pieces-image {
+			opacity: 0.5;
+		}
+	}
+
+	&--expanded #{&}-selectors__expand-icon {
+		@extend %icon-font-chess-minimize;
+	}
+}

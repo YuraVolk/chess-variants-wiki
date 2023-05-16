@@ -1,0 +1,1789 @@
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/Accordion/Accordion.module.scss ***!
+  \***************************************************************************************************************************************************************************************************************/
+.Accordion-module-accordion_0Dj\+s {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.45rem;
+  background-color: #ececec;
+  transition: 0.5s background-color ease-out;
+  cursor: pointer;
+}
+
+.Accordion-module-accordion--active_5dKxc {
+  background-color: #ccc;
+}
+
+.Accordion-module-accordion__header_PmW-U {
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: left;
+  list-style-type: none;
+}
+
+.Accordion-module-accordion__icon_6VsBb {
+  margin-left: auto;
+  transition: transform 0.5s ease;
+}
+
+.Accordion-module-accordion--active_5dKxc .Accordion-module-accordion__icon_6VsBb {
+  transform: rotate(90deg);
+}
+
+.Accordion-module-accordion__contents_Qzlfr {
+  background-color: #fefefe;
+  overflow-y: hidden;
+  transition: max-height 0.5s ease;
+}
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardComponents/GameDisplay/GameDisplay.module.scss ***!
+  \************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+:root {
+  --main-square-primary-color: rgb(106, 114, 131);
+  --main-square-secondary-color: rgb(41, 48, 61);
+  --main-square-highlight-primary-color: rgb(247, 245, 125);
+  --main-square-highlight-secondary-color: rgb(186, 202, 73);
+  --board-bank-piece-size: 32px;
+  --ghostboard-square-color: #333;
+  --sidebar-background-color: rgba(39, 38, 35, 0.5);
+}
+
+.GameDisplay-module-wrap_7ywuj {
+  position: relative;
+  width: min-content;
+}
+
+.GameDisplay-module-piece-bank-container_M4x5b {
+  width: 0;
+  height: 0;
+}
+
+.GameDisplay-module-piece-bank-wrap_oUlEM {
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.GameDisplay-module-piece-bank-wrap_oUlEM:hover {
+  border-color: hsla(0deg, 0%, 100%, 0.6);
+}
+
+.GameDisplay-module-piece-bank-wrap--right_YonBc {
+  left: 95%;
+}
+
+.GameDisplay-module-piece-bank-wrap--left_XXY1S.GameDisplay-module-piece-bank_ZrPpS {
+  direction: rtl;
+}
+
+.GameDisplay-module-piece-bank-wrap--left_XXY1S {
+  right: 92%;
+}
+
+.GameDisplay-module-piece-bank-wrap--bottom_lfnpQ {
+  bottom: 0;
+}
+
+.GameDisplay-module-piece-bank-wrap--top_4HUZ0 {
+  top: 0;
+}
+
+.GameDisplay-module-piece-bank_ZrPpS {
+  z-index: unset;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, 1fr);
+  background-color: var(--sidebar-background-color);
+  font-weight: 600;
+  user-select: none;
+}
+
+.GameDisplay-module-piece-bank__piece-wrap_Iw3af {
+  position: relative;
+  width: var(--board-bank-piece-size);
+  height: var(--board-bank-piece-size);
+  border-radius: 5px;
+}
+
+.GameDisplay-module-piece-bank__piece_vHhwQ {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: unset;
+  width: var(--board-bank-piece-size);
+  height: var(--board-bank-piece-size);
+  transform: scale(78%);
+  transition: transform 1s;
+}
+
+.GameDisplay-module-piece-bank__piece-wrap_Iw3af:hover > .GameDisplay-module-piece-bank__piece_vHhwQ {
+  transform: scale(100%);
+}
+
+.GameDisplay-module-piece-bank__piece-count_z9755 {
+  position: absolute;
+  right: 2%;
+  bottom: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  height: 45%;
+  background-color: var(--sidebar-background-color);
+  border-radius: 100px;
+  color: #fff;
+}
+
+.GameDisplay-module-dialog-window_f9od9 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.GameDisplay-module-dialog-window_f9od9 > * {
+  pointer-events: all;
+}
+
+.GameDisplay-module-promotion-dialog_Qejg0 {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.GameDisplay-module-promotion-dialog__piece-display_XD8Ws {
+  width: var(--board-piece-size);
+  height: var(--board-piece-size);
+}
+
+.GameDisplay-module-chained-move-notice_txqNy {
+  position: absolute;
+  bottom: 3px;
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.GameDisplay-module-chained-move-notice__takeback-icon_SLvO1 {
+  margin-left: 0.25rem;
+  font-family: "ChessGlyph New";
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.GameDisplay-module-chained-move-notice__takeback-icon_SLvO1::before {
+  content: "L";
+}
+
+.GameDisplay-module-chained-move-notice--seirawan-drop_s-x8d {
+  background: rgba(44, 44, 44, 0.66);
+}
+
+.GameDisplay-module-chained-move-notice--duck-move_qcPYs {
+  background-color: #816508;
+  color: #ffc60a;
+}
+
+@keyframes GameDisplay-module-backgroundBlink_2O0nQ {
+  50% {
+    background-color: transparent;
+  }
+}
+@keyframes GameDisplay-module-duckBlink_KnAqS {
+  50% {
+    background-color: transparent;
+    color: #fff;
+  }
+}
+.GameDisplay-module-chained-move-notice--seirawan-drop_s-x8d.GameDisplay-module-chained-move-notice--blink_M76aF {
+  animation: 1s GameDisplay-module-backgroundBlink_2O0nQ;
+  animation-timing-function: steps(1);
+}
+
+.GameDisplay-module-chained-move-notice--duck-move_qcPYs.GameDisplay-module-chained-move-notice--blink_M76aF {
+  animation: 0.75s GameDisplay-module-duckBlink_KnAqS;
+  animation-timing-function: steps(1);
+}
+
+.GameDisplay-module-chained-move-notice__description_dEwk7 {
+  font-weight: 500;
+  color: #fff;
+}
+
+.GameDisplay-module-chained-move-notice__countdown_reMSh {
+  font-weight: 500;
+  color: #fff;
+  margin-left: 8px;
+}
+
+.GameDisplay-module-chained-move-notice__arrow_2N38o {
+  width: 20px;
+  height: 15px;
+  margin-left: 8px;
+}
+
+.GameDisplay-module-row_X2qzK {
+  display: flex;
+  max-width: fit-content;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.GameDisplay-module-row_X2qzK:nth-child(odd) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(odd),
+.GameDisplay-module-row_X2qzK:nth-child(even) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(even) {
+  background-color: var(--main-square-primary-color);
+}
+
+.GameDisplay-module-row_X2qzK:nth-child(odd) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(even),
+.GameDisplay-module-row_X2qzK:nth-child(even) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(odd) {
+  background-color: var(--main-square-secondary-color);
+}
+
+.GameDisplay-module-square-wrap_9c0\+o {
+  position: relative;
+  display: flex;
+  width: var(--board-piece-size);
+  height: var(--board-piece-size);
+  justify-content: center;
+  align-items: center;
+}
+
+.GameDisplay-module-square-wrap-surroundings_\+v6GR {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.GameDisplay-module-square-wrap-surroundings__fleur-de-lis_KGTO\+ {
+  position: absolute;
+  width: 45%;
+  height: 45%;
+  right: -1%;
+  bottom: 1%;
+}
+
+.GameDisplay-module-square-wrap-surroundings__lives-indicator_-j-jh {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  font-family: "ChessGlyph New";
+  font-size: 2rem;
+  color: #e2e2e2;
+  user-select: none;
+}
+
+.GameDisplay-module-square-wrap-surroundings__atomic-explosion_9My9p,
+.GameDisplay-module-square-wrap-surroundings__atomic-immunity_XnGs1 {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.GameDisplay-module-square-wrap-surroundings__atomic-explosion_9My9p::before,
+.GameDisplay-module-square-wrap-surroundings__atomic-immunity_XnGs1::before {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  top: 5%;
+  right: 3%;
+  font-family: "ChessGlyph New";
+  font-size: 1.1rem;
+}
+
+.GameDisplay-module-square-wrap-surroundings__atomic-explosion_9My9p::before {
+  content: "ἅ";
+  color: #ba110c;
+}
+
+.GameDisplay-module-square-wrap-surroundings__atomic-immunity_XnGs1::before {
+  content: "ŋ";
+  color: #e2e2e2;
+}
+
+.GameDisplay-module-square_v4NYJ {
+  display: flex;
+  width: inherit;
+  height: inherit;
+  justify-content: center;
+  align-items: center;
+}
+
+.GameDisplay-module-square__piece_EzMuX,
+.GameDisplay-module-square__piece_EzMuX > div {
+  height: inherit;
+}
+
+.GameDisplay-module-row_X2qzK:nth-child(odd) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(odd) .GameDisplay-module-square_v4NYJ.GameDisplay-module-square--active_UAqD3,
+.GameDisplay-module-row_X2qzK:nth-child(even) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(even) .GameDisplay-module-square_v4NYJ.GameDisplay-module-square--active_UAqD3 {
+  background-color: var(--main-square-highlight-primary-color);
+}
+
+.GameDisplay-module-row_X2qzK:nth-child(odd) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(even) .GameDisplay-module-square_v4NYJ.GameDisplay-module-square--active_UAqD3,
+.GameDisplay-module-row_X2qzK:nth-child(even) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(odd) .GameDisplay-module-square_v4NYJ.GameDisplay-module-square--active_UAqD3 {
+  background-color: var(--main-square-highlight-secondary-color);
+}
+
+.GameDisplay-module-row_X2qzK > .GameDisplay-module-square-wrap_9c0\+o .GameDisplay-module-square_v4NYJ.GameDisplay-module-square--ghosted_b6Kzj,
+.GameDisplay-module-square_v4NYJ.GameDisplay-module-square--ghosted_b6Kzj {
+  background-color: var(--ghostboard-square-color);
+}
+
+.GameDisplay-module-square-wrap_9c0\+o.GameDisplay-module-square-wrap--king-of-the-hill_mZRRt {
+  border-width: 2px;
+}
+
+.GameDisplay-module-row_X2qzK:nth-child(odd) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(odd).GameDisplay-module-square-wrap--king-of-the-hill_mZRRt,
+.GameDisplay-module-row_X2qzK:nth-child(even) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(even).GameDisplay-module-square-wrap--king-of-the-hill_mZRRt {
+  border-color: var(--main-square-primary-color);
+}
+
+.GameDisplay-module-row_X2qzK:nth-child(odd) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(even).GameDisplay-module-square-wrap--king-of-the-hill_mZRRt,
+.GameDisplay-module-row_X2qzK:nth-child(even) > .GameDisplay-module-square-wrap_9c0\+o:nth-child(odd).GameDisplay-module-square-wrap--king-of-the-hill_mZRRt {
+  border-color: var(--main-square-secondary-color);
+}
+
+.GameDisplay-module-row_X2qzK > .GameDisplay-module-square-wrap_9c0\+o .GameDisplay-module-square_v4NYJ.GameDisplay-module-square--fogged_IzWIe {
+  background-color: inherit;
+  filter: brightness(50%);
+}
+
+.GameDisplay-module-square__piece--stonewall_bBSkl {
+  background-image: url(1a67d6beb04608aa5a34a0b32f08d1f2.svg);
+}
+
+.GameDisplay-module-square__piece_EzMuX > div {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.GameDisplay-module-player-box-container_xtlIW {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.GameDisplay-module-player-box-container_xtlIW > * {
+  pointer-events: all;
+}
+
+.GameDisplay-module-player-box-container_xtlIW.GameDisplay-module-player-box-container--edge-extruded_s1G9w {
+  top: 50%;
+  left: 50%;
+  width: 133%;
+  height: 133%;
+  transform: translate(-50%, -50%);
+}
+
+.GameDisplay-module-player-box-wrap_vHasz {
+  position: absolute;
+  display: flex;
+  height: calc(var(--board-piece-size) * 3);
+}
+
+.GameDisplay-module-player-box-wrap--top_cVd-o.GameDisplay-module-player-box-wrap--no-corners_BJfkG {
+  top: -9%;
+}
+
+.GameDisplay-module-player-box-wrap--bottom_5uvmp.GameDisplay-module-player-box-wrap--no-corners_BJfkG {
+  bottom: -9%;
+}
+
+.GameDisplay-module-player-box_k8h-e {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  width: calc(var(--board-piece-size) * 3);
+  height: 100%;
+}
+
+.GameDisplay-module-player-box--no-corners_-j9kz {
+  flex-direction: row;
+}
+
+.GameDisplay-module-player-box-wrap--right_lq2X- .GameDisplay-module-player-box_k8h-e {
+  right: calc(var(--board-piece-size) * 3);
+}
+
+.GameDisplay-module-player-box-wrap--right_lq2X- .GameDisplay-module-player-box_k8h-e.GameDisplay-module-player-box--no-corners_-j9kz {
+  right: 100%;
+}
+
+.GameDisplay-module-player-box-wrap--left_sTZSD .GameDisplay-module-player-box_k8h-e {
+  left: calc(var(--board-piece-size) * 3);
+}
+
+.GameDisplay-module-player-box-wrap--left_sTZSD .GameDisplay-module-player-box_k8h-e.GameDisplay-module-player-box--no-corners_-j9kz {
+  left: 100%;
+}
+
+.GameDisplay-module-player-box-wrap--bottom_5uvmp .GameDisplay-module-player-box_k8h-e {
+  top: 0;
+}
+
+.GameDisplay-module-player-box-wrap--top_cVd-o .GameDisplay-module-player-box_k8h-e {
+  bottom: 0;
+  flex-direction: column-reverse;
+}
+
+.GameDisplay-module-player-box-wrap--top_cVd-o .GameDisplay-module-player-box_k8h-e.GameDisplay-module-player-box--no-corners_-j9kz {
+  flex-direction: row-reverse;
+  bottom: 0;
+}
+
+.GameDisplay-module-player-box-wrap_vHasz.GameDisplay-module-player-box-wrap--left_sTZSD .GameDisplay-module-player-box_k8h-e.GameDisplay-module-player-box--no-corners_-j9kz {
+  flex-direction: row;
+}
+
+.GameDisplay-module-player-box-wrap_vHasz.GameDisplay-module-player-box-wrap--right_lq2X- .GameDisplay-module-player-box_k8h-e.GameDisplay-module-player-box--no-corners_-j9kz {
+  flex-direction: row-reverse;
+}
+
+.GameDisplay-module-player-box-wrap--right_lq2X- {
+  left: 100%;
+}
+
+.GameDisplay-module-player-box-wrap--left_sTZSD {
+  right: 100%;
+}
+
+.GameDisplay-module-player-box-wrap--bottom_5uvmp {
+  bottom: 0;
+}
+
+.GameDisplay-module-player-box-wrap--top_cVd-o {
+  top: 0;
+}
+
+.GameDisplay-module-player-box-wrap--no-corners_BJfkG {
+  height: initial;
+}
+
+.GameDisplay-module-player-box__clock_CJ5uY {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 6px;
+  color: #fff;
+  border-radius: 5%;
+  filter: brightness(70%);
+}
+
+.GameDisplay-module-player-box__clock-icon_j8K\+9 {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.2rem;
+  font-size: 2.5rem;
+  line-height: 1;
+  font-family: "ChessGlyph New";
+}
+
+.GameDisplay-module-player-box__clock-icon_j8K\+9::before {
+  content: "'";
+}
+
+.GameDisplay-module-player-box__clock-seconds_8iQqE {
+  font-family: "ChessGlyph New";
+  font-size: 2rem;
+}
+
+.GameDisplay-module-player-box__player-data_p8NCx {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: flex-start;
+}
+
+.GameDisplay-module-player-box__player-icon_5yL65 {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-style: solid;
+  border-radius: 5%;
+  filter: brightness(70%);
+}
+
+.GameDisplay-module-player-box__player-icon_5yL65 > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.GameDisplay-module-player-box-wrap--active_xOmrW .GameDisplay-module-player-box__player-icon_5yL65,
+.GameDisplay-module-player-box-wrap--active_xOmrW .GameDisplay-module-player-box__clock_CJ5uY {
+  filter: brightness(100%);
+}
+
+.GameDisplay-module-player-box__player-info_oNnGq {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.GameDisplay-module-player-box__player-text_GkTfo {
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+  font-family: "Segoe UI";
+}
+
+.GameDisplay-module-player-box__player-points-wrap_RRom9 {
+  height: 3.5rem;
+  padding: 0 0.4rem;
+  text-shadow: 0 0 0.5rem #fff;
+}
+
+.GameDisplay-module-player-box__player-points_kF1FW {
+  display: flex;
+  flex-direction: row;
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 3.5rem;
+  color: #fff;
+  text-shadow: 0 0 0.5rem #fff;
+}
+
+.GameDisplay-module-player-box-wrap--left_sTZSD .GameDisplay-module-player-box__player-data_p8NCx,
+.GameDisplay-module-player-box-wrap--left_sTZSD .GameDisplay-module-player-box__player-points_kF1FW {
+  flex-direction: row-reverse;
+}
+
+.GameDisplay-module-arrows-wrap_vybGP,
+.GameDisplay-module-arrows-wrap__canvas_roD\+h {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.GameDisplay-module-arrows-wrap_vybGP {
+  opacity: 0.75;
+}
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/css/Arrows.module.scss ***!
+  \*****************************************************************************************************************************************************************************************/
+.Arrows-module-prolonged-concave-arrow-wrap_aU0kA {
+  position: relative;
+  width: inherit;
+  height: inherit;
+}
+
+.Arrows-module-prolonged-concave-arrow_EwHGR {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 15%;
+  background-color: #fff;
+}
+
+.Arrows-module-prolonged-concave-arrow_EwHGR::after, .Arrows-module-prolonged-concave-arrow_EwHGR::before {
+  position: absolute;
+  right: -16%;
+  width: 60%;
+  height: 120%;
+  content: "";
+  background-color: #fff;
+}
+
+.Arrows-module-prolonged-concave-arrow_EwHGR::after {
+  bottom: 120%;
+  transform: rotate(45deg);
+}
+
+.Arrows-module-prolonged-concave-arrow_EwHGR::before {
+  top: 110%;
+  transform: rotate(-45deg);
+}
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/BoardDisplay/BoardDisplay.module.scss ***!
+  \*********************************************************************************************************************************************************************************************************************/
+.BoardDisplay-module-board-display_uDx6E {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  pointer-events: none;
+}
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardComponents/BoardPlaceholder/BoardPlaceholder.module.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
+.BoardPlaceholder-module-placeholder-wrap_jQgBJ {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.BoardPlaceholder-module-placeholder-wrap_jQgBJ > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.BoardPlaceholder-module-placeholder--enter-active_u49vm {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out 300ms;
+}
+
+.BoardPlaceholder-module-placeholder--enter-done_wLROI {
+  opacity: 1;
+}
+
+.BoardPlaceholder-module-placeholder--exit-active_DWCn1 {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.BoardPlaceholder-module-placeholder--exit-done_VnIen {
+  opacity: 0;
+}
+
+.BoardPlaceholder-module-placeholder__image-loading_OdKXy {
+  background-image: linear-gradient(90deg, #e4e4e4 0%, #f1f1f1 40%, #ededed 60%, #e4e4e4 100%);
+  background-position: 0px 0px;
+  background-repeat: repeat;
+  animation: BoardPlaceholder-module-placeholderBackground_k1Up8 5s linear infinite;
+}
+
+.BoardPlaceholder-module-placeholder__image-loading--large-sized_ARLj8 {
+  display: inline-block;
+  width: 60%;
+  height: 100%;
+  animation-name: BoardPlaceholder-module-largeSizePlaceholderBackground_O24gO;
+}
+
+.BoardPlaceholder-module-placeholder__background_uRqmT {
+  display: inline-block;
+  width: 40%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.BoardPlaceholder-module-placeholder__background-text_jHLNc {
+  height: 3.5rem;
+  background-image: linear-gradient(90deg, #e4e4e4 0%, #f1f1f1 40%, #ededed 60%, #e4e4e4 100%);
+  background-position: 0px 0px;
+  background-repeat: repeat;
+  animation: BoardPlaceholder-module-placeholderTextBackground_9pEN0 5s linear infinite;
+  margin: 0.5rem;
+}
+
+@keyframes BoardPlaceholder-module-placeholderBackground_k1Up8 {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 4480px 0;
+  }
+}
+@keyframes BoardPlaceholder-module-largeSizePlaceholderBackground_O24gO {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 4800px 0;
+  }
+}
+@keyframes BoardPlaceholder-module-placeholderTextBackground_9pEN0 {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 3200px 0;
+  }
+}
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/CompositesDisplay/CompositesDisplay.module.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+.CompositesDisplay-module-display_AU0cA {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  width: fit-content;
+  padding: 3px;
+  border: #d2d2d2 2px solid;
+}
+
+.CompositesDisplay-module-display-item_YxAJ2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 3px;
+  width: 6rem;
+  border: #d2d2d2 2px solid;
+}
+
+.CompositesDisplay-module-display-item__variant-rule_iunvL,
+.CompositesDisplay-module-display-item__variant-rule_iunvL > span {
+  max-width: 2.2rem;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.CompositesDisplay-module-display-item__text_XbhNF {
+  font-family: "Segoe UI";
+  font-size: 1.6rem;
+  color: #333;
+}
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/VariantRules/GameVariantRules.module.scss ***!
+  \**************************************************************************************************************************************************************************************************************************/
+.GameVariantRules-module-variant-rules_WcjIs {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.GameVariantRules-module-variant-rules_WcjIs .GameVariantRules-module-variant-rule-tooltip_-4WJq {
+  display: block;
+  max-width: 25rem;
+  padding: 0.5rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.GameVariantRules-module-variant-rule_\+sJ3U {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+  font-family: "ChessGlyph New";
+}
+
+.GameVariantRules-module-variant-rule_\+sJ3U::before {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  content: attr(data-content);
+}
+
+.GameVariantRules-module-variant-rule--textual-rule_h48S7 {
+  color: #00b0f0;
+}
+
+.GameVariantRules-module-variant-rule--textual-rule_h48S7 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: min-content;
+  font-family: "Trebuchet MS";
+  font-size: 1.4rem;
+}
+
+.GameVariantRules-module-variant-rule--capture-the-king_ZqZ5o {
+  transform: rotate(60deg);
+}
+
+.GameVariantRules-module-variant-rule--promotion-wrap_bpsyy {
+  display: flex;
+  align-items: center;
+  width: min-content;
+}
+
+.GameVariantRules-module-variant-rule--promotion_9xAYh {
+  display: flex;
+  margin-left: 0.15rem;
+  margin-right: 0.7rem;
+}
+
+.GameVariantRules-module-variant-rule--promotion__promotion-piece_80pZb {
+  margin: 0 -0.75rem 0rem -0.75rem;
+}
+
+.GameVariantRules-module-variant-rule--promotion__promotion-piece_80pZb > div {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.GameVariantRules-module-variant-rule--stonewall_WkA\+J {
+  margin-right: 0.4rem;
+}
+
+.GameVariantRules-module-variant-rule--stonewall_WkA\+J > div {
+  margin-top: -0.3rem;
+}
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/GameController/GameController.module.scss ***!
+  \*************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+.GameController-module-game-control-root_5D-1O {
+  position: relative;
+  width: 800px;
+  height: 560px;
+}
+
+.GameController-module-game-control-wrap_jaylh {
+  display: flex;
+  padding: 6% 2%;
+  background-color: var(--ghostboard-square-color);
+}
+
+.GameController-module-game-board-wrap_s1p\+C {
+  width: min-content;
+  height: min-content;
+}
+
+.GameController-module-game-board-sidebar_fqG4h {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 25rem;
+  max-width: 40rem;
+  height: 60vh;
+  margin: 0 1rem 0 3rem;
+  overflow: hidden;
+}
+
+.GameController-module-fen-data-display_MvgN3 {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 30rem;
+  overflow-y: auto;
+}
+
+.GameController-module-fen-data-display__side-to-move-wrap_cRe6G {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  font-weight: 400;
+}
+
+.GameController-module-fen-data-display__side-to-move_2nOca {
+  padding: 0 0.2rem;
+}
+
+.GameController-module-fen-data-display__futer-to-move_uOchi {
+  padding: 0 0.2rem;
+  font-size: 1.6rem;
+  font-family: "ChessGlyph New";
+  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+}
+
+.GameController-module-fen-data-display__futer-to-move--active_al\+k4 {
+  text-shadow: 2px 0 #555, -2px 0 #555, 0 2px #555, 0 -2px #555, 1px 1px #555, -1px -1px #555, 1px -1px #555, -1px 1px #555;
+  filter: brightness(150%) drop-shadow(0 0 1px #fff);
+}
+
+.GameController-module-fen-data-display__futer-to-move_uOchi::before {
+  content: "ἡ";
+}
+
+.GameController-module-fen-data__pgn-button-list_knBcS {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+  margin: 0 0.2rem 0.5rem 0.2rem;
+  padding: 0;
+}
+
+.GameController-module-fen-data__pgn-button-wrap_xRfim {
+  list-style-type: none;
+}
+
+.GameController-module-fen-data__pgn-button_EydjL {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.2rem;
+  background-color: hsla(0deg, 0%, 100%, 0.08);
+  color: hsla(0deg, 0%, 100%, 0.72);
+  border-radius: 6%;
+  border: none;
+}
+
+.GameController-module-fen-data__pgn-button--fog-of-war_nesGp {
+  padding: 0.3rem 1.2rem;
+}
+
+.GameController-module-fen-data__pgn-button--claim-win_43KCJ {
+  background-color: #0096c6;
+  color: #fff;
+}
+
+.GameController-module-fen-data__pgn-button__change-perspective-icon_O2GHz {
+  transform: rotate(45deg);
+}
+
+.GameController-module-fen-data__pgn-button__description_yx2T3 {
+  margin: 0 0.5rem;
+}
+
+.GameController-module-fen-data__pgn-button--claim-win__text_UjooJ {
+  margin-left: 6px;
+  margin-top: -2px;
+  font-size: 1.3rem;
+  font-family: "Segoe UI";
+  color: #fff;
+}
+
+.GameController-module-fen-data__pgn-button_EydjL:hover {
+  background-color: hsla(0deg, 0%, 100%, 0.16);
+}
+
+.GameController-module-fen-data__pgn-button--icon-button_tiKwQ {
+  padding: 0.3rem 1.3rem;
+}
+
+.GameController-module-fen-data__pgn-button--icon-button_tiKwQ,
+.GameController-module-fen-data__pgn-button__icon_YihQR {
+  font-size: 1.8rem;
+  font-family: "ChessGlyph New";
+}
+
+.GameController-module-fen-data__pgn-box_DQ0FU {
+  display: flex;
+  height: 12.5rem;
+  padding: 5px 8px;
+  font-weight: 500;
+  background: transparent;
+  color: hsla(0deg, 0%, 100%, 0.65);
+  border: none;
+  resize: none;
+  scrollbar-width: 8px;
+  scrollbar-color: #555 #F5F5F5;
+}
+
+.GameController-module-fen-data__pgn-box_DQ0FU::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  background-color: #F5F5F5;
+}
+
+.GameController-module-fen-data__pgn-box_DQ0FU::-webkit-scrollbar {
+  width: 8px;
+}
+
+.GameController-module-fen-data__pgn-box_DQ0FU::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+
+.GameController-module-metadata-display_8em3b > * {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.GameController-module-metadata-display__game-details_YuMuy {
+  font-weight: 700;
+  white-space: nowrap;
+  color: #fff;
+  font-size: 1.5rem;
+  font-family: "Segoe UI";
+}
+
+.GameController-module-time-control-display_RnTBr {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  margin-bottom: 5px;
+}
+
+.GameController-module-time-control-display__icon_vGSpJ {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  font-family: "ChessGlyph New";
+}
+
+.GameController-module-time-control-display__icon--hyperbullet_c6DGo::before {
+  content: "ὠ";
+}
+
+.GameController-module-time-control-display__icon--bullet_0zZuY::before {
+  content: "Ἕ";
+}
+
+.GameController-module-time-control-display__icon--blitz_u3Tfh::before {
+  content: "Ἔ";
+}
+
+.GameController-module-time-control-display__icon--rapid_Ce8v2::before {
+  content: "Ἓ";
+}
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardComponents/MoveTree/GameMoveTree.module.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+.GameMoveTree-module-move-tree-wrap_qtFwW {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 20rem;
+  color: hsla(0deg, 0%, 100%, 0.65);
+}
+
+.GameMoveTree-module-move-tree_0Y6t2 {
+  padding: 2px 8px;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  scrollbar-width: 8px;
+  scrollbar-color: #555 #F5F5F5;
+}
+
+.GameMoveTree-module-move-tree_0Y6t2::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  background-color: #F5F5F5;
+}
+
+.GameMoveTree-module-move-tree_0Y6t2::-webkit-scrollbar {
+  width: 8px;
+}
+
+.GameMoveTree-module-move-tree_0Y6t2::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+
+.GameMoveTree-module-move-controls_XUMVz {
+  padding: 4px 8px;
+  font-weight: 600;
+  color: hsla(0deg, 0%, 100%, 0.4);
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.GameMoveTree-module-move-controls-row_-c-kv {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+
+.GameMoveTree-module-move-controls-row_-c-kv:first-child {
+  margin-bottom: 2px;
+}
+
+.GameMoveTree-module-move-controls-row_-c-kv:last-child {
+  margin-top: -4px;
+}
+
+.GameMoveTree-module-move-controls-row__takebacks-wrap_EFyeu {
+  display: flex;
+  width: 18%;
+}
+
+.GameMoveTree-module-move-controls-row__takebacks_ZX6UO {
+  margin-top: 1px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.GameMoveTree-module-move-controls-row__icon_WbXIJ {
+  font-family: "ChessGlyph New";
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+
+.GameMoveTree-module-move-controls-row__takebacks-icon_NtUC6::before {
+  content: "L";
+}
+
+.GameMoveTree-module-move-controls-row__takebacks-text_Pl7Np {
+  padding-top: 2px;
+}
+
+.GameMoveTree-module-move-controls-row__move-information-wrap_I6sEC {
+  display: flex;
+  width: 33%;
+  gap: 0.7rem;
+}
+
+.GameMoveTree-module-move-controls-row__move-information_NrZyN {
+  margin-top: 3px;
+  font-weight: 200;
+  font-size: 1.25rem;
+  opacity: 0.65;
+  color: #e2e2e2;
+}
+
+.GameMoveTree-module-move-controls-row__pgn-information_NkWj3 {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.7rem;
+  margin-left: auto;
+  font-weight: 200;
+  font-size: 1.2rem;
+  opacity: 0.65;
+}
+
+.GameMoveTree-module-move-controls-row__download-pgn-icon_fuRzv,
+.GameMoveTree-module-move-controls-row__delete-pgn-icon_Q5p\+B {
+  line-height: 1;
+}
+
+.GameMoveTree-module-move-controls-row__download-pgn-icon_fuRzv::before {
+  content: '"';
+  font-weight: 300;
+}
+
+.GameMoveTree-module-move-controls-row__delete-pgn-icon_Q5p\+B::before {
+  content: "•";
+  font-weight: 300;
+}
+
+.GameMoveTree-module-move-controls-row__navigation_xHoCV {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.GameMoveTree-module-move-controls-row__navigation-button_YaOFh {
+  font-family: "ChessGlyph New";
+  font-size: 2.4rem;
+  color: hsla(0deg, 0%, 100%, 0.65);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.GameMoveTree-module-move-controls-row__navigation-button--disabled_OY-MY {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.GameMoveTree-module-move-tree-move_SS5WT {
+  display: inline-block;
+  padding: 0 0.4rem;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 600;
+}
+
+.GameMoveTree-module-move-tree-move_SS5WT > div {
+  display: inline-block;
+}
+
+.GameMoveTree-module-move-tree-move__move-wrap_ZaIEd {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.GameMoveTree-module-move-tree-move__move-wrap--selected_MzSQx {
+  background-color: hsla(0deg, 0%, 100%, 0.2);
+}
+
+.GameMoveTree-module-move-tree-move__move-text_5WheI {
+  font-size: 1.3rem;
+  font-family: "Segoe UI";
+  opacity: 1;
+}
+
+.GameMoveTree-module-move-tree-move__move-comment_yKB1v {
+  font-style: italic;
+  margin-left: 5px;
+}
+
+.GameMoveTree-module-move-tree-move__variations_YkTVt {
+  display: inline-block;
+  background-color: hsla(0deg, 0%, 100%, 0.05);
+  border-radius: 3%;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardEditorSidebar/EditorSidebar.module.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+.EditorSidebar-module-board_j-JoU {
+  position: relative;
+  width: min-content;
+}
+
+.EditorSidebar-module-board-row_5Go3F {
+  display: flex;
+  max-width: fit-content;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.EditorSidebar-module-board-row_5Go3F:nth-child(odd) > div:nth-child(odd),
+.EditorSidebar-module-board-row_5Go3F:nth-child(even) > div:nth-child(even) {
+  background-color: var(--main-square-primary-color);
+}
+
+.EditorSidebar-module-board-row_5Go3F:nth-child(odd) > div:nth-child(even),
+.EditorSidebar-module-board-row_5Go3F:nth-child(even) > div:nth-child(odd) {
+  background-color: var(--main-square-secondary-color);
+}
+
+.EditorSidebar-module-wrap_nUA5q {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 40rem;
+  height: 60vh;
+  margin: 0 1rem 0 3rem;
+  overflow-y: scroll;
+  scrollbar-width: 8px;
+  scrollbar-color: #555 #F5F5F5;
+}
+
+.EditorSidebar-module-wrap_nUA5q::-webkit-scrollbar {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  background-color: #F5F5F5;
+}
+
+.EditorSidebar-module-wrap_nUA5q::-webkit-scrollbar-track {
+  width: 12px;
+}
+
+.EditorSidebar-module-wrap_nUA5q::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/PercentageDisplay/PercentageDisplay.module.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+.PercentageDisplay-module-checkbox-list_kX\+pa {
+  display: flex;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.PercentageDisplay-module-sections_3XPOJ {
+  display: flex;
+  width: 80%;
+}
+
+.PercentageDisplay-module-section_TLbLu {
+  position: relative;
+  display: flex;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  padding: 0 0.4rem;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(33, 33, 33, 0.7);
+  text-overflow: hidden;
+  transition: all 0.3s ease-in;
+}
+
+.PercentageDisplay-module-section--unchecked_E3DNU {
+  width: 0;
+  padding: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.PercentageDisplay-module-section_TLbLu:hover .PercentageDisplay-module-section__tooltip_ZW8-i {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.PercentageDisplay-module-section__tooltip_ZW8-i {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  opacity: 0;
+  margin-bottom: 0.4rem;
+  padding: 0.4rem;
+  background-color: #333;
+  color: #e2e2e2;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  white-space: nowrap;
+  transform: translate(-50%, 0.4rem);
+  transition: all 0.15s ease-in-out;
+}
+
+.PercentageDisplay-module-section__tooltip_ZW8-i::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 0.5em solid transparent;
+  border-top-color: #000;
+  transform: translate(-50%, 0);
+}
+
+.PercentageDisplay-module-section__text_re4tn {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.PercentageDisplay-module-checkbox-wrap_A6U0L {
+  margin-right: 1.2rem;
+}
+
+.PercentageDisplay-module-checkbox_NQNmv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1em;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  background: transparent;
+  border: 2px solid #9E9E9E;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.23, 1);
+}
+
+.PercentageDisplay-module-fake-checkbox-label_te0vk {
+  display: block;
+  width: 18px;
+}
+
+.PercentageDisplay-module-fake-checkbox-label--disabled_hUiit {
+  display: none;
+}
+
+.PercentageDisplay-module-fake-checkbox_CyClv {
+  display: none;
+}
+
+.PercentageDisplay-module-checkbox--checked_7wu8S {
+  border-width: 9px;
+  border-style: solid;
+  border-color: inherit;
+  animation: PercentageDisplay-module-shrink-bounce_LChff 200ms cubic-bezier(0.4, 0, 0.23, 1);
+}
+
+@keyframes PercentageDisplay-module-shrink-bounce_LChff {
+  0% {
+    transform: scale(1);
+  }
+  33% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/Sidebar/Sidebar.module.scss ***!
+  \***********************************************************************************************************************************************************************************************************/
+.Sidebar-module-sidebar_4HYAT {
+  width: 450px;
+  float: right;
+  clear: right;
+  margin-left: 1.5rem;
+}
+/*!******************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/main/client/css/Global.scss ***!
+  \******************************************************************************************************************************************************/
+@font-face {
+  font-family: "ChessGlyph New";
+  src: url(../fonts/chessglyph-new.99e0b265.woff2) format("woff2"), url("https://www.chess.com/bundles/web/fonts/chessglyph-new.99e0b265.woff2") format("woff2");
+}
+#main {
+  background: #eff;
+  margin: 0 auto;
+  width: 90vw;
+}
+/*!*********************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/main/client/css/Normalize.scss ***!
+  \*********************************************************************************************************************************************************/
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document
+   ========================================================================== */
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+html {
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/* Sections
+     ========================================================================== */
+/**
+   * Remove the margin in all browsers.
+   */
+body {
+  margin: 0;
+}
+
+/**
+   * Render the `main` element consistently in IE.
+   */
+main {
+  display: block;
+}
+
+/**
+   * Correct the font size and margin on `h1` elements within `section` and
+   * `article` contexts in Chrome, Firefox, and Safari.
+   */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+     ========================================================================== */
+/**
+   * 1. Add the correct box sizing in Firefox.
+   * 2. Show the overflow in Edge and IE.
+   */
+hr {
+  box-sizing: content-box;
+  /* 1 */
+  height: 0;
+  /* 1 */
+  overflow: visible;
+  /* 2 */
+}
+
+/**
+   * 1. Correct the inheritance and scaling of font size in all browsers.
+   * 2. Correct the odd `em` font sizing in all browsers.
+   */
+pre {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/* Text-level semantics
+     ========================================================================== */
+/**
+   * Remove the gray background on active links in IE 10.
+   */
+a {
+  background-color: transparent;
+}
+
+/**
+   * 1. Remove the bottom border in Chrome 57-
+   * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+   */
+abbr[title] {
+  border-bottom: none;
+  /* 1 */
+  text-decoration: underline;
+  /* 2 */
+  text-decoration: underline dotted;
+  /* 2 */
+}
+
+/**
+   * Add the correct font weight in Chrome, Edge, and Safari.
+   */
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+   * 1. Correct the inheritance and scaling of font size in all browsers.
+   * 2. Correct the odd `em` font sizing in all browsers.
+   */
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/**
+   * Add the correct font size in all browsers.
+   */
+small {
+  font-size: 80%;
+}
+
+/**
+   * Prevent `sub` and `sup` elements from affecting the line height in
+   * all browsers.
+   */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+     ========================================================================== */
+/**
+   * Remove the border on images inside links in IE 10.
+   */
+img {
+  border-style: none;
+}
+
+/* Forms
+     ========================================================================== */
+/**
+   * 1. Change the font styles in all browsers.
+   * 2. Remove the margin in Firefox and Safari.
+   */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+}
+
+/**
+   * Show the overflow in IE.
+   * 1. Show the overflow in Edge.
+   */
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+/**
+   * Remove the inheritance of text transform in Edge, Firefox, and IE.
+   * 1. Remove the inheritance of text transform in Firefox.
+   */
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+/**
+   * Correct the inability to style clickable types in iOS and Safari.
+   */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/**
+   * Remove the inner border and padding in Firefox.
+   */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+   * Restore the focus styles unset by the previous rule.
+   */
+button:-moz-focusring,
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+   * Correct the padding in Firefox.
+   */
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+   * 1. Correct the text wrapping in Edge and IE.
+   * 2. Correct the color inheritance from `fieldset` elements in IE.
+   * 3. Remove the padding so developers are not caught out when they zero out
+   *    `fieldset` elements in all browsers.
+   */
+legend {
+  box-sizing: border-box;
+  /* 1 */
+  color: inherit;
+  /* 2 */
+  display: table;
+  /* 1 */
+  max-width: 100%;
+  /* 1 */
+  padding: 0;
+  /* 3 */
+  white-space: normal;
+  /* 1 */
+}
+
+/**
+   * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+   */
+progress {
+  vertical-align: baseline;
+}
+
+/**
+   * Remove the default vertical scrollbar in IE 10+.
+   */
+textarea {
+  overflow: auto;
+}
+
+/**
+   * 1. Add the correct box sizing in IE 10.
+   * 2. Remove the padding in IE 10.
+   */
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/**
+   * Correct the cursor style of increment and decrement buttons in Chrome.
+   */
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+   * 1. Correct the odd appearance in Chrome and Safari.
+   * 2. Correct the outline style in Safari.
+   */
+[type=search] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+
+/**
+   * Remove the inner padding in Chrome and Safari on macOS.
+   */
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+   * 1. Correct the inability to style clickable types in iOS and Safari.
+   * 2. Change font properties to `inherit` in Safari.
+   */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+}
+
+/* Interactive
+     ========================================================================== */
+/*
+   * Add the correct display in Edge, IE 10+, and Firefox.
+   */
+details {
+  display: block;
+}
+
+/*
+   * Add the correct display in all browsers.
+   */
+summary {
+  display: list-item;
+}
+
+/* Misc
+     ========================================================================== */
+/**
+   * Add the correct display in IE 10+.
+   */
+template {
+  display: none;
+}
+
+/**
+   * Add the correct display in IE 10.
+   */
+[hidden] {
+  display: none;
+}
+
+/*# sourceMappingURL=main.a7228567376b1fb1d218.css.map*/

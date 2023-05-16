@@ -1,0 +1,9 @@
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+node_modules
+
+.eslintrc.cjs
+webpack.config.js
+
+/src/main/resources/public

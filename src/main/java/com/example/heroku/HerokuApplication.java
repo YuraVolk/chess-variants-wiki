@@ -60,9 +60,7 @@ public class HerokuApplication {
   @RequestMapping("/api/page/{pageTitle}")
   @ResponseBody
   Page page(@PathVariable String pageTitle) {
-    System.out.println(db);
-    db.getPageContent(pageTitle);
-    return new Page();
+    return db.getPageContent(pageTitle);
   }
 
   @RequestMapping("/db")

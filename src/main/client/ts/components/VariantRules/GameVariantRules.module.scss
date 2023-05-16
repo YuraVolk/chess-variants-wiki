@@ -1,0 +1,69 @@
+@use "../../index";
+
+.variant-rules {
+	display: flex;
+	align-items: center;
+	gap: 0.1rem;
+}
+
+.variant-rules .variant-rule-tooltip {
+	@include index.tooltip;
+}
+
+.variant-rule {
+	@include index.iconSize;
+	font-family: "ChessGlyph New";
+
+	&::before {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		content: attr(data-content);
+	}
+}
+
+.variant-rule--textual-rule {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: min-content;
+	font-family: "Trebuchet MS";
+	font-size: 1.4rem;
+	color: #00b0f0;
+}
+
+.variant-rule--capture-the-king {
+	transform: rotate(60deg);
+}
+
+.variant-rule--promotion-wrap {
+	display: flex;
+	align-items: center;
+	width: min-content;
+}
+
+.variant-rule--promotion {
+	display: flex;
+	margin-left: 0.15rem;
+	margin-right: 0.7rem;
+}
+
+.variant-rule--promotion__promotion-piece {
+	margin: 0 -0.75rem 0rem -0.75rem;
+
+	& > div {
+		display: flex;
+		margin-bottom: 0.5rem;
+	}
+}
+
+.variant-rule--stonewall {
+	margin-right: 0.4rem;
+
+	& > div {
+		margin-top: -0.3rem;
+	}
+}

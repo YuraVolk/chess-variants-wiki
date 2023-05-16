@@ -13,14 +13,14 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>React on Spring</title>
-</head>
-<body>
-<div id="react-mountpoint"></div>
+<html lang="en" th:replace="~{fragments/layout :: layout (~{::body},'error')}">
+	<head>
+		<meta charset="UTF-8" />
+		<title>React on Spring</title>
+	</head>
+	<body>
+		<div id="react-mountpoint"></div>
 
-<script src="scripts/react-app.js"></script>
-</body>
+		<script src="scripts/react-app.js"></script>
+	</body>
 </html>

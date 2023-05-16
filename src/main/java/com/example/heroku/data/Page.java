@@ -12,8 +12,8 @@ public class Page {
     public Page() { }
 
     public Page(String pageContent, List<String> categories) {
-        this.content = pageContent;
-        this.pageTitle = pageTitle;
+        this.content = pageContent.replace("\\n", "\n");
+        this.categories = categories;
     }
 
     public String getContent() {
@@ -38,15 +38,6 @@ public class Page {
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
-    }
-
-    @Override
-    public String toString() {
-        return "Page{" +
-                "content='" + content + '\'' +
-                ", pageTitle='" + pageTitle + '\'' +
-                ", categories=" + categories +
-                '}';
     }
 
     @Override

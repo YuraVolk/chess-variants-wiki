@@ -1,0 +1,36 @@
+.prolonged-concave-arrow-wrap {
+	position: relative;
+	width: inherit;
+	height: inherit;
+}
+
+.prolonged-concave-arrow {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	width: 90%;
+	height: 15%;
+	background-color: #fff;
+}
+
+.prolonged-concave-arrow::after,
+.prolonged-concave-arrow::before {
+	position: absolute;
+	right: -16%;
+	width: 60%;
+	height: 120%;
+	content: "";
+	background-color: #fff;
+}
+
+.prolonged-concave-arrow::after {
+	bottom: 120%;
+	transform: rotate(45deg);
+}
+
+.prolonged-concave-arrow::before {
+	top: 110%;
+	transform: rotate(-45deg);
+}

@@ -1,0 +1,32 @@
+@use "../../index";
+
+.display {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	width: fit-content;
+	padding: 3px;
+	border: #d2d2d2 2px solid;
+}
+
+.display-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.3rem 3px;
+	width: 6rem;
+	border: #d2d2d2 2px solid;
+
+	&__variant-rule,
+	&__variant-rule > span {
+		max-width: 2.2rem;
+		font-size: 2.5rem;
+		line-height: 1;
+	}
+
+	&__text {
+		font-family: index.$boardComponentFont;
+		font-size: 1.6rem;
+		color: #333;
+	}
+}

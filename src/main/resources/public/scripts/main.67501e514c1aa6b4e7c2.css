@@ -1,0 +1,1789 @@
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/Accordion/Accordion.module.scss ***!
+  \***************************************************************************************************************************************************************************************************************/
+._0Dj\+sWs\+6pRPrE07twn6VQ\=\= {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.45rem;
+  background-color: #ececec;
+  transition: 0.5s background-color ease-out;
+  cursor: pointer;
+}
+
+._5dKxc\+GLpBg68yKxEDVszg\=\= {
+  background-color: #ccc;
+}
+
+.PmW-U1AwXg\+JCgw09m-pjQ\=\= {
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: left;
+  list-style-type: none;
+}
+
+._6VsBbmSy1dVBMQj6E13TDA\=\= {
+  margin-left: auto;
+  transition: transform 0.5s ease;
+}
+
+._5dKxc\+GLpBg68yKxEDVszg\=\= ._6VsBbmSy1dVBMQj6E13TDA\=\= {
+  transform: rotate(90deg);
+}
+
+.QzlfrWigHYEuFFgl4dTNuA\=\= {
+  background-color: #fefefe;
+  overflow-y: hidden;
+  transition: max-height 0.5s ease;
+}
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardComponents/GameDisplay/GameDisplay.module.scss ***!
+  \************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+:root {
+  --main-square-primary-color: rgb(106, 114, 131);
+  --main-square-secondary-color: rgb(41, 48, 61);
+  --main-square-highlight-primary-color: rgb(247, 245, 125);
+  --main-square-highlight-secondary-color: rgb(186, 202, 73);
+  --board-bank-piece-size: 32px;
+  --ghostboard-square-color: #333;
+  --sidebar-background-color: rgba(39, 38, 35, 0.5);
+}
+
+._7ywujKAziPwKp7uyj8ICUg\=\= {
+  position: relative;
+  width: min-content;
+}
+
+.M4x5bYe2KuYuCC8KEH3GrQ\=\= {
+  width: 0;
+  height: 0;
+}
+
+.oUlEMNAA\+4g1cufrZp1Fuw\=\= {
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.oUlEMNAA\+4g1cufrZp1Fuw\=\=:hover {
+  border-color: hsla(0, 0%, 100%, 0.6);
+}
+
+.YonBcQ5D1-Gi-xfFLu8\+MA\=\= {
+  left: 95%;
+}
+
+.XXY1SJCR4Tv-fCK1JCaWHg\=\=.ZrPpS6cuI2-fTXH8ayBTww\=\= {
+  direction: rtl;
+}
+
+.XXY1SJCR4Tv-fCK1JCaWHg\=\= {
+  right: 92%;
+}
+
+.lfnpQqboEuEP51rh6fQyMg\=\= {
+  bottom: 0;
+}
+
+._4HUZ0EOeOnyiKglKlcjXBw\=\= {
+  top: 0;
+}
+
+.ZrPpS6cuI2-fTXH8ayBTww\=\= {
+  z-index: unset;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, 1fr);
+  background-color: var(--sidebar-background-color);
+  font-weight: 600;
+  user-select: none;
+}
+
+.Iw3af1SmEk0-DsQvhGYs-A\=\= {
+  position: relative;
+  width: var(--board-bank-piece-size);
+  height: var(--board-bank-piece-size);
+  border-radius: 5px;
+}
+
+.vHhwQKuTIkOvBIQtEvCtbA\=\= {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: unset;
+  width: var(--board-bank-piece-size);
+  height: var(--board-bank-piece-size);
+  transform: scale(78%);
+  transition: transform 1s;
+}
+
+.Iw3af1SmEk0-DsQvhGYs-A\=\=:hover > .vHhwQKuTIkOvBIQtEvCtbA\=\= {
+  transform: scale(100%);
+}
+
+.z9755H\+VXCIsKYuRt7dUoQ\=\= {
+  position: absolute;
+  right: 2%;
+  bottom: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  height: 45%;
+  background-color: var(--sidebar-background-color);
+  border-radius: 100px;
+  color: #fff;
+}
+
+.f9od9Ok1uvX6g9YYEH-gTg\=\= {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.f9od9Ok1uvX6g9YYEH-gTg\=\= > * {
+  pointer-events: all;
+}
+
+.Qejg0FeLMWkcAjjXlIm8uQ\=\= {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.XD8WsnQ8T8pD51\+68F2vtQ\=\= {
+  width: var(--board-piece-size);
+  height: var(--board-piece-size);
+}
+
+.txqNyK4blBghByVmvNex5Q\=\= {
+  position: absolute;
+  bottom: 3px;
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.SLvO1sRZ3jsuehTUa6n\+yQ\=\= {
+  margin-left: 0.25rem;
+  font-family: "ChessGlyph New";
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.SLvO1sRZ3jsuehTUa6n\+yQ\=\=::before {
+  content: "L";
+}
+
+.s-x8dvNZjtvxXfKbQMY6Cw\=\= {
+  background: rgba(44, 44, 44, 0.66);
+}
+
+.qcPYs\+yX8Xb-K\+rJHAr28w\=\= {
+  background-color: #816508;
+  color: #ffc60a;
+}
+
+@keyframes _2O0nQzAAmIwEsn06tLIwNA\=\= {
+  50% {
+    background-color: transparent;
+  }
+}
+@keyframes KnAqSuPbu3cXUY4yL9lCsw\=\= {
+  50% {
+    background-color: transparent;
+    color: #fff;
+  }
+}
+.s-x8dvNZjtvxXfKbQMY6Cw\=\=.M76aF0CNxt2Hrej1iKTTwA\=\= {
+  animation: 1s _2O0nQzAAmIwEsn06tLIwNA\=\=;
+  animation-timing-function: steps(1);
+}
+
+.qcPYs\+yX8Xb-K\+rJHAr28w\=\=.M76aF0CNxt2Hrej1iKTTwA\=\= {
+  animation: 0.75s KnAqSuPbu3cXUY4yL9lCsw\=\=;
+  animation-timing-function: steps(1);
+}
+
+.dEwk7LMfzxSLUVfb3aLW7Q\=\= {
+  font-weight: 500;
+  color: #fff;
+}
+
+.reMShpfbAPUZSB3HcOSyKA\=\= {
+  font-weight: 500;
+  color: #fff;
+  margin-left: 8px;
+}
+
+._2N38o7WGebdl5Ghecd19\+Q\=\= {
+  width: 20px;
+  height: 15px;
+  margin-left: 8px;
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\= {
+  display: flex;
+  max-width: fit-content;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(odd) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(odd),
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(even) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(even) {
+  background-color: var(--main-square-primary-color);
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(odd) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(even),
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(even) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(odd) {
+  background-color: var(--main-square-secondary-color);
+}
+
+._9c0\+oXyb3Ur5mlDyRDwj9w\=\= {
+  position: relative;
+  display: flex;
+  width: var(--board-piece-size);
+  height: var(--board-piece-size);
+  justify-content: center;
+  align-items: center;
+}
+
+.\+v6GR6BGCPpRKSogpvAHEw\=\= {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.KGTO\+\+QZfA11TgkXDJiRRQ\=\= {
+  position: absolute;
+  width: 45%;
+  height: 45%;
+  right: -1%;
+  bottom: 1%;
+}
+
+.-j-jh9VOqC1hL5IqJzi9yg\=\= {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  font-family: "ChessGlyph New";
+  font-size: 2rem;
+  color: #e2e2e2;
+  user-select: none;
+}
+
+._9My9pLVltlLe6urSz5qy3w\=\=,
+.XnGs1jrsvkkxlwq3aJh6yA\=\= {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+._9My9pLVltlLe6urSz5qy3w\=\=::before,
+.XnGs1jrsvkkxlwq3aJh6yA\=\=::before {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  top: 5%;
+  right: 3%;
+  font-family: "ChessGlyph New";
+  font-size: 1.1rem;
+}
+
+._9My9pLVltlLe6urSz5qy3w\=\=::before {
+  content: "ἅ";
+  color: #ba110c;
+}
+
+.XnGs1jrsvkkxlwq3aJh6yA\=\=::before {
+  content: "ŋ";
+  color: #e2e2e2;
+}
+
+.v4NYJoF7-VjfGZgJwLyEog\=\= {
+  display: flex;
+  width: inherit;
+  height: inherit;
+  justify-content: center;
+  align-items: center;
+}
+
+.EzMuXdlXFUj2GUHyf7nOqg\=\=,
+.EzMuXdlXFUj2GUHyf7nOqg\=\= > div {
+  height: inherit;
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(odd) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(odd) .v4NYJoF7-VjfGZgJwLyEog\=\=.UAqD3-baRimPeEjTVEWvtg\=\=,
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(even) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(even) .v4NYJoF7-VjfGZgJwLyEog\=\=.UAqD3-baRimPeEjTVEWvtg\=\= {
+  background-color: var(--main-square-highlight-primary-color);
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(odd) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(even) .v4NYJoF7-VjfGZgJwLyEog\=\=.UAqD3-baRimPeEjTVEWvtg\=\=,
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(even) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(odd) .v4NYJoF7-VjfGZgJwLyEog\=\=.UAqD3-baRimPeEjTVEWvtg\=\= {
+  background-color: var(--main-square-highlight-secondary-color);
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\= > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\= .v4NYJoF7-VjfGZgJwLyEog\=\=.b6KzjxZ6b7pgxO9OR6MxDQ\=\=,
+.v4NYJoF7-VjfGZgJwLyEog\=\=.b6KzjxZ6b7pgxO9OR6MxDQ\=\= {
+  background-color: var(--ghostboard-square-color);
+}
+
+._9c0\+oXyb3Ur5mlDyRDwj9w\=\=.mZRRtB-g3vF5mmtD8k4mkg\=\= {
+  border-width: 2px;
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(odd) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(odd).mZRRtB-g3vF5mmtD8k4mkg\=\=,
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(even) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(even).mZRRtB-g3vF5mmtD8k4mkg\=\= {
+  border-color: var(--main-square-primary-color);
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(odd) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(even).mZRRtB-g3vF5mmtD8k4mkg\=\=,
+.X2qzKaWl0Wui1C27BBrnOQ\=\=:nth-child(even) > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\=:nth-child(odd).mZRRtB-g3vF5mmtD8k4mkg\=\= {
+  border-color: var(--main-square-secondary-color);
+}
+
+.X2qzKaWl0Wui1C27BBrnOQ\=\= > ._9c0\+oXyb3Ur5mlDyRDwj9w\=\= .v4NYJoF7-VjfGZgJwLyEog\=\=.IzWIeoIgEMnRsWregwmlag\=\= {
+  background-color: inherit;
+  filter: brightness(50%);
+}
+
+.bBSklt8Qdc-7YXn8jrqdiQ\=\= {
+  background-image: url(1a67d6beb04608aa5a34a0b32f08d1f2.svg);
+}
+
+.EzMuXdlXFUj2GUHyf7nOqg\=\= > div {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.xtlIW-oKP9b9ChW2Q4SaaA\=\= {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.xtlIW-oKP9b9ChW2Q4SaaA\=\= > * {
+  pointer-events: all;
+}
+
+.xtlIW-oKP9b9ChW2Q4SaaA\=\=.s1G9wjGxcGun0kK8QyzUCw\=\= {
+  top: 50%;
+  left: 50%;
+  width: 133%;
+  height: 133%;
+  transform: translate(-50%, -50%);
+}
+
+.vHaszry4o1oVxHDynKLTiQ\=\= {
+  position: absolute;
+  display: flex;
+  height: calc(var(--board-piece-size) * 3);
+}
+
+.cVd-o55D0D8zCfLbLCDn0A\=\=.BJfkGXzoWiUUX\+gKWh1tRg\=\= {
+  top: -9%;
+}
+
+._5uvmpf83hZVoz3K3o7Q3cA\=\=.BJfkGXzoWiUUX\+gKWh1tRg\=\= {
+  bottom: -9%;
+}
+
+.k8h-eKno4O18QbrfMosWOg\=\= {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  width: calc(var(--board-piece-size) * 3);
+  height: 100%;
+}
+
+.-j9kz29vcGs1f-Em1A\+USQ\=\= {
+  flex-direction: row;
+}
+
+.lq2X-zA8HLYIFnY4k1rjNg\=\= .k8h-eKno4O18QbrfMosWOg\=\= {
+  right: calc(var(--board-piece-size) * 3);
+}
+
+.lq2X-zA8HLYIFnY4k1rjNg\=\= .k8h-eKno4O18QbrfMosWOg\=\=.-j9kz29vcGs1f-Em1A\+USQ\=\= {
+  right: 100%;
+}
+
+.sTZSDmpjBvobnLeuwLPOaA\=\= .k8h-eKno4O18QbrfMosWOg\=\= {
+  left: calc(var(--board-piece-size) * 3);
+}
+
+.sTZSDmpjBvobnLeuwLPOaA\=\= .k8h-eKno4O18QbrfMosWOg\=\=.-j9kz29vcGs1f-Em1A\+USQ\=\= {
+  left: 100%;
+}
+
+._5uvmpf83hZVoz3K3o7Q3cA\=\= .k8h-eKno4O18QbrfMosWOg\=\= {
+  top: 0;
+}
+
+.cVd-o55D0D8zCfLbLCDn0A\=\= .k8h-eKno4O18QbrfMosWOg\=\= {
+  bottom: 0;
+  flex-direction: column-reverse;
+}
+
+.cVd-o55D0D8zCfLbLCDn0A\=\= .k8h-eKno4O18QbrfMosWOg\=\=.-j9kz29vcGs1f-Em1A\+USQ\=\= {
+  flex-direction: row-reverse;
+  bottom: 0;
+}
+
+.vHaszry4o1oVxHDynKLTiQ\=\=.sTZSDmpjBvobnLeuwLPOaA\=\= .k8h-eKno4O18QbrfMosWOg\=\=.-j9kz29vcGs1f-Em1A\+USQ\=\= {
+  flex-direction: row;
+}
+
+.vHaszry4o1oVxHDynKLTiQ\=\=.lq2X-zA8HLYIFnY4k1rjNg\=\= .k8h-eKno4O18QbrfMosWOg\=\=.-j9kz29vcGs1f-Em1A\+USQ\=\= {
+  flex-direction: row-reverse;
+}
+
+.lq2X-zA8HLYIFnY4k1rjNg\=\= {
+  left: 100%;
+}
+
+.sTZSDmpjBvobnLeuwLPOaA\=\= {
+  right: 100%;
+}
+
+._5uvmpf83hZVoz3K3o7Q3cA\=\= {
+  bottom: 0;
+}
+
+.cVd-o55D0D8zCfLbLCDn0A\=\= {
+  top: 0;
+}
+
+.BJfkGXzoWiUUX\+gKWh1tRg\=\= {
+  height: initial;
+}
+
+.CJ5uYHBChTHfv9UvQRZpzg\=\= {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 6px;
+  color: #fff;
+  border-radius: 5%;
+  filter: brightness(70%);
+}
+
+.j8K\+9D2NXTcnPGRzkcfWtQ\=\= {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.2rem;
+  font-size: 2.5rem;
+  line-height: 1;
+  font-family: "ChessGlyph New";
+}
+
+.j8K\+9D2NXTcnPGRzkcfWtQ\=\=::before {
+  content: "'";
+}
+
+._8iQqELZLCKU7BiU5cLSb3g\=\= {
+  font-family: "ChessGlyph New";
+  font-size: 2rem;
+}
+
+.p8NCxUgrSJC5vLuO6SdDSg\=\= {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: flex-start;
+}
+
+._5yL65SQh5AzkAkqHUVCkZA\=\= {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-style: solid;
+  border-radius: 5%;
+  filter: brightness(70%);
+}
+
+._5yL65SQh5AzkAkqHUVCkZA\=\= > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.xOmrWRD-2Qd8iuI369Qzrw\=\= ._5yL65SQh5AzkAkqHUVCkZA\=\=,
+.xOmrWRD-2Qd8iuI369Qzrw\=\= .CJ5uYHBChTHfv9UvQRZpzg\=\= {
+  filter: brightness(100%);
+}
+
+.oNnGqmGnbjcWj0FEjswYVw\=\= {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.2rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.GkTfoLXc7XwjsKAbsP\+z6A\=\= {
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+  font-family: "Segoe UI";
+}
+
+.RRom9TJJ6jUOq0QPRiREqw\=\= {
+  height: 3.5rem;
+  padding: 0 0.4rem;
+  text-shadow: 0 0 0.5rem #fff;
+}
+
+.kF1FWjHxOwVmZPzUvS6SAQ\=\= {
+  display: flex;
+  flex-direction: row;
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 3.5rem;
+  color: #fff;
+  text-shadow: 0 0 0.5rem #fff;
+}
+
+.sTZSDmpjBvobnLeuwLPOaA\=\= .p8NCxUgrSJC5vLuO6SdDSg\=\=,
+.sTZSDmpjBvobnLeuwLPOaA\=\= .kF1FWjHxOwVmZPzUvS6SAQ\=\= {
+  flex-direction: row-reverse;
+}
+
+.vybGPBJirlbw7IvyZk8beA\=\=,
+.roD\+hgB-EflXRfqNy1MYoA\=\= {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.vybGPBJirlbw7IvyZk8beA\=\= {
+  opacity: 0.75;
+}
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/css/Arrows.module.scss ***!
+  \*****************************************************************************************************************************************************************************************/
+.aU0kArRs\+NjyFbKgZNziKw\=\= {
+  position: relative;
+  width: inherit;
+  height: inherit;
+}
+
+.EwHGRDLAOjy3PGqAo5N18w\=\= {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 15%;
+  background-color: #fff;
+}
+
+.EwHGRDLAOjy3PGqAo5N18w\=\=::after, .EwHGRDLAOjy3PGqAo5N18w\=\=::before {
+  position: absolute;
+  right: -16%;
+  width: 60%;
+  height: 120%;
+  content: "";
+  background-color: #fff;
+}
+
+.EwHGRDLAOjy3PGqAo5N18w\=\=::after {
+  bottom: 120%;
+  transform: rotate(45deg);
+}
+
+.EwHGRDLAOjy3PGqAo5N18w\=\=::before {
+  top: 110%;
+  transform: rotate(-45deg);
+}
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/BoardDisplay/BoardDisplay.module.scss ***!
+  \*********************************************************************************************************************************************************************************************************************/
+.uDx6EyJ8X\+3HHgrCuqYrbg\=\= {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  pointer-events: none;
+}
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardComponents/BoardPlaceholder/BoardPlaceholder.module.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
+.jQgBJBbls7DdE6qg6wHr0Q\=\= {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.jQgBJBbls7DdE6qg6wHr0Q\=\= > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.u49vm6Ojgf1ymPMAC\+jjXA\=\= {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out 300ms;
+}
+
+.wLROI28L6\+ycpM5B-CF3og\=\= {
+  opacity: 1;
+}
+
+.DWCn1MMFMRBoBVHuegZv1w\=\= {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.VnIenD0tQSRsMNzWfzgJsw\=\= {
+  opacity: 0;
+}
+
+.OdKXyINHTl9PkSh2XTMhKA\=\= {
+  background-image: linear-gradient(90deg, #e4e4e4 0%, #f1f1f1 40%, #ededed 60%, #e4e4e4 100%);
+  background-position: 0px 0px;
+  background-repeat: repeat;
+  animation: k1Up86oVwVxJ75bZFF96MA\=\= 5s linear infinite;
+}
+
+.ARLj8XnbMVjfW\+ZsGJko0Q\=\= {
+  display: inline-block;
+  width: 60%;
+  height: 100%;
+  animation-name: O24gOSOPm7N2VK5pFgg19g\=\=;
+}
+
+.uRqmTk5t8BppXjcchp-SpA\=\= {
+  display: inline-block;
+  width: 40%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.jHLNcEUmeAdxH8Td7SOWhw\=\= {
+  height: 3.5rem;
+  background-image: linear-gradient(90deg, #e4e4e4 0%, #f1f1f1 40%, #ededed 60%, #e4e4e4 100%);
+  background-position: 0px 0px;
+  background-repeat: repeat;
+  animation: _9pEN0p5flHLpzoOdcrpjMA\=\= 5s linear infinite;
+  margin: 0.5rem;
+}
+
+@keyframes k1Up86oVwVxJ75bZFF96MA\=\= {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 4480px 0;
+  }
+}
+@keyframes O24gOSOPm7N2VK5pFgg19g\=\= {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 4800px 0;
+  }
+}
+@keyframes _9pEN0p5flHLpzoOdcrpjMA\=\= {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 3200px 0;
+  }
+}
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/CompositesDisplay/CompositesDisplay.module.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+.AU0cAwDOPeQBkYNHAW1GnA\=\= {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  width: fit-content;
+  padding: 3px;
+  border: #d2d2d2 2px solid;
+}
+
+.YxAJ2CgB-knoS\+Nk7jRb4g\=\= {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 3px;
+  width: 6rem;
+  border: #d2d2d2 2px solid;
+}
+
+.iunvLCOOyg4-K1cYt50V6A\=\=,
+.iunvLCOOyg4-K1cYt50V6A\=\= > span {
+  max-width: 2.2rem;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.XbhNF8ZQkzBwwqBy03lXXA\=\= {
+  font-family: "Segoe UI";
+  font-size: 1.6rem;
+  color: #333;
+}
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/VariantRules/GameVariantRules.module.scss ***!
+  \**************************************************************************************************************************************************************************************************************************/
+.WcjIsn6jzNQi0so5wAgRyg\=\= {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.WcjIsn6jzNQi0so5wAgRyg\=\= .\-4WJq6J-lVQF69ocSwCDmg\=\= {
+  display: block;
+  max-width: 25rem;
+  padding: 0.5rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.\+sJ3UszlnLvMm-zMWnhnPg\=\= {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+  font-family: "ChessGlyph New";
+}
+
+.\+sJ3UszlnLvMm-zMWnhnPg\=\=::before {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  content: attr(data-content);
+}
+
+.h48S7diiVKeMhqf4nQJZIg\=\= {
+  color: #00b0f0;
+}
+
+.h48S7diiVKeMhqf4nQJZIg\=\= {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: min-content;
+  font-family: "Trebuchet MS";
+  font-size: 1.4rem;
+}
+
+.ZqZ5owUT5BK-6PmDZ0wWYA\=\= {
+  transform: rotate(60deg);
+}
+
+.bpsyyBLm4F9huv1WEBAATA\=\= {
+  display: flex;
+  align-items: center;
+  width: min-content;
+}
+
+._9xAYhQQXPR5-naW2oUjmjg\=\= {
+  display: flex;
+  margin-left: 0.15rem;
+  margin-right: 0.7rem;
+}
+
+._80pZb80Ollc-IbFuf807\+g\=\= {
+  margin: 0 -0.75rem 0rem -0.75rem;
+}
+
+._80pZb80Ollc-IbFuf807\+g\=\= > div {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.WkA\+JRbUECoagPtgmfPnXg\=\= {
+  margin-right: 0.4rem;
+}
+
+.WkA\+JRbUECoagPtgmfPnXg\=\= > div {
+  margin-top: -0.3rem;
+}
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/GameController/GameController.module.scss ***!
+  \*************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+._5D-1OTPLtxExyKlg176zHA\=\= {
+  position: relative;
+  width: 800px;
+  height: 560px;
+}
+
+.jaylhWm4E\+y\+ppZHEY9Uzw\=\= {
+  display: flex;
+  padding: 6% 2%;
+  background-color: var(--ghostboard-square-color);
+}
+
+.s1p\+CwMC0HHNDZJ0Op-Zlw\=\= {
+  width: min-content;
+  height: min-content;
+}
+
+.fqG4hTo2SSBICsWWBuTTQg\=\= {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 25rem;
+  max-width: 40rem;
+  height: 60vh;
+  margin: 0 1rem 0 3rem;
+  overflow: hidden;
+}
+
+.MvgN36CmdjJb7bPuNyvSPQ\=\= {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 30rem;
+  overflow-y: auto;
+}
+
+.cRe6GlyaxeBpbKyqxqcv0A\=\= {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  font-weight: 400;
+}
+
+._2nOcaY4pTdVvE1fy55C4VA\=\= {
+  padding: 0 0.2rem;
+}
+
+.uOchiVqAn\+77N8\+vsEEY5w\=\= {
+  padding: 0 0.2rem;
+  font-size: 1.6rem;
+  font-family: "ChessGlyph New";
+  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+}
+
+.al\+k4DjQFKKbeg7pJyBpVA\=\= {
+  text-shadow: 2px 0 #555, -2px 0 #555, 0 2px #555, 0 -2px #555, 1px 1px #555, -1px -1px #555, 1px -1px #555, -1px 1px #555;
+  filter: brightness(150%) drop-shadow(0 0 1px #fff);
+}
+
+.uOchiVqAn\+77N8\+vsEEY5w\=\=::before {
+  content: "ἡ";
+}
+
+.knBcSzV7hgsS6ccMjTp1iQ\=\= {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+  margin: 0 0.2rem 0.5rem 0.2rem;
+  padding: 0;
+}
+
+.xRfim3cbfqg92j\+pFw1Z\+A\=\= {
+  list-style-type: none;
+}
+
+.EydjLOUy5Asa0RRR8yPjsA\=\= {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.2rem;
+  background-color: hsla(0, 0%, 100%, 0.08);
+  color: hsla(0, 0%, 100%, 0.72);
+  border-radius: 6%;
+  border: none;
+}
+
+.nesGpvsydSOj5QU\+UZycLg\=\= {
+  padding: 0.3rem 1.2rem;
+}
+
+._43KCJzWFdtLCorLbhDCFnQ\=\= {
+  background-color: #0096c6;
+  color: #fff;
+}
+
+.O2GHzhrSOSYSUCtFrovSMg\=\= {
+  transform: rotate(45deg);
+}
+
+.yx2T3QYYQ5RzfDyue3GceA\=\= {
+  margin: 0 0.5rem;
+}
+
+.UjooJF7gzuIVbXXFJVMrbA\=\= {
+  margin-left: 6px;
+  margin-top: -2px;
+  font-size: 1.3rem;
+  font-family: "Segoe UI";
+  color: #fff;
+}
+
+.EydjLOUy5Asa0RRR8yPjsA\=\=:hover {
+  background-color: hsla(0, 0%, 100%, 0.16);
+}
+
+.tiKwQeYECPC8JkdF2CsgtQ\=\= {
+  padding: 0.3rem 1.3rem;
+}
+
+.tiKwQeYECPC8JkdF2CsgtQ\=\=,
+.YihQR6WZ1WYipGDW-f81RA\=\= {
+  font-size: 1.8rem;
+  font-family: "ChessGlyph New";
+}
+
+.DQ0FULUOf86HEJtaY1T9Bg\=\= {
+  display: flex;
+  height: 12.5rem;
+  padding: 5px 8px;
+  font-weight: 500;
+  background: transparent;
+  color: hsla(0, 0%, 100%, 0.65);
+  border: none;
+  resize: none;
+  scrollbar-width: 8px;
+  scrollbar-color: #555 #F5F5F5;
+}
+
+.DQ0FULUOf86HEJtaY1T9Bg\=\=::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  background-color: #F5F5F5;
+}
+
+.DQ0FULUOf86HEJtaY1T9Bg\=\=::-webkit-scrollbar {
+  width: 8px;
+}
+
+.DQ0FULUOf86HEJtaY1T9Bg\=\=::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+
+._8em3bbaCvyhJYCm5mMU3-w\=\= > * {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.YuMuy0cC7U3yqE22U5fNaA\=\= {
+  font-weight: 700;
+  white-space: nowrap;
+  color: #fff;
+  font-size: 1.5rem;
+  font-family: "Segoe UI";
+}
+
+.RnTBr7JB353csoFiOkFntA\=\= {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  margin-bottom: 5px;
+}
+
+.vGSpJF8hs5xcYL1B38f1Tg\=\= {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  font-family: "ChessGlyph New";
+}
+
+.c6DGoKRcnHMi661\+r9Ht9g\=\=::before {
+  content: "ὠ";
+}
+
+._0zZuYDPsxzw8fxdgQIiFxw\=\=::before {
+  content: "Ἕ";
+}
+
+.u3TfhrC2D7TRalXXZZR8aw\=\=::before {
+  content: "Ἔ";
+}
+
+.Ce8v2Qd5e29NufsTRD69XQ\=\=::before {
+  content: "Ἓ";
+}
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardComponents/MoveTree/GameMoveTree.module.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+.qtFwW5I5v4D14XindXHRVQ\=\= {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 20rem;
+  color: hsla(0, 0%, 100%, 0.65);
+}
+
+._0Y6t2WglBLhufwmqHLrCMA\=\= {
+  padding: 2px 8px;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  scrollbar-width: 8px;
+  scrollbar-color: #555 #F5F5F5;
+}
+
+._0Y6t2WglBLhufwmqHLrCMA\=\=::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  background-color: #F5F5F5;
+}
+
+._0Y6t2WglBLhufwmqHLrCMA\=\=::-webkit-scrollbar {
+  width: 8px;
+}
+
+._0Y6t2WglBLhufwmqHLrCMA\=\=::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+
+.XUMVzizf68nSHUKuoSGtsg\=\= {
+  padding: 4px 8px;
+  font-weight: 600;
+  color: hsla(0, 0%, 100%, 0.4);
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.-c-kv4Hy4aYqBdYK6i-W6g\=\= {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+
+.-c-kv4Hy4aYqBdYK6i-W6g\=\=:first-child {
+  margin-bottom: 2px;
+}
+
+.-c-kv4Hy4aYqBdYK6i-W6g\=\=:last-child {
+  margin-top: -4px;
+}
+
+.EFyeuLaqLco6OGiCD4oQlg\=\= {
+  display: flex;
+  width: 18%;
+}
+
+.ZX6UO1b-j1UeyGzXNjUykg\=\= {
+  margin-top: 1px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.WbXIJ4Qsm62lbN9br1u14Q\=\= {
+  font-family: "ChessGlyph New";
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+
+.NtUC6YzmYS1UitoLQjKtyQ\=\=::before {
+  content: "L";
+}
+
+.Pl7Nph4XOr1XoNLjefEQ9g\=\= {
+  padding-top: 2px;
+}
+
+.I6sECyQ3iN0QcvizsKkJXA\=\= {
+  display: flex;
+  width: 33%;
+  gap: 0.7rem;
+}
+
+.NrZyNWqGrzBvfNtCmY6FDw\=\= {
+  margin-top: 3px;
+  font-weight: 200;
+  font-size: 1.25rem;
+  opacity: 0.65;
+  color: #e2e2e2;
+}
+
+.NkWj3cYM8Z02P3m\+zQrYhQ\=\= {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.7rem;
+  margin-left: auto;
+  font-weight: 200;
+  font-size: 1.2rem;
+  opacity: 0.65;
+}
+
+.fuRzv2JiTFUc8-2pKk6IMA\=\=,
+.Q5p\+BDGjrn3dUFW2un0qTQ\=\= {
+  line-height: 1;
+}
+
+.fuRzv2JiTFUc8-2pKk6IMA\=\=::before {
+  content: '"';
+  font-weight: 300;
+}
+
+.Q5p\+BDGjrn3dUFW2un0qTQ\=\=::before {
+  content: "•";
+  font-weight: 300;
+}
+
+.xHoCVXu-\+Wh6tojCvqzt9g\=\= {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.YaOFhMyREL2UHEp9Ts0mRg\=\= {
+  font-family: "ChessGlyph New";
+  font-size: 2.4rem;
+  color: hsla(0, 0%, 100%, 0.65);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.OY-MYVRe3aV30VDSvbR7CA\=\= {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.SS5WTbXmj1R4nwPDp4zbGw\=\= {
+  display: inline-block;
+  padding: 0 0.4rem;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 600;
+}
+
+.SS5WTbXmj1R4nwPDp4zbGw\=\= > div {
+  display: inline-block;
+}
+
+.ZaIEdRwCzeiu1ef0LsZZ5g\=\= {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.MzSQxE8Yrn\+l-GOAnX4\+Ww\=\= {
+  background-color: hsla(0, 0%, 100%, 0.2);
+}
+
+._5WheIdenc6zNrn3Ph7YsAg\=\= {
+  font-size: 1.3rem;
+  font-family: "Segoe UI";
+  opacity: 1;
+}
+
+.yKB1v7dJCUboMwBRuWhRuw\=\= {
+  font-style: italic;
+  margin-left: 5px;
+}
+
+.YkTVtGo7eEiY2e7FVEKRxQ\=\= {
+  display: inline-block;
+  background-color: hsla(0, 0%, 100%, 0.05);
+  border-radius: 3%;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/components/BoardEditorSidebar/EditorSidebar.module.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+.j-JoURGfvcMqqclImP90fw\=\= {
+  position: relative;
+  width: min-content;
+}
+
+._5Go3F\+cXeH2wASfQyYSW0w\=\= {
+  display: flex;
+  max-width: fit-content;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+._5Go3F\+cXeH2wASfQyYSW0w\=\=:nth-child(odd) > div:nth-child(odd),
+._5Go3F\+cXeH2wASfQyYSW0w\=\=:nth-child(even) > div:nth-child(even) {
+  background-color: var(--main-square-primary-color);
+}
+
+._5Go3F\+cXeH2wASfQyYSW0w\=\=:nth-child(odd) > div:nth-child(even),
+._5Go3F\+cXeH2wASfQyYSW0w\=\=:nth-child(even) > div:nth-child(odd) {
+  background-color: var(--main-square-secondary-color);
+}
+
+.nUA5q5Yl7Zot2sDaVJoLYQ\=\= {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 40rem;
+  height: 60vh;
+  margin: 0 1rem 0 3rem;
+  overflow-y: scroll;
+  scrollbar-width: 8px;
+  scrollbar-color: #555 #F5F5F5;
+}
+
+.nUA5q5Yl7Zot2sDaVJoLYQ\=\=::-webkit-scrollbar {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 7px;
+  background-color: #F5F5F5;
+}
+
+.nUA5q5Yl7Zot2sDaVJoLYQ\=\=::-webkit-scrollbar-track {
+  width: 12px;
+}
+
+.nUA5q5Yl7Zot2sDaVJoLYQ\=\=::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/PercentageDisplay/PercentageDisplay.module.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+.kX\+padP0DTgvm\+N9NbPorw\=\= {
+  display: flex;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+._3XPOJ02QVqDDUcO-D2KYDA\=\= {
+  display: flex;
+  width: 80%;
+}
+
+.TLbLu6Z9jYog5X66z6TjXw\=\= {
+  position: relative;
+  display: flex;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  padding: 0 0.4rem;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(33, 33, 33, 0.7);
+  text-overflow: hidden;
+  transition: all 0.3s ease-in;
+}
+
+.E3DNUUsKMhNJAoqy\+G7KnA\=\= {
+  width: 0;
+  padding: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.TLbLu6Z9jYog5X66z6TjXw\=\=:hover .ZW8-itqsRyRL1XEVAiZukA\=\= {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.ZW8-itqsRyRL1XEVAiZukA\=\= {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  opacity: 0;
+  margin-bottom: 0.4rem;
+  padding: 0.4rem;
+  background-color: #333;
+  color: #e2e2e2;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  white-space: nowrap;
+  transform: translate(-50%, 0.4rem);
+  transition: all 0.15s ease-in-out;
+}
+
+.ZW8-itqsRyRL1XEVAiZukA\=\=::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 0.5em solid transparent;
+  border-top-color: #000;
+  transform: translate(-50%, 0);
+}
+
+.re4tnYpbf4u5Gi5xmJUa1g\=\= {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.A6U0LKHkIYsN-FMzb7RF3w\=\= {
+  margin-right: 1.2rem;
+}
+
+.NQNmvM5AjtpaAa\+eCF\+FYA\=\= {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1em;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  background: transparent;
+  border: 2px solid #9E9E9E;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.23, 1);
+}
+
+.te0vkH8sxDd-5otWaTnIZQ\=\= {
+  display: block;
+  width: 18px;
+}
+
+.hUiitsTObI77nLJR9gKG2g\=\= {
+  display: none;
+}
+
+.CyClvesrBE-Rh8BTn63m1g\=\= {
+  display: none;
+}
+
+._7wu8SmEb6v58SoVJEaAs1Q\=\= {
+  border-width: 9px;
+  border-style: solid;
+  border-color: inherit;
+  animation: LChffEldDD2uEIcW6CzE8A\=\= 200ms cubic-bezier(0.4, 0, 0.23, 1);
+}
+
+@keyframes LChffEldDD2uEIcW6CzE8A\=\= {
+  0% {
+    transform: scale(1);
+  }
+  33% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./src/main/client/ts/templates/Sidebar/Sidebar.module.scss ***!
+  \***********************************************************************************************************************************************************************************************************/
+._4HYATdFEwH1\+Km1aZnAEJA\=\= {
+  width: 450px;
+  float: right;
+  clear: right;
+  margin-left: 1.5rem;
+}
+/*!******************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/main/client/css/Global.scss ***!
+  \******************************************************************************************************************************************************/
+@font-face {
+  font-family: "ChessGlyph New";
+  src: url(../fonts/chessglyph-new.99e0b265.woff2) format("woff2"), url("https://www.chess.com/bundles/web/fonts/chessglyph-new.99e0b265.woff2") format("woff2");
+}
+#main {
+  background: #eff;
+  margin: 0 auto;
+  width: 90vw;
+}
+/*!*********************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/main/client/css/Normalize.scss ***!
+  \*********************************************************************************************************************************************************/
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+/* Document
+   ========================================================================== */
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+html {
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/* Sections
+     ========================================================================== */
+/**
+   * Remove the margin in all browsers.
+   */
+body {
+  margin: 0;
+}
+
+/**
+   * Render the `main` element consistently in IE.
+   */
+main {
+  display: block;
+}
+
+/**
+   * Correct the font size and margin on `h1` elements within `section` and
+   * `article` contexts in Chrome, Firefox, and Safari.
+   */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+     ========================================================================== */
+/**
+   * 1. Add the correct box sizing in Firefox.
+   * 2. Show the overflow in Edge and IE.
+   */
+hr {
+  box-sizing: content-box;
+  /* 1 */
+  height: 0;
+  /* 1 */
+  overflow: visible;
+  /* 2 */
+}
+
+/**
+   * 1. Correct the inheritance and scaling of font size in all browsers.
+   * 2. Correct the odd `em` font sizing in all browsers.
+   */
+pre {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/* Text-level semantics
+     ========================================================================== */
+/**
+   * Remove the gray background on active links in IE 10.
+   */
+a {
+  background-color: transparent;
+}
+
+/**
+   * 1. Remove the bottom border in Chrome 57-
+   * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+   */
+abbr[title] {
+  border-bottom: none;
+  /* 1 */
+  text-decoration: underline;
+  /* 2 */
+  text-decoration: underline dotted;
+  /* 2 */
+}
+
+/**
+   * Add the correct font weight in Chrome, Edge, and Safari.
+   */
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+   * 1. Correct the inheritance and scaling of font size in all browsers.
+   * 2. Correct the odd `em` font sizing in all browsers.
+   */
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/**
+   * Add the correct font size in all browsers.
+   */
+small {
+  font-size: 80%;
+}
+
+/**
+   * Prevent `sub` and `sup` elements from affecting the line height in
+   * all browsers.
+   */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+     ========================================================================== */
+/**
+   * Remove the border on images inside links in IE 10.
+   */
+img {
+  border-style: none;
+}
+
+/* Forms
+     ========================================================================== */
+/**
+   * 1. Change the font styles in all browsers.
+   * 2. Remove the margin in Firefox and Safari.
+   */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+}
+
+/**
+   * Show the overflow in IE.
+   * 1. Show the overflow in Edge.
+   */
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+/**
+   * Remove the inheritance of text transform in Edge, Firefox, and IE.
+   * 1. Remove the inheritance of text transform in Firefox.
+   */
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+/**
+   * Correct the inability to style clickable types in iOS and Safari.
+   */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/**
+   * Remove the inner border and padding in Firefox.
+   */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+   * Restore the focus styles unset by the previous rule.
+   */
+button:-moz-focusring,
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+   * Correct the padding in Firefox.
+   */
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/**
+   * 1. Correct the text wrapping in Edge and IE.
+   * 2. Correct the color inheritance from `fieldset` elements in IE.
+   * 3. Remove the padding so developers are not caught out when they zero out
+   *    `fieldset` elements in all browsers.
+   */
+legend {
+  box-sizing: border-box;
+  /* 1 */
+  color: inherit;
+  /* 2 */
+  display: table;
+  /* 1 */
+  max-width: 100%;
+  /* 1 */
+  padding: 0;
+  /* 3 */
+  white-space: normal;
+  /* 1 */
+}
+
+/**
+   * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+   */
+progress {
+  vertical-align: baseline;
+}
+
+/**
+   * Remove the default vertical scrollbar in IE 10+.
+   */
+textarea {
+  overflow: auto;
+}
+
+/**
+   * 1. Add the correct box sizing in IE 10.
+   * 2. Remove the padding in IE 10.
+   */
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/**
+   * Correct the cursor style of increment and decrement buttons in Chrome.
+   */
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+   * 1. Correct the odd appearance in Chrome and Safari.
+   * 2. Correct the outline style in Safari.
+   */
+[type=search] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+
+/**
+   * Remove the inner padding in Chrome and Safari on macOS.
+   */
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+   * 1. Correct the inability to style clickable types in iOS and Safari.
+   * 2. Change font properties to `inherit` in Safari.
+   */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+}
+
+/* Interactive
+     ========================================================================== */
+/*
+   * Add the correct display in Edge, IE 10+, and Firefox.
+   */
+details {
+  display: block;
+}
+
+/*
+   * Add the correct display in all browsers.
+   */
+summary {
+  display: list-item;
+}
+
+/* Misc
+     ========================================================================== */
+/**
+   * Add the correct display in IE 10+.
+   */
+template {
+  display: none;
+}
+
+/**
+   * Add the correct display in IE 10.
+   */
+[hidden] {
+  display: none;
+}
+
+/*# sourceMappingURL=main.67501e514c1aa6b4e7c2.css.map*/

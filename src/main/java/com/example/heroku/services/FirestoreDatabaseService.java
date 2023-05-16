@@ -13,6 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreDatabaseService implements DatabaseInterface {
@@ -47,6 +48,7 @@ public class FirestoreDatabaseService implements DatabaseInterface {
         try {
             DocumentSnapshot document = future.get();
             if (document.exists()) {
+                System.out.println(document.get("content"));
                 return new Page(document.getString(CONTENT), (ArrayList<String>) document.get(CATEGORIES));
             } else {
                 return null; // TODO replace with boilerplate 404
