@@ -24,7 +24,8 @@ import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleI
 import { assertNonUndefined, getEnumKeys } from "@client/ts/baseTypes";
 import { selectFENSettings, selectVariantData } from "@client/ts/redux/GeneralBoardSelectors";
 
-const MakeSVG = (path: string, configuration: PieceImageSettings) => {
+const serializer = new XMLSerializer();
+const MakeSVG = (path: string, configuration: PieceImageSettings, toggleInformation?: (base64: string) => void) => {
 	return (
 		<ReactSVG
 			src={path}
@@ -74,7 +75,8 @@ const MakeSVG = (path: string, configuration: PieceImageSettings) => {
 				if (configuration.afterInjection) {
 					configuration.afterInjection(svg);
 				}
-				console.log(svg);
+
+				toggleInformation?.(`data:image/svg+xml;base64,${window.btoa(serializer.serializeToString(svg))}`);
 			}}
 			className={`${configuration.className} ${configuration.stonewall ? styles["square__piece--stonewall"] : ""}`}
 		/>
@@ -82,7 +84,7 @@ const MakeSVG = (path: string, configuration: PieceImageSettings) => {
 };
 
 type ExtendedColors = "dw" | "white" | "black";
-type PieceRecord = Record<ColorEnum | ExtendedColors, JSX.Element | string>;
+type PieceRecord = Record<ColorEnum | ExtendedColors, { base64: string } | string>;
 type SVGPieceThemeRecord = Record<SVGPieceDisplayGroup, PieceRecord>;
 type RasterPieceThemeRecord = Record<RasterPieceDisplayGroup, PieceRecord>;
 type ImageSetting = SVGPieceThemeRecord & RasterPieceThemeRecord;
@@ -143,13 +145,16 @@ const createDefaultPieceImageConfiguration = (): PieceImageSettings => ({
 	customColor: createHexColor("#fff")
 });
 
-const createPieceImage = (settings: {
-	url: string;
-	stringColor: ColorEnum | ExtendedColors;
-	whiteBlack: boolean;
-	configuration: PieceImageSettings;
-	pieceTheme: SVGPieceDisplayGroup | RasterPieceDisplayGroup;
-}) => {
+const createPieceImage = (
+	settings: {
+		url: string;
+		stringColor: ColorEnum | ExtendedColors;
+		whiteBlack: boolean;
+		configuration: PieceImageSettings;
+		pieceTheme: SVGPieceDisplayGroup | RasterPieceDisplayGroup;
+	},
+	callback?: (base64: string) => void
+) => {
 	const pieceTheme = settings.configuration.pieceTheme ?? settings.pieceTheme;
 	if (verifyRasterPieceDisplayGroup(pieceTheme)) {
 		return (
@@ -161,7 +166,7 @@ const createPieceImage = (settings: {
 			/>
 		);
 	} else {
-		return MakeSVG(settings.url, { ...settings.configuration, stonewall: settings.stringColor === "dw" });
+		return MakeSVG(settings.url, { ...settings.configuration, stonewall: settings.stringColor === "dw" }, callback);
 	}
 };
 
@@ -204,22 +209,25 @@ export const PieceImage = (props: PieceImageProps) => {
 		const imagePath = namesEnum[props.pieceString.piece][pieceTheme],
 			image = imagePath[color];
 		if (typeof image === "string") {
-			const result = createPieceImage({
-				url: image,
-				configuration: imageConfiguration,
-				stringColor: color,
-				pieceTheme,
-				whiteBlack
-			});
-			imagePath[color] = result;
-			return result;
+			return createPieceImage(
+				{
+					url: image,
+					configuration: imageConfiguration,
+					stringColor: color,
+					pieceTheme,
+					whiteBlack
+				},
+				(base64) => {
+					imagePath[color] = { base64 };
+				}
+			);
 		} else {
-			return image;
+			return (
+				<img src={image.base64} alt={piece} width={configuration.size} height={configuration.size} className={configuration.className} />
+			);
 		}
 	} else {
-		const imageUrl = verifyRasterPieceDisplayGroup(pieceTheme)
-			? rasterImages[pieceTheme][piece][color]
-			: images[pieceTheme][piece];
+		const imageUrl = verifyRasterPieceDisplayGroup(pieceTheme) ? rasterImages[pieceTheme][piece][color] : images[pieceTheme][piece];
 		return createPieceImage({
 			url: imageUrl,
 			configuration: imageConfiguration,
