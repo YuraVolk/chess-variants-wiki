@@ -5,18 +5,18 @@
 /*!*****************************************!*\
   !*** ./src/main/client/ts/baseTypes.ts ***!
   \*****************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "assertNonUndefined": function() { return /* binding */ assertNonUndefined; },
-/* harmony export */   "createTuple": function() { return /* binding */ createTuple; },
-/* harmony export */   "createTupleFromCallback": function() { return /* binding */ createTupleFromCallback; },
-/* harmony export */   "getEnumKeys": function() { return /* binding */ getEnumKeys; },
-/* harmony export */   "importAll": function() { return /* binding */ importAll; },
-/* harmony export */   "throwOnNever": function() { return /* binding */ throwOnNever; },
-/* harmony export */   "verifyFunctionType": function() { return /* binding */ verifyFunctionType; },
-/* harmony export */   "verifyTupleType": function() { return /* binding */ verifyTupleType; }
+/* harmony export */   "assertNonUndefined": () => (/* binding */ assertNonUndefined),
+/* harmony export */   "createTuple": () => (/* binding */ createTuple),
+/* harmony export */   "createTupleFromCallback": () => (/* binding */ createTupleFromCallback),
+/* harmony export */   "getEnumKeys": () => (/* binding */ getEnumKeys),
+/* harmony export */   "importAll": () => (/* binding */ importAll),
+/* harmony export */   "throwOnNever": () => (/* binding */ throwOnNever),
+/* harmony export */   "verifyFunctionType": () => (/* binding */ verifyFunctionType),
+/* harmony export */   "verifyTupleType": () => (/* binding */ verifyTupleType)
 /* harmony export */ });
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -51,14 +51,14 @@ function getEnumKeys(object) {
 /*!****************************************************!*\
   !*** ./src/main/client/ts/logic/BaseInterfaces.ts ***!
   \****************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getHorizontalPlacementModulus": function() { return /* binding */ getHorizontalPlacementModulus; },
-/* harmony export */   "getVerticalPlacementModulus": function() { return /* binding */ getVerticalPlacementModulus; },
-/* harmony export */   "initializeBoardSquares": function() { return /* binding */ initializeBoardSquares; },
-/* harmony export */   "isVerticalPlacement": function() { return /* binding */ isVerticalPlacement; }
+/* harmony export */   "getHorizontalPlacementModulus": () => (/* binding */ getHorizontalPlacementModulus),
+/* harmony export */   "getVerticalPlacementModulus": () => (/* binding */ getVerticalPlacementModulus),
+/* harmony export */   "initializeBoardSquares": () => (/* binding */ initializeBoardSquares),
+/* harmony export */   "isVerticalPlacement": () => (/* binding */ isVerticalPlacement)
 /* harmony export */ });
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _movegen_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./movegen/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -83,27 +83,27 @@ function getHorizontalPlacementModulus(num) {
 /*!**********************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/GameInformation/GameData.ts ***!
   \**********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TimeControlType": function() { return /* binding */ TimeControlType; },
-/* harmony export */   "VariantType": function() { return /* binding */ VariantType; },
-/* harmony export */   "boardDimension": function() { return /* binding */ boardDimension; },
-/* harmony export */   "colors": function() { return /* binding */ colors; },
-/* harmony export */   "convertCoordinateToPGN4": function() { return /* binding */ convertCoordinateToPGN4; },
-/* harmony export */   "convertCoordinateToPGN4Array": function() { return /* binding */ convertCoordinateToPGN4Array; },
-/* harmony export */   "createDefaultNumericColorAdjustment": function() { return /* binding */ createDefaultNumericColorAdjustment; },
-/* harmony export */   "getOppositePlacedColor": function() { return /* binding */ getOppositePlacedColor; },
-/* harmony export */   "getPlayerNameFromColor": function() { return /* binding */ getPlayerNameFromColor; },
-/* harmony export */   "obtainTimeControlType": function() { return /* binding */ obtainTimeControlType; },
-/* harmony export */   "playerNames": function() { return /* binding */ playerNames; },
-/* harmony export */   "stringifyTimeControl": function() { return /* binding */ stringifyTimeControl; },
-/* harmony export */   "totalPlayers": function() { return /* binding */ totalPlayers; },
-/* harmony export */   "validateComprehensiveUnionArray": function() { return /* binding */ validateComprehensiveUnionArray; },
-/* harmony export */   "validateTerminationString": function() { return /* binding */ validateTerminationString; },
-/* harmony export */   "verifyDrawingTermination": function() { return /* binding */ verifyDrawingTermination; },
-/* harmony export */   "verifyWinningTermination": function() { return /* binding */ verifyWinningTermination; }
+/* harmony export */   "TimeControlType": () => (/* binding */ TimeControlType),
+/* harmony export */   "VariantType": () => (/* binding */ VariantType),
+/* harmony export */   "boardDimension": () => (/* binding */ boardDimension),
+/* harmony export */   "colors": () => (/* binding */ colors),
+/* harmony export */   "convertCoordinateToPGN4": () => (/* binding */ convertCoordinateToPGN4),
+/* harmony export */   "convertCoordinateToPGN4Array": () => (/* binding */ convertCoordinateToPGN4Array),
+/* harmony export */   "createDefaultNumericColorAdjustment": () => (/* binding */ createDefaultNumericColorAdjustment),
+/* harmony export */   "getOppositePlacedColor": () => (/* binding */ getOppositePlacedColor),
+/* harmony export */   "getPlayerNameFromColor": () => (/* binding */ getPlayerNameFromColor),
+/* harmony export */   "obtainTimeControlType": () => (/* binding */ obtainTimeControlType),
+/* harmony export */   "playerNames": () => (/* binding */ playerNames),
+/* harmony export */   "stringifyTimeControl": () => (/* binding */ stringifyTimeControl),
+/* harmony export */   "totalPlayers": () => (/* binding */ totalPlayers),
+/* harmony export */   "validateComprehensiveUnionArray": () => (/* binding */ validateComprehensiveUnionArray),
+/* harmony export */   "validateTerminationString": () => (/* binding */ validateTerminationString),
+/* harmony export */   "verifyDrawingTermination": () => (/* binding */ verifyDrawingTermination),
+/* harmony export */   "verifyWinningTermination": () => (/* binding */ verifyWinningTermination)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _utils_NumberUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @utils/NumberUtils */ "./src/main/client/ts/utils/NumberUtils.ts");
@@ -255,17 +255,17 @@ var colors = [0, 1, 2, 3];
 /*!*********************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/GameInformation/GameUnits/GameUnits.ts ***!
   \*********************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "colorEnum": function() { return /* binding */ colorEnum; },
-/* harmony export */   "nonPlayablePieces": function() { return /* binding */ nonPlayablePieces; },
-/* harmony export */   "playerEnum": function() { return /* binding */ playerEnum; },
-/* harmony export */   "stringColorEnum": function() { return /* binding */ stringColorEnum; },
-/* harmony export */   "verifyColorEnumValue": function() { return /* binding */ verifyColorEnumValue; },
-/* harmony export */   "verifyNumericColor": function() { return /* binding */ verifyNumericColor; },
-/* harmony export */   "verifyPlayerEnumValue": function() { return /* binding */ verifyPlayerEnumValue; }
+/* harmony export */   "colorEnum": () => (/* binding */ colorEnum),
+/* harmony export */   "nonPlayablePieces": () => (/* binding */ nonPlayablePieces),
+/* harmony export */   "playerEnum": () => (/* binding */ playerEnum),
+/* harmony export */   "stringColorEnum": () => (/* binding */ stringColorEnum),
+/* harmony export */   "verifyColorEnumValue": () => (/* binding */ verifyColorEnumValue),
+/* harmony export */   "verifyNumericColor": () => (/* binding */ verifyNumericColor),
+/* harmony export */   "verifyPlayerEnumValue": () => (/* binding */ verifyPlayerEnumValue)
 /* harmony export */ });
 var verifyNumericColor = num => num >= 0 && num < 4;
 var nonPlayablePieces = {
@@ -303,22 +303,22 @@ var stringColorEnum = {
 /*!********************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts ***!
   \********************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AttackType": function() { return /* binding */ AttackType; },
-/* harmony export */   "createPieceDeclaration": function() { return /* binding */ createPieceDeclaration; },
-/* harmony export */   "dameLetter": function() { return /* binding */ dameLetter; },
-/* harmony export */   "defaultPieces": function() { return /* binding */ defaultPieces; },
-/* harmony export */   "duckLetter": function() { return /* binding */ duckLetter; },
-/* harmony export */   "emptyLetter": function() { return /* binding */ emptyLetter; },
-/* harmony export */   "grasshopperPieceLetter": function() { return /* binding */ grasshopperPieceLetter; },
-/* harmony export */   "nonPlayableValues": function() { return /* binding */ nonPlayableValues; },
-/* harmony export */   "pawnPieceLetter": function() { return /* binding */ pawnPieceLetter; },
-/* harmony export */   "pieceControlConfigSettings": function() { return /* binding */ pieceControlConfigSettings; },
-/* harmony export */   "verifyPieceLetter": function() { return /* binding */ verifyPieceLetter; },
-/* harmony export */   "wallPieceLetter": function() { return /* binding */ wallPieceLetter; }
+/* harmony export */   "AttackType": () => (/* binding */ AttackType),
+/* harmony export */   "createPieceDeclaration": () => (/* binding */ createPieceDeclaration),
+/* harmony export */   "dameLetter": () => (/* binding */ dameLetter),
+/* harmony export */   "defaultPieces": () => (/* binding */ defaultPieces),
+/* harmony export */   "duckLetter": () => (/* binding */ duckLetter),
+/* harmony export */   "emptyLetter": () => (/* binding */ emptyLetter),
+/* harmony export */   "grasshopperPieceLetter": () => (/* binding */ grasshopperPieceLetter),
+/* harmony export */   "nonPlayableValues": () => (/* binding */ nonPlayableValues),
+/* harmony export */   "pawnPieceLetter": () => (/* binding */ pawnPieceLetter),
+/* harmony export */   "pieceControlConfigSettings": () => (/* binding */ pieceControlConfigSettings),
+/* harmony export */   "verifyPieceLetter": () => (/* binding */ verifyPieceLetter),
+/* harmony export */   "wallPieceLetter": () => (/* binding */ wallPieceLetter)
 /* harmony export */ });
 /* harmony import */ var _GameInformation_GameUnits_GameUnits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../GameInformation/GameUnits/GameUnits */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/GameUnits.ts");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -387,7 +387,7 @@ var dameLetter = createPredefinedPieceLetter("D");
 /*!*********************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/PieceMedianCounter.ts ***!
   \*********************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
@@ -462,15 +462,15 @@ self.onmessage = e => {
 /*!************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/Utilities.ts ***!
   \************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "binaryMasks": function() { return /* binding */ binaryMasks; },
-/* harmony export */   "countBitsOnBoard": function() { return /* binding */ countBitsOnBoard; },
-/* harmony export */   "findMinimumOnBoardSquares": function() { return /* binding */ findMinimumOnBoardSquares; },
-/* harmony export */   "oneBitMask": function() { return /* binding */ oneBitMask; },
-/* harmony export */   "optimizePieceSet": function() { return /* binding */ optimizePieceSet; }
+/* harmony export */   "binaryMasks": () => (/* binding */ binaryMasks),
+/* harmony export */   "countBitsOnBoard": () => (/* binding */ countBitsOnBoard),
+/* harmony export */   "findMinimumOnBoardSquares": () => (/* binding */ findMinimumOnBoardSquares),
+/* harmony export */   "oneBitMask": () => (/* binding */ oneBitMask),
+/* harmony export */   "optimizePieceSet": () => (/* binding */ optimizePieceSet)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
@@ -541,14 +541,14 @@ function optimizePieceSet(possiblePieces, maximumTarget) {
 /*!************************************************!*\
   !*** ./src/main/client/ts/utils/ArrayUtils.ts ***!
   \************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "compareArrays": function() { return /* binding */ compareArrays; },
-/* harmony export */   "countMinimumOf2DArrayExcludingZero": function() { return /* binding */ countMinimumOf2DArrayExcludingZero; },
-/* harmony export */   "findLastIndex": function() { return /* binding */ findLastIndex; },
-/* harmony export */   "shuffleArray": function() { return /* binding */ shuffleArray; }
+/* harmony export */   "compareArrays": () => (/* binding */ compareArrays),
+/* harmony export */   "countMinimumOf2DArrayExcludingZero": () => (/* binding */ countMinimumOf2DArrayExcludingZero),
+/* harmony export */   "findLastIndex": () => (/* binding */ findLastIndex),
+/* harmony export */   "shuffleArray": () => (/* binding */ shuffleArray)
 /* harmony export */ });
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -621,12 +621,12 @@ function findLastIndex(array, callback) {
 /*!*************************************************!*\
   !*** ./src/main/client/ts/utils/NumberUtils.ts ***!
   \*************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "bitCount": function() { return /* binding */ bitCount; },
-/* harmony export */   "truncateNumber": function() { return /* binding */ truncateNumber; }
+/* harmony export */   "bitCount": () => (/* binding */ bitCount),
+/* harmony export */   "truncateNumber": () => (/* binding */ truncateNumber)
 /* harmony export */ });
 function truncateNumber(number, digits) {
   var multiplier = Math.pow(10, digits);

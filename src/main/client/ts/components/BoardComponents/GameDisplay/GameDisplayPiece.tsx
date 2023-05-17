@@ -39,21 +39,18 @@ const MakeSVG = (path: string, configuration: PieceImageSettings, toggleInformat
 				if (configuration.beforeInjection) {
 					configuration.beforeInjection(svg);
 				}
+				svg.closest("*")?.setAttribute("style", "opacity: 0;");
 			}}
-			afterInjection={(error, svg) => {
+			afterInjection={(_, svg) => {
 				assertNonUndefined(svg);
+				
 				Array.from<BasicSVGShapeElement>(svg.querySelectorAll<BasicSVGShapeElement>(svgBasicShapeSelector)).forEach((p) => {
-					if (error) {
-						console.error(error);
-						return;
-					}
-
 					const styles = getComputedStyle(p);
 					const fill = styles.fill;
 
 					if (fill === "none") {
 						p.style.fill = "none";
-					} else if (styles.opacity === "1") {
+					} else if (Number(styles.opacity) > 0.3) {
 						const rgb = fill.split("(")[1].split(",");
 						const rgbColors: RGBColor = [
 							createRGBColor(Number(rgb[0])),
@@ -70,13 +67,17 @@ const MakeSVG = (path: string, configuration: PieceImageSettings, toggleInformat
 
 					p.style.opacity = styles.opacity;
 				});
-				Array.from<HTMLStyleElement>(svg.querySelectorAll("style")).forEach((s) => s.remove());
-
+				
+				svg.closest("*")?.removeAttribute("style");
+				const svgString = `data:image/svg+xml;base64,${window.btoa(serializer.serializeToString(svg))}`;
+				toggleInformation?.(svgString);
+				const image = document.createElement("img");
+				image.setAttribute("src", svgString);
+				image.setAttribute("style", `width: ${configuration.size}; height: ${configuration.size}`);
+				svg.replaceWith(image);
 				if (configuration.afterInjection) {
 					configuration.afterInjection(svg);
 				}
-
-				toggleInformation?.(`data:image/svg+xml;base64,${window.btoa(serializer.serializeToString(svg))}`);
 			}}
 			className={`${configuration.className} ${configuration.stonewall ? styles["square__piece--stonewall"] : ""}`}
 		/>

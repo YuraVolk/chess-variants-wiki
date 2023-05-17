@@ -1,5 +1,6 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const productionMode = process.env.NODE_ENV === "production";
 const devMode = !productionMode;
@@ -17,8 +18,8 @@ module.exports = {
                 loader: 'babel-loader',
                 options: {
                     presets: [
-                        ['@babel/preset-env', { "targets": ">0.5%, since 2017" }], 
-                        '@babel/preset-react', 
+                        ['@babel/preset-env'],
+                        '@babel/preset-react',
                         ['@babel/preset-typescript', {
                             allowDeclareFields: true,
                             dts: true,
@@ -73,12 +74,19 @@ module.exports = {
         }, {
             test: /\.(png|jpe?g|gif|svg)$/i,
             use: [
-                'file-loader',
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: "[contenthash].[ext]",
+                        outputPath: "../assets/"
+                    }
+                },
                 {
                     loader: 'image-webpack-loader',
                     options: {
                         svgo: {
                             options: {
+                                inlineStyles: true,
                                 convertStyleToAttrs: true,
                                 prefixIds: true
                             }
@@ -111,5 +119,32 @@ module.exports = {
             filename: devMode ? "[name].css" : "[name].[hash].css",
             chunkFilename: devMode ? "[id].css" : "[id].[hash].css"
         })
-    ]
+    ],
+    optimization: {
+        minimizer: [
+            new ImageMinimizerPlugin({
+                include: /\.(png|jpe?g|gif|svg)$/i,
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.svgoMinify,
+                    options: {
+                        encodeOptions: {
+                            multipass: true,
+                            plugins: [{
+                                name: "preset-default",
+                                params: {
+                                    overrides: {
+                                        inlineStyles: {
+                                            onlyMatchedOnce: false
+                                        }
+                                    }
+                                }
+                            },
+                                "removeStyleElement"
+                            ]
+                        }
+                    }
+                }
+            })
+        ]
+    }
 };

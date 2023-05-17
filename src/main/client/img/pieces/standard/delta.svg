@@ -3,13 +3,13 @@
    viewBox="0 0 180 180" style="enable-background:new 0 0 180 180;" xml:space="preserve">
 
 <style type="text/css">
-  .st0{fill:#BF3B43;stroke:#231815;stroke-width:4;stroke-miterlimit:9.9999;}
+  .st0{fill:#fff;stroke:#231815;stroke-width:4;stroke-miterlimit:9.9999;}
   .st1{opacity:0.2;fill:#040000;enable-background:new    ;}
-  .st2{fill:#BF3B43;stroke:#231815;stroke-width:3.9973;stroke-miterlimit:9.9933;}
-  .st3{fill:#BF3B43;}
+  .st2{fill:#fff;stroke:#231815;stroke-width:3.9973;stroke-miterlimit:9.9933;}
+  .st3{fill:#fff;}
   .st4{opacity:0.2;fill:#FFFFFF;enable-background:new    ;}
   .st5{fill:#1A1A1A;}
-  .st6{fill:#BF3B43;stroke:#231815;stroke-width:4;stroke-miterlimit:10;}
+  .st6{fill:#fff;stroke:#231815;stroke-width:4;stroke-miterlimit:10;}
 </style>
 <title>delta</title>
 <g>

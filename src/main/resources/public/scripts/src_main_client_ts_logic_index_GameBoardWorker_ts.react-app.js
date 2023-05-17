@@ -4,12 +4,12 @@
 /*!**************************************************!*\
   !*** ./src/main/client/fonts/chessGlyphIndex.ts ***!
   \**************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "chessGlyphIndex": function() { return /* binding */ chessGlyphIndex; }
+/* harmony export */   "chessGlyphIndex": () => (/* binding */ chessGlyphIndex)
 /* harmony export */ });
 var chessGlyphIndex = {
   doubleBackwardArrow: "!",
@@ -418,24 +418,24 @@ var chessGlyphIndex = {
 /*!*************************************************!*\
   !*** ./src/main/client/ts/interfaces/Colors.ts ***!
   \*************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createHSLColor": function() { return /* binding */ createHSLColor; },
-/* harmony export */   "createHexColor": function() { return /* binding */ createHexColor; },
-/* harmony export */   "createRGBColor": function() { return /* binding */ createRGBColor; },
-/* harmony export */   "validateHSLColor": function() { return /* binding */ validateHSLColor; },
-/* harmony export */   "validateHexColor": function() { return /* binding */ validateHexColor; },
-/* harmony export */   "validateIndexedColor": function() { return /* binding */ validateIndexedColor; },
-/* harmony export */   "validateRGBColor": function() { return /* binding */ validateRGBColor; },
-/* harmony export */   "verifyHSLColor": function() { return /* binding */ verifyHSLColor; },
-/* harmony export */   "verifyHexColor": function() { return /* binding */ verifyHexColor; },
-/* harmony export */   "verifyRGBColor": function() { return /* binding */ verifyRGBColor; },
-/* harmony export */   "wrapHSLColor": function() { return /* binding */ wrapHSLColor; },
-/* harmony export */   "wrapIndexedColor": function() { return /* binding */ wrapIndexedColor; },
-/* harmony export */   "wrapRGBColor": function() { return /* binding */ wrapRGBColor; }
+/* harmony export */   "createHSLColor": () => (/* binding */ createHSLColor),
+/* harmony export */   "createHexColor": () => (/* binding */ createHexColor),
+/* harmony export */   "createRGBColor": () => (/* binding */ createRGBColor),
+/* harmony export */   "validateHSLColor": () => (/* binding */ validateHSLColor),
+/* harmony export */   "validateHexColor": () => (/* binding */ validateHexColor),
+/* harmony export */   "validateIndexedColor": () => (/* binding */ validateIndexedColor),
+/* harmony export */   "validateRGBColor": () => (/* binding */ validateRGBColor),
+/* harmony export */   "verifyHSLColor": () => (/* binding */ verifyHSLColor),
+/* harmony export */   "verifyHexColor": () => (/* binding */ verifyHexColor),
+/* harmony export */   "verifyRGBColor": () => (/* binding */ verifyRGBColor),
+/* harmony export */   "wrapHSLColor": () => (/* binding */ wrapHSLColor),
+/* harmony export */   "wrapIndexedColor": () => (/* binding */ wrapIndexedColor),
+/* harmony export */   "wrapRGBColor": () => (/* binding */ wrapRGBColor)
 /* harmony export */ });
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../baseTypes */ "./src/main/client/ts/baseTypes.ts");
 
@@ -518,14 +518,14 @@ var validateIndexedColor = color => {
 /*!***********************************************************!*\
   !*** ./src/main/client/ts/logic/index/GameBoardWorker.ts ***!
   \***********************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "dispatchSyncRecord": function() { return /* binding */ dispatchSyncRecord; },
-/* harmony export */   "initialDispatches": function() { return /* binding */ initialDispatches; },
-/* harmony export */   "requiredDispatches": function() { return /* binding */ requiredDispatches; }
+/* harmony export */   "dispatchSyncRecord": () => (/* binding */ dispatchSyncRecord),
+/* harmony export */   "initialDispatches": () => (/* binding */ initialDispatches),
+/* harmony export */   "requiredDispatches": () => (/* binding */ requiredDispatches)
 /* harmony export */ });
 /* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reflect-metadata */ "./node_modules/reflect-metadata/Reflect.js");
 /* harmony import */ var reflect_metadata__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(reflect_metadata__WEBPACK_IMPORTED_MODULE_0__);
@@ -917,13 +917,13 @@ self.onmessage = e => {
 /*!*********************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/Board/Board.ts ***!
   \*********************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Board": function() { return /* binding */ Board; },
-/* harmony export */   "baseImmunes": function() { return /* binding */ baseImmunes; }
+/* harmony export */   "Board": () => (/* binding */ Board),
+/* harmony export */   "baseImmunes": () => (/* binding */ baseImmunes)
 /* harmony export */ });
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _BaseInterfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
@@ -1735,18 +1735,18 @@ class Board {
 /*!******************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/Board/BoardInterface.ts ***!
   \******************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DisplaySettings": function() { return /* binding */ DisplaySettings; },
-/* harmony export */   "compareCoordinates": function() { return /* binding */ compareCoordinates; },
-/* harmony export */   "createBasePreGeneratedAttacks": function() { return /* binding */ createBasePreGeneratedAttacks; },
-/* harmony export */   "createComplexMoveLegalityTracker": function() { return /* binding */ createComplexMoveLegalityTracker; },
-/* harmony export */   "createGameTypeSettings": function() { return /* binding */ createGameTypeSettings; },
-/* harmony export */   "stringifyCoordinate": function() { return /* binding */ stringifyCoordinate; },
-/* harmony export */   "unstringifyCoordinate": function() { return /* binding */ unstringifyCoordinate; }
+/* harmony export */   "DisplaySettings": () => (/* binding */ DisplaySettings),
+/* harmony export */   "compareCoordinates": () => (/* binding */ compareCoordinates),
+/* harmony export */   "createBasePreGeneratedAttacks": () => (/* binding */ createBasePreGeneratedAttacks),
+/* harmony export */   "createComplexMoveLegalityTracker": () => (/* binding */ createComplexMoveLegalityTracker),
+/* harmony export */   "createGameTypeSettings": () => (/* binding */ createGameTypeSettings),
+/* harmony export */   "stringifyCoordinate": () => (/* binding */ stringifyCoordinate),
+/* harmony export */   "unstringifyCoordinate": () => (/* binding */ unstringifyCoordinate)
 /* harmony export */ });
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _BaseInterfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
@@ -1829,12 +1829,12 @@ var compareCoordinates = (coordinate1, coordinate2) => coordinate1[0] === coordi
 /*!**********************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/Board/BoardMoveValidator.ts ***!
   \**********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "validateBoardMove": function() { return /* binding */ validateBoardMove; }
+/* harmony export */   "validateBoardMove": () => (/* binding */ validateBoardMove)
 /* harmony export */ });
 /* harmony import */ var _MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
@@ -1889,13 +1889,13 @@ function validateBoardMove(board, move) {
 /*!*************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/FENData/FENData.ts ***!
   \*************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FENData": function() { return /* binding */ FENData; },
-/* harmony export */   "FENOptions": function() { return /* reexport safe */ _FENOptions_FENOptions__WEBPACK_IMPORTED_MODULE_9__.FENOptions; }
+/* harmony export */   "FENData": () => (/* binding */ FENData),
+/* harmony export */   "FENOptions": () => (/* reexport safe */ _FENOptions_FENOptions__WEBPACK_IMPORTED_MODULE_9__.FENOptions)
 /* harmony export */ });
 /* harmony import */ var _BaseInterfaces__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
 /* harmony import */ var _FENDataInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FENDataInterface */ "./src/main/client/ts/logic/movegen/FENData/FENDataInterface.ts");
@@ -2565,14 +2565,14 @@ class FENData {
 /*!**********************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/FENData/FENDataInterface.ts ***!
   \**********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createDefaultArmyDeathSettings": function() { return /* binding */ createDefaultArmyDeathSettings; },
-/* harmony export */   "createDefaultFENEffectSettings": function() { return /* binding */ createDefaultFENEffectSettings; },
-/* harmony export */   "getNeighboringSideToMove": function() { return /* binding */ getNeighboringSideToMove; }
+/* harmony export */   "createDefaultArmyDeathSettings": () => (/* binding */ createDefaultArmyDeathSettings),
+/* harmony export */   "createDefaultFENEffectSettings": () => (/* binding */ createDefaultFENEffectSettings),
+/* harmony export */   "getNeighboringSideToMove": () => (/* binding */ getNeighboringSideToMove)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_GameInformation_GameUnits_GameUnits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameUnits/GameUnits */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/GameUnits.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -2603,12 +2603,12 @@ function getNeighboringSideToMove(player, dead) {
 /*!***************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/FENData/FENOptions/FENOptions.ts ***!
   \***************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FENOptions": function() { return /* binding */ FENOptions; }
+/* harmony export */   "FENOptions": () => (/* binding */ FENOptions)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _client_ts_logic_BaseInterfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @client/ts/logic/BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
@@ -2877,25 +2877,25 @@ class FENOptions {
 /*!*******************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/FENData/FENOptions/FENOptionsTags.ts ***!
   \*******************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createBankTag": function() { return /* binding */ createBankTag; },
-/* harmony export */   "createBooleanTag": function() { return /* binding */ createBooleanTag; },
-/* harmony export */   "createBooleanTupleTag": function() { return /* binding */ createBooleanTupleTag; },
-/* harmony export */   "createBoxOffsetTag": function() { return /* binding */ createBoxOffsetTag; },
-/* harmony export */   "createCastleWithTag": function() { return /* binding */ createCastleWithTag; },
-/* harmony export */   "createDimensionTag": function() { return /* binding */ createDimensionTag; },
-/* harmony export */   "createEnPassantTag": function() { return /* binding */ createEnPassantTag; },
-/* harmony export */   "createLivesTag": function() { return /* binding */ createLivesTag; },
-/* harmony export */   "createPawnBaseRankTag": function() { return /* binding */ createPawnBaseRankTag; },
-/* harmony export */   "createPromotedFromTag": function() { return /* binding */ createPromotedFromTag; },
-/* harmony export */   "createRoyalTag": function() { return /* binding */ createRoyalTag; },
-/* harmony export */   "createSeirawanDropsTag": function() { return /* binding */ createSeirawanDropsTag; },
-/* harmony export */   "createSetupPointsTag": function() { return /* binding */ createSetupPointsTag; },
-/* harmony export */   "createZombiesTag": function() { return /* binding */ createZombiesTag; }
+/* harmony export */   "createBankTag": () => (/* binding */ createBankTag),
+/* harmony export */   "createBooleanTag": () => (/* binding */ createBooleanTag),
+/* harmony export */   "createBooleanTupleTag": () => (/* binding */ createBooleanTupleTag),
+/* harmony export */   "createBoxOffsetTag": () => (/* binding */ createBoxOffsetTag),
+/* harmony export */   "createCastleWithTag": () => (/* binding */ createCastleWithTag),
+/* harmony export */   "createDimensionTag": () => (/* binding */ createDimensionTag),
+/* harmony export */   "createEnPassantTag": () => (/* binding */ createEnPassantTag),
+/* harmony export */   "createLivesTag": () => (/* binding */ createLivesTag),
+/* harmony export */   "createPawnBaseRankTag": () => (/* binding */ createPawnBaseRankTag),
+/* harmony export */   "createPromotedFromTag": () => (/* binding */ createPromotedFromTag),
+/* harmony export */   "createRoyalTag": () => (/* binding */ createRoyalTag),
+/* harmony export */   "createSeirawanDropsTag": () => (/* binding */ createSeirawanDropsTag),
+/* harmony export */   "createSetupPointsTag": () => (/* binding */ createSetupPointsTag),
+/* harmony export */   "createZombiesTag": () => (/* binding */ createZombiesTag)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _client_ts_utils_ArrayUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @client/ts/utils/ArrayUtils */ "./src/main/client/ts/utils/ArrayUtils.ts");
@@ -3357,15 +3357,15 @@ var createSeirawanDropsTag = () => ({
 /*!****************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/FENData/FENOptions/FENOptionsTagsInterface.ts ***!
   \****************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createFENOptionsTags": function() { return /* binding */ createFENOptionsTags; },
-/* harmony export */   "createFENOptionsTagsSnapshot": function() { return /* binding */ createFENOptionsTagsSnapshot; },
-/* harmony export */   "verifyDynamicFENOptionKey": function() { return /* binding */ verifyDynamicFENOptionKey; },
-/* harmony export */   "verifyDynamicTag": function() { return /* binding */ verifyDynamicTag; }
+/* harmony export */   "createFENOptionsTags": () => (/* binding */ createFENOptionsTags),
+/* harmony export */   "createFENOptionsTagsSnapshot": () => (/* binding */ createFENOptionsTagsSnapshot),
+/* harmony export */   "verifyDynamicFENOptionKey": () => (/* binding */ verifyDynamicFENOptionKey),
+/* harmony export */   "verifyDynamicTag": () => (/* binding */ verifyDynamicTag)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -3454,19 +3454,19 @@ function createFENOptionsTagsSnapshot(tags) {
 /*!***********************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/GameInformation/GameUnits/PieceString.ts ***!
   \***********************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PieceString": function() { return /* binding */ PieceString; },
-/* harmony export */   "createPieceFromData": function() { return /* binding */ createPieceFromData; },
-/* harmony export */   "createPieceFromString": function() { return /* binding */ createPieceFromString; },
-/* harmony export */   "deadColorIndex": function() { return /* binding */ deadColorIndex; },
-/* harmony export */   "duckPieceString": function() { return /* binding */ duckPieceString; },
-/* harmony export */   "emptyPieceString": function() { return /* binding */ emptyPieceString; },
-/* harmony export */   "pawnPieceString": function() { return /* binding */ pawnPieceString; },
-/* harmony export */   "wallPieceString": function() { return /* binding */ wallPieceString; }
+/* harmony export */   "PieceString": () => (/* binding */ PieceString),
+/* harmony export */   "createPieceFromData": () => (/* binding */ createPieceFromData),
+/* harmony export */   "createPieceFromString": () => (/* binding */ createPieceFromString),
+/* harmony export */   "deadColorIndex": () => (/* binding */ deadColorIndex),
+/* harmony export */   "duckPieceString": () => (/* binding */ duckPieceString),
+/* harmony export */   "emptyPieceString": () => (/* binding */ emptyPieceString),
+/* harmony export */   "pawnPieceString": () => (/* binding */ pawnPieceString),
+/* harmony export */   "wallPieceString": () => (/* binding */ wallPieceString)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
 /* harmony import */ var _GameUnits__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameUnits */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/GameUnits.ts");
@@ -3565,14 +3565,14 @@ var duckPieceString = testActivePieceString;
 /*!******************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/MoveTree/MoveNotationStringifier.ts ***!
   \******************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fullMoveNotationStringify": function() { return /* binding */ fullMoveNotationStringify; },
-/* harmony export */   "moveNotation": function() { return /* binding */ moveNotation; },
-/* harmony export */   "shortenedMoveNotationStringify": function() { return /* binding */ shortenedMoveNotationStringify; }
+/* harmony export */   "fullMoveNotationStringify": () => (/* binding */ fullMoveNotationStringify),
+/* harmony export */   "moveNotation": () => (/* binding */ moveNotation),
+/* harmony export */   "shortenedMoveNotationStringify": () => (/* binding */ shortenedMoveNotationStringify)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _utils_ArrayUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/ArrayUtils */ "./src/main/client/ts/utils/ArrayUtils.ts");
@@ -3745,15 +3745,15 @@ var moveNotation = {
 /*!***************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/MoveTree/MoveTree.ts ***!
   \***************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "alterCurrentPath": function() { return /* binding */ alterCurrentPath; },
-/* harmony export */   "assertValidMove": function() { return /* binding */ assertValidMove; },
-/* harmony export */   "createMoveTree": function() { return /* binding */ createMoveTree; },
-/* harmony export */   "verifyValidMove": function() { return /* binding */ verifyValidMove; }
+/* harmony export */   "alterCurrentPath": () => (/* binding */ alterCurrentPath),
+/* harmony export */   "assertValidMove": () => (/* binding */ assertValidMove),
+/* harmony export */   "createMoveTree": () => (/* binding */ createMoveTree),
+/* harmony export */   "verifyValidMove": () => (/* binding */ verifyValidMove)
 /* harmony export */ });
 /* harmony import */ var _MoveTreeInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
 /* harmony import */ var _MoveNotationStringifier__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MoveNotationStringifier */ "./src/main/client/ts/logic/movegen/MoveTree/MoveNotationStringifier.ts");
@@ -4111,26 +4111,26 @@ var createMoveTree = baseSnapshot => {
 /*!************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts ***!
   \************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "InternalMoveSignature": function() { return /* binding */ InternalMoveSignature; },
-/* harmony export */   "SpecialMove": function() { return /* binding */ SpecialMove; },
-/* harmony export */   "compareMoves": function() { return /* binding */ compareMoves; },
-/* harmony export */   "createBaseMoveWrapper": function() { return /* binding */ createBaseMoveWrapper; },
-/* harmony export */   "createDummyMoveMetadata": function() { return /* binding */ createDummyMoveMetadata; },
-/* harmony export */   "getLatestChainedMoves": function() { return /* binding */ getLatestChainedMoves; },
-/* harmony export */   "getMoveFromPathAndTree": function() { return /* binding */ getMoveFromPathAndTree; },
-/* harmony export */   "verifyDroppingMove": function() { return /* binding */ verifyDroppingMove; },
-/* harmony export */   "verifyDroppingMoveArray": function() { return /* binding */ verifyDroppingMoveArray; },
-/* harmony export */   "verifyInternalMove": function() { return /* binding */ verifyInternalMove; },
-/* harmony export */   "verifyInternalMoveArray": function() { return /* binding */ verifyInternalMoveArray; },
-/* harmony export */   "verifyMoveWrapperProperties": function() { return /* binding */ verifyMoveWrapperProperties; },
-/* harmony export */   "verifyRequiredMove": function() { return /* binding */ verifyRequiredMove; },
-/* harmony export */   "verifyStandardMove": function() { return /* binding */ verifyStandardMove; },
-/* harmony export */   "verifyStandardMoveArray": function() { return /* binding */ verifyStandardMoveArray; }
+/* harmony export */   "InternalMoveSignature": () => (/* binding */ InternalMoveSignature),
+/* harmony export */   "SpecialMove": () => (/* binding */ SpecialMove),
+/* harmony export */   "compareMoves": () => (/* binding */ compareMoves),
+/* harmony export */   "createBaseMoveWrapper": () => (/* binding */ createBaseMoveWrapper),
+/* harmony export */   "createDummyMoveMetadata": () => (/* binding */ createDummyMoveMetadata),
+/* harmony export */   "getLatestChainedMoves": () => (/* binding */ getLatestChainedMoves),
+/* harmony export */   "getMoveFromPathAndTree": () => (/* binding */ getMoveFromPathAndTree),
+/* harmony export */   "verifyDroppingMove": () => (/* binding */ verifyDroppingMove),
+/* harmony export */   "verifyDroppingMoveArray": () => (/* binding */ verifyDroppingMoveArray),
+/* harmony export */   "verifyInternalMove": () => (/* binding */ verifyInternalMove),
+/* harmony export */   "verifyInternalMoveArray": () => (/* binding */ verifyInternalMoveArray),
+/* harmony export */   "verifyMoveWrapperProperties": () => (/* binding */ verifyMoveWrapperProperties),
+/* harmony export */   "verifyRequiredMove": () => (/* binding */ verifyRequiredMove),
+/* harmony export */   "verifyStandardMove": () => (/* binding */ verifyStandardMove),
+/* harmony export */   "verifyStandardMoveArray": () => (/* binding */ verifyStandardMoveArray)
 /* harmony export */ });
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
 /* harmony import */ var _GameInformation_GameUnits_PieceString__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../GameInformation/GameUnits/PieceString */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/PieceString.ts");
@@ -4239,13 +4239,13 @@ var getLatestChainedMoves = move => {
 /*!************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/MoveTree/MoveTreeValidator.ts ***!
   \************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "changeGameTermination": function() { return /* binding */ changeGameTermination; },
-/* harmony export */   "validateMoveTree": function() { return /* binding */ validateMoveTree; }
+/* harmony export */   "changeGameTermination": () => (/* binding */ changeGameTermination),
+/* harmony export */   "validateMoveTree": () => (/* binding */ validateMoveTree)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _utils_ArrayUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @utils/ArrayUtils */ "./src/main/client/ts/utils/ArrayUtils.ts");
@@ -4410,12 +4410,12 @@ function changeGameTermination(board) {
 /*!***********************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/PieceControl/PieceControl.ts ***!
   \***********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PieceControl": function() { return /* binding */ PieceControl; }
+/* harmony export */   "PieceControl": () => (/* binding */ PieceControl)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
 /* harmony import */ var _GameInformation_GameUnits_PieceString__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../GameInformation/GameUnits/PieceString */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/PieceString.ts");
@@ -4714,13 +4714,13 @@ class PieceControl {
 /*!******************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/PieceControl/PieceControlBuilder.ts ***!
   \******************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PieceControlBuilder": function() { return /* binding */ PieceControlBuilder; },
-/* harmony export */   "PieceControlConfigurator": function() { return /* binding */ PieceControlConfigurator; }
+/* harmony export */   "PieceControlBuilder": () => (/* binding */ PieceControlBuilder),
+/* harmony export */   "PieceControlConfigurator": () => (/* binding */ PieceControlConfigurator)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -4803,12 +4803,12 @@ class PieceControlBuilder {
 /*!***********************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/PieceControl/PieceControlDeclarations.ts ***!
   \***********************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "initPieceControlDeclarations": function() { return /* binding */ initPieceControlDeclarations; }
+/* harmony export */   "initPieceControlDeclarations": () => (/* binding */ initPieceControlDeclarations)
 /* harmony export */ });
 /* harmony import */ var _PieceControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PieceControl */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControl.ts");
 /* harmony import */ var _PieceControlInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
@@ -5906,13 +5906,13 @@ var initPieceControlDeclarations = () => {
 /*!**********************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRule.ts ***!
   \**********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "VariantRule": function() { return /* binding */ VariantRule; },
-/* harmony export */   "decorateClassWithVariants": function() { return /* binding */ decorateClassWithVariants; }
+/* harmony export */   "VariantRule": () => (/* binding */ VariantRule),
+/* harmony export */   "decorateClassWithVariants": () => (/* binding */ decorateClassWithVariants)
 /* harmony export */ });
 /* harmony import */ var _client_ts_utils_ObjectUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/utils/ObjectUtils */ "./src/main/client/ts/utils/ObjectUtils.ts");
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../baseTypes */ "./src/main/client/ts/baseTypes.ts");
@@ -6078,12 +6078,12 @@ function decorateClassWithVariants(baseClass, classReference, variants) {
 /*!**************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/AllowPassing.ts ***!
   \**************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AllowPassing": function() { return /* binding */ AllowPassing; }
+/* harmony export */   "AllowPassing": () => (/* binding */ AllowPassing)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
@@ -6155,12 +6155,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(AllowPassi
 /*!******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/AlternativeTeams.ts ***!
   \******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AlternativeTeams": function() { return /* binding */ AlternativeTeams; }
+/* harmony export */   "AlternativeTeams": () => (/* binding */ AlternativeTeams)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
@@ -6256,12 +6256,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(Alternativ
 /*!***************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/BarePieceRule.ts ***!
   \***************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "BarePieceRule": function() { return /* binding */ BarePieceRule; }
+/* harmony export */   "BarePieceRule": () => (/* binding */ BarePieceRule)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
@@ -6350,12 +6350,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_4__.VariantRule.initVariantRule(BarePieceR
 /*!***********************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/Blindfold.ts ***!
   \***********************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Blindfold": function() { return /* binding */ Blindfold; }
+/* harmony export */   "Blindfold": () => (/* binding */ Blindfold)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
@@ -6413,12 +6413,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(Blindfold)
 /*!****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/CaptureTheKing.ts ***!
   \****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CaptureTheKing": function() { return /* binding */ CaptureTheKing; }
+/* harmony export */   "CaptureTheKing": () => (/* binding */ CaptureTheKing)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
@@ -6476,12 +6476,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(CaptureThe
 /*!**********************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/Chess960.ts ***!
   \**********************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Chess960": function() { return /* binding */ Chess960; }
+/* harmony export */   "Chess960": () => (/* binding */ Chess960)
 /* harmony export */ });
 /* harmony import */ var _client_ts_logic_BaseInterfaces__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/logic/BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
@@ -6733,12 +6733,12 @@ _defineProperty(Chess960, "regExp", /Chess960=(\d{1,5})/i);
 /*!************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/Crazyhouse.ts ***!
   \************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Crazyhouse": function() { return /* binding */ Crazyhouse; }
+/* harmony export */   "Crazyhouse": () => (/* binding */ Crazyhouse)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -6860,12 +6860,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(Crazyhouse
 /*!***********************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/DuckChess.ts ***!
   \***********************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DuckChess": function() { return /* binding */ DuckChess; }
+/* harmony export */   "DuckChess": () => (/* binding */ DuckChess)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
@@ -7014,12 +7014,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(DuckChess)
 /*!**********************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/FogOfWar.ts ***!
   \**********************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FogOfWar": function() { return /* binding */ FogOfWar; }
+/* harmony export */   "FogOfWar": () => (/* binding */ FogOfWar)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _BaseInterfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
@@ -7128,12 +7128,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_4__.VariantRule.initVariantRule(FogOfWar);
 /*!***************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/ForcedCapture.ts ***!
   \***************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ForcedCapture": function() { return /* binding */ ForcedCapture; }
+/* harmony export */   "ForcedCapture": () => (/* binding */ ForcedCapture)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
@@ -7231,14 +7231,14 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(ForcedCapt
 /*!*******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/GameMetadataRules.ts ***!
   \*******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Anonymous": function() { return /* binding */ Anonymous; },
-/* harmony export */   "SelfPartner": function() { return /* binding */ SelfPartner; },
-/* harmony export */   "SemiAnonymous": function() { return /* binding */ SemiAnonymous; }
+/* harmony export */   "Anonymous": () => (/* binding */ Anonymous),
+/* harmony export */   "SelfPartner": () => (/* binding */ SelfPartner),
+/* harmony export */   "SemiAnonymous": () => (/* binding */ SemiAnonymous)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _utils_ArrayUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../utils/ArrayUtils */ "./src/main/client/ts/utils/ArrayUtils.ts");
@@ -7409,12 +7409,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_5__.VariantRule.initVariantRule(SelfPartne
 /*!************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/Ghostboard.ts ***!
   \************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Ghostboard": function() { return /* binding */ Ghostboard; }
+/* harmony export */   "Ghostboard": () => (/* binding */ Ghostboard)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
@@ -7465,12 +7465,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_3__.VariantRule.initVariantRule(Ghostboard
 /*!*****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/ParadigmChess30.ts ***!
   \*****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ParadigmChess30": function() { return /* binding */ ParadigmChess30; }
+/* harmony export */   "ParadigmChess30": () => (/* binding */ ParadigmChess30)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
@@ -7614,12 +7614,12 @@ _defineProperty(ParadigmChess30, "legacy", {
 /*!******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/PiecesFaceCenter.ts ***!
   \******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PiecesFaceCenter": function() { return /* binding */ PiecesFaceCenter; }
+/* harmony export */   "PiecesFaceCenter": () => (/* binding */ PiecesFaceCenter)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
@@ -7676,12 +7676,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(PiecesFace
 /*!***************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/SeirawanSetup.ts ***!
   \***************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SeirawanSetup": function() { return /* binding */ SeirawanSetup; }
+/* harmony export */   "SeirawanSetup": () => (/* binding */ SeirawanSetup)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
@@ -7835,12 +7835,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_4__.VariantRule.initVariantRule(SeirawanSe
 /*!***********************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/SelfCheck.ts ***!
   \***********************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SelfCheck": function() { return /* binding */ SelfCheck; }
+/* harmony export */   "SelfCheck": () => (/* binding */ SelfCheck)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
@@ -7954,12 +7954,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(SelfCheck)
 /*!************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/SetupChess.ts ***!
   \************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SetupChess": function() { return /* binding */ SetupChess; }
+/* harmony export */   "SetupChess": () => (/* binding */ SetupChess)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../baseTypes */ "./src/main/client/ts/baseTypes.ts");
@@ -8238,12 +8238,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_5__.VariantRule.initVariantRule(SetupChess
 /*!*******************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/Taboo.ts ***!
   \*******************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Taboo": function() { return /* binding */ Taboo; }
+/* harmony export */   "Taboo": () => (/* binding */ Taboo)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -8319,12 +8319,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(Taboo);
 /*!********************************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/Algorithms/ComfuterEvaluation.ts ***!
   \********************************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "comfuterAlgorithm": function() { return /* binding */ comfuterAlgorithm; }
+/* harmony export */   "comfuterAlgorithm": () => (/* binding */ comfuterAlgorithm)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _client_ts_logic_BaseInterfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @client/ts/logic/BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
@@ -9369,16 +9369,16 @@ var comfuterAlgorithm = (0,_BotInterface__WEBPACK_IMPORTED_MODULE_7__.createBotA
 /*!******************************************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/Algorithms/ComfuterEvaluationExtensions.ts ***!
   \******************************************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "comfuterCheckerAlgorithm": function() { return /* binding */ comfuterCheckerAlgorithm; },
-/* harmony export */   "comfuterMuncherAlgorithm": function() { return /* binding */ comfuterMuncherAlgorithm; },
-/* harmony export */   "comfuterPusherAlgorithm": function() { return /* binding */ comfuterPusherAlgorithm; },
-/* harmony export */   "createComfuterBasedAlgorithm": function() { return /* binding */ createComfuterBasedAlgorithm; },
-/* harmony export */   "patzerAlgorithm": function() { return /* binding */ patzerAlgorithm; }
+/* harmony export */   "comfuterCheckerAlgorithm": () => (/* binding */ comfuterCheckerAlgorithm),
+/* harmony export */   "comfuterMuncherAlgorithm": () => (/* binding */ comfuterMuncherAlgorithm),
+/* harmony export */   "comfuterPusherAlgorithm": () => (/* binding */ comfuterPusherAlgorithm),
+/* harmony export */   "createComfuterBasedAlgorithm": () => (/* binding */ createComfuterBasedAlgorithm),
+/* harmony export */   "patzerAlgorithm": () => (/* binding */ patzerAlgorithm)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
@@ -9513,12 +9513,12 @@ var patzerAlgorithm = (0,_BotInterface__WEBPACK_IMPORTED_MODULE_2__.createBotAlg
 /*!*****************************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/Algorithms/MixedAlgorithms.ts ***!
   \*****************************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "RanterAlgorithm": function() { return /* binding */ RanterAlgorithm; }
+/* harmony export */   "RanterAlgorithm": () => (/* binding */ RanterAlgorithm)
 /* harmony export */ });
 /* harmony import */ var _BotInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../BotInterface */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface.ts");
 /* harmony import */ var _ComfuterEvaluation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ComfuterEvaluation */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/Algorithms/ComfuterEvaluation.ts");
@@ -9546,13 +9546,13 @@ var RanterAlgorithm = (0,_BotInterface__WEBPACK_IMPORTED_MODULE_0__.createBotAlg
 /*!******************************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/Algorithms/RandomEvaluation.ts ***!
   \******************************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "randoBotAlgorithm": function() { return /* binding */ randoBotAlgorithm; },
-/* harmony export */   "randomlyPickNextChainedMoves": function() { return /* binding */ randomlyPickNextChainedMoves; }
+/* harmony export */   "randoBotAlgorithm": () => (/* binding */ randoBotAlgorithm),
+/* harmony export */   "randomlyPickNextChainedMoves": () => (/* binding */ randomlyPickNextChainedMoves)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
 /* harmony import */ var _BotInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../BotInterface */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface.ts");
@@ -9618,15 +9618,15 @@ var randoBotAlgorithm = (0,_BotInterface__WEBPACK_IMPORTED_MODULE_1__.createBotA
 /*!****************************************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/Algorithms/RandomEvaluationExtensions.ts ***!
   \****************************************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "checkerAlgorithm": function() { return /* binding */ checkerAlgorithm; },
-/* harmony export */   "createRandomBasedAlgorithm": function() { return /* binding */ createRandomBasedAlgorithm; },
-/* harmony export */   "muncherAlgorithm": function() { return /* binding */ muncherAlgorithm; },
-/* harmony export */   "pusherAlgorithm": function() { return /* binding */ pusherAlgorithm; }
+/* harmony export */   "checkerAlgorithm": () => (/* binding */ checkerAlgorithm),
+/* harmony export */   "createRandomBasedAlgorithm": () => (/* binding */ createRandomBasedAlgorithm),
+/* harmony export */   "muncherAlgorithm": () => (/* binding */ muncherAlgorithm),
+/* harmony export */   "pusherAlgorithm": () => (/* binding */ pusherAlgorithm)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
@@ -9742,15 +9742,15 @@ var pusherAlgorithm = (0,_BotInterface__WEBPACK_IMPORTED_MODULE_2__.createBotAlg
 /*!***************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface.ts ***!
   \***************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ZombieType": function() { return /* binding */ ZombieType; },
-/* harmony export */   "botAlgorithms": function() { return /* binding */ botAlgorithms; },
-/* harmony export */   "createBotAlgorithm": function() { return /* binding */ createBotAlgorithm; },
-/* harmony export */   "verifyZombieType": function() { return /* binding */ verifyZombieType; }
+/* harmony export */   "ZombieType": () => (/* binding */ ZombieType),
+/* harmony export */   "botAlgorithms": () => (/* binding */ botAlgorithms),
+/* harmony export */   "createBotAlgorithm": () => (/* binding */ createBotAlgorithm),
+/* harmony export */   "verifyZombieType": () => (/* binding */ verifyZombieType)
 /* harmony export */ });
 var ZombieType = /*#__PURE__*/function (ZombieType) {
   ZombieType["Rando"] = "rando";
@@ -9778,12 +9778,12 @@ function createBotAlgorithm(algorithm) {
 /*!******************************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialChecker.ts ***!
   \******************************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "InsufficientMaterialChecker": function() { return /* binding */ InsufficientMaterialChecker; }
+/* harmony export */   "InsufficientMaterialChecker": () => (/* binding */ InsufficientMaterialChecker)
 /* harmony export */ });
 /* harmony import */ var _InsufficientMaterialConstructor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InsufficientMaterialConstructor */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialConstructor.ts");
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
@@ -10057,12 +10057,12 @@ class InsufficientMaterialChecker {
 /*!**********************************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialConstructor.ts ***!
   \**********************************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "InsufficientMaterialConstructor": function() { return /* binding */ InsufficientMaterialConstructor; }
+/* harmony export */   "InsufficientMaterialConstructor": () => (/* binding */ InsufficientMaterialConstructor)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _client_ts_logic_BaseInterfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @client/ts/logic/BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
@@ -10531,13 +10531,13 @@ _defineProperty(InsufficientMaterialConstructor, "NON_INDEXED_PIECE_SYMBOL", Sym
 /*!******************************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer.ts ***!
   \******************************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "deserializeInsufficientMaterialState": function() { return /* binding */ deserializeInsufficientMaterialState; },
-/* harmony export */   "serializeInsufficientMaterialState": function() { return /* binding */ serializeInsufficientMaterialState; }
+/* harmony export */   "deserializeInsufficientMaterialState": () => (/* binding */ deserializeInsufficientMaterialState),
+/* harmony export */   "serializeInsufficientMaterialState": () => (/* binding */ serializeInsufficientMaterialState)
 /* harmony export */ });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -10631,12 +10631,12 @@ function deserializeInsufficientMaterialState(state) {
 /*!**********************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/Atomic.ts ***!
   \**********************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Atomic": function() { return /* binding */ Atomic; }
+/* harmony export */   "Atomic": () => (/* binding */ Atomic)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
@@ -10736,12 +10736,12 @@ _defineProperty(Atomic, "atomicCoordinates", [[-1, -1], [-1, 0], [0, -1], [-1, 1
 /*!*******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/DeadKingWalking.ts ***!
   \*******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DeadKingWalking": function() { return /* binding */ DeadKingWalking; }
+/* harmony export */   "DeadKingWalking": () => (/* binding */ DeadKingWalking)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_FENData_FENData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -10837,12 +10837,12 @@ _moveGeneration_VariantRules_VariantRule__WEBPACK_IMPORTED_MODULE_6__.VariantRul
 /*!*************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/EnPassant.ts ***!
   \*************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "EnPassant": function() { return /* binding */ EnPassant; }
+/* harmony export */   "EnPassant": () => (/* binding */ EnPassant)
 /* harmony export */ });
 /* harmony import */ var _MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -10939,12 +10939,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_3__.VariantRule.initVariantRule(EnPassant)
 /*!****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/FatalCapture.ts ***!
   \****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FatalCapture": function() { return /* binding */ FatalCapture; }
+/* harmony export */   "FatalCapture": () => (/* binding */ FatalCapture)
 /* harmony export */ });
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -11043,12 +11043,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_4__.VariantRule.initVariantRule(FatalCaptu
 /*!*****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/FiftyMoveRule.ts ***!
   \*****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FiftyMoveRule": function() { return /* binding */ FiftyMoveRule; }
+/* harmony export */   "FiftyMoveRule": () => (/* binding */ FiftyMoveRule)
 /* harmony export */ });
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -11140,12 +11140,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(FiftyMoveR
 /*!************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/Giveaway.ts ***!
   \************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Giveaway": function() { return /* binding */ Giveaway; }
+/* harmony export */   "Giveaway": () => (/* binding */ Giveaway)
 /* harmony export */ });
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -11304,12 +11304,12 @@ _defineProperty(Giveaway, "stalematePoints", {
 /*!*****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/KingOfTheHill.ts ***!
   \*****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "KingOfTheHill": function() { return /* binding */ KingOfTheHill; }
+/* harmony export */   "KingOfTheHill": () => (/* binding */ KingOfTheHill)
 /* harmony export */ });
 /* harmony import */ var _client_ts_utils_ArrayUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/utils/ArrayUtils */ "./src/main/client/ts/utils/ArrayUtils.ts");
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
@@ -11461,12 +11461,12 @@ _defineProperty(KingOfTheHill, "defaultRoyal", "K");
 /*!**********************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/NCheck.ts ***!
   \**********************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NCheck": function() { return /* binding */ NCheck; }
+/* harmony export */   "NCheck": () => (/* binding */ NCheck)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
@@ -11660,12 +11660,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_6__.VariantRule.initVariantRule(NCheck);
 /*!**********************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/OppositeMultiplier.ts ***!
   \**********************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "OppositeMultiplier": function() { return /* binding */ OppositeMultiplier; }
+/* harmony export */   "OppositeMultiplier": () => (/* binding */ OppositeMultiplier)
 /* harmony export */ });
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -11741,12 +11741,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_3__.VariantRule.initVariantRule(OppositeMu
 /*!************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/OppositeSideCastling.ts ***!
   \************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "OppositeSideCastling": function() { return /* binding */ OppositeSideCastling; }
+/* harmony export */   "OppositeSideCastling": () => (/* binding */ OppositeSideCastling)
 /* harmony export */ });
 /* harmony import */ var _MoveTree_MoveTreeInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../MoveTree/MoveTreeInterface */ "./src/main/client/ts/logic/movegen/MoveTree/MoveTreeInterface.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -11808,12 +11808,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(OppositeSi
 /*!*******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/PiecesGoToBanks.ts ***!
   \*******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PiecesGoToBanks": function() { return /* binding */ PiecesGoToBanks; }
+/* harmony export */   "PiecesGoToBanks": () => (/* binding */ PiecesGoToBanks)
 /* harmony export */ });
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
 /* harmony import */ var _GameInformation_GameUnits_PieceString__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameUnits/PieceString */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/PieceString.ts");
@@ -11951,12 +11951,12 @@ class PiecesGoToBanks extends _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantR
 /*!***************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/PlayForMate.ts ***!
   \***************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PlayForMate": function() { return /* binding */ PlayForMate; }
+/* harmony export */   "PlayForMate": () => (/* binding */ PlayForMate)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -12058,12 +12058,12 @@ _defineProperty(PlayForMate, "checkmatePoints", {
 /*!*****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/PointsForMate.ts ***!
   \*****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PointsForMate": function() { return /* binding */ PointsForMate; }
+/* harmony export */   "PointsForMate": () => (/* binding */ PointsForMate)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -12136,14 +12136,14 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(PointsForM
 /*!********************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/StalemateOptions.ts ***!
   \********************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "StalemateOptions": function() { return /* binding */ StalemateOptions; },
-/* harmony export */   "stalemateOptionsValues": function() { return /* binding */ stalemateOptionsValues; },
-/* harmony export */   "verifyCustomStalemateValue": function() { return /* binding */ verifyCustomStalemateValue; }
+/* harmony export */   "StalemateOptions": () => (/* binding */ StalemateOptions),
+/* harmony export */   "stalemateOptionsValues": () => (/* binding */ stalemateOptionsValues),
+/* harmony export */   "verifyCustomStalemateValue": () => (/* binding */ verifyCustomStalemateValue)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -12283,12 +12283,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_3__.VariantRule.initVariantRule(StalemateO
 /*!************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/Takeover.ts ***!
   \************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Takeover": function() { return /* binding */ Takeover; }
+/* harmony export */   "Takeover": () => (/* binding */ Takeover)
 /* harmony export */ });
 /* harmony import */ var _Board_BoardInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Board/BoardInterface */ "./src/main/client/ts/logic/movegen/Board/BoardInterface.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -12413,12 +12413,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_5__.VariantRule.initVariantRule(Takeover);
 /*!***********************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/FENDataDecorators/ThreefoldRepetition.ts ***!
   \***********************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ThreefoldRepetition": function() { return /* binding */ ThreefoldRepetition; }
+/* harmony export */   "ThreefoldRepetition": () => (/* binding */ ThreefoldRepetition)
 /* harmony export */ });
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
 /* harmony import */ var _VariantRule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../VariantRule */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRule.ts");
@@ -12497,12 +12497,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_1__.VariantRule.initVariantRule(ThreefoldR
 /*!*******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/PieceControlDecorators/AnyCapture.ts ***!
   \*******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AnyCapture": function() { return /* binding */ AnyCapture; }
+/* harmony export */   "AnyCapture": () => (/* binding */ AnyCapture)
 /* harmony export */ });
 /* harmony import */ var _baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -12577,12 +12577,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_3__.VariantRule.initVariantRule(AnyCapture
 /*!******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/PieceControlDecorators/PromoteTo.ts ***!
   \******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PromoteTo": function() { return /* binding */ PromoteTo; }
+/* harmony export */   "PromoteTo": () => (/* binding */ PromoteTo)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
 /* harmony import */ var _client_ts_utils_StringFormatUtils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @client/ts/utils/StringFormatUtils */ "./src/main/client/ts/utils/StringFormatUtils.ts");
@@ -12669,13 +12669,13 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_3__.VariantRule.initVariantRule(PromoteTo)
 /*!**********************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/PieceControlDecorators/PromotionRank.ts ***!
   \**********************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PromotionRank": function() { return /* binding */ PromotionRank; },
-/* harmony export */   "disabledRank": function() { return /* binding */ disabledRank; }
+/* harmony export */   "PromotionRank": () => (/* binding */ PromotionRank),
+/* harmony export */   "disabledRank": () => (/* binding */ disabledRank)
 /* harmony export */ });
 /* harmony import */ var _client_ts_utils_StringFormatUtils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/utils/StringFormatUtils */ "./src/main/client/ts/utils/StringFormatUtils.ts");
 /* harmony import */ var _GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -12763,12 +12763,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_3__.VariantRule.initVariantRule(PromotionR
 /*!****************************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/PieceControlDecorators/RoyalsCannotCapture.ts ***!
   \****************************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "RoyalsCannotCapture": function() { return /* binding */ RoyalsCannotCapture; }
+/* harmony export */   "RoyalsCannotCapture": () => (/* binding */ RoyalsCannotCapture)
 /* harmony export */ });
 /* harmony import */ var _client_fonts_chessGlyphIndex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/fonts/chessGlyphIndex */ "./src/main/client/fonts/chessGlyphIndex.ts");
 /* harmony import */ var _PieceControl_PieceControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../PieceControl/PieceControl */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControl.ts");
@@ -12836,12 +12836,12 @@ class RoyalsCannotCapture extends _VariantRule__WEBPACK_IMPORTED_MODULE_3__.Vari
 /*!*****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/PieceControlDecorators/Sideways.ts ***!
   \*****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Sideways": function() { return /* binding */ Sideways; }
+/* harmony export */   "Sideways": () => (/* binding */ Sideways)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
 /* harmony import */ var _PieceControl_PieceControl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../PieceControl/PieceControl */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControl.ts");
@@ -12920,12 +12920,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(Sideways);
 /*!******************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/PieceControlDecorators/Stonewall.ts ***!
   \******************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Stonewall": function() { return /* binding */ Stonewall; }
+/* harmony export */   "Stonewall": () => (/* binding */ Stonewall)
 /* harmony export */ });
 /* harmony import */ var _PieceControl_PieceControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../PieceControl/PieceControl */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControl.ts");
 /* harmony import */ var _PieceControl_PieceControlInterface__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../PieceControl/PieceControlInterface */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControlInterface.ts");
@@ -13004,12 +13004,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_2__.VariantRule.initVariantRule(Stonewall)
 /*!****************************************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/PieceControlDecorators/Torpedo.ts ***!
   \****************************************************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Torpedo": function() { return /* binding */ Torpedo; }
+/* harmony export */   "Torpedo": () => (/* binding */ Torpedo)
 /* harmony export */ });
 /* harmony import */ var _PieceControl_PieceControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../PieceControl/PieceControl */ "./src/main/client/ts/logic/movegen/PieceControl/PieceControl.ts");
 /* harmony import */ var _VariantRule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../VariantRule */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRule.ts");
@@ -13080,12 +13080,12 @@ _VariantRule__WEBPACK_IMPORTED_MODULE_1__.VariantRule.initVariantRule(Torpedo);
 /*!*******************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleInterface.ts ***!
   \*******************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "variantRuleColors": function() { return /* binding */ variantRuleColors; }
+/* harmony export */   "variantRuleColors": () => (/* binding */ variantRuleColors)
 /* harmony export */ });
 /* harmony import */ var _client_ts_interfaces_Colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/interfaces/Colors */ "./src/main/client/ts/interfaces/Colors.ts");
 
@@ -13107,16 +13107,16 @@ var variantRuleColors = {
 /*!***************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleSetup.ts ***!
   \***************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "compileVariantRuleData": function() { return /* binding */ compileVariantRuleData; },
-/* harmony export */   "copyVariantRules": function() { return /* binding */ copyVariantRules; },
-/* harmony export */   "createBaseParsingTypes": function() { return /* binding */ createBaseParsingTypes; },
-/* harmony export */   "parseVariantRules": function() { return /* binding */ parseVariantRules; },
-/* harmony export */   "validateVariantRules": function() { return /* binding */ validateVariantRules; }
+/* harmony export */   "compileVariantRuleData": () => (/* binding */ compileVariantRuleData),
+/* harmony export */   "copyVariantRules": () => (/* binding */ copyVariantRules),
+/* harmony export */   "createBaseParsingTypes": () => (/* binding */ createBaseParsingTypes),
+/* harmony export */   "parseVariantRules": () => (/* binding */ parseVariantRules),
+/* harmony export */   "validateVariantRules": () => (/* binding */ validateVariantRules)
 /* harmony export */ });
 /* harmony import */ var _Board_Board__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Board/Board */ "./src/main/client/ts/logic/movegen/Board/Board.ts");
 /* harmony import */ var _FENData_FENData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../FENData/FENData */ "./src/main/client/ts/logic/movegen/FENData/FENData.ts");
@@ -13400,13 +13400,13 @@ function validateVariantRules(board) {
 /*!**********************************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/InputOutputProcessing.ts ***!
   \**********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "parsePGN4": function() { return /* binding */ parsePGN4; },
-/* harmony export */   "serializeBoard": function() { return /* binding */ serializeBoard; }
+/* harmony export */   "parsePGN4": () => (/* binding */ parsePGN4),
+/* harmony export */   "serializeBoard": () => (/* binding */ serializeBoard)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_GameInformation_GameUnits_GameUnits__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameUnits/GameUnits */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/GameUnits.ts");
 /* harmony import */ var _moveGeneration_VariantRules_VariantRuleSetup__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/VariantRules/VariantRuleSetup */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRuleSetup.ts");
@@ -13492,13 +13492,13 @@ function serializeBoard(board) {
 /*!********************************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/Moves/ParsePGNMoves.ts ***!
   \********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "PGN4_SYNTAX": function() { return /* binding */ PGN4_SYNTAX; },
-/* harmony export */   "parsePGN4Moves": function() { return /* binding */ parsePGN4Moves; }
+/* harmony export */   "PGN4_SYNTAX": () => (/* binding */ PGN4_SYNTAX),
+/* harmony export */   "parsePGN4Moves": () => (/* binding */ parsePGN4Moves)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _moveGeneration_GameInformation_GameUnits_GameUnits__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameUnits/GameUnits */ "./src/main/client/ts/logic/movegen/GameInformation/GameUnits/GameUnits.ts");
@@ -13831,12 +13831,12 @@ var parsePGN4Moves = moves => {
 /*!************************************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/Moves/SerializePGNMoves.ts ***!
   \************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "serializePGNMoves": function() { return /* binding */ serializePGNMoves; }
+/* harmony export */   "serializePGNMoves": () => (/* binding */ serializePGNMoves)
 /* harmony export */ });
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -13888,12 +13888,12 @@ function serializePGNMoves(moveTree) {
 /*!*************************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/TagInterface.ts ***!
   \*************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createDefaultVariantTags": function() { return /* binding */ createDefaultVariantTags; }
+/* harmony export */   "createDefaultVariantTags": () => (/* binding */ createDefaultVariantTags)
 /* harmony export */ });
 /* harmony import */ var _TagLogic_FENDataTag__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TagLogic/FENDataTag */ "./src/main/client/ts/logic/utils/Tags/TagLogic/FENDataTag.ts");
 /* harmony import */ var _TagLogic_GameMetadataTags__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TagLogic/GameMetadataTags */ "./src/main/client/ts/logic/utils/Tags/TagLogic/GameMetadataTags.ts");
@@ -13920,13 +13920,13 @@ var createDefaultVariantTags = () => ({
 /*!********************************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/TagLogic/FENDataTag.ts ***!
   \********************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "checkDimensionIntersection": function() { return /* binding */ checkDimensionIntersection; },
-/* harmony export */   "createFENDataTag": function() { return /* binding */ createFENDataTag; }
+/* harmony export */   "checkDimensionIntersection": () => (/* binding */ checkDimensionIntersection),
+/* harmony export */   "createFENDataTag": () => (/* binding */ createFENDataTag)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _client_ts_logic_BaseInterfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @client/ts/logic/BaseInterfaces */ "./src/main/client/ts/logic/BaseInterfaces.ts");
@@ -14185,19 +14185,19 @@ var createFENDataTag = () => ({
 /*!**************************************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/TagLogic/GameMetadataTags.ts ***!
   \**************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createDateTag": function() { return /* binding */ createDateTag; },
-/* harmony export */   "createGameNumberTag": function() { return /* binding */ createGameNumberTag; },
-/* harmony export */   "createPlayerDataTag": function() { return /* binding */ createPlayerDataTag; },
-/* harmony export */   "createResultsTag": function() { return /* binding */ createResultsTag; },
-/* harmony export */   "createSiteTag": function() { return /* binding */ createSiteTag; },
-/* harmony export */   "createTerminationTag": function() { return /* binding */ createTerminationTag; },
-/* harmony export */   "createTimeControlTag": function() { return /* binding */ createTimeControlTag; },
-/* harmony export */   "createVariantTypeTag": function() { return /* binding */ createVariantTypeTag; }
+/* harmony export */   "createDateTag": () => (/* binding */ createDateTag),
+/* harmony export */   "createGameNumberTag": () => (/* binding */ createGameNumberTag),
+/* harmony export */   "createPlayerDataTag": () => (/* binding */ createPlayerDataTag),
+/* harmony export */   "createResultsTag": () => (/* binding */ createResultsTag),
+/* harmony export */   "createSiteTag": () => (/* binding */ createSiteTag),
+/* harmony export */   "createTerminationTag": () => (/* binding */ createTerminationTag),
+/* harmony export */   "createTimeControlTag": () => (/* binding */ createTimeControlTag),
+/* harmony export */   "createVariantTypeTag": () => (/* binding */ createVariantTypeTag)
 /* harmony export */ });
 /* harmony import */ var _client_ts_baseTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @client/ts/baseTypes */ "./src/main/client/ts/baseTypes.ts");
 /* harmony import */ var _moveGeneration_GameInformation_GameData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @moveGeneration/GameInformation/GameData */ "./src/main/client/ts/logic/movegen/GameInformation/GameData.ts");
@@ -14454,12 +14454,12 @@ var createResultsTag = () => ({
 /*!*************************************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/TagLogic/VariantRulesTag.ts ***!
   \*************************************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createVariantRulesTag": function() { return /* binding */ createVariantRulesTag; }
+/* harmony export */   "createVariantRulesTag": () => (/* binding */ createVariantRulesTag)
 /* harmony export */ });
 /* harmony import */ var _moveGeneration_VariantRules_VariantRuleSetup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @moveGeneration/VariantRules/VariantRuleSetup */ "./src/main/client/ts/logic/movegen/VariantRules/VariantRuleSetup.ts");
 /* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils */ "./src/main/client/ts/logic/utils/Tags/Utils.ts");
@@ -14505,16 +14505,16 @@ var createVariantRulesTag = () => ({
 /*!******************************************************!*\
   !*** ./src/main/client/ts/logic/utils/Tags/Utils.ts ***!
   \******************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "parseEnPassantCoordinates": function() { return /* binding */ parseEnPassantCoordinates; },
-/* harmony export */   "parseSingleCoordinate": function() { return /* binding */ parseSingleCoordinate; },
-/* harmony export */   "tagNamesEqual": function() { return /* binding */ tagNamesEqual; },
-/* harmony export */   "unwrapTag": function() { return /* binding */ unwrapTag; },
-/* harmony export */   "wrapTag": function() { return /* binding */ wrapTag; }
+/* harmony export */   "parseEnPassantCoordinates": () => (/* binding */ parseEnPassantCoordinates),
+/* harmony export */   "parseSingleCoordinate": () => (/* binding */ parseSingleCoordinate),
+/* harmony export */   "tagNamesEqual": () => (/* binding */ tagNamesEqual),
+/* harmony export */   "unwrapTag": () => (/* binding */ unwrapTag),
+/* harmony export */   "wrapTag": () => (/* binding */ wrapTag)
 /* harmony export */ });
 function parseSingleCoordinate(coordinate) {
   if (coordinate.length === 0) return;
@@ -14538,14 +14538,14 @@ var unwrapTag = (baseTag, definedTag) => baseTag.replace("[".concat(definedTag, 
 /*!*************************************************!*\
   !*** ./src/main/client/ts/utils/ObjectUtils.ts ***!
   \*************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "copyClass": function() { return /* binding */ copyClass; },
-/* harmony export */   "verifyObjectType": function() { return /* binding */ verifyObjectType; },
-/* harmony export */   "verifyPropertiesInObject": function() { return /* binding */ verifyPropertiesInObject; }
+/* harmony export */   "copyClass": () => (/* binding */ copyClass),
+/* harmony export */   "verifyObjectType": () => (/* binding */ verifyObjectType),
+/* harmony export */   "verifyPropertiesInObject": () => (/* binding */ verifyPropertiesInObject)
 /* harmony export */ });
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -14583,17 +14583,17 @@ function verifyPropertiesInObject(obj, keys) {
 /*!*******************************************************!*\
   !*** ./src/main/client/ts/utils/StringFormatUtils.ts ***!
   \*******************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "compileEnumeration": function() { return /* binding */ compileEnumeration; },
-/* harmony export */   "convertCamelCaseToKebabCase": function() { return /* binding */ convertCamelCaseToKebabCase; },
-/* harmony export */   "convertSecondsToFlexibleHoursMinutesSeconds": function() { return /* binding */ convertSecondsToFlexibleHoursMinutesSeconds; },
-/* harmony export */   "formatOrdinalNumber": function() { return /* binding */ formatOrdinalNumber; },
-/* harmony export */   "hashString": function() { return /* binding */ hashString; },
-/* harmony export */   "prefixWithIndefiniteArticle": function() { return /* binding */ prefixWithIndefiniteArticle; }
+/* harmony export */   "compileEnumeration": () => (/* binding */ compileEnumeration),
+/* harmony export */   "convertCamelCaseToKebabCase": () => (/* binding */ convertCamelCaseToKebabCase),
+/* harmony export */   "convertSecondsToFlexibleHoursMinutesSeconds": () => (/* binding */ convertSecondsToFlexibleHoursMinutesSeconds),
+/* harmony export */   "formatOrdinalNumber": () => (/* binding */ formatOrdinalNumber),
+/* harmony export */   "hashString": () => (/* binding */ hashString),
+/* harmony export */   "prefixWithIndefiniteArticle": () => (/* binding */ prefixWithIndefiniteArticle)
 /* harmony export */ });
 function formatOrdinalNumber(num) {
   var lastTwoDigits = Number(String(num).slice(-2));
@@ -14654,7 +14654,7 @@ function hashString(string) {
 /*!******************************************************************************************!*\
   !*** ./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/ sync \.ts$ ***!
   \******************************************************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
 	"./BoardDecorators/AllowPassing.ts": "./src/main/client/ts/logic/movegen/VariantRules/VariantRuleDefinitions/BoardDecorators/AllowPassing.ts",
