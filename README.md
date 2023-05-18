@@ -1,4 +1,4 @@
-![gradle-publish](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+![Gradle Build](https://github.com/YuraVolk/chess-variants-wiki/actions/workflows/gradle-build.yml/badge.svg)
 # gradle-getting-started
 
 A barebones Gradle app, which can easily be deployed to Heroku.
