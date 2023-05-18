@@ -118,7 +118,7 @@ export function* watchWorkerConstruct() {
 		const { payload }: ReturnType<typeof constructBoard> = yield take(constructBoard);
 		yield spawn(function* () {
 			if (payload.worker.onmessage) return;
-			const [, variantName] = payload.args;
+			const [variantName] = payload.args;
 			if (currentVariantNames.has(variantName)) {
 				while (currentVariantNames.has(variantName)) yield delay(200);
 			}

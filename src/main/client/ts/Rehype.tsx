@@ -1,13 +1,6 @@
-import { createElement, Fragment, useEffect, useState } from "react";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import rehypeFormat from "rehype-format";
-import rehypeStringify from "rehype-stringify";
-import rehypeParse from "rehype-parse";
-import rehypeReact from "rehype-react";
-import rehypeRaw from "rehype-raw";
 import { templates } from "./templates/TemplateInterface";
+import Markdown from "markdown-to-jsx";
+import React from "react";
 
 const text = `# Hello world!
 
@@ -31,49 +24,18 @@ Donec id mauris ipsum. Vestibulum tortor nulla, iaculis vitae mauris ut, congue 
 
 Aliquam erat volutpat. Ut viverra tincidunt condimentum. Suspendisse faucibus arcu id nibh cursus porttitor. Donec vitae neque vel neque aliquet pellentesque. Nam eleifend, augue nec rutrum viverra, est urna pharetra magna, scelerisque lobortis lorem ante id metus. In posuere metus quis nibh laoreet, quis bibendum sapien suscipit. Fusce imperdiet dolor sed pharetra sollicitudin. Integer placerat nunc porttitor lobortis suscipit.
 
-<section><game-controller variantname="2PC" pgn4='${`[StartFen4 "2PC"]
+<game-controller variantname="2PC" pgn4='${`[StartFen4 "2PC"]
 [Variant "FFA"]
 [RuleVariants "EnPassant Play4Mate Teammate=1"]
 [CurrentMove "0"]
 [TimeControl "1|5"]`
 	.replace(/'/g, "&#39;")
-	.replace(/\n/g, " ")}'></game-controller></section>
+	.replace(/\n/g, " ")}'></game-controller>
 
 `;
 
-function useProcessor(text: string) {
-	const [Content, setContent] = useState<JSX.Element | undefined>(() => createElement(Fragment));
-
-	useEffect(() => {
-		void (async function () {
-			await unified()
-				.use(remarkParse)
-				.use(remarkRehype, { allowDangerousHtml: true })
-				.use(rehypeRaw)
-				.use(rehypeFormat)
-				.use(rehypeStringify)
-				.process(text)
-				.then((file) => {
-					void unified()
-						.use(rehypeParse, { fragment: true })
-						.use(rehypeReact, {
-							createElement,
-							Fragment,
-							components: {
-								...templates
-							}
-						})
-						.process(file.value)
-						.then((file) => {
-							setContent(file.result);
-						});
-				});
-		})();
-	}, [text]);
-
-	return Content ?? null;
-}
-
 export default function MarkdownParse() {
-	return useProcessor(text);
+	return <Markdown options={{ forceBlock: true, overrides: { ...templates } }}>
+		{text}
+	</Markdown>
 }

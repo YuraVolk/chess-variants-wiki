@@ -33,7 +33,8 @@ const GameController = (props: GameControllerProps) => {
 	const [worker] = useState(() => new Worker(new URL("@client/ts/logic/index/GameBoardWorker.ts", import.meta.url)));
 	useEffect(() => {
 		dispatch(createConstructBoardAction({ args: [props.variantname ?? String(boardId), props.pgn4], id: boardId, worker }));
-	}, [boardId, dispatch, props, worker]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	const initializationComplete = useSelector<RootState, boolean>(
 		(state) => gameBoardsAdapter.getSelectors().selectById(state.gameBoards, boardId)?.initializationComplete ?? false
 	);
