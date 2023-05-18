@@ -1,6 +1,7 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const productionMode = process.env.NODE_ENV === "production";
 const devMode = !productionMode;
@@ -122,7 +123,25 @@ module.exports = {
     ],
     optimization: {
         nodeEnv: "production",
+        chunkIds: "total-size",
+        moduleIds: "size",
+        removeAvailableModules: true,
+        minimize: true,
         minimizer: [
+            new TerserPlugin({
+                test: /\.js(\?.*)?$/i,
+                terserOptions: {
+                    compress: {
+                        warnings: false,
+                        drop_console: true,
+                        unsafe: true
+                    },
+                    output: {
+                        comments: false
+                    }
+                },
+                extractComments: false
+            }),
             new ImageMinimizerPlugin({
                 include: /\.(png|jpe?g|gif|svg)$/i,
                 minimizer: {

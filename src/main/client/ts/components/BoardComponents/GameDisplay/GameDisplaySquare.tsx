@@ -20,7 +20,7 @@ export const GameDisplaySquare = (props: GameDisplayProps) => {
 			case "X":
 				return (
 					<div className={styles.square}>
-						<img src={wall} />
+						<img src={wall} alt="Wall" />
 					</div>
 				);
 			case "x":
@@ -28,7 +28,7 @@ export const GameDisplaySquare = (props: GameDisplayProps) => {
 			case "Θ":
 				return (
 					<div className={styles.square}>
-						<img src={duck} />
+						<img src={duck} alt="Duck" />
 					</div>
 				);
 			default:

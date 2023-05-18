@@ -4,6 +4,12 @@
 		url("https://www.chess.com/bundles/web/fonts/chessglyph-new.99e0b265.woff2") format("woff2");
 }
 
+@media (max-width: 580px) {
+	html {
+		font-size: 7.5px;
+	}
+}
+
 #main {
 	background: #eff;
 	margin: 0 auto;

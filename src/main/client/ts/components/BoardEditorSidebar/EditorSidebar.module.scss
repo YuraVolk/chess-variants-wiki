@@ -32,7 +32,7 @@
 
 	&-button {
 		@include index.button;
-		font-family: 'Source Code Pro', monospace;
+		font-family: monospace;
 
 		&__icon {
 			@include index.iconSize;

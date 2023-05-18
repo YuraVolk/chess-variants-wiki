@@ -2,14 +2,35 @@
 
 .game-control-root {
 	position: relative;
+	display: inline-block;
 	width: 800px;
 	height: 560px;
+	margin: 1.5rem;
+
+	@media (max-width: 925px) {
+		width: 500px;
+		height: auto;
+	}
+
+	@media (max-width: 580px) { 
+		width: 85vw;
+	}
 }
 
 .game-control-wrap {
 	display: flex;
 	padding: 6% 2%;
 	background-color: var(--ghostboard-square-color);
+
+	@media (max-width: 925px) {
+		flex-direction: column;
+		gap: 6rem;
+		padding-top: 5rem;
+	}
+
+	@media (max-width: 580px) { 
+		align-items: center;
+	}
 }
 
 .game-board-wrap {

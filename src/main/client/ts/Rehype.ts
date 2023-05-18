@@ -31,13 +31,13 @@ Donec id mauris ipsum. Vestibulum tortor nulla, iaculis vitae mauris ut, congue 
 
 Aliquam erat volutpat. Ut viverra tincidunt condimentum. Suspendisse faucibus arcu id nibh cursus porttitor. Donec vitae neque vel neque aliquet pellentesque. Nam eleifend, augue nec rutrum viverra, est urna pharetra magna, scelerisque lobortis lorem ante id metus. In posuere metus quis nibh laoreet, quis bibendum sapien suscipit. Fusce imperdiet dolor sed pharetra sollicitudin. Integer placerat nunc porttitor lobortis suscipit.
 
-<div><game-controller variantname="2PC" pgn4='${`[StartFen4 "2PC"]
+<section><game-controller variantname="2PC" pgn4='${`[StartFen4 "2PC"]
 [Variant "FFA"]
 [RuleVariants "EnPassant Play4Mate Teammate=1"]
 [CurrentMove "0"]
 [TimeControl "1|5"]`
 	.replace(/'/g, "&#39;")
-	.replace(/\n/g, " ")}'></board-display></div>
+	.replace(/\n/g, " ")}'></game-controller></section>
 
 `;
 

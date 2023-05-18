@@ -216,6 +216,11 @@
 	justify-content: center;
 	align-items: center;
 
+	@media (max-width: 580px) {
+		width: calc(var(--board-piece-size) / 1.4);
+		height: calc(var(--board-piece-size) / 1.4);
+	}
+
 	&-surroundings {
 		@include index.occupyAbsoluteSize;
 		pointer-events: none;
@@ -447,6 +452,7 @@
 }
 
 .player-box__player-icon {
+	display: flex;
 	width: 2.75rem;
 	height: 2.75rem;
 	border-style: solid;

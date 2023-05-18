@@ -10,7 +10,7 @@ import {
 	SVGPieceDisplayGroup,
 	verifyRasterPieceDisplayGroup
 } from "src/main/client/img/imageIndex";
-import { pieceControlConfigSettings, PieceLetter } from "@moveGeneration/PieceControl/PieceControlInterface";
+import { pawnPieceLetter, pieceControlConfigSettings, PieceLetter } from "@moveGeneration/PieceControl/PieceControlInterface";
 import { createHexColor, createRGBColor, IndexedColor, RGBColor, wrapIndexedColor } from "../../../interfaces/Colors";
 import { BasicSVGShapeElement, svgBasicShapeSelector } from "@client/img/svgDeclarations";
 import { checkIfRGBisTooDark, DEFAULT_DARK_THRESHOLD } from "@client/ts/interfaces/ColorUtils";
@@ -73,6 +73,7 @@ const MakeSVG = (path: string, configuration: PieceImageSettings, toggleInformat
 				toggleInformation?.(svgString);
 				const image = document.createElement("img");
 				image.setAttribute("src", svgString);
+				image.setAttribute("alt", pieceControlConfigSettings[configuration.pieceLetter].naming.name);
 				image.setAttribute("style", `width: ${configuration.size}; height: ${configuration.size}`);
 				svg.replaceWith(image);
 				if (configuration.afterInjection) {
@@ -138,12 +139,14 @@ interface PieceImageSettings {
 	afterInjection?: (svg: SVGSVGElement) => void;
 	stonewall?: boolean;
 	pieceTheme?: SVGPieceDisplayGroup | RasterPieceDisplayGroup;
+	pieceLetter: PieceLetter;
 }
 const createDefaultPieceImageConfiguration = (): PieceImageSettings => ({
 	size: "inherit",
 	className: styles.square__piece,
 	cache: false,
-	customColor: createHexColor("#fff")
+	customColor: createHexColor("#fff"),
+	pieceLetter: pawnPieceLetter
 });
 
 const createPieceImage = (
@@ -164,6 +167,7 @@ const createPieceImage = (
 				className={settings.configuration.className}
 				width={settings.configuration.size}
 				height={settings.configuration.size}
+				alt={pieceControlConfigSettings[settings.configuration.pieceLetter].naming.name}
 			/>
 		);
 	} else {
@@ -202,7 +206,8 @@ export const PieceImage = (props: PieceImageProps) => {
 
 	const imageConfiguration = {
 		...configuration,
-		customColor: props.configuration?.customColor ? configuration.customColor : obtainColorFromString(color, context)
+		customColor: props.configuration?.customColor ? configuration.customColor : obtainColorFromString(color, context),
+		pieceLetter: props.pieceString.piece
 	};
 
 	const pieceTheme = configuration.pieceTheme ?? context.pieceTheme;
@@ -224,7 +229,7 @@ export const PieceImage = (props: PieceImageProps) => {
 			);
 		} else {
 			return (
-				<img src={image.base64} alt={piece} width={configuration.size} height={configuration.size} className={configuration.className} />
+				<img src={image.base64} alt={pieceControlConfigSettings[props.pieceString.piece].naming.name} width={configuration.size} height={configuration.size} className={configuration.className} />
 			);
 		}
 	} else {
