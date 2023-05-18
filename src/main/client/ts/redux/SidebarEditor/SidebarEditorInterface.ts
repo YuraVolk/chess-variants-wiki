@@ -3,6 +3,7 @@ import type { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
 import type { SerializedBoardStrings } from "@client/ts/logic/utils/Tags/InputOutputProcessing";
 import type { FENOptionsSerializedState } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
 import type { VariantType } from "@moveGeneration/GameInformation/GameData";
+import type { Coordinate } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import type { PieceStringObject } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import type { ProcessSafeMoveWrapper, StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
 import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
@@ -16,6 +17,7 @@ export interface SidebarEditorInterface {
 	serializedFEN: SerializedBoardStrings;
 	readonly currentMove: [-1];
 	readonly moveTree: ProcessSafeMoveWrapper[];
+	currentDroppedPiece?: PieceStringObject | Coordinate;
 }
 
 export type ExtractStateTagByType<T> = {

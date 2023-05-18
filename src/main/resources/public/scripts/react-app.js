@@ -18997,7 +18997,10 @@ var selectSerializedStrings = parameters => parameters.stateController === "game
 /* harmony export */   "UD": () => (/* binding */ selectEditorVariantDataRules),
 /* harmony export */   "Ug": () => (/* binding */ changeParametrizedVariantRule),
 /* harmony export */   "bR": () => (/* binding */ selectEditorSidebar),
+/* harmony export */   "dp": () => (/* binding */ dropPiece),
 /* harmony export */   "fU": () => (/* binding */ toggleBooleanValue),
+/* harmony export */   "kS": () => (/* binding */ deleteDroppedPiece),
+/* harmony export */   "yN": () => (/* binding */ setCurrentDroppedPiece),
 /* harmony export */   "yb": () => (/* binding */ selectEditorVariantType)
 /* harmony export */ });
 /* unused harmony exports sidebarEditorsAdapter, sidebarEditorsSlice */
@@ -19143,6 +19146,76 @@ var sidebarEditorsSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_6__/* .cr
           }
         }
       });
+    },
+    dropPiece: (state, action) => {
+      var _action$payload6 = action.payload,
+        id = _action$payload6.id,
+        endCoordinate = _action$payload6.endCoordinate;
+      var editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+      if (!(editor !== null && editor !== void 0 && editor.currentDroppedPiece)) return;
+      if (Array.isArray(editor.currentDroppedPiece)) {
+        var startCoordinate = editor.currentDroppedPiece;
+        sidebarEditorsAdapter.updateOne(state, {
+          type: "sidebarEditors/movePieceOnBoard",
+          payload: {
+            id,
+            changes: {
+              currentDroppedPiece: undefined,
+              boardSquares: editor.boardSquares.map((r, i) => i === startCoordinate[0] || i === endCoordinate[0] ? r.map((s, j) => {
+                if (i === startCoordinate[0] && j === startCoordinate[1]) {
+                  return _moveGeneration_GameInformation_GameUnits_PieceString__WEBPACK_IMPORTED_MODULE_2__/* .emptyPieceString.toObject */ .v2.toObject();
+                } else if (i === endCoordinate[0] && j === endCoordinate[1]) {
+                  return editor.boardSquares[startCoordinate[0]][startCoordinate[1]];
+                } else return s;
+              }) : r)
+            }
+          }
+        });
+      } else {
+        var piece = editor.currentDroppedPiece;
+        sidebarEditorsAdapter.updateOne(state, {
+          type: "sidebarEditors/dropPieceOnBoard",
+          payload: {
+            id,
+            changes: {
+              currentDroppedPiece: undefined,
+              boardSquares: editor.boardSquares.map((r, i) => i === endCoordinate[0] ? r.map((s, j) => j === endCoordinate[1] ? piece : s) : r)
+            }
+          }
+        });
+      }
+    },
+    setCurrentDroppedPiece: (state, action) => {
+      var _action$payload7 = action.payload,
+        id = _action$payload7.id,
+        piece = _action$payload7.piece;
+      var editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+      if (!editor) return;
+      sidebarEditorsAdapter.updateOne(state, {
+        type: "sidebarEditors/setCurrentDroppedPiece",
+        payload: {
+          id,
+          changes: {
+            currentDroppedPiece: piece
+          }
+        }
+      });
+    },
+    deleteDroppedPiece: (state, action) => {
+      var id = action.payload.id;
+      var editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+      if (!(editor !== null && editor !== void 0 && editor.currentDroppedPiece) || !Array.isArray(editor.currentDroppedPiece)) return;
+      var startCoordinate = editor.currentDroppedPiece;
+      sidebarEditorsAdapter.updateOne(state, {
+        type: "sidebarEditors/deleteDroppedPiece",
+        payload: {
+          id,
+          changes: {
+            currentDroppedPiece: undefined,
+            boardSquares: editor.boardSquares.map((r, i) => i === startCoordinate[0] ? r.map((s, j) => j === startCoordinate[1] ? _moveGeneration_GameInformation_GameUnits_PieceString__WEBPACK_IMPORTED_MODULE_2__/* .emptyPieceString.toObject */ .v2.toObject() : s) : r)
+          }
+        }
+      });
     }
   },
   extraReducers: builder => {
@@ -19190,7 +19263,10 @@ var _sidebarEditorsSlice$ = sidebarEditorsSlice.actions,
   changeNumericColorValue = _sidebarEditorsSlice$.changeNumericColorValue,
   toggleBooleanValue = _sidebarEditorsSlice$.toggleBooleanValue,
   toggleBooleanVariantRule = _sidebarEditorsSlice$.toggleBooleanVariantRule,
-  changeParametrizedVariantRule = _sidebarEditorsSlice$.changeParametrizedVariantRule;
+  changeParametrizedVariantRule = _sidebarEditorsSlice$.changeParametrizedVariantRule,
+  dropPiece = _sidebarEditorsSlice$.dropPiece,
+  setCurrentDroppedPiece = _sidebarEditorsSlice$.setCurrentDroppedPiece,
+  deleteDroppedPiece = _sidebarEditorsSlice$.deleteDroppedPiece;
 
 /* harmony default export */ __webpack_exports__["ZP"] = (sidebarEditorsSlice.reducer);
 
@@ -20825,8 +20901,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var EditorBoard = props => {
   var _useContext = (0,react.useContext)(BoardContext/* GameDisplayContext */.$),
     id = _useContext.id;
+  var dispatch = (0,es/* useDispatch */.I0)();
   var boardSquares = (0,es/* useSelector */.v9)(state => (0,SidebarEditorSlice/* selectEditorBoardSquares */.Ch)(state, id));
   var fenSettings = (0,es/* useSelector */.v9)(state => (0,SidebarEditorSlice/* selectEditorFENSettings */.SG)(state, id));
+  var _onDrag = (0,react.useCallback)((e, coordinate) => {
+    e.preventDefault();
+    dispatch((0,SidebarEditorSlice/* setCurrentDroppedPiece */.yN)({
+      id,
+      piece: coordinate
+    }));
+  }, [dispatch, id]);
   var cssProperties = (0,GameDisplay/* getCSSPropertiesFromDimension */.uh)(fenSettings.fenOptions.dim),
     dimensionMax = Math.max(...fenSettings.fenOptions.dim);
   return /*#__PURE__*/react.createElement("div", {
@@ -20842,12 +20926,19 @@ var EditorBoard = props => {
         _alterCoordinate2 = _slicedToArray(_alterCoordinate, 2),
         i = _alterCoordinate2[0],
         j = _alterCoordinate2[1];
-      return /*#__PURE__*/react.createElement(GameSquareWrap/* GameDisplaySquareWrap */.y, {
+      return /*#__PURE__*/react.createElement("div", {
+        draggable: true,
+        onDrag: e => _onDrag(e, [initialI, initialJ]),
+        onDragOver: e => e.preventDefault(),
+        onDrop: () => dispatch((0,SidebarEditorSlice/* dropPiece */.dp)({
+          id,
+          endCoordinate: [initialI, initialJ]
+        })),
         key: "".concat(i, "-").concat(j)
-      }, /*#__PURE__*/react.createElement(GameDisplaySquare/* GameDisplaySquare */.X, {
+      }, /*#__PURE__*/react.createElement(GameSquareWrap/* GameDisplaySquareWrap */.y, null, /*#__PURE__*/react.createElement(GameDisplaySquare/* GameDisplaySquare */.X, {
         pieceString: boardSquares[i][j],
         displaySettings: []
-      }));
+      })));
     }));
   }), /*#__PURE__*/react.createElement(GameDisplayPlayerBox/* PlayerBoxContainer */.F, null));
 };
@@ -21216,6 +21307,8 @@ function _toPrimitive(input, hint) { if (typeof input !== "object" || input === 
 
 
 
+
+
 var standardPieces = [PieceControlInterface/* defaultPieces.king */.bB.king, PieceControlInterface/* defaultPieces.queen */.bB.queen, PieceControlInterface/* dameLetter */.t$, PieceControlInterface/* defaultPieces.rook */.bB.rook, PieceControlInterface/* defaultPieces.bishop */.bB.bishop, PieceControlInterface/* defaultPieces.knight */.bB.knight, PieceControlInterface/* pawnPieceLetter */.lH];
 function sparePieceReducer(state, action) {
   switch (action.type) {
@@ -21260,6 +21353,7 @@ var SparePieces = () => {
   var _useContext = (0,react.useContext)(BoardContext/* GameDisplayContext */.$),
     id = _useContext.id,
     themeContext = (0,react.useContext)(PieceThemeContext/* UserContext */.St);
+  var dispatch = (0,es/* useDispatch */.I0)();
   var _useReducer = (0,react.useReducer)(sparePieceReducer, {
       isExpanded: false,
       isFairyPiece: false,
@@ -21268,16 +21362,34 @@ var SparePieces = () => {
     _useReducer2 = SparePieces_slicedToArray(_useReducer, 2),
     state = _useReducer2[0],
     localDispatch = _useReducer2[1];
+  var _onDrag = (0,react.useCallback)((e, pieceString) => {
+    e.preventDefault();
+    dispatch((0,SidebarEditorSlice/* setCurrentDroppedPiece */.yN)({
+      id,
+      piece: pieceString.toObject()
+    }));
+  }, [dispatch, id]);
   return /*#__PURE__*/react.createElement("div", {
     className: BoardEditorSidebar_EditorSidebar_module["spare-pieces-wrap"]
   }, /*#__PURE__*/react.createElement("i", {
     className: BoardEditorSidebar_EditorSidebar_module["spare-pieces-selectors__hint-text"]
   }, "Click or drag to drop pieces on the board"), /*#__PURE__*/react.createElement("div", {
-    className: "".concat(BoardEditorSidebar_EditorSidebar_module["spare-pieces"], " ").concat(state.isFairyPiece ? BoardEditorSidebar_EditorSidebar_module["spare-pieces--expanded"] : "")
-  }, createPieceTypes(state).map(p => /*#__PURE__*/react.createElement(GameDisplaySquare/* GameDisplaySquare */.X, {
+    className: "".concat(BoardEditorSidebar_EditorSidebar_module["spare-pieces"], " ").concat(state.isFairyPiece ? BoardEditorSidebar_EditorSidebar_module["spare-pieces--expanded"] : ""),
+    onDragOver: e => e.preventDefault(),
+    onDrop: () => dispatch((0,SidebarEditorSlice/* deleteDroppedPiece */.kS)({
+      id
+    }))
+  }, createPieceTypes(state).map(p => /*#__PURE__*/react.createElement("div", {
+    draggable: true,
+    onDrag: e => _onDrag(e, p),
+    onDragEnd: () => dispatch((0,SidebarEditorSlice/* setCurrentDroppedPiece */.yN)({
+      id
+    })),
+    key: "".concat(p.color).concat(p.piece)
+  }, /*#__PURE__*/react.createElement(GameDisplaySquare/* GameDisplaySquare */.X, {
     pieceString: p.toObject(),
     displaySettings: []
-  }))), /*#__PURE__*/react.createElement("div", {
+  })))), /*#__PURE__*/react.createElement("div", {
     className: BoardEditorSidebar_EditorSidebar_module["spare-pieces-selectors"]
   }, /*#__PURE__*/react.createElement("div", {
     onClick: () => localDispatch({
@@ -21290,6 +21402,7 @@ var SparePieces = () => {
   }, GameData/* playerNames.map */.Q3.map((name, i) => {
     if (i === PieceString/* deadColorIndex */.Ir) {
       return /*#__PURE__*/react.createElement("button", {
+        key: "Dead",
         onClick: () => localDispatch({
           type: "changeIndex",
           payload: i
@@ -21301,6 +21414,7 @@ var SparePieces = () => {
       }, "Dead");
     } else if ((0,GameUnits/* verifyNumericColor */.O3)(i)) {
       return /*#__PURE__*/react.createElement("button", {
+        key: name,
         onClick: () => localDispatch({
           type: "changeIndex",
           payload: i
@@ -21312,6 +21426,7 @@ var SparePieces = () => {
       }, name);
     } else {
       return /*#__PURE__*/react.createElement("button", {
+        key: "Wall",
         onClick: () => localDispatch({
           type: "changeIndex",
           payload: i

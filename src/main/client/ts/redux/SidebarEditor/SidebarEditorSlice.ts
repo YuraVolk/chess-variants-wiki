@@ -2,9 +2,9 @@ import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolki
 import type { ExtractStateTagByType, ExtractVariantRuleByType, SidebarEditorInterface } from "./SidebarEditorInterface";
 import { createNewGameBoard, updateInteractionSettings } from "@client/ts/logic/index/GameBoardSlice";
 import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
-import { emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
+import { PieceStringObject, emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
-import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
+import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { assertNonUndefined, createTuple } from "@client/ts/baseTypes";
 import { getNeighboringSideToMove } from "@moveGeneration/FENData/FENDataInterface";
 import type { PlayerBooleanTuple } from "@moveGeneration/Board/Board";
@@ -153,6 +153,83 @@ export const sidebarEditorsSlice = createSlice({
 					}
 				}
 			});
+		},
+		dropPiece: (state, action: PayloadAction<{ id: number; endCoordinate: Coordinate }>) => {
+			const { id, endCoordinate } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.currentDroppedPiece) return;
+
+			if (Array.isArray(editor.currentDroppedPiece)) {
+				const startCoordinate: Coordinate = editor.currentDroppedPiece;
+				sidebarEditorsAdapter.updateOne(state, {
+					type: "sidebarEditors/movePieceOnBoard",
+					payload: {
+						id,
+						changes: {
+							currentDroppedPiece: undefined,
+							boardSquares: editor.boardSquares.map((r, i) =>
+								i === startCoordinate[0] || i === endCoordinate[0]
+									? r.map((s, j) => {
+											if (i === startCoordinate[0] && j === startCoordinate[1]) {
+												return emptyPieceString.toObject();
+											} else if (i === endCoordinate[0] && j === endCoordinate[1]) {
+												return editor.boardSquares[startCoordinate[0]][startCoordinate[1]];
+											} else return s;
+									  })
+									: r
+							)
+						}
+					}
+				});
+			} else {
+				const piece: PieceStringObject = editor.currentDroppedPiece;
+				sidebarEditorsAdapter.updateOne(state, {
+					type: "sidebarEditors/dropPieceOnBoard",
+					payload: {
+						id,
+						changes: {
+							currentDroppedPiece: undefined,
+							boardSquares: editor.boardSquares.map((r, i) =>
+								i === endCoordinate[0] ? r.map((s, j) => (j === endCoordinate[1] ? piece : s)) : r
+							)
+						}
+					}
+				});
+			}
+		},
+		setCurrentDroppedPiece: (state, action: PayloadAction<{ id: number; piece?: PieceStringObject | Coordinate }>) => {
+			const { id, piece } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor) return;
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/setCurrentDroppedPiece",
+				payload: {
+					id,
+					changes: {
+						currentDroppedPiece: piece
+					}
+				}
+			});
+		},
+		deleteDroppedPiece: (state, action: PayloadAction<{ id: number }>) => {
+			const { id } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.currentDroppedPiece || !Array.isArray(editor.currentDroppedPiece)) return;
+
+			const startCoordinate: Coordinate = editor.currentDroppedPiece;
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/deleteDroppedPiece",
+				payload: {
+					id,
+					changes: {
+						currentDroppedPiece: undefined,
+						boardSquares: editor.boardSquares.map((r, i) =>
+							i === startCoordinate[0] ? r.map((s, j) => (j === startCoordinate[1] ? emptyPieceString.toObject() : s)) : r
+						)
+					}
+				}
+			});
 		}
 	},
 	extraReducers: (builder) => {
@@ -195,8 +272,16 @@ export const sidebarEditorsSlice = createSlice({
 	}
 });
 
-export const { changeDimensionValue, changeNumericColorValue, toggleBooleanValue, toggleBooleanVariantRule, changeParametrizedVariantRule } =
-	sidebarEditorsSlice.actions;
+export const {
+	changeDimensionValue,
+	changeNumericColorValue,
+	toggleBooleanValue,
+	toggleBooleanVariantRule,
+	changeParametrizedVariantRule,
+	dropPiece,
+	setCurrentDroppedPiece,
+	deleteDroppedPiece
+} = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */

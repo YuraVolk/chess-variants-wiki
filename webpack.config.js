@@ -121,6 +121,7 @@ module.exports = {
         })
     ],
     optimization: {
+        nodeEnv: "production",
         minimizer: [
             new ImageMinimizerPlugin({
                 include: /\.(png|jpe?g|gif|svg)$/i,

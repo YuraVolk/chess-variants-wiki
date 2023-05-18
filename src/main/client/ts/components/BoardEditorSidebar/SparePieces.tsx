@@ -1,9 +1,9 @@
-import React, { useContext, useReducer } from "react";
+import React, { useCallback, useContext, useReducer } from "react";
 import styles from "./EditorSidebar.module.scss";
 import { GameDisplayContext } from "@components/BoardComponents/BoardContext";
 import { UserContext } from "@client/ts/services/PersistedStorage/PieceThemeContext";
 import { colors, playerNames } from "@moveGeneration/GameInformation/GameData";
-import { createPieceFromData, createPieceFromString, deadColorIndex } from "@moveGeneration/GameInformation/GameUnits/PieceString";
+import { PieceString, createPieceFromData, createPieceFromString, deadColorIndex } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { NumericColor, verifyNumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { wrapIndexedColor } from "@client/ts/interfaces/Colors";
 import { Add, throwOnNever } from "@client/ts/baseTypes";
@@ -19,6 +19,9 @@ import {
 	verifyPieceLetter
 } from "@moveGeneration/PieceControl/PieceControlInterface";
 import { GameDisplaySquare } from "@components/BoardComponents/GameDisplay/GameDisplaySquare";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@client/ts/redux/store";
+import { deleteDroppedPiece, setCurrentDroppedPiece } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
 
 type PieceGroupIndex = NumericColor | typeof deadColorIndex | Add<typeof deadColorIndex, 1>;
 const standardPieces: readonly PieceLetter[] = [
@@ -71,7 +74,7 @@ function createPieceTypes(state: SparePieceReducer) {
 	if (state.isExpanded) {
 		return [
 			...([...colors, deadColorIndex] as const).flatMap((n) => basePieceTypes.map((p) => createPieceFromData(n, p))),
-			...nonPlayableLetterValues.map(p => createPieceFromData(deadColorIndex, p))
+			...nonPlayableLetterValues.map((p) => createPieceFromData(deadColorIndex, p))
 		];
 	} else {
 		return basePieceTypes.map((p) => createPieceFromData(alteredColor, p));
@@ -81,14 +84,33 @@ function createPieceTypes(state: SparePieceReducer) {
 export const SparePieces = () => {
 	const { id } = useContext(GameDisplayContext),
 		themeContext = useContext(UserContext);
+	const dispatch = useDispatch<AppDispatch>();
 	const [state, localDispatch] = useReducer(sparePieceReducer, { isExpanded: false, isFairyPiece: false, groupIndex: 0 });
+	const onDrag = useCallback(
+		(e: React.DragEvent<HTMLDivElement>, pieceString: PieceString) => {
+			e.preventDefault();
+			dispatch(setCurrentDroppedPiece({ id, piece: pieceString.toObject() }));
+		},
+		[dispatch, id]
+	);
 
 	return (
 		<div className={styles["spare-pieces-wrap"]}>
 			<i className={styles["spare-pieces-selectors__hint-text"]}>Click or drag to drop pieces on the board</i>
-			<div className={`${styles["spare-pieces"]} ${state.isFairyPiece ? styles["spare-pieces--expanded"] : ""}`}>{
-                createPieceTypes(state).map(p => <GameDisplaySquare pieceString={p.toObject()} displaySettings={[]} />)
-            }</div>
+			<div
+				className={`${styles["spare-pieces"]} ${state.isFairyPiece ? styles["spare-pieces--expanded"] : ""}`}
+				onDragOver={(e) => e.preventDefault()}
+				onDrop={() => dispatch(deleteDroppedPiece({ id }))}>
+				{createPieceTypes(state).map((p) => (
+					<div
+						draggable
+						onDrag={(e) => onDrag(e, p)}
+						onDragEnd={() => dispatch(setCurrentDroppedPiece({ id }))}
+						key={`${p.color}${p.piece}`}>
+						<GameDisplaySquare pieceString={p.toObject()} displaySettings={[]} />
+					</div>
+				))}
+			</div>
 			<div className={styles["spare-pieces-selectors"]}>
 				<div onClick={() => localDispatch({ type: "expand" })}>
 					<span className={styles["spare-pieces-selectors__expand-icon"]}></span>
@@ -99,6 +121,7 @@ export const SparePieces = () => {
 							if (i === deadColorIndex) {
 								return (
 									<button
+										key="Dead"
 										onClick={() => localDispatch({ type: "changeIndex", payload: i })}
 										className={styles["spare-pieces-selectors__color"]}
 										style={{ color: wrapIndexedColor(themeContext.colors.pieceColors[i]) }}>
@@ -108,6 +131,7 @@ export const SparePieces = () => {
 							} else if (verifyNumericColor(i)) {
 								return (
 									<button
+										key={name}
 										onClick={() => localDispatch({ type: "changeIndex", payload: i })}
 										className={styles["spare-pieces-selectors__color"]}
 										style={{ color: wrapIndexedColor(themeContext.colors.pieceColors[i]) }}>
@@ -117,6 +141,7 @@ export const SparePieces = () => {
 							} else {
 								return (
 									<button
+										key="Wall"
 										onClick={() => localDispatch({ type: "changeIndex", payload: i })}
 										className={styles["spare-pieces-selectors__color"]}>
 										Wall
