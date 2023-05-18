@@ -1,3 +1,4 @@
+![gradle-publish](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
 # gradle-getting-started
 
 A barebones Gradle app, which can easily be deployed to Heroku.
