@@ -22,26 +22,34 @@
 	}
 }
 
-@mixin alternatingBoardColors($firstColor, $secondColor, $deeperElement: null, $property: "background-color") {
+@mixin alternatingBoardColors($styles, $alternateStyles, $deeperElement: null) {
 	@if ($deeperElement) {
 		&:nth-child(odd)>*:nth-child(odd) #{$deeperElement},
 		&:nth-child(even)>*:nth-child(even) #{$deeperElement} {
-			#{$property}: $firstColor;
+			@each $styleName, $style in $styles {
+				#{$styleName}: #{$style};
+			}
 		}
 
 		&:nth-child(odd)>*:nth-child(even) #{$deeperElement},
 		&:nth-child(even)>*:nth-child(odd) #{$deeperElement} {
-			#{$property}: $secondColor;
+			 @each $styleName, $style in $alternateStyles {
+				#{$styleName}: #{$style};
+			}
 		}
 	} @else {
 		&:nth-child(odd)>*:nth-child(odd),
 		&:nth-child(even)>*:nth-child(even) {
-			#{$property}: $firstColor;
+			@each $styleName, $style in $styles {
+				#{$styleName}: #{$style};
+			}
 		}
 
 		&:nth-child(odd)>*:nth-child(even),
 		&:nth-child(even)>*:nth-child(odd) {
-			#{$property}: $secondColor;
+			 @each $styleName, $style in $alternateStyles {
+				#{$styleName}: #{$style};
+			}
 		}
 	}
 }
@@ -91,4 +99,26 @@
 	font-size: 1.1rem;
 	word-break: break-word;
 	overflow-wrap: break-word;
+}
+
+@mixin squareHighlightCircle {
+	position: relative;
+
+	&::after {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		content: "";
+		z-index: 3;
+		width: 33%;
+		height: 33%;
+		border-style: solid;
+		border-width: 10px;
+		border-width: calc(var(--board-piece-size) / 5 - 0.5px);
+		border-color: inherit;
+		border-radius: 50%;
+		opacity: 0.2;
+		pointer-events: none;
+	}
 }

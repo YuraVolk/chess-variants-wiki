@@ -6,11 +6,23 @@
 }
 
 .board-row {
-	@include index.alternatingBoardColors(var(--main-square-primary-color), var(--main-square-secondary-color));
+	@include index.alternatingBoardColors(
+		("background": var(--main-square-primary-color)), 
+		("background": var(--main-square-secondary-color))
+	);
+	@include index.alternatingBoardColors(
+		("border-color": var(--main-square-highlight-primary-color)), 
+		("border-color": var(--main-square-highlight-secondary-color)),
+		".board-row > div > div.square-active"
+	);
 	display: flex;
 	max-width: fit-content;
 	padding-left: 0;
 	list-style-type: none;
+}
+
+.square-active {
+	@include index.squareHighlightCircle;
 }
 
 .wrap {
@@ -75,6 +87,7 @@
 			background-size: 6.5px;
 			background-repeat: no-repeat;
 			background-position: calc(90% - 6px - 0.2rem) 1rem, calc(91% - 5px + 0.3rem) 1rem;
+			cursor: pointer;
 
 			&-option {
 				color: index.$boardComponentWhiteColor;
@@ -303,6 +316,7 @@
 	& > div {
 		width: 30px;
 		height: 30px;
+		cursor: pointer;
 	}
 
 	&--expanded {
