@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from "react";
+import React, { useContext, useCallback, useRef, useEffect } from "react";
 import styles from "./EditorSidebar.module.scss";
 import { GameDisplayContext } from "@components/BoardComponents/BoardContext";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,9 +6,11 @@ import type { AppDispatch, RootState } from "@client/ts/redux/store";
 import type { BoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { PieceStringObject } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import {
+	disableEnabledSquares,
 	dropPiece,
 	selectEditorBoardSquares,
 	selectEditorFENSettings,
+	selectEditorSidebar,
 	setCurrentDroppedPiece
 } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
 import { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
@@ -18,6 +20,8 @@ import { GameDisplaySquareWrap } from "@components/BoardComponents/GameDisplay/G
 import { GameDisplaySquare } from "@components/BoardComponents/GameDisplay/GameDisplaySquare";
 import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { PlayerBoxContainer } from "@components/BoardComponents/GameDisplay/GameDisplayPlayerBox";
+import { assertTargetIsNode } from "@utils/BrowserUtils";
+import { sparePieceSelectorsID } from "./SparePieces";
 
 interface EditorBoardProps {
 	currentPerspective: NumericColor;
@@ -25,9 +29,11 @@ interface EditorBoardProps {
 
 export const EditorBoard = (props: EditorBoardProps) => {
 	const { id } = useContext(GameDisplayContext);
+	const boardRef = useRef<HTMLDivElement>(null);
 	const dispatch = useDispatch<AppDispatch>();
 	const boardSquares = useSelector<RootState, BoardSquares<PieceStringObject>>((state) => selectEditorBoardSquares(state, id));
 	const fenSettings = useSelector<RootState, PublicFENSettings>((state) => selectEditorFENSettings(state, id));
+	const isActive = useSelector<RootState, boolean>((state) => selectEditorSidebar(state, id).isDroppingEnabled);
 	const onDrag = useCallback(
 		(e: React.DragEvent<HTMLDivElement>, coordinate: Coordinate) => {
 			e.preventDefault();
@@ -36,10 +42,24 @@ export const EditorBoard = (props: EditorBoardProps) => {
 		[dispatch, id]
 	);
 
+	useEffect(() => {
+		const handleOutsideClick = ({ target }: MouseEvent) => {
+			assertTargetIsNode(target);
+			if (!boardRef.current?.contains(target) && !(target instanceof HTMLElement && target.closest(`[id|=${sparePieceSelectorsID}]`))) {
+				dispatch(disableEnabledSquares({ id }));
+			}
+		};
+
+		document.addEventListener("click", handleOutsideClick);
+		return () => {
+			document.removeEventListener("click", handleOutsideClick);
+		};
+	}, [dispatch, id]);
+
 	const cssProperties = getCSSPropertiesFromDimension(fenSettings.fenOptions.dim),
 		dimensionMax = Math.max(...fenSettings.fenOptions.dim);
 	return (
-		<div className={styles.board} style={cssProperties}>
+		<div className={`${styles.board} ${isActive ? styles["board--active"] : ""}`} style={cssProperties} ref={boardRef}>
 			{boardSquares.map((r, initialI) => {
 				return (
 					<div className={styles["board-row"]} key={initialI}>
@@ -53,6 +73,7 @@ export const EditorBoard = (props: EditorBoardProps) => {
 									onDrag={(e) => onDrag(e, [initialI, initialJ])}
 									onDragOver={(e) => e.preventDefault()}
 									onDrop={() => dispatch(dropPiece({ id, endCoordinate: [initialI, initialJ] }))}
+									onClick={() => dispatch(dropPiece({ id, endCoordinate: [initialI, initialJ] }))}
 									key={`${i}-${j}`}>
 									<GameDisplaySquareWrap>
 										<GameDisplaySquare pieceString={boardSquares[i][j]} displaySettings={[]} />

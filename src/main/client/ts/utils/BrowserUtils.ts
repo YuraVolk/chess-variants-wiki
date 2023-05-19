@@ -8,3 +8,7 @@ export function downloadFile(filename: string, content: string) {
 	element.click();
 	document.body.removeChild(element);
 }
+
+export function assertTargetIsNode(e: EventTarget | null): asserts e is Node {
+	if (!e || !("nodeType" in e)) throw new Error("Node expected");
+}

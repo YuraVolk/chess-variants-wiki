@@ -10,7 +10,7 @@ import { getNeighboringSideToMove } from "@moveGeneration/FENData/FENDataInterfa
 import type { PlayerBooleanTuple } from "@moveGeneration/Board/Board";
 import type { RootState } from "../store";
 import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
-import { StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
+import type { StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
 
 const baseFalsyColors = createTuple(false, totalPlayers);
 
@@ -166,6 +166,7 @@ export const sidebarEditorsSlice = createSlice({
 					payload: {
 						id,
 						changes: {
+							isDroppingEnabled: false,
 							currentDroppedPiece: undefined,
 							boardSquares: editor.boardSquares.map((r, i) =>
 								i === startCoordinate[0] || i === endCoordinate[0]
@@ -188,6 +189,7 @@ export const sidebarEditorsSlice = createSlice({
 					payload: {
 						id,
 						changes: {
+							isDroppingEnabled: false,
 							currentDroppedPiece: undefined,
 							boardSquares: editor.boardSquares.map((r, i) =>
 								i === endCoordinate[0] ? r.map((s, j) => (j === endCoordinate[1] ? piece : s)) : r
@@ -207,6 +209,7 @@ export const sidebarEditorsSlice = createSlice({
 				payload: {
 					id,
 					changes: {
+						isDroppingEnabled: false,
 						currentDroppedPiece: piece
 					}
 				}
@@ -223,10 +226,43 @@ export const sidebarEditorsSlice = createSlice({
 				payload: {
 					id,
 					changes: {
+						isDroppingEnabled: false,
 						currentDroppedPiece: undefined,
 						boardSquares: editor.boardSquares.map((r, i) =>
 							i === startCoordinate[0] ? r.map((s, j) => (j === startCoordinate[1] ? emptyPieceString.toObject() : s)) : r
 						)
+					}
+				}
+			});
+		},
+		toggleEnabledSquares: (state, action: PayloadAction<{ id: number, piece: PieceStringObject }>) => {
+			const { id, piece } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor) return;
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/disabledEnabledSquares",
+				payload: {
+					id,
+					changes: {
+						currentDroppedPiece: piece,
+						isDroppingEnabled: true
+					}
+				}
+			});
+		},
+		disableEnabledSquares: (state, action: PayloadAction<{ id: number }>) => {
+			const { id } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor) return;
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/disabledEnabledSquares",
+				payload: {
+					id,
+					changes: {
+						currentDroppedPiece: undefined,
+						isDroppingEnabled: false
 					}
 				}
 			});
@@ -245,7 +281,8 @@ export const sidebarEditorsSlice = createSlice({
 					publicFENSettings: undefined,
 					currentMove: [-1],
 					moveTree: [],
-					serializedFEN: { board: "", moves: "" }
+					serializedFEN: { board: "", moves: "" },
+					isDroppingEnabled: false
 				}
 			});
 		});
@@ -280,7 +317,9 @@ export const {
 	changeParametrizedVariantRule,
 	dropPiece,
 	setCurrentDroppedPiece,
-	deleteDroppedPiece
+	deleteDroppedPiece,
+	toggleEnabledSquares,
+	disableEnabledSquares
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 

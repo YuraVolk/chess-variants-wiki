@@ -3,6 +3,12 @@
 .board {
 	position: relative;
 	width: min-content;
+
+	&--active {
+		& > .board-row > div > div {
+			@include index.squareHighlightCircle;
+		}
+	}
 }
 
 .board-row {
@@ -13,16 +19,13 @@
 	@include index.alternatingBoardColors(
 		("border-color": var(--main-square-highlight-primary-color)), 
 		("border-color": var(--main-square-highlight-secondary-color)),
-		".board-row > div > div.square-active"
+		"> div"
 	);
+
 	display: flex;
 	max-width: fit-content;
 	padding-left: 0;
 	list-style-type: none;
-}
-
-.square-active {
-	@include index.squareHighlightCircle;
 }
 
 .wrap {

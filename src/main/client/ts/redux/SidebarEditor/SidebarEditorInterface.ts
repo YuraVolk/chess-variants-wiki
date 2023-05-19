@@ -18,6 +18,7 @@ export interface SidebarEditorInterface {
 	readonly currentMove: [-1];
 	readonly moveTree: ProcessSafeMoveWrapper[];
 	currentDroppedPiece?: PieceStringObject | Coordinate;
+	isDroppingEnabled: boolean;
 }
 
 export type ExtractStateTagByType<T> = {

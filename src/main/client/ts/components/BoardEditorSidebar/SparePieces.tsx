@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useReducer } from "react";
+import React, { useCallback, useContext, useReducer, useId } from "react";
 import styles from "./EditorSidebar.module.scss";
 import { GameDisplayContext } from "@components/BoardComponents/BoardContext";
 import { UserContext } from "@client/ts/services/PersistedStorage/PieceThemeContext";
@@ -21,7 +21,8 @@ import {
 import { GameDisplaySquare } from "@components/BoardComponents/GameDisplay/GameDisplaySquare";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@client/ts/redux/store";
-import { deleteDroppedPiece, setCurrentDroppedPiece } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
+import { deleteDroppedPiece, setCurrentDroppedPiece, toggleEnabledSquares } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
+import { hashString } from "@utils/StringFormatUtils";
 
 type PieceGroupIndex = NumericColor | typeof deadColorIndex | Add<typeof deadColorIndex, 1>;
 const standardPieces: readonly PieceLetter[] = [
@@ -81,7 +82,9 @@ function createPieceTypes(state: SparePieceReducer) {
 	}
 }
 
+export const sparePieceSelectorsID = "sparePiecesSelector";
 export const SparePieces = () => {
+	const hash = hashString(useId());
 	const { id } = useContext(GameDisplayContext),
 		themeContext = useContext(UserContext);
 	const dispatch = useDispatch<AppDispatch>();
@@ -95,7 +98,7 @@ export const SparePieces = () => {
 	);
 
 	return (
-		<div className={styles["spare-pieces-wrap"]}>
+		<div className={styles["spare-pieces-wrap"]} id={`${sparePieceSelectorsID}-${hash}`}>
 			<i className={styles["spare-pieces-selectors__hint-text"]}>Click or drag to drop pieces on the board</i>
 			<div
 				className={`${styles["spare-pieces"]} ${state.isFairyPiece ? styles["spare-pieces--expanded"] : ""}`}
@@ -106,6 +109,7 @@ export const SparePieces = () => {
 						draggable
 						onDrag={(e) => onDrag(e, p)}
 						onDragEnd={() => dispatch(setCurrentDroppedPiece({ id }))}
+						onClick={() => dispatch(toggleEnabledSquares({ id, piece: p.toObject() }))}
 						key={`${p.color}${p.piece}`}>
 						<GameDisplaySquare pieceString={p.toObject()} displaySettings={[]} />
 					</div>

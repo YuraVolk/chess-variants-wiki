@@ -1,3 +1,5 @@
+@use "sass:string";
+
 @mixin scrollbar($width, $thumbColor: #555, $trackColor: #f5f5f5) {
 	scrollbar-width: $width;
 	scrollbar-color: $thumbColor $trackColor;
@@ -27,28 +29,28 @@
 		&:nth-child(odd)>*:nth-child(odd) #{$deeperElement},
 		&:nth-child(even)>*:nth-child(even) #{$deeperElement} {
 			@each $styleName, $style in $styles {
-				#{$styleName}: #{$style};
+				#{$styleName}: string.unquote($style);
 			}
 		}
 
 		&:nth-child(odd)>*:nth-child(even) #{$deeperElement},
 		&:nth-child(even)>*:nth-child(odd) #{$deeperElement} {
-			 @each $styleName, $style in $alternateStyles {
-				#{$styleName}: #{$style};
+			@each $styleName, $style in $alternateStyles {
+				#{$styleName}: string.unquote($style);
 			}
 		}
 	} @else {
 		&:nth-child(odd)>*:nth-child(odd),
 		&:nth-child(even)>*:nth-child(even) {
 			@each $styleName, $style in $styles {
-				#{$styleName}: #{$style};
+				#{$styleName}: string.unquote($style);
 			}
 		}
 
 		&:nth-child(odd)>*:nth-child(even),
 		&:nth-child(even)>*:nth-child(odd) {
 			 @each $styleName, $style in $alternateStyles {
-				#{$styleName}: #{$style};
+				#{$styleName}: string.unquote($style);
 			}
 		}
 	}
