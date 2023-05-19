@@ -1,6 +1,11 @@
 @use "sass:string";
+@use "sass:meta";
 
 @mixin scrollbar($width, $thumbColor: #555, $trackColor: #f5f5f5) {
+	@if (type-of($thumbColor) != color or type-of($trackColor) != color) {
+		@error "Properties #{$thumbColor} and #{$trackColor} must be of type color.";
+	}
+
 	scrollbar-width: $width;
 	scrollbar-color: $thumbColor $trackColor;
 
@@ -25,6 +30,10 @@
 }
 
 @mixin alternatingBoardColors($styles, $alternateStyles, $deeperElement: null) {
+	@if (type-of($styles) != map or type-of($alternateStyles) != map) {
+		@error "Expected #{$styles} and #{$alternateStyles} to be of type map relating to CSS properties.";
+	}
+
 	@if ($deeperElement) {
 		&:nth-child(odd)>*:nth-child(odd) #{$deeperElement},
 		&:nth-child(even)>*:nth-child(even) #{$deeperElement} {
@@ -76,6 +85,10 @@
 }
 
 @mixin iconSize($size: null, $adaptive: false) {
+	@if (type-of($adaptive) != bool) {
+		@warn "Expected #{$adaptive} to be of type boolean";
+	}
+
 	@if ($size) {
 		font-size: $size;
 
