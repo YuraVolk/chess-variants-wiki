@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@client/ts/redux/store";
 import { deleteDroppedPiece, setCurrentDroppedPiece, toggleEnabledSquares } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
 import { hashString } from "@utils/StringFormatUtils";
+import { useContextualPlayerColor } from "@client/ts/hooks/useContextualPlayerColor";
 
 type PieceGroupIndex = NumericColor | typeof deadColorIndex | Add<typeof deadColorIndex, 1>;
 const standardPieces: readonly PieceLetter[] = [
@@ -89,6 +90,7 @@ export const SparePieces = () => {
 		themeContext = useContext(UserContext);
 	const dispatch = useDispatch<AppDispatch>();
 	const [state, localDispatch] = useReducer(sparePieceReducer, { isExpanded: false, isFairyPiece: false, groupIndex: 0 });
+	const colorSelector = useContextualPlayerColor();
 	const onDrag = useCallback(
 		(e: React.DragEvent<HTMLDivElement>, pieceString: PieceString) => {
 			e.preventDefault();
@@ -121,7 +123,7 @@ export const SparePieces = () => {
 				</div>
 				{!state.isExpanded && (
 					<div className={styles["spare-pieces-selectors__colors"]}>
-						{playerNames.map((name, i) => {
+						{playerNames.map((_, i) => {
 							if (i === deadColorIndex) {
 								return (
 									<button
@@ -133,13 +135,14 @@ export const SparePieces = () => {
 									</button>
 								);
 							} else if (verifyNumericColor(i)) {
+								const [playerName, indexedColor] = colorSelector(i);
 								return (
 									<button
-										key={name}
+										key={playerName}
 										onClick={() => localDispatch({ type: "changeIndex", payload: i })}
 										className={styles["spare-pieces-selectors__color"]}
-										style={{ color: wrapIndexedColor(themeContext.colors.pieceColors[i]) }}>
-										{name}
+										style={{ color: wrapIndexedColor(indexedColor) }}>
+										{playerName}
 									</button>
 								);
 							} else {

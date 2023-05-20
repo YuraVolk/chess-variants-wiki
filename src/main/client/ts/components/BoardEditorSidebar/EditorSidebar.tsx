@@ -1,15 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import styles from "./EditorSidebar.module.scss";
-import { UserContext } from "@client/ts/services/PersistedStorage/PieceThemeContext";
-import { GameDisplayContext } from "@components/BoardComponents/BoardContext";
 import { DimensionSelect } from "./DimensionSelect";
 import { BoardSettingsButtons } from "./BoardSettingsButtons";
 import { EditVariantRules } from "./EditVariantRules";
 import { SparePieces } from "./SparePieces";
+import { FENTags } from "./FENTags/FENTags";
 
 export const EditorSidebar = () => {
-	const themeContext = useContext(UserContext);
-
 	return (
 		<section className={styles.wrap}>
 			<div className={styles["board-settings"]}>
@@ -18,6 +15,7 @@ export const EditorSidebar = () => {
 			</div>
 			<EditVariantRules />
 			<SparePieces />
+			<FENTags />
 		</section>
 	);
 };

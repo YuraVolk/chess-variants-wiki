@@ -266,6 +266,24 @@ export const sidebarEditorsSlice = createSlice({
 					}
 				}
 			});
+		},
+		changeSideToMove: (state, action: PayloadAction<{ id: number; newSideToMove: NumericColor }>) => {
+			const { id, newSideToMove } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.publicFENSettings) return;
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/changeSideToMove",
+				payload: {
+					id,
+					changes: {
+						publicFENSettings: {
+							...editor.publicFENSettings,
+							sideToMove: newSideToMove
+						}
+					}
+				}
+			});
 		}
 	},
 	extraReducers: (builder) => {
@@ -319,7 +337,8 @@ export const {
 	setCurrentDroppedPiece,
 	deleteDroppedPiece,
 	toggleEnabledSquares,
-	disableEnabledSquares
+	disableEnabledSquares,
+	changeSideToMove
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 

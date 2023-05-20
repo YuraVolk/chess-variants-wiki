@@ -3,19 +3,18 @@ import styles from "./GameDisplay.module.scss";
 import { initializeComponentWithDirections } from "./GameDisplayBank";
 import { wrapIndexedColor } from "../../../interfaces/Colors";
 import defaultPlayerIcon from "@client/img/playerIcons/user-image.svg";
-import { UserContext } from "@client/ts/services/PersistedStorage/PieceThemeContext";
 import { convertSecondsToFlexibleHoursMinutesSeconds } from "@utils/StringFormatUtils";
 import { selectGameData } from "@client/ts/logic/index/GameBoardSlice";
 import type { RootState } from "@client/ts/redux/store";
 import { useSelector } from "react-redux";
-import { GameData, boardDimension, colors, getPlayerNameFromColor, playerNames, totalPlayers } from "@moveGeneration/GameInformation/GameData";
+import { GameData, boardDimension, colors, playerNames, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import { GameDisplayContext } from "../BoardContext";
 import { NumericColor, verifyNumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
 import { ProcessSafeMoveWrapper, getMoveFromPathAndTree } from "@moveGeneration/MoveTree/MoveTreeInterface";
 import { verifyValidMove } from "@moveGeneration/MoveTree/MoveTree";
-import { isVerticalPlacement } from "@client/ts/logic/BaseInterfaces";
 import { selectCurrentMove, selectFENSettings, selectMoveTree } from "@client/ts/redux/GeneralBoardSelectors";
+import { useContextualPlayerColor } from "@client/ts/hooks/useContextualPlayerColor";
 
 export interface PlayerBoxProps {
 	color: NumericColor;
@@ -24,18 +23,14 @@ export interface PlayerBoxProps {
 export const PlayerBox = (props: PlayerBoxProps) => {
 	const { id, stateController } = useContext(GameDisplayContext);
 	const {
-		fenOptions: { wb, dim, noCorners },
+		fenOptions: { dim, noCorners },
 		points,
 		sideToMove
 	} = useSelector<RootState, PublicFENSettings>((state) => selectFENSettings({ stateController, id, state }));
 	const gameData = useSelector<RootState, GameData>((state) => selectGameData(state, id));
-	const userContext = useContext(UserContext);
 
-	const wrappedColor =
-		isVerticalPlacement(props.color) && wb
-			? wrapIndexedColor(userContext.colors.whiteBlackColors[props.color === 0 ? 0 : 1])
-			: wrapIndexedColor(userContext.colors.pieceColors[props.color]);
-	const { name = getPlayerNameFromColor(props.color, wb), elo } = gameData.players[props.color];
+	const [playerName, indexedColor] = useContextualPlayerColor()(props.color);
+	const { name = playerName, elo } = gameData.players[props.color];
 
 	const isPossibleToPlaceInCorner = Math.max(...dim) === boardDimension && !noCorners;
 
@@ -44,7 +39,7 @@ export const PlayerBox = (props: PlayerBoxProps) => {
 			<div
 				className={styles["player-box__clock"]}
 				style={{
-					backgroundColor: wrappedColor
+					backgroundColor: wrapIndexedColor(indexedColor)
 				}}>
 				<div className={styles["player-box__clock-icon"]}></div>
 				<span className={styles["player-box__clock-seconds"]}>{convertSecondsToFlexibleHoursMinutesSeconds(props.timeInSeconds)}</span>
@@ -53,8 +48,8 @@ export const PlayerBox = (props: PlayerBoxProps) => {
 				<div
 					className={styles["player-box__player-icon"]}
 					style={{
-						borderColor: wrappedColor,
-						backgroundColor: wrappedColor
+						borderColor: wrapIndexedColor(indexedColor),
+						backgroundColor: wrapIndexedColor(indexedColor)
 					}}>
 					<img src={defaultPlayerIcon} alt="Default player icon" />
 				</div>
