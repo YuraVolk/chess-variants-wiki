@@ -13,6 +13,7 @@ export interface StaticFENOptionTag<T, S = T> {
 	parse(value: unknown): T;
 	serialize(): string | undefined;
 	createSnapshot(): S;
+	getName(): string;
 }
 export type DynamicFENOptionTag<T, S = T> = StaticFENOptionTag<T, S> & Memento<S>;
 export const verifyDynamicFENOptionKey = (
@@ -70,23 +71,43 @@ export type FENOptionsSerializedState = {
 
 export function createFENOptionsTags(): FENOptionsTags {
 	return {
-		dead: Tags.createBooleanTupleTag({ key: "dead", defaultValue: createTuple(false, totalPlayers), isStatic: false }),
-		resigned: Tags.createBooleanTupleTag({ key: "resigned", defaultValue: createTuple(false, totalPlayers), isStatic: false }),
+		dead: Tags.createBooleanTupleTag({ key: "dead", defaultValue: createTuple(false, totalPlayers), isStatic: false, name: "Dead Players" }),
+		resigned: Tags.createBooleanTupleTag({
+			key: "resigned",
+			defaultValue: createTuple(false, totalPlayers),
+			isStatic: false,
+			name: "Resigned Players"
+		}),
 
 		pawnBaseRank: Tags.createPawnBaseRankTag(),
 		enPassant: Tags.createEnPassantTag(),
 
 		boxOffset: Tags.createBoxOffsetTag(),
-		wb: Tags.createBooleanTag({ key: "wb", defaultValue: false, isStatic: true }),
+		wb: Tags.createBooleanTag({ key: "wb", defaultValue: false, isStatic: true, name: "White & Black Color Theme" }),
 		dim: Tags.createDimensionTag(),
-		noCorners: Tags.createBooleanTag({ key: "noCorners", defaultValue: false, isStatic: true }),
+		noCorners: Tags.createBooleanTag({ key: "noCorners", defaultValue: false, isStatic: true, name: "Full Board Size" }),
 
-		castleKingside: Tags.createBooleanTupleTag({ key: "castleKingside", defaultValue: createTuple(true, totalPlayers), isStatic: false }),
-		castleQueenside: Tags.createBooleanTupleTag({ key: "castleQueenside", defaultValue: createTuple(true, totalPlayers), isStatic: false }),
+		castleKingside: Tags.createBooleanTupleTag({
+			key: "castleKingside",
+			defaultValue: createTuple(true, totalPlayers),
+			isStatic: false,
+			name: "Kingside Castling"
+		}),
+		castleQueenside: Tags.createBooleanTupleTag({
+			key: "castleQueenside",
+			defaultValue: createTuple(true, totalPlayers),
+			isStatic: false,
+			name: "Queenside Castling"
+		}),
 		castleWith: Tags.createCastleWithTag(),
 
 		zombieType: Tags.createZombiesTag(),
-		zombieImmune: Tags.createBooleanTupleTag({ key: "zombieImmune", defaultValue: createTuple(false, totalPlayers), isStatic: false }),
+		zombieImmune: Tags.createBooleanTupleTag({
+			key: "zombieImmune",
+			defaultValue: createTuple(false, totalPlayers),
+			isStatic: false,
+			name: "Immune Zombies"
+		}),
 
 		royal: Tags.createRoyalTag(),
 		lives: Tags.createLivesTag(),
@@ -94,9 +115,19 @@ export function createFENOptionsTags(): FENOptionsTags {
 		bank: Tags.createBankTag(),
 		promotedFrom: Tags.createPromotedFromTag(),
 		setupPoints: Tags.createSetupPointsTag(),
-		setupComplete: Tags.createBooleanTupleTag({ key: "setupComplete", defaultValue: createTuple(true, totalPlayers), isStatic: false }),
+		setupComplete: Tags.createBooleanTupleTag({
+			key: "setupComplete",
+			defaultValue: createTuple(true, totalPlayers),
+			isStatic: false,
+			name: "Is Setup Complete"
+		}),
 		seirawanDrops: Tags.createSeirawanDropsTag(),
-		areBanksEnabled: Tags.createBooleanTupleTag({ key: "areBanksEnabled", defaultValue: createTuple(false, totalPlayers), isStatic: false })
+		areBanksEnabled: Tags.createBooleanTupleTag({
+			key: "areBanksEnabled",
+			defaultValue: createTuple(false, totalPlayers),
+			isStatic: false,
+			name: "Are Piece Banks Enabled"
+		})
 	};
 }
 

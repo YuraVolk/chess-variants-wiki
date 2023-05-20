@@ -27,6 +27,7 @@ const verifyParameterType = <T>(param: unknown, type: string): param is Tuple<T,
 interface TagFactoryParameters<K extends keyof FENOptionsTags> {
 	key: K;
 	defaultValue: FENOptionsTags[K]["value"];
+	name: string;
 }
 interface DynamicTagFactoryParameters<K extends keyof FENOptionsTags> extends TagFactoryParameters<K> {
 	isStatic: false;
@@ -43,7 +44,7 @@ type BooleanTupleTag = ExtractTagKeysByType<PlayerBooleanTuple>;
 export function createBooleanTupleTag(parameters: DynamicTagFactoryParameters<BooleanTupleTag>): DynamicFENOptionTag<PlayerBooleanTuple>;
 export function createBooleanTupleTag(parameters: StaticTagFactoryParameters<BooleanTupleTag>): StaticFENOptionTag<PlayerBooleanTuple>;
 export function createBooleanTupleTag(parameters: OverloadTagFactoryParameters<BooleanTupleTag>) {
-	const { defaultValue, key, isStatic } = parameters;
+	const { defaultValue, key, isStatic, name } = parameters;
 	const resultingObject: FactoryGeneratedObject<BooleanTupleTag> = {
 		value: [...defaultValue],
 		parse(value): PlayerBooleanTuple {
@@ -63,6 +64,9 @@ export function createBooleanTupleTag(parameters: OverloadTagFactoryParameters<B
 		loadSnapshot(snapshot) {
 			const tuple: PlayerBooleanTuple = [...snapshot];
 			this.value = tuple;
+		},
+		getName() {
+			return name;
 		}
 	};
 
@@ -81,6 +85,9 @@ export const createPawnBaseRankTag = (): FENOptionsTags["pawnBaseRank"] => ({
 	},
 	createSnapshot() {
 		return this.value;
+	},
+	getName() {
+		return "Pawns Home Rank";
 	}
 });
 
@@ -103,6 +110,9 @@ export const createEnPassantTag = (): FENOptionsTags["enPassant"] => ({
 	},
 	loadSnapshot(snapshot) {
 		this.value = snapshot.map((enP) => (enP ? [[...enP[0]], [...enP[1]]] : enP));
+	},
+	getName() {
+		return "En Passant";
 	}
 });
 
@@ -117,6 +127,9 @@ export const createCastleWithTag = (): FENOptionsTags["castleWith"] => ({
 	},
 	createSnapshot() {
 		return this.value;
+	},
+	getName() {
+		return "Second Castling Piece";
 	}
 });
 
@@ -131,6 +144,9 @@ export const createBoxOffsetTag = (): FENOptionsTags["boxOffset"] => ({
 	},
 	createSnapshot() {
 		return this.value;
+	},
+	getName() {
+		return "Box Offset";
 	}
 });
 
@@ -138,7 +154,7 @@ type BooleanTag = ExtractTagsByType<boolean>;
 export function createBooleanTag(parameters: DynamicTagFactoryParameters<BooleanTag>): DynamicFENOptionTag<boolean>;
 export function createBooleanTag(parameters: StaticTagFactoryParameters<BooleanTag>): StaticFENOptionTag<boolean>;
 export function createBooleanTag(parameters: OverloadTagFactoryParameters<BooleanTag>) {
-	const { defaultValue, key, isStatic } = parameters;
+	const { defaultValue, key, isStatic, name } = parameters;
 	const result: FactoryGeneratedObject<BooleanTag> = {
 		value: defaultValue,
 		parse(input) {
@@ -152,6 +168,9 @@ export function createBooleanTag(parameters: OverloadTagFactoryParameters<Boolea
 		},
 		loadSnapshot(snapshot) {
 			this.value = snapshot;
+		},
+		getName() {
+			return name;
 		}
 	};
 
@@ -180,6 +199,9 @@ export const createDimensionTag = (): FENOptionsTags["dim"] => ({
 	},
 	createSnapshot() {
 		return [...this.value];
+	},
+	getName() {
+		return "Board Dimension";
 	}
 });
 
@@ -203,6 +225,9 @@ export const createZombiesTag = (): FENOptionsTags["zombieType"] => ({
 	},
 	createSnapshot() {
 		return [...this.value];
+	},
+	getName() {
+		return "Zombie Types";
 	}
 });
 
@@ -221,6 +246,9 @@ export const createRoyalTag = (): FENOptionsTags["royal"] => ({
 	},
 	loadSnapshot(snapshot) {
 		this.value = snapshot.map((c) => (c ? [...c] : c));
+	},
+	getName() {
+		return "Set Royals";
 	}
 });
 
@@ -241,6 +269,9 @@ export const createLivesTag = (): FENOptionsTags["lives"] => ({
 	},
 	loadSnapshot(snapshot) {
 		this.value = [...snapshot];
+	},
+	getName() {
+		return "Royal Lives";
 	}
 });
 
@@ -289,6 +320,9 @@ export const createBankTag = (): FENOptionsTags["bank"] => ({
 		this.value = snapshot.map(
 			(v) => new Map(v.map(([pieceStringObject, count]) => [PieceString.fromObjectToClass(pieceStringObject), count]))
 		);
+	},
+	getName() {
+		return "Piece Banks";
 	}
 });
 
@@ -330,6 +364,9 @@ export const createPromotedFromTag = (): FENOptionsTags["promotedFrom"] => ({
 		for (const [coordinate, pieceLetter] of snapshot) {
 			this.value.set([...coordinate], pieceLetter);
 		}
+	},
+	getName() {
+		return "Set Promoted From";
 	}
 });
 
@@ -350,6 +387,9 @@ export const createSetupPointsTag = (): FENOptionsTags["setupPoints"] => ({
 	},
 	loadSnapshot(snapshot) {
 		this.value = snapshot ? [...snapshot] : snapshot;
+	},
+	getName() {
+		return "Setup Points";
 	}
 });
 
@@ -391,5 +431,8 @@ export const createSeirawanDropsTag = (): FENOptionsTags["seirawanDrops"] => ({
 	},
 	loadSnapshot(snapshot) {
 		this.value = snapshot.map((s) => new Set(s));
+	},
+	getName() {
+		return "Set Seirawan Drops";
 	}
 });

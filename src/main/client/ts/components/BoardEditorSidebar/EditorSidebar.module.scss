@@ -1,4 +1,7 @@
+@use "sass:color";
 @use "../../index";
+
+$configurationGrayColor: #666564;
 
 .board {
 	position: relative;
@@ -274,7 +277,7 @@
 .parametrized-variant-rule {
 	display: flex;
 	align-items: center;
-	color: #666564;
+	color: $configurationGrayColor;
 	justify-content: space-between;
 
 	&__name {
@@ -284,8 +287,8 @@
 
 	&__select {
 		width: 8rem;
-		background-image: linear-gradient(45deg, transparent 78.8%, #666564 0),
-			linear-gradient(135deg, #666564 21.9%, transparent 0);
+		background-image: linear-gradient(45deg, transparent 78.8%, $configurationGrayColor 0),
+			linear-gradient(135deg, $configurationGrayColor 21.9%, transparent 0);
 		background-size: 6.5px;
 		background-repeat: no-repeat;
 		background-position: calc(90% - 6px - 0.2rem) 0.85rem, calc(91% - 5px + 0.3rem) 0.85rem;
@@ -393,7 +396,8 @@
 
 .fen-tags {
 	display: grid;
-	gap: 0.3rem;
+	row-gap: 0.8rem;
+    column-gap: 0.3rem;
 	grid-auto-rows: auto;
 	grid-template-columns: repeat(4, 1fr);
 
@@ -406,8 +410,72 @@
 		border-bottom: 1px index.$boardComponentWhiteColor solid;
 		margin-bottom: 4px;
 		color: index.$boardComponentWhiteColor;
+		font-weight: 400;
+		font-size: revert;
 		opacity: 0.776;
 		text-transform: uppercase;
+	}
+
+	&__fieldset {
+		display: grid;
+		grid-column: 1/-1;
+		grid-auto-rows: auto;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 0.3rem;
+		padding: 0;
+		border: 0;
+	}
+
+	&__checkbox {
+		flex-shrink: 0;
+		width: 4.6rem;
+		height: 2.6rem;
+		padding: 0.2rem;
+		font-size: 1rem;
+		cursor: pointer;
+
+		&-wrap {
+			display: flex;
+			justify-content: center;
+		}
+	}
+
+	&__fake-checkbox {
+		display: none;
+		position: relative;
+		width: 0.1rem;
+		height: 0.1rem;
+		clip: rect(0 0 0 0);
+		overflow: hidden;
+	}
+
+	&__label {
+		width: 100%;
+		background-color: color.scale($configurationGrayColor, $lightness: 15%);
+		border: 1px solid $configurationGrayColor;
+		border-radius: 2rem;
+		transition: all 0.3s ease-in;
+		cursor: pointer;
+	}
+
+	&__fake-checkbox:checked + #{&}__label {
+		background-color: index.$activeColor;
+	}
+
+	&__label-checkbox {
+		width: 2.4rem;
+		height: 2.4rem;
+		margin: -0.2rem;
+		background-color: index.$boardComponentWhiteColor;
+		border: 0.1rem solid lighten(index.$boardComponentWhiteColor, 5%);
+		border-radius: 50%;
+		box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
+		transition: all 0.3s ease-in;
+		cursor: pointer;
+	}
+
+	&__fake-checkbox:checked + #{&}__label > #{&}__label-checkbox {
+		margin-left: 1.9rem;
 	}
 }
 
@@ -427,3 +495,4 @@
 		text-transform: uppercase;
 	}
 }
+

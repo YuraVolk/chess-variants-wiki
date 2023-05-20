@@ -121,7 +121,7 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 		}
 
 		const dimensions: [number, number, number, number] = [dimensionRY, dimensionBG, dimensionRY, dimensionBG];
-		const royalRanks = this.tag("royal").map((r, i) => (r ? r[getHorizontalPlacementModulus(i)] : r));
+		const royalRanks = this.tag("royal").map((r, i) => (r ? r[getVerticalPlacementModulus(i)] : r));
 		const royalCoordinates = this.tag("royal").map((r, i) => (r ? r[getHorizontalPlacementModulus(i)] : r));
 		const kingsideCastlePieceCoordinate: number[] = [];
 		const queensideCastlePieceCoordinate: number[] = [];

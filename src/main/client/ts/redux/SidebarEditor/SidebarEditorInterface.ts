@@ -1,8 +1,9 @@
 import type { BoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
 import type { SerializedBoardStrings } from "@client/ts/logic/utils/Tags/InputOutputProcessing";
-import type { FENOptionsSerializedState } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
-import type { VariantType } from "@moveGeneration/GameInformation/GameData";
+import { PlayerBooleanTuple } from "@moveGeneration/Board/Board";
+import { FENOptionsSerializedState, createFENOptionsTags } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
+import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import type { Coordinate } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import type { PieceStringObject } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import type { ProcessSafeMoveWrapper, StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
@@ -27,3 +28,9 @@ export type ExtractStateTagByType<T> = {
 export type ExtractVariantRuleByType<T> = {
 	[K in keyof VariantDataRules]: VariantDataRules[K] extends T ? K : never;
 }[keyof VariantDataRules];
+
+export const READONLY_TAGS = createFENOptionsTags();
+export function verifyBooleanTupleTag(key: keyof FENOptionsSerializedState): key is ExtractStateTagByType<PlayerBooleanTuple> {
+	const value: unknown = READONLY_TAGS[key].value;
+	return Array.isArray(value) && value.length === totalPlayers && value.every(v => typeof v === "boolean");
+}

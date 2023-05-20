@@ -331,6 +331,7 @@ export const {
 	changeDimensionValue,
 	changeNumericColorValue,
 	toggleBooleanValue,
+	toggleBooleanTupleValue,
 	toggleBooleanVariantRule,
 	changeParametrizedVariantRule,
 	dropPiece,
