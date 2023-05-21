@@ -29,7 +29,7 @@ export const CoordinateTags = () => {
 						selectedTag === "royal" ? styles["fen-tags__board-selection-button--active"] : ""
 					}`}
 					onClick={() => dispatch(selectCoordinateBasedTag({ id, newTag: "royal" }))}>
-					Set Royals
+					{selectedTag === "royal" ? "Click on Board Squares" : "Set Royals"}
 				</button>
 				{colors.map((c) => {
 					const royal = fenOptions.royal[c];

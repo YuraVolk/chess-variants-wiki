@@ -11,9 +11,10 @@ import {
 	selectEditorBoardSquares,
 	selectEditorFENSettings,
 	selectEditorSidebar,
+	setCoordinateBasedTagSquare,
 	setCurrentDroppedPiece
 } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
-import { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
+import type { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
 import { alterCoordinate, getCSSPropertiesFromDimension } from "@components/BoardComponents/GameDisplay/GameDisplay";
 import { checkDimensionIntersection } from "@client/ts/logic/utils/Tags/TagLogic/FENDataTag";
 import { GameDisplaySquareWrap } from "@components/BoardComponents/GameDisplay/GameSquareWrap";
@@ -22,6 +23,7 @@ import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/G
 import { PlayerBoxContainer } from "@components/BoardComponents/GameDisplay/GameDisplayPlayerBox";
 import { assertTargetIsNode } from "@utils/BrowserUtils";
 import { sparePieceSelectorsID } from "./SparePieces";
+import type { FENOptionsTags } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
 
 interface EditorBoardProps {
 	currentPerspective: NumericColor;
@@ -34,12 +36,24 @@ export const EditorBoard = (props: EditorBoardProps) => {
 	const boardSquares = useSelector<RootState, BoardSquares<PieceStringObject>>((state) => selectEditorBoardSquares(state, id));
 	const fenSettings = useSelector<RootState, PublicFENSettings>((state) => selectEditorFENSettings(state, id));
 	const isActive = useSelector<RootState, boolean>((state) => selectEditorSidebar(state, id).isDroppingEnabled);
+	const selectedTag = useSelector<RootState, keyof FENOptionsTags | undefined>(
+		(state) => selectEditorSidebar(state, id).selectedCoordinateFENtag
+	);
+
 	const onDrag = useCallback(
 		(e: React.DragEvent<HTMLDivElement>, coordinate: Coordinate) => {
 			e.preventDefault();
 			if (!isActive) dispatch(setCurrentDroppedPiece({ id, piece: coordinate }));
 		},
 		[dispatch, id, isActive]
+	);
+	const onClick = useCallback(
+		(i: number, j: number) => {
+			if (selectedTag) {
+				dispatch(setCoordinateBasedTagSquare({ id, coordinate: [i, j] }));
+			} else dispatch(dropPiece({ id, endCoordinate: [i, j] }));
+		},
+		[dispatch, id, selectedTag]
 	);
 
 	useEffect(() => {
@@ -59,7 +73,10 @@ export const EditorBoard = (props: EditorBoardProps) => {
 	const cssProperties = getCSSPropertiesFromDimension(fenSettings.fenOptions.dim),
 		dimensionMax = Math.max(...fenSettings.fenOptions.dim);
 	return (
-		<div className={`${styles.board} ${isActive ? styles["board--active"] : ""}`} style={cssProperties} ref={boardRef}>
+		<div
+			className={`${styles.board} ${isActive ? styles["board--active"] : ""} ${selectedTag ? styles["board--clickable"] : ""}`}
+			style={cssProperties}
+			ref={boardRef}>
 			{boardSquares.map((r, initialI) => {
 				return (
 					<div className={styles["board-row"]} key={initialI}>
@@ -73,7 +90,7 @@ export const EditorBoard = (props: EditorBoardProps) => {
 									onDrag={(e) => onDrag(e, [initialI, initialJ])}
 									onDragOver={(e) => e.preventDefault()}
 									onDrop={() => dispatch(dropPiece({ id, endCoordinate: [initialI, initialJ] }))}
-									onClick={() => dispatch(dropPiece({ id, endCoordinate: [initialI, initialJ] }))}
+									onClick={() => onClick(initialI, initialJ)}
 									key={`${i}-${j}`}>
 									<GameDisplaySquareWrap>
 										<GameDisplaySquare pieceString={boardSquares[i][j]} displaySettings={[]} />

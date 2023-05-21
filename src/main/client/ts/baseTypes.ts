@@ -17,6 +17,11 @@ export type ImplementInterface<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 export function assertNonUndefined<T>(data: T): asserts data is NonNullable<T> {
 	if (data == null) throw new Error("Expected the data above to be anything but null or undefined");
 }
+export function assertDevOnly(condition: boolean): asserts condition {
+	if (process.env.NODE_ENV === "development") {
+		if (!condition) throw new Error("Dev only condition assertion is not satisfied, the condition resulted in false");
+	}
+}
 
 export function throwOnNever(arg: never): never {
 	console.dir(arg);

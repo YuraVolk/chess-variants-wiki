@@ -12,6 +12,14 @@ $configurationGrayColor: #666564;
 			@include index.squareHighlightCircle;
 		}
 	}
+
+	&--clickable {
+		cursor: pointer;
+
+		* {
+			cursor: pointer;
+		}
+	}
 }
 
 .board-row {

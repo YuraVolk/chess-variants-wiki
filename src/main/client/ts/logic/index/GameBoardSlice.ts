@@ -1,4 +1,4 @@
-import { assertNonUndefined, createTuple } from "@client/ts/baseTypes";
+import { assertDevOnly, createTuple } from "@client/ts/baseTypes";
 import { BoardSquares, initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { RootState } from "@client/ts/redux/store";
 import type { PlayerBooleanTuple } from "@moveGeneration/Board/Board";
@@ -182,13 +182,8 @@ export const {
 
 export const selectGameBoard = (state: RootState, id: number) => {
 	const gameBoard = gameBoardsAdapter.getSelectors().selectById(state.gameBoards, id);
-	if (process.env.NODE_ENV === "development") {
-		assertNonUndefined(gameBoard);
-		return gameBoard;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	return gameBoard!;
+	assertDevOnly(gameBoard !== undefined);
+	return gameBoard;
 };
 export const selectGameBoardCurrentMove = (state: RootState, id: number) => selectGameBoard(state, id).currentMove;
 export const selectGameBoardMoveTree = (state: RootState, id: number) => selectGameBoard(state, id).moveTree;
@@ -198,36 +193,21 @@ export const selectGameBoardType = (state: RootState, id: number) => selectGameB
 export const selectGameBoardRules = (state: RootState, id: number) => selectGameBoard(state, id).variantRules;
 export const selectGameBoardFENSettings = (state: RootState, id: number) => {
 	const fenSettings = selectGameBoard(state, id).publicFENSettings;
-	if (process.env.NODE_ENV === "development") {
-		assertNonUndefined(fenSettings);
-		return fenSettings;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	return fenSettings!;
+	assertDevOnly(fenSettings !== undefined);
+	return fenSettings;
 };
 
 export const selectSquareVisibility = (state: RootState, id: number) => selectGameBoard(state, id).squareVisibility;
 export const selectInternalMoves = (state: RootState, id: number) => selectGameBoard(state, id).allowedInternalMoves;
 export const selectGameBoardVariantData = (state: RootState, id: number) => {
 	const variantDataRules = selectGameBoard(state, id).variantDataRules;
-	if (process.env.NODE_ENV === "development") {
-		assertNonUndefined(variantDataRules);
-		return variantDataRules;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	return variantDataRules!;
+	assertDevOnly(variantDataRules !== undefined);
+	return variantDataRules;
 };
 export const selectGameData = (state: RootState, id: number) => {
 	const gameData = selectGameBoard(state, id).gameData;
-	if (process.env.NODE_ENV === "development") {
-		assertNonUndefined(gameData);
-		return gameData;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	return gameData!;
+	assertDevOnly(gameData !== undefined);
+	return gameData;
 };
 export const selectInitiallyAliveColors = (state: RootState, id: number) => selectGameBoard(state, id).initiallyAliveColors;
 export const selectFogPerspective = (state: RootState, id: number) => selectGameBoard(state, id).currentFogPerspective;

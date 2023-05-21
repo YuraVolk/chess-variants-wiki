@@ -2,16 +2,17 @@ import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolki
 import { ExtractStateTagByType, ExtractVariantRuleByType, READONLY_MAPPED_TAGS, SidebarEditorInterface } from "./SidebarEditorInterface";
 import { createNewGameBoard, updateInteractionSettings } from "@client/ts/logic/index/GameBoardSlice";
 import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
-import { PieceStringObject, emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
+import { PieceString, PieceStringObject, emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
-import { Tuple, assertNonUndefined, createTuple } from "@client/ts/baseTypes";
+import { Tuple, assertDevOnly, createTuple } from "@client/ts/baseTypes";
 import { getNeighboringSideToMove } from "@moveGeneration/FENData/FENDataInterface";
 import type { PlayerBooleanTuple } from "@moveGeneration/Board/Board";
 import type { RootState } from "../store";
 import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
 import type { StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
 import type { FENOptionsTags } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
+import { stringifyCoordinate } from "@moveGeneration/Board/BoardInterface";
 
 const baseFalsyColors = createTuple(false, totalPlayers);
 
@@ -336,6 +337,49 @@ export const sidebarEditorsSlice = createSlice({
 					}
 				}
 			});
+		},
+		setCoordinateBasedTagSquare: (state, action: PayloadAction<{ id: number; coordinate: Coordinate }>) => {
+			const { id, coordinate } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.publicFENSettings) return;
+
+			const newFenOptions = { ...editor.publicFENSettings.fenOptions };
+			const boardSquare = PieceString.fromObjectToClass(editor.boardSquares[coordinate[0]][coordinate[1]]);
+
+			switch (editor.selectedCoordinateFENtag) {
+				case "royal": 
+					if (boardSquare.isPiece()) {
+						newFenOptions.royal = newFenOptions.royal.map((r, i) => i === boardSquare.color ? coordinate : r);
+					}
+					break;
+				case "seirawanDrops": {
+					const stringified = stringifyCoordinate(coordinate);
+					newFenOptions.seirawanDrops = newFenOptions.seirawanDrops.map((coordinates, i) => {
+						if (coordinates.includes(stringified)) return coordinates;
+						if (boardSquare.isEmpty()) {
+							if (i !== editor.publicFENSettings?.sideToMove) return coordinates;
+						} else if (i !== boardSquare.color) {
+							return coordinates;
+						}
+
+						return [...coordinates, stringified];
+					});
+					break;
+				}
+			}
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/addCoordinateBasedValue",
+				payload: {
+					id,
+					changes: {
+						publicFENSettings: {
+							...editor.publicFENSettings,
+							fenOptions: newFenOptions
+						}
+					}
+				}
+			});
 		}
 	},
 	extraReducers: (builder) => {
@@ -393,38 +437,26 @@ export const {
 	disableEnabledSquares,
 	changeSideToMove,
 	selectCoordinateBasedTag,
-	deleteRoyal
+	deleteRoyal,
+	setCoordinateBasedTagSquare
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 export const selectEditorSidebar = (state: RootState, id: number) => {
 	const sidebarEditor = sidebarEditorsAdapter.getSelectors().selectById(state.sidebarEditors, id);
-	if (process.env.NODE_ENV === "development") {
-		assertNonUndefined(sidebarEditor);
-		return sidebarEditor;
-	}
-
-	return sidebarEditor!;
+	assertDevOnly(sidebarEditor !== undefined);
+	return sidebarEditor;
 };
 export const selectEditorVariantType = (state: RootState, id: number) => selectEditorSidebar(state, id).variantType;
 export const selectEditorBoardSquares = (state: RootState, id: number) => selectEditorSidebar(state, id).boardSquares;
 export const selectEditorVariantDataRules = (state: RootState, id: number) => {
 	const variantData = selectEditorSidebar(state, id).variantDataRules;
-	if (process.env.NODE_ENV === "development") {
-		assertNonUndefined(variantData);
-		return variantData;
-	}
-
-	return variantData!;
+	assertDevOnly(variantData !== undefined);
+	return variantData;
 };
 export const selectEditorFENSettings = (state: RootState, id: number) => {
 	const fenSettings = selectEditorSidebar(state, id).publicFENSettings;
-	if (process.env.NODE_ENV === "development") {
-		assertNonUndefined(fenSettings);
-		return fenSettings;
-	}
-
-	return fenSettings!;
+	assertDevOnly(fenSettings !== undefined);
+	return fenSettings;
 };
-/* eslint-enable @typescript-eslint/no-non-null-assertion */
