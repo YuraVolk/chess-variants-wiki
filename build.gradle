@@ -55,3 +55,5 @@ task buildApp(type: NodeTask, dependsOn: 'npmInstall') {
 processResources.dependsOn 'buildApp'
 clean.delete << file('node_modules')
 clean.delete << file ('src/main/resources/public/scripts/')
+clean.delete << file ('src/main/resources/public/assets/')
+clean.delete << file ('src/main/resources/public/fonts/')
