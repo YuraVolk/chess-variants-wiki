@@ -19,9 +19,9 @@ import {
 	verifyPieceLetter
 } from "@moveGeneration/PieceControl/PieceControlInterface";
 import { GameDisplaySquare } from "@components/BoardComponents/GameDisplay/GameDisplaySquare";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "@client/ts/redux/store";
-import { deleteDroppedPiece, setCurrentDroppedPiece, toggleEnabledSquares } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@client/ts/redux/store";
+import { deleteDroppedPiece, selectEditorSidebar, setCurrentDroppedPiece, toggleEnabledSquares } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
 import { hashString } from "@utils/StringFormatUtils";
 import { useContextualPlayerColor } from "@client/ts/hooks/useContextualPlayerColor";
 
@@ -90,13 +90,14 @@ export const SparePieces = () => {
 		themeContext = useContext(UserContext);
 	const dispatch = useDispatch<AppDispatch>();
 	const [state, localDispatch] = useReducer(sparePieceReducer, { isExpanded: false, isFairyPiece: false, groupIndex: 0 });
+	const isActive = useSelector<RootState, boolean>((state) => selectEditorSidebar(state, id).isDroppingEnabled);
 	const colorSelector = useContextualPlayerColor();
 	const onDrag = useCallback(
 		(e: React.DragEvent<HTMLDivElement>, pieceString: PieceString) => {
 			e.preventDefault();
-			dispatch(setCurrentDroppedPiece({ id, piece: pieceString.toObject() }));
+			if (!isActive) dispatch(setCurrentDroppedPiece({ id, piece: pieceString.toObject() }));
 		},
-		[dispatch, id]
+		[dispatch, id, isActive]
 	);
 
 	return (

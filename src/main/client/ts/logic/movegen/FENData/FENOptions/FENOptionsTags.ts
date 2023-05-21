@@ -1,7 +1,7 @@
 import { createTuple, createTupleFromCallback, Tuple, verifyTupleType } from "@client/ts/baseTypes";
 import { compareArrays } from "@client/ts/utils/ArrayUtils";
 import type { PlayerBooleanTuple } from "../../Board/Board";
-import { stringifyCoordinate, unstringifyCoordinate } from "../../Board/BoardInterface";
+import { compareCoordinates, stringifyCoordinate, unstringifyCoordinate } from "../../Board/BoardInterface";
 import { boardDimension, colors, convertCoordinateToPGN4, totalPlayers } from "../../GameInformation/GameData";
 import { Coordinate, verifyNumericColor } from "../../GameInformation/GameUnits/GameUnits";
 import { createPieceFromString, PieceString } from "../../GameInformation/GameUnits/PieceString";
@@ -249,6 +249,18 @@ export const createRoyalTag = (): FENOptionsTags["royal"] => ({
 	},
 	getName() {
 		return "Set Royals";
+	},
+	mapNewEndCoordinate(value, start, end) {
+		const currentValue = this.createSnapshot();
+		this.loadSnapshot(value);
+		const newValue = this.createSnapshot();
+		this.loadSnapshot(currentValue);
+
+		const changedIndex = newValue.findIndex((c) => c && compareCoordinates(c, start));
+		if (changedIndex !== -1) {
+			newValue[changedIndex] = end;
+		}
+		return newValue;
 	}
 });
 
@@ -366,7 +378,17 @@ export const createPromotedFromTag = (): FENOptionsTags["promotedFrom"] => ({
 		}
 	},
 	getName() {
-		return "Set Promoted From";
+		return "Promoted From";
+	},
+	mapNewEndCoordinate(value, start, end) {
+		const currentValue = this.createSnapshot();
+		this.loadSnapshot(value);
+		const newValue = this.createSnapshot();
+		this.loadSnapshot(currentValue);
+
+		const changedIndex = newValue.find(([c, ]) => compareCoordinates(c, start));
+		if (changedIndex) changedIndex[0] = end;
+		return newValue;
 	}
 });
 

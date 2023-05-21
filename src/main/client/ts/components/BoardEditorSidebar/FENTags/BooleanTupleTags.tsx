@@ -35,6 +35,7 @@ export const BooleanTupleTags = () => {
 									type="checkbox"
 									name={identifier}
 									checked={value[index]}
+									readOnly
                                     onClick={() => dispatch(toggleBooleanTupleValue({ id, option, index }))}
 									className={styles["fen-tags__fake-checkbox"]}
 								/>

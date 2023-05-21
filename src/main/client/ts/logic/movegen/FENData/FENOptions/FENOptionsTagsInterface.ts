@@ -14,6 +14,7 @@ export interface StaticFENOptionTag<T, S = T> {
 	serialize(): string | undefined;
 	createSnapshot(): S;
 	getName(): string;
+	mapNewEndCoordinate?(value: S, startCoordinate: Coordinate, endCoordinate: Coordinate): S;
 }
 export type DynamicFENOptionTag<T, S = T> = StaticFENOptionTag<T, S> & Memento<S>;
 export const verifyDynamicFENOptionKey = (

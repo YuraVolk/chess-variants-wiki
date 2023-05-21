@@ -1,16 +1,17 @@
 import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import type { ExtractStateTagByType, ExtractVariantRuleByType, SidebarEditorInterface } from "./SidebarEditorInterface";
+import { ExtractStateTagByType, ExtractVariantRuleByType, READONLY_MAPPED_TAGS, SidebarEditorInterface } from "./SidebarEditorInterface";
 import { createNewGameBoard, updateInteractionSettings } from "@client/ts/logic/index/GameBoardSlice";
 import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import { PieceStringObject, emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
-import { assertNonUndefined, createTuple } from "@client/ts/baseTypes";
+import { Tuple, assertNonUndefined, createTuple } from "@client/ts/baseTypes";
 import { getNeighboringSideToMove } from "@moveGeneration/FENData/FENDataInterface";
 import type { PlayerBooleanTuple } from "@moveGeneration/Board/Board";
 import type { RootState } from "../store";
 import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
 import type { StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
+import type { FENOptionsTags } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
 
 const baseFalsyColors = createTuple(false, totalPlayers);
 
@@ -157,10 +158,18 @@ export const sidebarEditorsSlice = createSlice({
 		dropPiece: (state, action: PayloadAction<{ id: number; endCoordinate: Coordinate }>) => {
 			const { id, endCoordinate } = action.payload;
 			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
-			if (!editor?.currentDroppedPiece) return;
+			if (!editor?.currentDroppedPiece || !editor.publicFENSettings) return;
 
 			if (Array.isArray(editor.currentDroppedPiece)) {
 				const startCoordinate: Coordinate = editor.currentDroppedPiece;
+				let newFenOptions = editor.publicFENSettings.fenOptions;
+				for (const [tagName, tag] of READONLY_MAPPED_TAGS) {
+					newFenOptions = {
+						...newFenOptions,
+						[tagName]: tag.mapNewEndCoordinate(editor.publicFENSettings.fenOptions[tagName] as never, startCoordinate, endCoordinate)
+					};
+				}
+
 				sidebarEditorsAdapter.updateOne(state, {
 					type: "sidebarEditors/movePieceOnBoard",
 					payload: {
@@ -178,7 +187,11 @@ export const sidebarEditorsSlice = createSlice({
 											} else return s;
 									  })
 									: r
-							)
+							),
+							publicFENSettings: {
+								...editor.publicFENSettings,
+								fenOptions: newFenOptions
+							}
 						}
 					}
 				});
@@ -235,7 +248,7 @@ export const sidebarEditorsSlice = createSlice({
 				}
 			});
 		},
-		toggleEnabledSquares: (state, action: PayloadAction<{ id: number, piece: PieceStringObject }>) => {
+		toggleEnabledSquares: (state, action: PayloadAction<{ id: number; piece: PieceStringObject }>) => {
 			const { id, piece } = action.payload;
 			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
 			if (!editor) return;
@@ -280,6 +293,45 @@ export const sidebarEditorsSlice = createSlice({
 						publicFENSettings: {
 							...editor.publicFENSettings,
 							sideToMove: newSideToMove
+						}
+					}
+				}
+			});
+		},
+		selectCoordinateBasedTag: (state, action: PayloadAction<{ id: number; newTag: keyof FENOptionsTags }>) => {
+			const { id, newTag } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor) return;
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/selectCoordinateBasedTag",
+				payload: {
+					id,
+					changes: {
+						selectedCoordinateFENtag: editor.selectedCoordinateFENtag === newTag ? undefined : newTag
+					}
+				}
+			});
+		},
+		deleteRoyal: (state, action: PayloadAction<{ id: number; index: NumericColor }>) => {
+			const { id, index } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.publicFENSettings) return;
+
+			const newRoyal: Tuple<Coordinate | null, typeof totalPlayers> = [...editor.publicFENSettings.fenOptions.royal];
+			newRoyal[index] = null;
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/nullifyRoyalStatus",
+				payload: {
+					id,
+					changes: {
+						publicFENSettings: {
+							...editor.publicFENSettings,
+							fenOptions: {
+								...editor.publicFENSettings.fenOptions,
+								royal: newRoyal
+							}
 						}
 					}
 				}
@@ -339,7 +391,9 @@ export const {
 	deleteDroppedPiece,
 	toggleEnabledSquares,
 	disableEnabledSquares,
-	changeSideToMove
+	changeSideToMove,
+	selectCoordinateBasedTag,
+	deleteRoyal
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 

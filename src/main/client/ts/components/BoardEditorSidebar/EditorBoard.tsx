@@ -37,9 +37,9 @@ export const EditorBoard = (props: EditorBoardProps) => {
 	const onDrag = useCallback(
 		(e: React.DragEvent<HTMLDivElement>, coordinate: Coordinate) => {
 			e.preventDefault();
-			dispatch(setCurrentDroppedPiece({ id, piece: coordinate }));
+			if (!isActive) dispatch(setCurrentDroppedPiece({ id, piece: coordinate }));
 		},
-		[dispatch, id]
+		[dispatch, id, isActive]
 	);
 
 	useEffect(() => {
@@ -69,7 +69,7 @@ export const EditorBoard = (props: EditorBoardProps) => {
 
 							return (
 								<div
-									draggable
+									draggable={boardSquares[i][j].value.length !== 0}
 									onDrag={(e) => onDrag(e, [initialI, initialJ])}
 									onDragOver={(e) => e.preventDefault()}
 									onDrop={() => dispatch(dropPiece({ id, endCoordinate: [initialI, initialJ] }))}
