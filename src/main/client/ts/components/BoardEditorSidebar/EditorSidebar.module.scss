@@ -540,3 +540,18 @@ $configurationGrayColor: #666564;
 	}
 }
 
+.en-passant-select {
+	background-image: linear-gradient(45deg, transparent 78.8%, #666564 0),linear-gradient(135deg, #666564 21.9%, transparent 0);
+    background-size: 6.5px;
+    background-repeat: no-repeat;
+    background-position: calc(90% - 6px - 0.2rem) 0.85rem,calc(91% - 5px + 0.3rem) 0.85rem;
+    padding: 0.4rem;
+    border: none;
+	color: index.$boardComponentWhiteColor;
+    background-color: #444;
+	appearance: none;
+}
+
+.en-passant-placeholder {
+	height: 24px;
+}

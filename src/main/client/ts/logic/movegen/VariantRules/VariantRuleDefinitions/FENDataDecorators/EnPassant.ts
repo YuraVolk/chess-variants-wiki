@@ -11,6 +11,7 @@ import { chessGlyphIndex } from "@client/fonts/chessGlyphIndex";
 
 const tag = "enPassant";
 export class EnPassant extends VariantRule<typeof FENData, typeof tag> implements VariantRuleHandler<FENData> {
+	static readonly JUMP_DISTANCE = 2;
 	static {
 		VariantRule.initVariantRule(EnPassant);
 	}
@@ -66,10 +67,10 @@ export class EnPassant extends VariantRule<typeof FENData, typeof tag> implement
 				const setting = pieceControlConfigSettings[pieceString.piece];
 				if (
 					setting.moveGenerationSettings.isPawn &&
-					Math.abs(isVerticalPlacement(this.decorator.sideToMove) ? startI - endI : startJ - endJ) === 2
+					Math.abs(isVerticalPlacement(this.decorator.sideToMove) ? startI - endI : startJ - endJ) === EnPassant.JUMP_DISTANCE
 				) {
 					const enPassantInfo: [Coordinate, Coordinate] = [
-						[Math.ceil((startI + endI) / 2), Math.ceil((startJ + endJ) / 2)],
+						[Math.ceil((startI + endI) / EnPassant.JUMP_DISTANCE), Math.ceil((startJ + endJ) / EnPassant.JUMP_DISTANCE)],
 						[endI, endJ]
 					];
 					enPassants[this.decorator.sideToMove] = enPassantInfo;

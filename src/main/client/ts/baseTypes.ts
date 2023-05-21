@@ -12,6 +12,7 @@ export const createTupleFromCallback = <T, L extends number>(val: (v: unknown, k
 	Array.from({ length }, val);
 export const verifyTupleType = <T, L extends number>(arr: T[], length: L): arr is Tuple<T, L> => arr.length === length;
 
+export type SimplexType = number | boolean | string | symbol | null | undefined | object | bigint;
 export type ImplementInterface<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 
 export function assertNonUndefined<T>(data: T): asserts data is NonNullable<T> {

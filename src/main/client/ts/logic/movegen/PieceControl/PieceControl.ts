@@ -12,6 +12,8 @@ import {
 	PieceControlInternalMove
 } from "./PieceControlInterface";
 
+export const checkBoardOverflow = (i: number, j: number) => i < 0 || i >= boardDimension || j < 0 || j >= boardDimension;
+
 export class PieceControl implements VariantHandlerTarget<PieceControl> {
 	color: NumericColor;
 	sliding: Coordinate[];
@@ -179,7 +181,7 @@ export class PieceControl implements VariantHandlerTarget<PieceControl> {
 			rayGenCache,
 			special
 		} = configuration;
-		if (i < 0 || i >= boardDimension || j < 0 || j >= boardDimension) return false;
+		if (checkBoardOverflow(i, j)) return false;
 
 		const piece = this.board[i][j];
 		if (!piece.isEmpty() && piece.color !== deadColorIndex && !rayGenCache && !this.isRayTrace(special ?? AttackType.Normal)) {

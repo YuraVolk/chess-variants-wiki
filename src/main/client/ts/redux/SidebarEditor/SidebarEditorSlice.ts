@@ -5,13 +5,13 @@ import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameD
 import { PieceString, PieceStringObject, emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
-import { Tuple, assertDevOnly, createTuple } from "@client/ts/baseTypes";
+import { SimplexType, Tuple, assertDevOnly, createTuple } from "@client/ts/baseTypes";
 import { getNeighboringSideToMove } from "@moveGeneration/FENData/FENDataInterface";
 import type { PlayerBooleanTuple } from "@moveGeneration/Board/Board";
 import type { RootState } from "../store";
 import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
 import type { StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
-import type { FENOptionsTags } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
+import type { FENOptionsSerializedState, FENOptionsTags } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
 import { stringifyCoordinate } from "@moveGeneration/Board/BoardInterface";
 
 const baseFalsyColors = createTuple(false, totalPlayers);
@@ -347,9 +347,9 @@ export const sidebarEditorsSlice = createSlice({
 			const boardSquare = PieceString.fromObjectToClass(editor.boardSquares[coordinate[0]][coordinate[1]]);
 
 			switch (editor.selectedCoordinateFENtag) {
-				case "royal": 
+				case "royal":
 					if (boardSquare.isPiece()) {
-						newFenOptions.royal = newFenOptions.royal.map((r, i) => i === boardSquare.color ? coordinate : r);
+						newFenOptions.royal = newFenOptions.royal.map((r, i) => (i === boardSquare.color ? coordinate : r));
 					}
 					break;
 				case "seirawanDrops": {
@@ -376,6 +376,39 @@ export const sidebarEditorsSlice = createSlice({
 						publicFENSettings: {
 							...editor.publicFENSettings,
 							fenOptions: newFenOptions
+						}
+					}
+				}
+			});
+		},
+		changeParametrizedFENTag: (
+			state,
+			action: PayloadAction<{
+				id: number;
+				option: ExtractStateTagByType<Tuple<Exclude<SimplexType, boolean>, typeof totalPlayers>>;
+				newValue: FENOptionsSerializedState[ExtractStateTagByType<
+					Tuple<Exclude<SimplexType, boolean>, typeof totalPlayers>
+				>][NumericColor];
+				index: NumericColor;
+			}>
+		) => {
+			const { id, option, newValue, index } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.publicFENSettings) return;
+
+			const newArray: Tuple<Exclude<SimplexType, boolean>, typeof totalPlayers> = [...editor.publicFENSettings.fenOptions[option]];
+			newArray[index] = newValue;
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/changeParametrizedFENTag",
+				payload: {
+					id,
+					changes: {
+						publicFENSettings: {
+							...editor.publicFENSettings,
+							fenOptions: {
+								...editor.publicFENSettings.fenOptions,
+								[option]: newArray
+							}
 						}
 					}
 				}
@@ -438,10 +471,10 @@ export const {
 	changeSideToMove,
 	selectCoordinateBasedTag,
 	deleteRoyal,
-	setCoordinateBasedTagSquare
+	setCoordinateBasedTagSquare,
+	changeParametrizedFENTag
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
-
 
 export const selectEditorSidebar = (state: RootState, id: number) => {
 	const sidebarEditor = sidebarEditorsAdapter.getSelectors().selectById(state.sidebarEditors, id);

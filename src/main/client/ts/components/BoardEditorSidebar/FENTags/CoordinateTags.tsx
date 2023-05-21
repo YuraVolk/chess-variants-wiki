@@ -43,6 +43,15 @@ export const CoordinateTags = () => {
 					);
 				})}
 			</div>
+			<div className={styles["fen-tags__board-selection"]}>
+				<button
+					className={`${styles["fen-tags__board-selection-button"]} ${
+						selectedTag === "seirawanDrops" ? styles["fen-tags__board-selection-button--active"] : ""
+					}`}
+					onClick={() => dispatch(selectCoordinateBasedTag({ id, newTag: "seirawanDrops" }))}>
+					{selectedTag === "seirawanDrops" ? "Click on Board Squares" : "Set Seirawan Drops"}
+				</button>
+			</div>
 		</>
 	);
 };
