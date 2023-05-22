@@ -65,7 +65,7 @@ export const GamePromotionRule = (props: GamePromotionRuleProps) => {
 			data-tooltip-id={tooltipID}
 			data-tooltip-content={`${props.promotionPieces.description} ${props.promotionRank.description}`}>
 			<span className={styles["variant-rule--textual-rule"]}>
-				{`${props.promotionRank.rank}${formatOrdinalNumber(props.promotionRank.rank)}=`}
+				{`${formatOrdinalNumber(props.promotionRank.rank)}=`}
 			</span>
 			<span className={`${styles["variant-rule--promotion"]}`}>
 				{props.promotionPieces.pieces.map((letter) => {

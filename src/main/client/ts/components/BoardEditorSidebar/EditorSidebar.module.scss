@@ -422,6 +422,12 @@ $configurationGrayColor: #666564;
 		font-size: revert;
 		opacity: 0.776;
 		text-transform: uppercase;
+
+		&--compact {
+			grid-column: initial;
+			grid-column-start: 1;
+			grid-column-end: 4;
+		}
 	}
 
 	&__fieldset {
@@ -502,6 +508,18 @@ $configurationGrayColor: #666564;
 			margin-left: 25%;
 		}
 	}
+
+	&__select {
+		background-image: linear-gradient(45deg, transparent 78.8%, #666564 0),linear-gradient(135deg, #666564 21.9%, transparent 0);
+		background-size: 6.5px;
+		background-repeat: no-repeat;
+		background-position: calc(90% - 6px - 0.2rem) 0.85rem,calc(91% - 5px + 0.3rem) 0.85rem;
+		padding: 0.4rem;
+		border: none;
+		color: index.$boardComponentWhiteColor;
+		background-color: #444;
+		appearance: none;
+	}
 }
 
 .side-to-move {
@@ -538,18 +556,6 @@ $configurationGrayColor: #666564;
 		color: hsla(0,0%,100%,.65);
 		cursor: pointer;
 	}
-}
-
-.en-passant-select {
-	background-image: linear-gradient(45deg, transparent 78.8%, #666564 0),linear-gradient(135deg, #666564 21.9%, transparent 0);
-    background-size: 6.5px;
-    background-repeat: no-repeat;
-    background-position: calc(90% - 6px - 0.2rem) 0.85rem,calc(91% - 5px + 0.3rem) 0.85rem;
-    padding: 0.4rem;
-    border: none;
-	color: index.$boardComponentWhiteColor;
-    background-color: #444;
-	appearance: none;
 }
 
 .en-passant-placeholder {

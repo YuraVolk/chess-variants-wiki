@@ -1,6 +1,7 @@
 import type { PieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { Coordinate, nonPlayablePieces, NumericColor } from "../GameInformation/GameUnits/GameUnits";
 import type { PieceControl } from "./PieceControl";
+import { convertCamelCaseToWording } from "@utils/StringFormatUtils";
 
 export const enum AttackType {
 	Normal,
@@ -53,8 +54,8 @@ export type PieceLetter = string & { _: typeof pieceLetterTag };
 export const verifyPieceLetter = (piece: string): piece is PieceLetter =>
 	piece in pieceControlConfigSettings || nonPlayableValues.includes(piece);
 
-export const pieceControlConfigSettings = nonPlayableValues.reduce<Record<PieceLetter, PieceControlSettings>>(
-	(p, n) => ({
+export const pieceControlConfigSettings = Object.entries(nonPlayablePieces).reduce<Record<PieceLetter, PieceControlSettings>>(
+	(p, [name, n]) => ({
 		...p,
 		[n]: {
 			points: {
@@ -71,7 +72,7 @@ export const pieceControlConfigSettings = nonPlayableValues.reduce<Record<PieceL
 				isPawn: false
 			},
 			naming: {
-				name: "Wall",
+				name: convertCamelCaseToWording(name),
 				shortName: n
 			}
 		}

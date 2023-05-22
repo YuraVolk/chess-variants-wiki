@@ -413,6 +413,31 @@ export const sidebarEditorsSlice = createSlice({
 					}
 				}
 			});
+		},
+		changeSimpleParametrizedFENTag: (
+			state,
+			action: PayloadAction<{ id: number; option: ExtractStateTagByType<Exclude<SimplexType, object>>,
+			newValue: FENOptionsSerializedState[ExtractStateTagByType<Exclude<SimplexType, object>>] }>
+		) => {
+			const { id, option, newValue } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.publicFENSettings) return;
+
+			sidebarEditorsAdapter.updateOne(state, {
+				type: "sidebarEditors/changeSimpleParametrizedFENTag",
+				payload: {
+					id,
+					changes: {
+						publicFENSettings: {
+							...editor.publicFENSettings,
+							fenOptions: {
+								...editor.publicFENSettings.fenOptions,
+								[option]: newValue
+							}
+						}
+					}
+				}
+			});
 		}
 	},
 	extraReducers: (builder) => {
@@ -472,7 +497,8 @@ export const {
 	selectCoordinateBasedTag,
 	deleteRoyal,
 	setCoordinateBasedTagSquare,
-	changeParametrizedFENTag
+	changeParametrizedFENTag,
+	changeSimpleParametrizedFENTag
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 

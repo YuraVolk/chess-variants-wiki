@@ -1,15 +1,15 @@
 export function formatOrdinalNumber(num: number): string {
 	const lastTwoDigits = Number(String(num).slice(-2));
-	if (lastTwoDigits > 3 && lastTwoDigits < 21) return "th";
+	if (lastTwoDigits > 3 && lastTwoDigits < 21) return `${num}th`;
 	switch (lastTwoDigits % 10) {
 		case 1:
-			return "st";
+			return `${num}st`;
 		case 2:
-			return "nd";
+			return `${num}nd`;
 		case 3:
-			return "rd";
+			return `${num}rd`;
 		default:
-			return "th";
+			return `${num}th`;
 	}
 }
 
@@ -45,6 +45,10 @@ export function convertSecondsToFlexibleHoursMinutesSeconds(seconds: number): st
 
 export function convertCamelCaseToKebabCase(baseString: string): string {
 	return baseString.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
+export function convertCamelCaseToWording(baseString: string): string {
+	return baseString.replace(/([a-z])([A-Z])/g, "$1 $2").split(" ").map(s => s[0].toUpperCase() + s.slice(1)).join(" ");
 }
 
 export function hashString(string: string): number {

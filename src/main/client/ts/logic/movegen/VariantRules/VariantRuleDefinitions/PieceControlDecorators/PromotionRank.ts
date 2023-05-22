@@ -27,7 +27,7 @@ export class PromotionRank extends VariantRule<typeof PieceControl, typeof tag> 
 			information: {
 				name: "Promotion Rank",
 				textualForm: "",
-				description: `on the ${this.promotionRank}${formatOrdinalNumber(this.promotionRank)} rank`,
+				description: `on the ${formatOrdinalNumber(this.promotionRank)} rank`,
 				tag
 			}
 		} as const;
@@ -54,7 +54,7 @@ export class PromotionRank extends VariantRule<typeof PieceControl, typeof tag> 
 	getParametrizedOptions() {
 		const resultingMap = new Map<string, number>();
 		for (let i = 1; i <= boardDimension; i++) {
-			resultingMap.set(String(i) + formatOrdinalNumber(i), i);
+			resultingMap.set(formatOrdinalNumber(i), i);
 		}
 		resultingMap.set("No promotion", disabledRank);
 		return resultingMap;
