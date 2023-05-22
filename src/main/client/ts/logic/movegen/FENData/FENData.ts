@@ -36,6 +36,7 @@ import { compareCoordinates } from "../Board/BoardInterface";
 import { Coordinate, nonPlayablePieces, NumericColor, verifyNumericColor } from "../GameInformation/GameUnits/GameUnits";
 import type { VariantHandlerTarget } from "../VariantRules/VariantRuleInterface";
 import { FENOptions } from "./FENOptions/FENOptions";
+import { PublicFENSettings } from "../../index/GameBoardWorker";
 
 const defaultPointsForMate = 20;
 class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Memento<FENDataSnapshot> {
@@ -45,6 +46,15 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 	plyCount: number;
 	board!: Board;
 	private privateGameOver: Termination | false = false;
+
+	static toFENDataFromPublicFENSettings(settings: PublicFENSettings) {
+		const data = new FENData();
+		data.fenOptions.tags = FENOptions.loadSerializedState(settings.fenOptions);
+		data.points = [...settings.points];
+		data.sideToMove = settings.sideToMove;
+		data.plyCount = settings.plyCount;
+		return data;
+	}
 
 	__baseClass: FENData;
 	initDecoratorSettings() {

@@ -29,6 +29,8 @@ import { InsufficientMaterialConstructor } from "@moveGeneration/VariantRules/Va
 import { InsufficientMaterialChecker } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialChecker";
 import * as StateSerializer from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer";
 import { deserializeInsufficientMaterialState } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer";
+import type { BoardSquares } from "../BaseInterfaces";
+import type { FENData } from "@moveGeneration/FENData/FENData";
 
 export const requiredDispatches: Array<keyof RequestManager> = [];
 export const initialDispatches: Array<keyof RequestManager> = [];
@@ -56,8 +58,8 @@ function workerDataSync(type: "required" | "initial", gameObjectPropertySync: ke
 	};
 }
 
-class RequestManager {
-	private board!: Board;
+export class RequestManager {
+	private board = new Board("");
 	private initiallyAliveColors: NumericColor[] = [];
 	private internalMoves: InternalMove[] = [];
 	private legalMoves = new Map<string, MoveData[]>();
@@ -120,9 +122,7 @@ class RequestManager {
 		this.generateCurrentMoves();
 	}
 
-	@workerDataSync("required", "publicFENSettings")
-	@withWorkerResult()
-	getFENSettings() {
+	unboundGetFENSettings() {
 		const board = this.board;
 		const royalCount = createTuple(0, totalPlayers);
 		let isCustomRoyals = false;
@@ -141,8 +141,20 @@ class RequestManager {
 			sideToMove: board.data.sideToMove,
 			points,
 			isCustomRoyals,
+			plyCount: board.data.plyCount,
 			fenOptions: board.data.fenOptions.createSerializedState()
 		};
+	}
+
+	setBoardDataFromFENTag(board: BoardSquares<PieceString>, data: FENData) {
+		this.board.board = board;
+		this.board.data = data;
+	}
+
+	@workerDataSync("required", "publicFENSettings")
+	@withWorkerResult()
+	getFENSettings() {
+		return this.unboundGetFENSettings();
 	}
 
 	@workerDataSync("initial", "initiallyAliveColors")
@@ -276,10 +288,14 @@ class RequestManager {
 		return this.stripPieceStrings(this.board.variantData);
 	}
 
+	unboundGetBoard() {
+		return this.board.board.map((r) => r.map((p) => p.toObject()));
+	}
+
 	@workerDataSync("required", "boardSquares")
 	@withWorkerResult()
 	getBoard() {
-		return this.board.board.map((r) => r.map((p) => p.toObject()));
+		return this.unboundGetBoard();
 	}
 
 	@workerDataSync("required", "gameData")

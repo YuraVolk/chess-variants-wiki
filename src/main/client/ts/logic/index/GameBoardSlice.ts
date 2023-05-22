@@ -156,6 +156,17 @@ export const gameBoardsSlice = createSlice({
 					}
 				}
 			});
+		},
+		restartInitialization: (state: EntityState<GameBoardObject>, action: PayloadAction<{ id: number }>) => {
+			gameBoardsAdapter.updateOne(state, {
+				type: "gameBoard/changeCurrentFogPerspective",
+				payload: {
+					id: action.payload.id,
+					changes: {
+						initializationComplete: false
+					}
+				}
+			});
 		}
 	}
 });
@@ -177,7 +188,8 @@ export const {
 	goToNextPly,
 	goToPreviousMove,
 	goToPreviousPly,
-	changeCurrentFogPerspective
+	changeCurrentFogPerspective,
+	restartInitialization
 } = gameBoardsSlice.actions;
 
 export const selectGameBoard = (state: RootState, id: number) => {

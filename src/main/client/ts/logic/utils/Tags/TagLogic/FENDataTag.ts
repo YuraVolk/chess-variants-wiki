@@ -53,7 +53,7 @@ const predefinedFENpositions = {
 const verifyPredefinedFENPosition = (fenShorthand: string): fenShorthand is keyof typeof predefinedFENpositions =>
 	fenShorthand in predefinedFENpositions;
 
-const fenDataTag = "StartFen4";
+export const fenDataTag = "StartFen4";
 export const createFENDataTag = (): VariantTag<{
 	board: BoardSquares<PieceString>;
 	fenData: FENData;
@@ -182,6 +182,9 @@ export const createFENDataTag = (): VariantTag<{
 	},
 	serialize(baseBoard) {
 		const { board, data } = baseBoard;
+		return wrapTag(fenDataTag, this.externalSerialize?.(board, data) ?? "");
+	},
+	externalSerialize(board, data) {
 		let resultingString = "";
 		resultingString += `${stringColorEnum[data.sideToMove].toUpperCase()}-`;
 		resultingString += `${data.fenOptions
@@ -225,6 +228,6 @@ export const createFENDataTag = (): VariantTag<{
 		}
 		resultingString = resultingString.slice(0, -1);
 
-		return wrapTag(fenDataTag, resultingString);
+		return resultingString;
 	}
 });

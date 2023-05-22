@@ -5,6 +5,7 @@ import { BoardSettingsButtons } from "./BoardSettingsButtons";
 import { EditVariantRules } from "./EditVariantRules";
 import { SparePieces } from "./SparePieces";
 import { FENTags } from "./FENTags/FENTags";
+import { FENDisplay } from "./FENDisplay";
 
 export const EditorSidebar = () => {
 	return (
@@ -16,6 +17,7 @@ export const EditorSidebar = () => {
 			<EditVariantRules />
 			<SparePieces />
 			<FENTags />
+			<FENDisplay />
 		</section>
 	);
 };

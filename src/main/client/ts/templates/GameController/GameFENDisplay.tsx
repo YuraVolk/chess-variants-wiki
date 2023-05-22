@@ -15,11 +15,7 @@ import { GameDisplayContext } from "@components/BoardComponents/BoardContext";
 import { chessGlyphIndex } from "@client/fonts/chessGlyphIndex";
 import { selectFENSettings, selectSerializedStrings, selectVariantData } from "@client/ts/redux/GeneralBoardSelectors";
 
-interface GameFENDisplayProps {
-	variantName: string;
-}
-
-export const GameFENDisplay = (props: GameFENDisplayProps) => {
+export const GameFENDisplay = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const { id, worker, stateController } = useContext(GameDisplayContext);
 	const userContext = useContext(UserContext);
@@ -53,9 +49,9 @@ export const GameFENDisplay = (props: GameFENDisplayProps) => {
 
 	const loadGameBoard = useCallback(
 		(pgn4: string) => {
-			dispatch(createConstructBoardAction({ args: [pgn4, props.variantName], worker, id }));
+			dispatch(createConstructBoardAction({ args: [pgn4, ""], worker, id }));
 		},
-		[dispatch, id, props.variantName, worker]
+		[dispatch, id, worker]
 	);
 
 	const loadFile = useCallback(() => {

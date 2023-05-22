@@ -2,6 +2,9 @@ import type { Board } from "@moveGeneration/Board/Board";
 import { createFENDataTag } from "./TagLogic/FENDataTag";
 import * as GenericTags from "./TagLogic/GameMetadataTags";
 import { createVariantRulesTag } from "./TagLogic/VariantRulesTag";
+import { BoardSquares } from "../../BaseInterfaces";
+import { PieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
+import { FENData } from "@moveGeneration/FENData/FENData";
 
 export const createDefaultVariantTags = () => ({
 	variantType: GenericTags.createVariantTypeTag(),
@@ -23,4 +26,5 @@ export interface VariantTag<T> {
 	verifyTagInParsing(inputTag: string): boolean;
 	parseTag(tagContents: string): T;
 	serialize(board: Board): string | undefined;
+	externalSerialize?(board: BoardSquares<PieceString>, data: FENData): string;
 }

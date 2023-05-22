@@ -13,6 +13,9 @@ import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleI
 import type { StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
 import type { FENOptionsSerializedState, FENOptionsTags } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
 import { stringifyCoordinate } from "@moveGeneration/Board/BoardInterface";
+import { createFENDataTag, fenDataTag } from "@client/ts/logic/utils/Tags/TagLogic/FENDataTag";
+import { wrapTag } from "@client/ts/logic/utils/Tags/Utils";
+import { RequestManager } from "@client/ts/logic/index/GameBoardWorker";
 
 const baseFalsyColors = createTuple(false, totalPlayers);
 
@@ -438,6 +441,31 @@ export const sidebarEditorsSlice = createSlice({
 					}
 				}
 			});
+		},
+		loadFEN4fromString: (state, action: PayloadAction<{ id: number; fen4: string }>) => {
+			const { id, fen4 } = action.payload;
+			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+			if (!editor?.publicFENSettings) return;
+
+			const fenTag = createFENDataTag();
+			try {
+				const { board, fenData } = fenTag.parseTag(wrapTag(fenDataTag, fen4));
+				const requestManager = new RequestManager();
+				requestManager.setBoardDataFromFENTag(board, fenData);
+				const newFENSettings = requestManager.unboundGetFENSettings();
+				const boardSquares = requestManager.unboundGetBoard();
+				
+				sidebarEditorsAdapter.updateOne(state, {
+					type: "sidebarEditors/loadFEN4fromString",
+					payload: {
+						id,
+						changes: {
+							publicFENSettings: newFENSettings,
+							boardSquares
+						}
+					}
+				});
+			} catch { /* empty */ }
 		}
 	},
 	extraReducers: (builder) => {
@@ -498,7 +526,8 @@ export const {
 	deleteRoyal,
 	setCoordinateBasedTagSquare,
 	changeParametrizedFENTag,
-	changeSimpleParametrizedFENTag
+	changeSimpleParametrizedFENTag,
+	loadFEN4fromString
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 

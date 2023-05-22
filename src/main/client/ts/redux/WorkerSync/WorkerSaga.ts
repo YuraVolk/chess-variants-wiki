@@ -11,6 +11,7 @@ import {
 	GameBoardObjectSetProperties,
 	getCurrentMove,
 	resetInteractionSettings,
+	restartInitialization,
 	setLegalMoves,
 	updateInteractionSettings
 } from "../../logic/index/GameBoardSlice";
@@ -118,12 +119,13 @@ export function* watchWorkerConstruct() {
 		const { payload }: ReturnType<typeof constructBoard> = yield take(constructBoard);
 		yield spawn(function* () {
 			if (payload.worker.onmessage) return;
+			yield put(restartInitialization({ id: payload.id }));
 			const [variantName] = payload.args;
 			if (currentVariantNames.has(variantName)) {
 				while (currentVariantNames.has(variantName)) yield delay(200);
 			}
 
-			const generatedName: VariantGeneratedData | undefined = yield select(getVariantName, variantName);
+			const generatedName: VariantGeneratedData = yield select(getVariantName, variantName);
 			yield put(createNewGameBoard({ id: payload.id }));
 			if (typeof generatedName !== "undefined") {
 				yield call(sendMessage, {
@@ -134,11 +136,13 @@ export function* watchWorkerConstruct() {
 				});
 				yield fork(syncWithWorker, payload, true);
 			} else {
-				currentVariantNames.add(variantName);
+				if (variantName) currentVariantNames.add(variantName);
 				const result: BoardWorkerReturnType<"construct"> = yield call(sendMessage, payload, true);
 				yield fork(syncWithWorker, payload, true);
-				yield put(addInsufficientMaterialState({ id: variantName, variantData: result[1] }));
-				currentVariantNames.delete(variantName);
+				if (variantName) {	
+					yield put(addInsufficientMaterialState({ id: variantName, variantData: result[1] }));
+					currentVariantNames.delete(variantName);
+				}
 			}
 		});
 	}

@@ -564,3 +564,22 @@ $configurationGrayColor: #666564;
 .en-passant-placeholder {
 	height: 24px;
 }
+
+.fen-box {
+	@include index.scrollbar(8px);
+	display: flex;
+	width: 100%;
+	height: 10.5rem;
+	padding: 5px 8px;
+	font-weight: 500;
+	background: transparent;
+	color: index.$lightContentColor;
+	border: none;
+	resize: none;
+
+	&__button {
+		@include index.button;
+		margin-top: 1rem;
+		background-color: index.$activeColor;
+	}
+}

@@ -68,7 +68,7 @@ const GameController = (props: GameControllerProps) => {
 									<GameMetadataRules />
 								</div>
 								<GameMoveTreeDisplay />
-								<GameFENDisplay variantName={props.variantname ?? String(boardId)} />
+								<GameFENDisplay />
 								<GameControllerInternalActions
 									currentPerspective={currentPerspective}
 									changeCurrentPerspective={() => changePerspective()}
