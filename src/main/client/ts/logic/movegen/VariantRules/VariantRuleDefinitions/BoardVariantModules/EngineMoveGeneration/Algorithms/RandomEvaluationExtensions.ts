@@ -28,6 +28,9 @@ export const checkerAlgorithm = createBotAlgorithm(
 			}
 
 			return baseEvaluations;
+		},
+		getName() {
+			return "Checker";
 		}
 	})
 );
@@ -47,6 +50,9 @@ export const muncherAlgorithm = createBotAlgorithm(
 			}
 
 			return baseEvaluations;
+		},
+		getName() {
+			return "Muncher";
 		}
 	})
 );
@@ -66,6 +72,9 @@ export const pusherAlgorithm = createBotAlgorithm(
 			}
 
 			return baseEvaluations;
+		},
+		getName() {
+			return "Pusher";
 		}
 	})
 );

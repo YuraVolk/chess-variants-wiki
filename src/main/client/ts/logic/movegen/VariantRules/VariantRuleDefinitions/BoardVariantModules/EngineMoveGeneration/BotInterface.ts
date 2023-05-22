@@ -14,12 +14,16 @@ export enum ZombieType {
 	F_Muncher = "muncher_comfuter"
 }
 
-export const verifyZombieType = (zombieType: string): zombieType is ZombieType => zombieType in ZombieType;
+export function verifyZombieType(zombieType: string): zombieType is ZombieType {
+	const values: string[] = Object.values(ZombieType);
+	return values.includes(zombieType);
+}
 
 export interface ZombieMoveGenerationAlgorithm {
 	readonly stringifiedType: ZombieType;
 	evaluate(moves: MoveComponent[], board: Board): Map<MoveComponent, number>;
 	pickPreferredMove(evaluations: Map<MoveComponent, number>): Move;
+	getName(): string;
 }
 
 export const botAlgorithms = new Map<ZombieType, ZombieMoveGenerationAlgorithm>();

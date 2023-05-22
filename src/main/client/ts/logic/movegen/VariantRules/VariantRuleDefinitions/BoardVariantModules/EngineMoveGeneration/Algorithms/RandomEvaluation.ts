@@ -44,5 +44,8 @@ export const randoBotAlgorithm = createBotAlgorithm({
 	},
 	pickPreferredMove(evaluations: Map<MoveComponent, number>): Move {
 		return randomlyPickNextChainedMoves([...evaluations.entries()].reduce((p, n) => (n[1] > p[1] ? n : p))[0]);
+	},
+	getName() {
+		return "Randobot";
 	}
 });

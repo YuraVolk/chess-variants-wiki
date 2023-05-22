@@ -14,11 +14,16 @@ import { boardDimension, colors, convertCoordinateToPGN4, totalPlayers } from "@
 import { checkBoardOverflow } from "@moveGeneration/PieceControl/PieceControl";
 import { EnPassant } from "@moveGeneration/VariantRules/VariantRuleDefinitions/FENDataDecorators/EnPassant";
 import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
-import { Tuple, createTupleFromCallback, throwOnNever } from "@client/ts/baseTypes";
+import { Tuple, assertNonUndefined, createTupleFromCallback, throwOnNever } from "@client/ts/baseTypes";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@client/ts/redux/store";
 import type { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
 import { parseEnPassantCoordinates } from "@client/ts/logic/utils/Tags/Utils";
+import {
+	ZombieType,
+	botAlgorithms,
+	verifyZombieType
+} from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface";
 
 const compareDistanceToPBR = (distance: number, pawnBaseRank: number, isBackwards = false) =>
 	distance === pawnBaseRank || (isBackwards ? distance - 1 : distance + 1) === pawnBaseRank;
@@ -74,8 +79,8 @@ const selectAllowedEnPassantSquares = () =>
 							default:
 								throwOnNever(pieceString.color);
 						}
-					} 
-					
+					}
+
 					result[pieceString.color].push([[i, j], backSquares]);
 				}
 			}
@@ -95,9 +100,19 @@ export const ComplexTags = () => {
 
 	const onEnPassantChange = useCallback(
 		(e: string, index: NumericColor) => {
-			const coordinate = parseEnPassantCoordinates(e);
-			if (!coordinate) return;
-			dispatch(changeParametrizedFENTag({ id, option: "enPassant", index, newValue: coordinate }));
+			if (e) {
+				const coordinate = parseEnPassantCoordinates(e);
+				if (!coordinate) return;
+				dispatch(changeParametrizedFENTag({ id, option: "enPassant", index, newValue: coordinate }));
+			} else dispatch(changeParametrizedFENTag({ id, option: "enPassant", index, newValue: null }));
+		},
+		[dispatch, id]
+	);
+
+	const onZombieTypeChange = useCallback(
+		(newValue: string, index: NumericColor) => {
+			if (!verifyZombieType(newValue)) return;
+			dispatch(changeParametrizedFENTag({ id, option: "zombieType", index, newValue }));
 		},
 		[dispatch, id]
 	);
@@ -115,19 +130,38 @@ export const ComplexTags = () => {
 							className={styles["fen-tags__select"]}
 							key={index}
 							onChange={(e) => onEnPassantChange(e.target.value, index)}
-							value={
-								enPassant
-									? `${convertCoordinateToPGN4(enPassant[0], dimension)}:${convertCoordinateToPGN4(enPassant[1], dimension)}`
-									: ""
-							}>
+							value={enPassant ? `${convertCoordinateToPGN4(enPassant[0])}:${convertCoordinateToPGN4(enPassant[1])}` : ""}>
+							<option value="">None</option>
 							{enPassantSquares[index].map((v) => {
 								const stringifiedName = `${convertCoordinateToPGN4(v[0], dimension)}:${convertCoordinateToPGN4(
 									v[1],
 									dimension
 								)}`;
 								return (
-									<option key={stringifiedName} value={stringifiedName}>
+									<option key={stringifiedName} value={`${convertCoordinateToPGN4(v[0])}:${convertCoordinateToPGN4(v[1])}`}>
 										{stringifiedName}
+									</option>
+								);
+							})}
+						</select>
+					);
+				})}
+			</fieldset>
+			<fieldset className={styles["fen-tags__fieldset"]}>
+				<legend className={styles["fen-tags__text"]}>Zombie type</legend>
+				{colors.map((index) => {
+					return (
+						<select
+							className={styles["fen-tags__select"]}
+							key={index}
+							value={publicFENSettings.fenOptions.zombieType[index]}
+							onChange={(e) => onZombieTypeChange(e.target.value, index)}>
+							{Object.values(ZombieType).map((zombieType) => {
+								const algorithm = botAlgorithms.get(zombieType);
+								assertNonUndefined(algorithm);
+								return (
+									<option key={zombieType} value={zombieType}>
+										{algorithm.getName()}
 									</option>
 								);
 							})}

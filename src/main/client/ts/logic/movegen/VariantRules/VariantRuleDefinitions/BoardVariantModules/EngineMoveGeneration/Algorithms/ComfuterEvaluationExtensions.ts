@@ -29,6 +29,9 @@ export const comfuterCheckerAlgorithm = createBotAlgorithm(
 			}
 
 			return baseEvaluations;
+		},
+		getName() {
+			return "Futer-Checker";
 		}
 	})
 );
@@ -48,6 +51,9 @@ export const comfuterMuncherAlgorithm = createBotAlgorithm(
 			}
 
 			return baseEvaluations;
+		},
+		getName() {
+			return "Futer-Muncher";
 		}
 	})
 );
@@ -67,6 +73,9 @@ export const comfuterPusherAlgorithm = createBotAlgorithm(
 			}
 
 			return baseEvaluations;
+		},
+		getName() {
+			return "Futer-Pusher";
 		}
 	})
 );
@@ -81,6 +90,9 @@ export const patzerAlgorithm = createBotAlgorithm(
 			}
 
 			return baseEvaluations;
+		},
+		getName() {
+			return "Patzer";
 		}
 	})
 );

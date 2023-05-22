@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createTuple, Tuple } from "@client/ts/baseTypes";
 import { BoardSquares, initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { Board } from "@moveGeneration/Board/Board";
@@ -741,6 +742,9 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 			if (pick > 1 && Math.random() > 0.8) pick = 1;
 			if (pick > 2 && Math.random() > 0.8) pick = 2;
 			return randomlyPickNextChainedMoves(best[pick]);
+		},
+		getName() {
+			return "Comfuter";
 		}
 	};
 }
