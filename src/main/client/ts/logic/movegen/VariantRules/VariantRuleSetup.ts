@@ -157,7 +157,7 @@ export function compileVariantRuleData(rules: VariantRuleParsingTypes): VariantD
 	const finalObject: Partial<VariantDataRules> = {};
 	const variantRuleList = VariantRule.variantRuleList.map((rv) => new rv());
 	for (const rule of variantRuleList) {
-		finalObject[rule.getPublicProperties().information.tag] = false;
+		finalObject[rule.getPublicProperties().information.tag] = false as never;
 	}
 
 	const setFinalObjectProperty = <K extends keyof VariantDataRules>(properties: VariantRulePublicProperties<K>) => {

@@ -49,7 +49,7 @@ export const GameFENDisplay = () => {
 
 	const loadGameBoard = useCallback(
 		(pgn4: string) => {
-			dispatch(createConstructBoardAction({ args: [pgn4, ""], worker, id }));
+			dispatch(createConstructBoardAction({ args: ["", pgn4], worker, id }));
 		},
 		[dispatch, id, worker]
 	);
@@ -65,7 +65,7 @@ export const GameFENDisplay = () => {
 
 			const reader = new FileReader();
 			reader.onload = (result) => {
-				if (typeof result.target?.result === "string") loadGameBoard(pgn4);
+				if (typeof result.target?.result === "string") loadGameBoard(result.target.result);
 			};
 			reader.readAsText(file);
 		};
@@ -73,7 +73,7 @@ export const GameFENDisplay = () => {
 		document.body.appendChild(fileInput);
 		fileInput.click();
 		document.body.removeChild(fileInput);
-	}, [loadGameBoard, pgn4]);
+	}, [loadGameBoard]);
 
 	const playPreferredComputerMove = useCallback(() => {
 		dispatch(createdPreferredBotMoveAction({ id, worker }));
@@ -112,7 +112,7 @@ export const GameFENDisplay = () => {
 					<button
 						className={styles["fen-data__pgn-button"]}
 						onClick={() => {
-							loadGameBoard(pgn4);
+							loadGameBoard(localPGN4);
 						}}>
 						Load
 					</button>

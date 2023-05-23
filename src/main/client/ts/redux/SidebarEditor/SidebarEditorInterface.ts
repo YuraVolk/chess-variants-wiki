@@ -1,3 +1,4 @@
+import { assertDevOnly, assertNonUndefined } from "@client/ts/baseTypes";
 import type { BoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
 import type { SerializedBoardStrings } from "@client/ts/logic/utils/Tags/InputOutputProcessing";
@@ -10,9 +11,12 @@ import {
 } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
 import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import type { Coordinate } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
-import type { PieceStringObject } from "@moveGeneration/GameInformation/GameUnits/PieceString";
+import { PieceStringObject } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import type { ProcessSafeMoveWrapper, StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
-import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
+import { verifyPieceLetter } from "@moveGeneration/PieceControl/PieceControlInterface";
+import { VariantRule } from "@moveGeneration/VariantRules/VariantRule";
+import type { AllowedSuperClasses, VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
+import { compileVariantRuleData, parseVariantRules } from "@moveGeneration/VariantRules/VariantRuleSetup";
 
 export interface SidebarEditorInterface {
 	id: number;
@@ -45,3 +49,56 @@ export function verifyBooleanTupleTag(key: keyof FENOptionsSerializedState): key
 	const value: unknown = READONLY_TAGS[key].value;
 	return Array.isArray(value) && value.length === totalPlayers && value.every((v) => typeof v === "boolean");
 }
+
+function serializeVariantDataToVariantRules(variantDataInput: StripPieceStringObjects<VariantDataRules>) {
+	const variantData: VariantDataRules = {
+		...variantDataInput,
+		promotionPieces: variantDataInput.promotionPieces
+			? variantDataInput.promotionPieces.map((p) => {
+					const result = String(p);
+					assertDevOnly(verifyPieceLetter(result));
+					return result;
+			  })
+			: false
+	};
+
+	const currentVariantRules = [...parseVariantRules("")];
+	const defaultVariantRules = compileVariantRuleData(parseVariantRules(""));
+
+	const insertVariantRule = (variantRule: VariantRule<AllowedSuperClasses, keyof VariantDataRules>) => {
+		for (const [dependency, dependencyArgs] of variantRule.dependencies) {
+			if (!currentVariantRules.some((v) => v instanceof dependency)) {
+				const dependencyRule = new dependency(...dependencyArgs);
+				currentVariantRules.push(dependencyRule);
+				insertVariantRule(dependencyRule);
+			}
+		}
+	};
+
+	let key: keyof VariantDataRules;
+	for (key in defaultVariantRules) {
+		if (!Object.prototype.hasOwnProperty.call(defaultVariantRules, key) || variantData[key] === defaultVariantRules[key]) continue;
+		const variantRule = VariantRule.variantRuleList.find((rv) => new rv().getPublicProperties().information.tag === key);
+		if (!variantRule) continue;
+		const index = currentVariantRules.findIndex((c) => c instanceof variantRule);
+		if (index !== -1) currentVariantRules.splice(index, 1);
+
+		const rule = new variantRule(variantData[key]);
+		currentVariantRules.push(rule);
+		insertVariantRule(rule);
+	}
+
+	return currentVariantRules.map((rv) => ({ tag: rv.getPublicProperties().information.tag, value: rv.getPublicProperties().parameterValue }));
+}
+
+export const stripUnnecessaryBandwidthFromEditor = (information: SidebarEditorInterface) => {
+	assertNonUndefined(information.variantDataRules);
+	assertNonUndefined(information.publicFENSettings);
+	return {
+		variantType: information.variantType,
+		variantRules: serializeVariantDataToVariantRules(information.variantDataRules),
+		boardSquares: information.boardSquares,
+		publicFENSettings: information.publicFENSettings
+	};
+};
+export type EditorConstructSettings = ReturnType<typeof stripUnnecessaryBandwidthFromEditor>;

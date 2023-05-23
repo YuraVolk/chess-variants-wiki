@@ -14,7 +14,8 @@ function* rootSaga() {
 		WorkerSagas.trackLegalMovesChanges(),
 		WorkerSagas.watchCurrentMoveChanges(),
 		WorkerSagas.trackDeleteMoveRequests(),
-		WorkerSagas.trackFogOfWarPerspective()
+		WorkerSagas.trackFogOfWarPerspective(),
+		WorkerSagas.watchEditorConstructions()
 	]);
 }
 

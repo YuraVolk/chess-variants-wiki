@@ -85,7 +85,7 @@ export const gameBoardsSlice = createSlice({
 				currentFogPerspective: false
 			};
 
-			gameBoardsAdapter.addOne(state, newGameBoard);
+			gameBoardsAdapter.setOne(state, newGameBoard);
 		},
 		resetInteractionSettings: (state: EntityState<GameBoardObject>, action: PayloadAction<{ id: number }>) => {
 			const gameBoard = gameBoardsAdapter.getSelectors().selectById(state, action.payload.id);

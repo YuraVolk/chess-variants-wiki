@@ -52,6 +52,8 @@ $configurationGrayColor: #666564;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 
 	&-button {
 		@include index.button;
@@ -71,6 +73,10 @@ $configurationGrayColor: #666564;
 
 		&__icon--no-corners-off {
 			@extend %icon-font-chess-minimize;
+		}
+
+		&--active {
+			background-color: index.$activeColor;
 		}
 	}
 

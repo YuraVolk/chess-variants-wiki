@@ -56,6 +56,9 @@ export const createdPreferredBotMoveAction = (request: Omit<WorkerSagaRequest<"p
 const changeFogPerspective = createLocalAction("changeFogPerspective");
 export const createFogPerspectiveAction = (request: Omit<WorkerSagaRequest<"changeFogPerspective">, "request" | "args">) =>
 	changeFogPerspective({ ...request, request: "changeFogPerspective", args: [] });
+const createBoardFromSettings = createLocalAction("createBoardFromSettings");
+export const createBoardFromSettingsAction = (request: Omit<WorkerSagaRequest<"createBoardFromSettings">, "request">) =>
+	createBoardFromSettings({ ...request, request: "createBoardFromSettings" });
 
 const interceptMessage = <K extends BoardWorkerRequest>(request: K, worker: Worker) =>
 	new Promise((resolve: (v: BoardWorkerReturnType<K>) => void, reject) => {
@@ -139,7 +142,7 @@ export function* watchWorkerConstruct() {
 				if (variantName) currentVariantNames.add(variantName);
 				const result: BoardWorkerReturnType<"construct"> = yield call(sendMessage, payload, true);
 				yield fork(syncWithWorker, payload, true);
-				if (variantName) {	
+				if (variantName) {
 					yield put(addInsufficientMaterialState({ id: variantName, variantData: result[1] }));
 					currentVariantNames.delete(variantName);
 				}
@@ -150,14 +153,18 @@ export function* watchWorkerConstruct() {
 
 export function* watchWorkerChanges() {
 	for (;;) {
-		const { payload }: ReturnType<typeof makeMove | typeof playPreferredBotMove> = yield take([makeMove, playPreferredBotMove]);
-		if (!payload.worker.onmessage) {
-			const result: BoardWorkerReturnType<"makeMove" | "playPreferredBotMove"> = yield call(sendMessage, payload, true);
-			if (verifyWorkerRequest("playPreferredBotMove", result)) {
-				const move = result[1];
-				if (move) yield call(sendMessage, { ...payload, request: "makeMove", args: [move] }, true);
+		try {
+			const { payload }: ReturnType<typeof makeMove | typeof playPreferredBotMove> = yield take([makeMove, playPreferredBotMove]);
+			if (!payload.worker.onmessage) {
+				const result: BoardWorkerReturnType<"makeMove" | "playPreferredBotMove"> = yield call(sendMessage, payload, true);
+				if (verifyWorkerRequest("playPreferredBotMove", result)) {
+					const move = result[1];
+					if (move) yield call(sendMessage, { ...payload, request: "makeMove", args: [move] }, true);
+				}
+				yield fork(syncWithWorker, payload, false);
 			}
-			yield fork(syncWithWorker, payload, false);
+		} catch (e) {
+			console.warn(e);
 		}
 	}
 }
@@ -232,5 +239,18 @@ export function* trackFogOfWarPerspective() {
 			args: []
 		});
 		yield put(changeCurrentFogPerspective({ id: payload.id, perspective, visibility }));
+	}
+}
+
+export function* watchEditorConstructions() {
+	for (;;) {
+		try {
+			const { payload }: ReturnType<typeof createBoardFromSettings> = yield take(createBoardFromSettings);
+			yield put(restartInitialization({ id: payload.id }));
+			yield call(sendMessage, payload, true);
+			yield fork(syncWithWorker, payload, true);
+		} catch (e) {
+			console.warn(e);
+		}
 	}
 }

@@ -49,9 +49,9 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 	isComplexSetup = createComplexMoveLegalityTracker();
 	readonly gameData: GameData;
 	readonly gameType = createGameTypeSettings();
-	readonly variantRules: VariantRuleParsingTypes;
-	readonly variantData: VariantDataRules;
-	readonly isTwoPlayer: boolean;
+	variantRules: VariantRuleParsingTypes;
+	variantData: VariantDataRules;
+	isTwoPlayer: boolean;
 	insufficientMaterialChecker?: InsufficientMaterialChecker;
 
 	__baseClass: Board;

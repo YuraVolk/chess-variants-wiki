@@ -15,7 +15,7 @@ import {
 	MoveTreeSnapshot,
 	verifyRequiredMove
 } from "@moveGeneration/MoveTree/MoveTreeInterface";
-import { decorateClassWithVariants, VariantRulePublicProperties } from "@moveGeneration/VariantRules/VariantRule";
+import { decorateClassWithVariants, VariantRule, VariantRulePublicProperties } from "@moveGeneration/VariantRules/VariantRule";
 import type { VariantDataRules } from "@moveGeneration/VariantRules/VariantRuleInterface";
 import { compareArrays } from "@utils/ArrayUtils";
 import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
@@ -24,13 +24,18 @@ import { assertNonUndefined, createTuple, FunctionType, Tuple } from "@client/ts
 import type { GameBoardObjectSetProperties } from "./GameBoardSlice";
 import { stringifyCoordinate } from "@moveGeneration/Board/BoardInterface";
 import { changeGameTermination, validateMoveTree } from "@moveGeneration/MoveTree/MoveTreeValidator";
-import { assertValidMove } from "@moveGeneration/MoveTree/MoveTree";
+import { assertValidMove, createMoveTree } from "@moveGeneration/MoveTree/MoveTree";
 import { InsufficientMaterialConstructor } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialConstructor";
 import { InsufficientMaterialChecker } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialChecker";
 import * as StateSerializer from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer";
 import { deserializeInsufficientMaterialState } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer";
 import type { BoardSquares } from "../BaseInterfaces";
-import type { FENData } from "@moveGeneration/FENData/FENData";
+import { FENData } from "@moveGeneration/FENData/FENData";
+import type { EditorConstructSettings } from "@client/ts/redux/SidebarEditor/SidebarEditorInterface";
+import { compileVariantRuleData, parseVariantRules, validateVariantRules } from "@moveGeneration/VariantRules/VariantRuleSetup";
+import { createFENDataTag } from "../utils/Tags/TagLogic/FENDataTag";
+import { wrapTag } from "../utils/Tags/Utils";
+import { fenDataTag } from "../utils/Tags/TagLogic/FENDataTag";
 
 export const requiredDispatches: Array<keyof RequestManager> = [];
 export const initialDispatches: Array<keyof RequestManager> = [];
@@ -41,7 +46,11 @@ function withWorkerResult() {
 		const originalMethod = descriptor.value;
 		assertNonUndefined(originalMethod);
 		descriptor.value = function (...args: unknown[]) {
-			postMessage([propertyKey, originalMethod.apply(this, args)]);
+			try {
+				postMessage([propertyKey, originalMethod.apply(this, args)]);
+			} catch {
+				postMessage(["", undefined]);
+			}
 		};
 	};
 }
@@ -88,38 +97,53 @@ export class RequestManager {
 		}
 	}
 
-	construct(_variantName: string, pgn4: string) {
-		this.board = new Board(pgn4);
-		this.board = decorateClassWithVariants(this.board, Board, this.board.variantRules.boardDecorators);
-		this.generateInitiallyAliveColors();
+	construct(_variantName: string, pgn4: string, messageName = "construct") {
+		const clone = this.board.createClone();
+		try {
+			this.board = new Board(pgn4);
+			this.board = decorateClassWithVariants(this.board, Board, this.board.variantRules.boardDecorators);
+			this.generateInitiallyAliveColors();
 
-		const insufficientMaterialModule = new InsufficientMaterialConstructor(this.board, (state) => {
-			this.board.insufficientMaterialChecker = new InsufficientMaterialChecker(state, this.board);
-			this.board.moves = validateMoveTree(this.board, this.board.moves);
-			this.board.moves.currentMove = [-1];
-			changeGameTermination(this.board);
-			this.generateCurrentMoves();
+			const insufficientMaterialModule = new InsufficientMaterialConstructor(this.board, (state) => {
+				this.board.insufficientMaterialChecker = new InsufficientMaterialChecker(state, this.board);
+				this.board.moves = validateMoveTree(this.board, this.board.moves);
+				this.board.moves.currentMove = [-1];
+				changeGameTermination(this.board);
+				this.generateCurrentMoves();
 
-			postMessage(["construct", StateSerializer.serializeInsufficientMaterialState(state)]);
-		});
-		insufficientMaterialModule.generateInsufficientMaterialState();
-		return StateSerializer.serializeInsufficientMaterialState(insufficientMaterialModule.state);
+				postMessage([messageName, StateSerializer.serializeInsufficientMaterialState(state)]);
+			});
+			insufficientMaterialModule.generateInsufficientMaterialState();
+		} catch {
+			this.board = clone;
+		}
+
+		return StateSerializer.serializeInsufficientMaterialState(
+			new InsufficientMaterialConstructor(this.board, () => {
+				/* empty */
+			}).state
+		);
 	}
 
 	@withWorkerResult()
 	constructWithGeneratedData(pgn4: string, insufficientMaterialState: StateSerializer.SerializedInsufficientMaterialState) {
-		this.board = new Board(pgn4);
-		this.board = decorateClassWithVariants(this.board, Board, this.board.variantRules.boardDecorators);
-		this.generateInitiallyAliveColors();
+		const clone = this.board.createClone();
+		try {
+			this.board = new Board(pgn4);
+			this.board = decorateClassWithVariants(this.board, Board, this.board.variantRules.boardDecorators);
+			this.generateInitiallyAliveColors();
 
-		this.board.insufficientMaterialChecker = new InsufficientMaterialChecker(
-			deserializeInsufficientMaterialState(insufficientMaterialState),
-			this.board
-		);
-		this.board.moves = validateMoveTree(this.board, this.board.moves);
-		this.board.moves.currentMove = [-1];
-		changeGameTermination(this.board);
-		this.generateCurrentMoves();
+			this.board.insufficientMaterialChecker = new InsufficientMaterialChecker(
+				deserializeInsufficientMaterialState(insufficientMaterialState),
+				this.board
+			);
+			this.board.moves = validateMoveTree(this.board, this.board.moves);
+			this.board.moves.currentMove = [-1];
+			changeGameTermination(this.board);
+			this.generateCurrentMoves();
+		} catch {
+			this.board = clone;
+		}
 	}
 
 	unboundGetFENSettings() {
@@ -379,6 +403,37 @@ export class RequestManager {
 			const squareVisibility = this.board.getSquareVisibility();
 			this.board.data.sideToMove = sideToMove;
 			return squareVisibility;
+		}
+	}
+
+	createBoardFromSettings(settings: EditorConstructSettings) {
+		const clone = this.board.createClone();
+		try {
+			this.board.gameType.type = settings.variantType;
+			this.board.board = settings.boardSquares.map((r) => r.map((p) => PieceString.fromObjectToClass(p)));
+			this.board.data = FENData.toFENDataFromPublicFENSettings(settings.publicFENSettings);
+			const fenTag = createFENDataTag();
+			const dataReParsing = fenTag.parseTag(wrapTag(fenDataTag, fenTag.externalSerialize?.(this.board.board, this.board.data) ?? ""));
+			(this.board.board = dataReParsing.board), (this.board.data = dataReParsing.fenData);
+
+			const resultingRuleList: string[] = [];
+			for (const rule of settings.variantRules.map(({ tag, value }) => {
+				const variantRule = VariantRule.variantRuleList.find((rv) => new rv().getPublicProperties().information.tag === tag);
+				assertNonUndefined(variantRule);
+				return new variantRule(value);
+			})) {
+				const serializedForm = rule.serializeToParsingForm();
+				if (serializedForm) {
+					resultingRuleList.push(serializedForm);
+				}
+			}
+			this.board.variantRules = parseVariantRules(resultingRuleList.join(" "));
+			this.board.variantData = compileVariantRuleData(this.board.variantRules);
+			this.board.variantRules = validateVariantRules(this.board);
+			
+			this.construct("", serializeBoard(this.board).board, "createBoardFromSettings");
+		} catch {
+			this.board = clone;
 		}
 	}
 }

@@ -49,7 +49,7 @@ export const InputTags = () => {
 				}}>
 				{SORTED_PIECE_SETTINGS.map((setting) => {
 					return (
-						<option key={setting.naming.shortName} value={setting.piece}>
+						<option key={setting.piece} value={setting.piece}>
 							{setting.naming.name}
 						</option>
 					);

@@ -4,7 +4,7 @@ import { hashString } from "@utils/StringFormatUtils";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@client/ts/redux/store";
 import { gameBoardsAdapter } from "@client/ts/logic/index/GameBoardSlice";
-import { createConstructBoardAction } from "@client/ts/redux/WorkerSync/WorkerSaga";
+import { createBoardFromSettingsAction, createConstructBoardAction } from "@client/ts/redux/WorkerSync/WorkerSaga";
 import { GameFENDisplay } from "./GameFENDisplay";
 import { GameControllerInternalActions } from "./GameControllerInternalActions";
 import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
@@ -20,6 +20,8 @@ import { GameControllerPlaceholder } from "@components/BoardComponents/BoardPlac
 import type { BoardTemplateProps } from "../BoardTemplateInterface";
 import { EditorBoard } from "@components/BoardEditorSidebar/EditorBoard";
 import { EditorSidebar } from "@components/BoardEditorSidebar/EditorSidebar";
+import { SidebarEditorInterface, stripUnnecessaryBandwidthFromEditor } from "@client/ts/redux/SidebarEditor/SidebarEditorInterface";
+import { sidebarEditorsAdapter } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
 
 interface GameControllerProps extends BoardTemplateProps {
 	pgn4: string;
@@ -41,10 +43,19 @@ const GameController = (props: GameControllerProps) => {
 	const fenSettings = useSelector<RootState, PublicFENSettings | undefined>(
 		(state) => gameBoardsAdapter.getSelectors().selectById(state.gameBoards, boardId)?.publicFENSettings
 	);
+	const editorBoard = useSelector<RootState, SidebarEditorInterface | undefined>(
+		(state) => sidebarEditorsAdapter.getSelectors().selectById(state.sidebarEditors, boardId)
+	);
 
 	const changePerspective = useCallback(() => {
 		if (fenSettings) setCurrentPerspective(getNeighboringSideToMove(currentPerspective, fenSettings.fenOptions.resigned));
 	}, [currentPerspective, fenSettings]);
+
+	const onApplyChanges = useCallback(() => {
+		if (!editorBoard) return;
+		dispatch(createBoardFromSettingsAction({ id: boardId, worker, args: [stripUnnecessaryBandwidthFromEditor(editorBoard)] }));
+		setOpenSidebar(false);
+	}, [boardId, dispatch, editorBoard, worker]);
 
 	return (
 		<GameDisplayContext.Provider value={{ id: boardId, worker, stateController: isSidebarOpened ? "sidebarEditors" : "gameBoards" }}>
@@ -60,7 +71,7 @@ const GameController = (props: GameControllerProps) => {
 							)}
 						</section>
 						{isSidebarOpened ? (
-							<EditorSidebar />
+							<EditorSidebar onDiscardChanges={() => setOpenSidebar(false)} onApplyChanges={() => onApplyChanges()} />
 						) : (
 							<section className={styles["game-board-sidebar"]}>
 								<div className={styles["metadata-display"]}>
