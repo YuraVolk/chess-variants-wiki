@@ -46,7 +46,7 @@ dependencies {
 task buildApp(type: NodeTask, dependsOn: 'npmInstall') {
 	script = project.file('node_modules/webpack/bin/webpack.js')
 	args = [
-			'--mode', 'production',
+			'--mode', 'development',
 			'--entry', './src/main/client/ts/Main',
 			'-o', './src/main/resources/public/scripts/'
 	]

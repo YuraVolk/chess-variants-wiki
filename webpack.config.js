@@ -122,7 +122,7 @@ module.exports = {
         })
     ],
     optimization: {
-        nodeEnv: "production",
+        nodeEnv: "development",
         chunkIds: "total-size",
         moduleIds: "size",
         removeAvailableModules: true,

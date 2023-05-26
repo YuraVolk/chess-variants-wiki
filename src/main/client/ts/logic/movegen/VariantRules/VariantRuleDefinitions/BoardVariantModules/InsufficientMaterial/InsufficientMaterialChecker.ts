@@ -4,9 +4,10 @@ import { Tuple, assertNonUndefined, createTuple, createTupleFromCallback } from 
 import { colors, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { stalemateOptionsValues } from "../../FENDataDecorators/StalemateOptions";
-import { pieceControlConfigSettings, verifyPieceLetter } from "@moveGeneration/PieceControl/PieceControlInterface";
+import { grasshopperPieceLetter, pieceControlConfigSettings, verifyPieceLetter } from "@moveGeneration/PieceControl/PieceControlInterface";
 import { disabledRank } from "../../PieceControlDecorators/PromotionRank";
 import { compareCoordinates } from "@moveGeneration/Board/BoardInterface";
+import { createPieceFromData } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 
 export class InsufficientMaterialChecker {
 	private readonly noRoyalsToMate: boolean = false;
@@ -64,30 +65,37 @@ export class InsufficientMaterialChecker {
 	private obtainPieceSymbolFromCoordinate(board: Board, coordinate: Coordinate) {
 		const { optimizedPieces, pieceSquareMedians, backwardsPieceRegistry } = this.state;
 		const piece = board.board[coordinate[0]][coordinate[1]];
-		if (pieceControlConfigSettings[piece.piece].moveGenerationSettings.isPawn && this.hasPromotion) {
-			const availableSymbols = [...optimizedPieces]
-				.filter((p) => verifyPieceLetter(p) && !pieceControlConfigSettings[p].moveGenerationSettings.isPawn)
-				.map((p) => pieceSquareMedians[p]);
-			if (availableSymbols.length === 0) {
-				return { selectedSymbol: InsufficientMaterialConstructor.NON_INDEXED_PIECE_SYMBOL, piece };
+		try {
+			if (pieceControlConfigSettings[piece.piece].moveGenerationSettings.isPawn && this.hasPromotion) {
+				const availableSymbols = [...optimizedPieces]
+					.filter((p) => verifyPieceLetter(p) && !pieceControlConfigSettings[p].moveGenerationSettings.isPawn)
+					.map((p) => pieceSquareMedians[p]);
+				if (availableSymbols.length === 0) {
+					return { selectedSymbol: InsufficientMaterialConstructor.NON_INDEXED_PIECE_SYMBOL, piece };
+				} else {
+					const candidates = availableSymbols.map((s) => {
+						return s[Object.getOwnPropertySymbols(s)[0]].reduce<number>((p, n) => p + (n ?? 0), 0);
+					});
+					const candidateIndex = candidates.indexOf(Math.max(...candidates));
+					const symbol = Object.getOwnPropertySymbols(availableSymbols[candidateIndex])[0];
+					return {
+						selectedSymbol: symbol,
+						piece
+					};
+				}
 			} else {
-				const candidates = availableSymbols.map((s) => {
-					return s[Object.getOwnPropertySymbols(s)[0]].reduce<number>((p, n) => p + (n ?? 0), 0);
-				});
-				const candidateIndex = candidates.indexOf(Math.max(...candidates));
-				const symbol = Object.getOwnPropertySymbols(availableSymbols[candidateIndex])[0];
-				return {
-					selectedSymbol: symbol,
-					piece
-				};
-			}
-		} else {
-			const availableSymbols = Object.getOwnPropertySymbols(pieceSquareMedians[piece.piece]);
-			const selectedSymbol =
-				availableSymbols.length === 1 ? availableSymbols[0] : backwardsPieceRegistry[piece.piece][coordinate[0]][coordinate[1]];
-			assertNonUndefined(selectedSymbol);
+				const availableSymbols = Object.getOwnPropertySymbols(pieceSquareMedians[piece.piece]);
+				const selectedSymbol =
+					availableSymbols.length === 1 ? availableSymbols[0] : backwardsPieceRegistry[piece.piece][coordinate[0]][coordinate[1]];
+				assertNonUndefined(selectedSymbol);
 
-			return { selectedSymbol, piece };
+				return { selectedSymbol, piece };
+			}
+		} catch {
+			return {
+				selectedSymbol: InsufficientMaterialConstructor.NON_INDEXED_PIECE_SYMBOL,
+				piece: createPieceFromData(piece.color, grasshopperPieceLetter)
+			};
 		}
 	}
 

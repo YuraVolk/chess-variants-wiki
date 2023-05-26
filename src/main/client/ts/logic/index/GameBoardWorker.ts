@@ -24,7 +24,7 @@ import { assertNonUndefined, createTuple, FunctionType, Tuple } from "@client/ts
 import type { GameBoardObjectSetProperties } from "./GameBoardSlice";
 import { stringifyCoordinate } from "@moveGeneration/Board/BoardInterface";
 import { changeGameTermination, validateMoveTree } from "@moveGeneration/MoveTree/MoveTreeValidator";
-import { assertValidMove, createMoveTree } from "@moveGeneration/MoveTree/MoveTree";
+import { assertValidMove } from "@moveGeneration/MoveTree/MoveTree";
 import { InsufficientMaterialConstructor } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialConstructor";
 import { InsufficientMaterialChecker } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialChecker";
 import * as StateSerializer from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer";
@@ -116,6 +116,7 @@ export class RequestManager {
 			insufficientMaterialModule.generateInsufficientMaterialState();
 		} catch {
 			this.board = clone;
+			postMessage([messageName, undefined]);
 		}
 
 		return StateSerializer.serializeInsufficientMaterialState(
@@ -409,12 +410,12 @@ export class RequestManager {
 	createBoardFromSettings(settings: EditorConstructSettings) {
 		const clone = this.board.createClone();
 		try {
-			this.board.gameType.type = settings.variantType;
-			this.board.board = settings.boardSquares.map((r) => r.map((p) => PieceString.fromObjectToClass(p)));
-			this.board.data = FENData.toFENDataFromPublicFENSettings(settings.publicFENSettings);
+			clone.gameType.type = settings.variantType;
+			clone.board = settings.boardSquares.map((r) => r.map((p) => PieceString.fromObjectToClass(p)));
+			clone.data = FENData.toFENDataFromPublicFENSettings(settings.publicFENSettings);
 			const fenTag = createFENDataTag();
-			const dataReParsing = fenTag.parseTag(wrapTag(fenDataTag, fenTag.externalSerialize?.(this.board.board, this.board.data) ?? ""));
-			(this.board.board = dataReParsing.board), (this.board.data = dataReParsing.fenData);
+			const dataReParsing = fenTag.parseTag(wrapTag(fenDataTag, fenTag.externalSerialize?.(clone.board, clone.data) ?? ""));
+			(clone.board = dataReParsing.board), (clone.data = dataReParsing.fenData);
 
 			const resultingRuleList: string[] = [];
 			for (const rule of settings.variantRules.map(({ tag, value }) => {
@@ -427,13 +428,13 @@ export class RequestManager {
 					resultingRuleList.push(serializedForm);
 				}
 			}
-			this.board.variantRules = parseVariantRules(resultingRuleList.join(" "));
-			this.board.variantData = compileVariantRuleData(this.board.variantRules);
-			this.board.variantRules = validateVariantRules(this.board);
-			
-			this.construct("", serializeBoard(this.board).board, "createBoardFromSettings");
+			clone.variantRules = parseVariantRules(resultingRuleList.join(" "));
+			clone.variantData = compileVariantRuleData(clone.variantRules);
+			clone.variantRules = validateVariantRules(clone);
+
+			this.construct("", serializeBoard(clone).board, "createBoardFromSettings");
 		} catch {
-			this.board = clone;
+			postMessage(["createBoardFromSettings", undefined]);
 		}
 	}
 }

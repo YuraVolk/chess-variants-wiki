@@ -10,7 +10,7 @@ import {
 } from "@moveGeneration/MoveTree/MoveTreeInterface";
 import type { Draft, EntityState, PayloadAction } from "@reduxjs/toolkit";
 import { initializeBoardSquares } from "../../BaseInterfaces";
-import { GameBoardObject, gameBoardsAdapter } from "../GameBoardSlice";
+import { ChainedMoveSettings, GameBoardObject, gameBoardsAdapter } from "../GameBoardSlice";
 
 export const boardReducers = {
 	getChainedDuckMoves: (state: Draft<EntityState<GameBoardObject>>, action: PayloadAction<{ id: number }>) => {
@@ -40,7 +40,7 @@ export const boardReducers = {
 		if (!move.nextChainedMoves || !gameBoard) return;
 
 		if (verifyDroppingMoveArray(move.nextChainedMoves)) {
-			gameBoard.chainedMoveSettings = {
+			const newSettings: Partial<ChainedMoveSettings> = {
 				duck: { duckDroppingMove: move.nextChainedMoves, move }
 			};
 
@@ -53,7 +53,7 @@ export const boardReducers = {
 				type: "gameBoard/updateChainedDuckDrops",
 				payload: {
 					id: action.payload.id,
-					changes: { highlightedSquares }
+					changes: { highlightedSquares, chainedMoveSettings: newSettings }
 				}
 			});
 		} else if (verifyStandardMoveArray(move.nextChainedMoves)) {
