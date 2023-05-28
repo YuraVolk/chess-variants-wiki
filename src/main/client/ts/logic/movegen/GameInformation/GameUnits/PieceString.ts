@@ -7,6 +7,7 @@ import {
 	wallPieceLetter
 } from "@moveGeneration/PieceControl/PieceControlInterface";
 import { colorEnum, nonPlayablePieces, NumericColor, stringColorEnum } from "./GameUnits";
+import { assertDevOnly } from "@client/ts/baseTypes";
 
 export const deadColorIndex = 4;
 interface PieceStringInterface {
@@ -144,17 +145,17 @@ export const createPieceFromString = (piece: string) => {
 };
 
 const testEmptyPieceString = new PieceString(0, emptyLetter);
-if (!testEmptyPieceString.isEmpty()) throw new Error("Empty piece string is not isEmpty");
+assertDevOnly(testEmptyPieceString.isEmpty());
 export const emptyPieceString: EmptyPieceString = testEmptyPieceString;
 
 const testWallPieceString = new PieceString(deadColorIndex, wallPieceLetter);
-if (!testWallPieceString.isWall()) throw new Error("Wall piece string is not isWall");
+assertDevOnly(testWallPieceString.isWall());
 export const wallPieceString: WallPieceString = testWallPieceString;
 
 const testActivePieceString = new PieceString(0, pawnPieceLetter);
-if (!testActivePieceString.isPiece()) throw new Error("Active piece string is not isActive");
+assertDevOnly(testActivePieceString.isPiece());
 export const pawnPieceString: ActivePieceString = testActivePieceString;
 
 const testDuckPieceString = new PieceString(deadColorIndex, duckLetter);
-if (!testDuckPieceString.isWall()) throw new Error("Wall piece string is not isWall");
+assertDevOnly(testDuckPieceString.isWall());
 export const duckPieceString: ActivePieceString = testActivePieceString;
