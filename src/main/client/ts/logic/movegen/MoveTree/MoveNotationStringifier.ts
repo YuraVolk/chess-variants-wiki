@@ -84,7 +84,10 @@ export const shortenedMoveNotationStringify: MoveNotationStringify = (moveWrappe
 	let isFirstCapturingMoveSet = false;
 	for (const move of moveWrapper.moveData) {
 		if (verifyStandardMove(move)) {
-			if ((resultingString += generateCastlingString(move))) continue;
+			if (generateCastlingString(move)) {
+				resultingString += generateCastlingString(move);
+				continue;
+			}
 			resultingString += extractPiece(moveWrapper.metadata);
 			const isCapture = !isFirstCapturingMoveSet && moveWrapper.metadata.isCapture;
 			const [ambiguousRank, ambiguousFile] = obtainAmbiguousOrthogonality({
@@ -126,7 +129,10 @@ export const fullMoveNotationStringify: MoveNotationStringify = (moveWrapper) =>
 	let firstStandardMoveCaptureSet = false;
 	for (const move of moveWrapper.moveData) {
 		if (verifyStandardMove(move)) {
-			if ((resultingString += generateCastlingString(move))) continue;
+			if (generateCastlingString(move)) {
+				resultingString += generateCastlingString(move);
+				continue;
+			} else if (moveWrapper.moveData.indexOf(move)) resultingString += "Θ";
 			resultingString += extractPiece(moveWrapper.metadata);
 			resultingString += convertCoordinateToPGN4(move.startCoordinates);
 			if (!firstStandardMoveCaptureSet && moveWrapper.metadata.isCapture) {

@@ -1047,6 +1047,7 @@ export const initPieceControlDeclarations = () => {
 		baseClassRef: class extends PieceControl {
 			constructor() {
 				super();
+				this.sliding = diagonalMoves;
 				this.hooks.useTrajectory = [
 					[-1, 0],
 					[1, 0],

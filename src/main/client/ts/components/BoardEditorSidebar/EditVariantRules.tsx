@@ -81,7 +81,7 @@ const VariantRuleGridItems = (props: VariantRuleGridItemsProps) => {
 						data-tooltip-position-strategy="fixed"
 						key={`${information.tag}${Number(isEnabled)}${Number(isNotAllowed)}`}
 						className={`${styles["variant-boolean-rule"]} ${
-							isEnabled && !isNotAllowed ? styles["variant-boolean-rule--enabled"] : ""
+							isEnabled && !isNotAllowed ? styles["variant-boolean-rule--active"] : ""
 						} ${isNotAllowed ? styles["variant-boolean-rule--not-allowed"] : ""}`}
 						onClick={() => !isNotAllowed && toggleVariantRule(information.tag)}>
 						<span className={styles["variant-boolean-rule__name"]}>{information.name}</span>

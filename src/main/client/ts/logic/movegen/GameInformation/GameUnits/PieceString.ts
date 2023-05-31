@@ -158,4 +158,4 @@ export const pawnPieceString: ActivePieceString = testActivePieceString;
 
 const testDuckPieceString = new PieceString(deadColorIndex, duckLetter);
 assertDevOnly(testDuckPieceString.isWall());
-export const duckPieceString: ActivePieceString = testActivePieceString;
+export const duckPieceString: WallPieceString = testDuckPieceString;
