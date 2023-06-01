@@ -88,7 +88,7 @@ export const GameControllerInternalActions = (props: GameControllerInternalActio
 				</li>
 			)}
 			<li className={styles["fen-data__pgn-button-wrap"]} onClick={() => props.openSidebar()}>
-				<button className={iconButtonStyle}>s</button>
+				<button className={iconButtonStyle}>{chessGlyphIndex.rookAndPawn}</button>
 			</li>
 		</ul>
 	);

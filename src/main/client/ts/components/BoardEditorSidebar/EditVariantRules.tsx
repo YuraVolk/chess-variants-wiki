@@ -151,6 +151,17 @@ const VariantRuleParametrizedItems = (props: VariantRuleParametrizedItemsProps) 
 				const selectOptions: JSX.Element[] = [],
 					entries = [...rv.getParametrizedOptions().entries()];
 				let selectedIndex = 0;
+				if (
+					variantData[publicProperties.information.tag] !== false &&
+					(publicProperties.information.tag === "chess960" || publicProperties.information.tag === "paradigmChess30")
+				) {
+					selectedIndex = -1;
+					selectOptions.push(
+						<option key={-1} value={-1} disabled>
+							{publicProperties.parameterValue === false ? "Off" : publicProperties.parameterValue}
+						</option>
+					);
+				}
 				for (let i = 0; i < entries.length; i++) {
 					selectOptions.push(
 						<option key={entries[i][0]} value={i}>

@@ -1,4 +1,4 @@
-import { getVerticalPlacementModulus, isVerticalPlacement } from "@client/ts/logic/BaseInterfaces";
+import { getHorizontalPlacementModulus, getVerticalPlacementModulus, isVerticalPlacement } from "@client/ts/logic/BaseInterfaces";
 import { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { Board } from "../../../Board/Board";
 import { boardDimension, colors } from "../../../GameInformation/GameData";
@@ -6,6 +6,7 @@ import type { PieceString } from "../../../GameInformation/GameUnits/PieceString
 import { VariantRule } from "../../VariantRule";
 import { variantRuleColors, VariantRuleHandler } from "../../VariantRuleInterface";
 import { chessGlyphIndex } from "@client/fonts/chessGlyphIndex";
+import { formatOrdinalNumber } from "@utils/StringFormatUtils";
 
 const tag = "chess960";
 export class Chess960 extends VariantRule<typeof Board, typeof tag> implements VariantRuleHandler<Board> {
@@ -109,8 +110,20 @@ export class Chess960 extends VariantRule<typeof Board, typeof tag> implements V
 		return false;
 	}
 
+	getParametrizedOptions() {
+		const options = new Map<string, number | false>([["Off", false]]);
+		for (let i = 0; i < Chess960.chess960ranges.length; i++) {
+			const [rangeStart, rangeEnd] = Chess960.chess960ranges[i];
+			options.set(`${formatOrdinalNumber(i + 1)} rank`, Math.floor(Math.random() * (rangeEnd - rangeStart) + rangeStart));
+		}
+		return options;
+	}
+
 	initDecoratorSettings() {
-		if (this.positionID === -1) throw new Error("Position ID for Chess960 is not defined");
+		if (this.positionID === -1) {
+			for (const decorator of this.wrappingDecorators) decorator.initDecoratorSettings?.();
+			return;
+		}
 		let nr = this.positionID;
 		const boardSquares = this.decorator.board;
 		let rank = Chess960.chess960ranges.findIndex((r) => nr >= r[0] && nr <= r[1]);
@@ -212,7 +225,7 @@ export class Chess960 extends VariantRule<typeof Board, typeof tag> implements V
 			const pieces = Chess960.createBaseChess960mappings();
 			const royal = royalPieces[player];
 			if (!royal) return;
-			const r = royal[getVerticalPlacementModulus(player)];
+			const r = royal[getHorizontalPlacementModulus(player)];
 			const supermajorOverRoyal = royalOnCorrectRank[player] ? r <= 6 : false;
 
 			for (let i = Chess960.displacement[0]; i < Chess960.displacement[1]; i++) {
@@ -221,7 +234,7 @@ export class Chess960 extends VariantRule<typeof Board, typeof tag> implements V
 					if (!Object.prototype.hasOwnProperty.call(pieces, k) || !positions[player][k][i - 3]) continue;
 
 					if (royalOnCorrectRank[player] !== -1 && k === "royalPiece" && r !== i) {
-						royal[getVerticalPlacementModulus(player)] = i;
+						royal[getHorizontalPlacementModulus(player)] = i;
 					}
 
 					const mI = supermajorOverRoyal ? (intersections[player].length === 960 ? boardDimension - 1 - i : i) : i;

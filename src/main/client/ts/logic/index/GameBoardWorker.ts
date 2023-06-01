@@ -98,24 +98,23 @@ export class RequestManager {
 	}
 
 	construct(_variantName: string, pgn4: string, messageName = "construct") {
-		const clone = this.board.createClone();
 		try {
-			this.board = new Board(pgn4);
-			this.board = decorateClassWithVariants(this.board, Board, this.board.variantRules.boardDecorators);
+			let newBoard = new Board(pgn4);
+			newBoard = decorateClassWithVariants(newBoard, Board, newBoard.variantRules.boardDecorators);
 			this.generateInitiallyAliveColors();
 
-			const insufficientMaterialModule = new InsufficientMaterialConstructor(this.board, (state) => {
-				this.board.insufficientMaterialChecker = new InsufficientMaterialChecker(state, this.board);
-				this.board.moves = validateMoveTree(this.board, this.board.moves);
-				this.board.moves.currentMove = [-1];
-				changeGameTermination(this.board);
+			const insufficientMaterialModule = new InsufficientMaterialConstructor(newBoard, (state) => {
+				newBoard.insufficientMaterialChecker = new InsufficientMaterialChecker(state, newBoard);
+				newBoard.moves = validateMoveTree(newBoard, newBoard.moves);
+				newBoard.moves.currentMove = [-1];
+				changeGameTermination(newBoard);
+				this.board = newBoard;
 				this.generateCurrentMoves();
-
 				postMessage([messageName, StateSerializer.serializeInsufficientMaterialState(state)]);
 			});
 			insufficientMaterialModule.generateInsufficientMaterialState();
-		} catch {
-			this.board = clone;
+		} catch (e) {
+			console.trace(e);
 			postMessage([messageName, undefined]);
 		}
 

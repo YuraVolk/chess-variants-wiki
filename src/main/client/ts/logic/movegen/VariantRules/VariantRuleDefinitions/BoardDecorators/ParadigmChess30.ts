@@ -3,6 +3,7 @@ import { Board } from "../../../Board/Board";
 import type { PieceString } from "../../../GameInformation/GameUnits/PieceString";
 import { VariantRule } from "../../VariantRule";
 import { variantRuleColors, VariantRuleHandler } from "../../VariantRuleInterface";
+import { formatOrdinalNumber } from "@utils/StringFormatUtils";
 
 const tag = "paradigmChess30";
 export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> implements VariantRuleHandler<Board> {
@@ -104,8 +105,20 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 		} as const;
 	}
 
+	getParametrizedOptions() {
+		const options = new Map<string, number | false>([["Off", false]]);
+		for (let i = 0; i < ParadigmChess30.paradigmRanges.length; i++) {
+			const [rangeStart, rangeEnd] = ParadigmChess30.paradigmRanges[i];
+			options.set(`${formatOrdinalNumber(i + 1)} rank`, Math.floor(Math.random() * (rangeEnd - rangeStart) + rangeStart));
+		}
+		return options;
+	}
+
 	initDecoratorSettings() {
-		if (this.positionId === -1) throw new Error("Position ID for Paradigm Chess30 is not defined");
+		if (this.positionId === -1) {
+			for (const decorator of this.wrappingDecorators) decorator.initDecoratorSettings?.();
+			return;
+		}
 		let nr = this.positionId;
 		const boardSquares = this.decorator.board;
 		const data = this.decorator.data;

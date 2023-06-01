@@ -87,7 +87,7 @@ export const shortenedMoveNotationStringify: MoveNotationStringify = (moveWrappe
 			if (generateCastlingString(move)) {
 				resultingString += generateCastlingString(move);
 				continue;
-			}
+			} else if (moveWrapper.moveData.indexOf(move)) resultingString += "Θ";
 			resultingString += extractPiece(moveWrapper.metadata);
 			const isCapture = !isFirstCapturingMoveSet && moveWrapper.metadata.isCapture;
 			const [ambiguousRank, ambiguousFile] = obtainAmbiguousOrthogonality({

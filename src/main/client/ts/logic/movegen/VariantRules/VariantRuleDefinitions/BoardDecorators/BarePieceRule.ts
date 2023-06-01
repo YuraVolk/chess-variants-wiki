@@ -50,14 +50,14 @@ export class BarePieceRule extends VariantRule<typeof Board, typeof tag> impleme
 
 	makeMove(): PostMoveResults {
 		const {
-			data: { sideToMove },
+			data: { sideToMove, fenOptions },
 			board,
 			preGeneratedAttacks
 		} = this.decorator;
 		const results = this.callHandler("makeMove", arguments);
 
 		const playerPieces = this.decorator.getPlayerPieces()[sideToMove];
-		if (playerPieces.length === 1) {
+		if (playerPieces.length === 1 && !fenOptions.tag("resigned")[sideToMove]) {
 			const pieceMovements = preGeneratedAttacks[sideToMove].pieceMovements.get(stringifyCoordinate(playerPieces[0]));
 			if (pieceMovements) {
 				for (const { move: coordinate } of pieceMovements) {
