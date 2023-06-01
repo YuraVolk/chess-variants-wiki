@@ -1,10 +1,5 @@
-import { Tuple, createTupleFromCallback, assertNonUndefined } from "@client/ts/baseTypes";
-import {
-	Cloneable,
-	getVerticalPlacementModulus,
-	isVerticalPlacement,
-	Memento
-} from "@client/ts/logic/BaseInterfaces";
+import { Tuple, createTupleFromCallback, assertNonUndefined, throwOnNever } from "@client/ts/baseTypes";
+import { Cloneable, getVerticalPlacementModulus, isVerticalPlacement, Memento } from "@client/ts/logic/BaseInterfaces";
 import type { NumericColor, Coordinate } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import {
 	botAlgorithms,
@@ -13,7 +8,7 @@ import {
 } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface";
 import { copyClass } from "@utils/ObjectUtils";
 import type { Board } from "../../Board/Board";
-import { totalPlayers } from "../../GameInformation/GameData";
+import { Termination, getPlayerNameFromColor, totalPlayers } from "../../GameInformation/GameData";
 import {
 	createFENOptionsTags,
 	createFENOptionsTagsSnapshot,
@@ -22,6 +17,7 @@ import {
 	FENOptionsTags,
 	FENOptionsTagsSnapshot
 } from "./FENOptionsTagsInterface";
+import { InternalMoveSignature } from "@moveGeneration/MoveTree/MoveTreeInterface";
 
 interface CastlingData {
 	endCoordinates: number;
@@ -175,19 +171,37 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 		return this.castlingQueensideData[player].pieceCoordinates;
 	}
 
-	getAvailableEnPassantCaptures(baseColor: NumericColor): Coordinate[] {
-		const coordinates: Coordinate[] = [];
-		this.tag("enPassant").forEach((enPassant, i) => {
-			if (i === baseColor) return;
-			if (enPassant) coordinates.push(enPassant[0]);
-		});
-
-		return coordinates.map((e) => [...e]);
+	getCastlingPieceEndCoordinates(coordinates: Coordinate, color: NumericColor): [Coordinate, Coordinate] {
+		return [
+			isVerticalPlacement(color)
+				? [coordinates[0], this.getKingsideCastlingTandemPiece(color)]
+				: [this.getKingsideCastlingTandemPiece(color), coordinates[1]],
+			isVerticalPlacement(color)
+				? [coordinates[0], this.getQueensideCastlingTandemPiece(color)]
+				: [this.getQueensideCastlingTandemPiece(color), coordinates[1]]
+		];
 	}
 
 	getDefaultZombieAlgorithm(baseColor: NumericColor): ZombieMoveGenerationAlgorithm {
 		const algorithm = botAlgorithms.get(this.tag("resigned")[baseColor] ? this.tag("zombieType")[baseColor] : ZombieType.F_Checker);
 		assertNonUndefined(algorithm);
 		return algorithm;
+	}
+
+	branchBetweenResignationMoves(
+		move: InternalMoveSignature.Resign | InternalMoveSignature.Timeout | InternalMoveSignature.ClaimWin,
+		sideToMove: NumericColor
+	): Termination {
+		const playerName = getPlayerNameFromColor(sideToMove).toUpperCase();
+		switch (move) {
+			case InternalMoveSignature.Resign:
+				return `${playerName} RESIGNED!`;
+			case InternalMoveSignature.Timeout:
+				return `${playerName} FORFEITS ON TIME!`;
+			case InternalMoveSignature.ClaimWin:
+				return `${playerName} CLAIMED THE WIN!`;
+			default:
+				throwOnNever(move);
+		}
 	}
 }

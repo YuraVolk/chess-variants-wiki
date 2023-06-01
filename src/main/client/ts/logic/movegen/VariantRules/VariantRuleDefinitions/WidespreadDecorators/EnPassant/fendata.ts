@@ -1,47 +1,24 @@
-import { MoveData, SpecialMove } from "../../../MoveTree/MoveTreeInterface";
-import { FENData } from "../../../FENData/FENData";
-import { emptyPieceString, PieceString } from "../../../GameInformation/GameUnits/PieceString";
-import { VariantRule } from "../../VariantRule";
-import { variantRuleColors, VariantRuleHandler } from "../../VariantRuleInterface";
-import { pieceControlConfigSettings } from "@moveGeneration/PieceControl/PieceControlInterface";
-import { Coordinate, nonPlayablePieces } from "../../../GameInformation/GameUnits/GameUnits";
+import { FENData } from "@moveGeneration/FENData/FENData";
+import { EnPassant } from ".";
+import type { VariantRuleHandler } from "@moveGeneration/VariantRules/VariantRuleInterface";
+import { VariantRule } from "@moveGeneration/VariantRules/VariantRule";
 import { assertNonUndefined } from "@client/ts/baseTypes";
 import { isVerticalPlacement } from "@client/ts/logic/BaseInterfaces";
-import { chessGlyphIndex } from "@client/fonts/chessGlyphIndex";
+import { nonPlayablePieces, Coordinate } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
+import { PieceString, emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
+import { MoveData, SpecialMove } from "@moveGeneration/MoveTree/MoveTreeInterface";
+import { pieceControlConfigSettings } from "@moveGeneration/PieceControl/PieceControlInterface";
 
-const tag = "enPassant";
-export class EnPassant extends VariantRule<typeof FENData, typeof tag> implements VariantRuleHandler<FENData> {
-	static readonly JUMP_DISTANCE = 2;
-	static {
-		VariantRule.initVariantRule(EnPassant);
-	}
+export class FENDataEnPassant extends EnPassant<typeof FENData> implements VariantRuleHandler<FENData> {
+    static {
+        VariantRule.initVariantRule(FENDataEnPassant);
+    }
 
-	getDecoratorType() {
-		return FENData;
-	}
-	getPublicProperties() {
-		return {
-			parameterValue: true,
-			information: {
-				name: "En Passant",
-				description: "Pawns can capture en passant",
-				tag,
-				color: variantRuleColors.minor,
-				displayIcon: chessGlyphIndex.pawnConnection
-			}
-		} as const;
-	}
-	matchesPGNDeclaration(match: string): boolean {
-		return /^EnPassant$/i.test(match);
-	}
-	serializeToParsingForm(): string {
-		return "EnPassant";
-	}
-	isDisabled(): boolean {
-		return false;
-	}
+    getDecoratorType() {
+        return FENData;
+    }
 
-	processStandardMove(moveData: MoveData): { endPiece: PieceString[] } {
+    processStandardMove(moveData: MoveData): { endPiece: PieceString[] } {
 		const enPassants = this.decorator.fenOptions.tag("enPassant");
 		const {
 			startCoordinates: [startI, startJ],

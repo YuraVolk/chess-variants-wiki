@@ -7,8 +7,7 @@ import {
 	InternalMove,
 	InternalMoveSignature,
 	Move,
-	MoveData,
-	SpecialMove
+	MoveData
 } from "../MoveTree/MoveTreeInterface";
 import { FENData } from "../FENData/FENData";
 import type { PostMoveResults } from "../FENData/FENDataInterface";
@@ -535,47 +534,9 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		}
 	}
 
-	private getEnPassantMoves(parameters: SpecialMoveGenerationSettings) {
-		const { i, j, baseColor, pieceLetter } = parameters;
-		const specialMoves: MoveData[] = [];
-		if (pieceControlConfigSettings[pieceLetter].moveGenerationSettings.isPawn) {
-			const enPassantCaptures = this.data.fenOptions.getAvailableEnPassantCaptures(baseColor);
-			const pawnAttacks = this.controls[pieceLetter]()
-				.setBaseImmunePieces(this.gameType.getBaseColors(baseColor))
-				.setBoard(this.board)
-				.setCoordinates(i, j)
-				.setColor(baseColor)
-				.constructPieceControl()
-				.rayGenJumpingAttacks();
-			if (enPassantCaptures.length !== 0) {
-				for (const attack of pawnAttacks) {
-					for (const enP of enPassantCaptures) {
-						if (compareCoordinates(attack.move, enP)) {
-							const snapshot = this.createSnapshot();
-							const move: [MoveData] = [
-								{
-									startCoordinates: [i, j],
-									endCoordinates: attack.move,
-									specialType: SpecialMove.EnPassant,
-									isIrreversible: attack.irreversible
-								}
-							];
-
-							this.makeMove(move, true);
-							this.pregenerateAttacks();
-							if (!this.isKingInCheck(baseColor)) specialMoves.push(move[0]);
-							this.loadSnapshot(snapshot);
-						}
-					}
-				}
-			}
-		}
-
-		return specialMoves;
-	}
-
-	getSpecialMoves(parameters: SpecialMoveGenerationSettings) {
-		return [...this.getEnPassantMoves(parameters)];
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	getSpecialMoves(_: SpecialMoveGenerationSettings): MoveData[] {
+		return [];
 	}
 
 	getLegalMoves(i: number, j: number, baseColor = this.data.sideToMove, isSeirawanDrop = false): MoveData[] {

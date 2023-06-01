@@ -115,17 +115,6 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 		return pieceString.isEmpty() || pieceString.isDead() ? [] : [[...moveData.endCoordinates]];
 	}
 
-	private getCastlingPieceEndCoordinates(coordinates: Coordinate, color: NumericColor): [Coordinate, Coordinate] {
-		return [
-			isVerticalPlacement(color)
-				? [coordinates[0], this.fenOptions.getKingsideCastlingTandemPiece(color)]
-				: [this.fenOptions.getKingsideCastlingTandemPiece(color), coordinates[1]],
-			isVerticalPlacement(color)
-				? [coordinates[0], this.fenOptions.getQueensideCastlingTandemPiece(color)]
-				: [this.fenOptions.getQueensideCastlingTandemPiece(color), coordinates[1]]
-		];
-	}
-
 	processStandardMove(moveData: MoveData): { endPiece: PieceString[] } {
 		const {
 			startCoordinates: [startI, startJ],
@@ -146,7 +135,7 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 			}
 		}
 
-		const [kingsidePiece, queensidePiece] = this.getCastlingPieceEndCoordinates(moveData.startCoordinates, this.sideToMove);
+		const [kingsidePiece, queensidePiece] = this.fenOptions.getCastlingPieceEndCoordinates(moveData.startCoordinates, this.sideToMove);
 		if ("specialType" in moveData) {
 			const type = moveData.specialType;
 
@@ -224,26 +213,6 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 		}
 	}
 
-	private branchBetweenResignationMoves(
-		move: InternalMoveSignature.Resign | InternalMoveSignature.Timeout | InternalMoveSignature.ClaimWin,
-		sideToMove: NumericColor
-	) {
-		const playerName = getPlayerNameFromColor(sideToMove).toUpperCase();
-		switch (move) {
-			case InternalMoveSignature.Resign:
-				this.gameOver = `${playerName} RESIGNED!`;
-				break;
-			case InternalMoveSignature.Timeout:
-				this.gameOver = `${playerName} FORFEITS ON TIME!`;
-				break;
-			case InternalMoveSignature.ClaimWin:
-				this.gameOver = `${playerName} CLAIMED THE WIN!`;
-				break;
-			default:
-				throwOnNever(move);
-		}
-	}
-
 	processInternalMove(internalMove: InternalMove): { stalemates: PlayerBooleanTuple } {
 		const resigned = this.fenOptions.tag("resigned"),
 			dead = this.fenOptions.tag("dead");
@@ -289,7 +258,7 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 				}
 
 				if (isResignationOver) {
-					this.branchBetweenResignationMoves(internalMove.type, this.sideToMove);
+					this.gameOver = this.fenOptions.branchBetweenResignationMoves(internalMove.type, this.sideToMove);
 				}
 				break;
 			}
@@ -594,7 +563,7 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 			if (verifyWinningTermination(generalTermination)) {
 				this.gameOver = `${generalTermination.toUpperCase()}!`;
 			} else if (verifyDrawingTermination(generalTermination)) {
-				this.gameOver = `${generalTermination.toUpperCase()}`;
+				this.gameOver = generalTermination.toUpperCase();
 			} else {
 				throwOnNever(generalTermination);
 			}

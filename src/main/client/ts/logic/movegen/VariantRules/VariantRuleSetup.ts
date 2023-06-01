@@ -176,7 +176,7 @@ export function copyVariantRules<T extends AllowedSuperClasses>(
 	return rvs.map((rv) => {
 		const parameterValue = rv.getPublicProperties().parameterValue;
 		const parameterArray = parameterValue !== false ? [parameterValue] : [];
-		return new rv.constructor(parameterArray);
+		return new rv.constructor(...parameterArray);
 	});
 }
 

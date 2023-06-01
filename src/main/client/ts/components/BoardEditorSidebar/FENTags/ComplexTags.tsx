@@ -12,7 +12,6 @@ import { pieceControlConfigSettings } from "@moveGeneration/PieceControl/PieceCo
 import { PieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { boardDimension, colors, convertCoordinateToPGN4, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import { checkBoardOverflow } from "@moveGeneration/PieceControl/PieceControl";
-import { EnPassant } from "@moveGeneration/VariantRules/VariantRuleDefinitions/FENDataDecorators/EnPassant";
 import type { Coordinate, NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { Tuple, assertNonUndefined, createTupleFromCallback, throwOnNever } from "@client/ts/baseTypes";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +23,7 @@ import {
 	botAlgorithms,
 	verifyZombieType
 } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface";
+import { EnPassant } from "@moveGeneration/VariantRules/VariantRuleDefinitions/WidespreadDecorators/EnPassant";
 
 const compareDistanceToPBR = (distance: number, pawnBaseRank: number, isBackwards = false) =>
 	distance === pawnBaseRank || (isBackwards ? distance - 1 : distance + 1) === pawnBaseRank;

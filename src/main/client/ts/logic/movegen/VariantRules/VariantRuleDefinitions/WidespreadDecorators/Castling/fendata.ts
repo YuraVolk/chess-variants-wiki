@@ -2,7 +2,7 @@ import { FENData } from "@moveGeneration/FENData/FENData";
 import { Castling } from ".";
 import type { VariantRuleHandler } from "@moveGeneration/VariantRules/VariantRuleInterface";
 import { VariantRule } from "@moveGeneration/VariantRules/VariantRule";
-import { Board } from "@moveGeneration/Board/Board";
+import type { Board } from "@moveGeneration/Board/Board";
 import type { Tuple } from "@client/ts/baseTypes";
 import { boardDimension, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import { getVerticalPlacementModulus, getHorizontalPlacementModulus } from "@client/ts/logic/BaseInterfaces";
@@ -69,42 +69,50 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 			const royalCoordinate = royalCoordinates[i];
 			if (royalCoordinate === null) continue;
 
-			if (kingsideCastlePieceCoordinate[i] === -1) {
+			try {
+				if (kingsideCastlePieceCoordinate[i] === -1) {
+					this.decorator.fenOptions.tag("castleKingside")[i] = false;
+				} else {
+					const d = this.castlingDisplacement[i][0] || dimensions[i] - 6 < 1 ? 1 : dimensions[i] - 6;
+					const kArr = [...Array(d).keys()];
+					const endCoordinates = royalCoordinate + d;
+					const castlingData = {
+						endCoordinates,
+						checkSquares: kArr.map((j) => j + royalCoordinate + 1),
+						pieceCoordinates: kingsideCastlePieceCoordinate[i],
+						pieceEndCoordinates: endCoordinates - 1
+					};
+					if (royalCoordinate <= 6) {
+						this.decorator.fenOptions.castlingQueensideData[i] = castlingData;
+					} else {
+						this.decorator.fenOptions.castlingKingsideData[i] = castlingData;
+					}
+				}
+			} catch {
 				this.decorator.fenOptions.tag("castleKingside")[i] = false;
-			} else {
-                const d = this.castlingDisplacement[i][0] || dimensions[i] - 6 < 1 ? 1 : dimensions[i] - 6;
-				const kArr = [...Array(d).keys()];
-				const endCoordinates = royalCoordinate + d;
-				const castlingData = {
-					endCoordinates,
-					checkSquares: kArr.map((j) => j + royalCoordinate + 1),
-					pieceCoordinates: kingsideCastlePieceCoordinate[i],
-					pieceEndCoordinates: endCoordinates - 1
-				};
-				if (royalCoordinate <= 6) {
-					this.decorator.fenOptions.castlingQueensideData[i] = castlingData;
-				} else {
-					this.decorator.fenOptions.castlingKingsideData[i] = castlingData;
-				}
 			}
-
-			if (queensideCastlePieceCoordinate[i] === -1) {
-				this.decorator.fenOptions.tag("castleQueenside")[i] = false;
-			} else {
-                const d = this.castlingDisplacement[i][1] || dimensions[i] - 6 < 1 ? 1 : dimensions[i] - 6;
-				const qArr = [...Array(d).keys()];
-				const endCoordinates = royalCoordinate - d;
-				const castlingData = {
-					endCoordinates,
-					checkSquares: royalCoordinate <= 6 ? qArr.map((j) => j + royalCoordinate - 2) : qArr.map((j) => j + royalCoordinate - 3),
-					pieceCoordinates: queensideCastlePieceCoordinate[i],
-					pieceEndCoordinates: endCoordinates + 1
-				};
-				if (royalCoordinate <= 6) {
-					this.decorator.fenOptions.castlingKingsideData[i] = castlingData;
+			
+			try {
+				if (queensideCastlePieceCoordinate[i] === -1) {
+					this.decorator.fenOptions.tag("castleQueenside")[i] = false;
 				} else {
-					this.decorator.fenOptions.castlingQueensideData[i] = castlingData;
+					const d = this.castlingDisplacement[i][1] || dimensions[i] - 6 < 1 ? 1 : dimensions[i] - 6;
+					const qArr = [...Array(d).keys()];
+					const endCoordinates = royalCoordinate - d;
+					const castlingData = {
+						endCoordinates,
+						checkSquares: royalCoordinate <= 6 ? qArr.map((j) => j + royalCoordinate - 2) : qArr.map((j) => j + royalCoordinate - 3),
+						pieceCoordinates: queensideCastlePieceCoordinate[i],
+						pieceEndCoordinates: endCoordinates + 1
+					};
+					if (royalCoordinate <= 6) {
+						this.decorator.fenOptions.castlingKingsideData[i] = castlingData;
+					} else {
+						this.decorator.fenOptions.castlingQueensideData[i] = castlingData;
+					}
 				}
+			} catch {
+				this.decorator.fenOptions.tag("castleQueenside")[i] = false;
 			}
 		}
 

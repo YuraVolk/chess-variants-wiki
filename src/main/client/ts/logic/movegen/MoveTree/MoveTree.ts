@@ -254,7 +254,6 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 			) {
 				const lastCurrentMoves = board.moves.getMove(board.moves.currentMove.slice(0, -1));
 				if (!Array.isArray(lastCurrentMoves)) throw new Error("The selected move is not within an array");
-
 				for (let i = lastCurrentMoves.length - 1; i >= 0; i--) {
 					const lastCurrent = lastCurrentMoves[i].metadata.currentFullMove;
 					if (lastCurrent) {
@@ -268,7 +267,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 							if (!Array.isArray(alternativeLineContainer)) throw new Error("The selected move is not within an array");
 							currentMove.metadata.currentFullMove =
 								alternativeLineContainer[
-									findLastIndex(alternativeLineContainer, (m) => Boolean(m.metadata.currentFullMove))
+									alternativeLineContainer.findIndex((m) => Boolean(m.metadata.currentFullMove))
 								].metadata.currentFullMove;
 						}
 					}
