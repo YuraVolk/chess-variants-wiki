@@ -81,7 +81,6 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 
 	injectBoard(board: Board) {
 		this.board = board;
-		this.fenOptions.generateCastling(board);
 	}
 
 	createClone(): FENData {

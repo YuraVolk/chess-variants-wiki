@@ -71,6 +71,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		this.data = parsingResults.fenData;
 		this.data.injectBoard(this);
 		this.data = decorateClassWithVariants<typeof FENData>(this.data, FENData, this.variantRules.fenDataDecorators);
+		this.data.injectBoard(this);
 		this.variantData = parsingResults.variantRuleData;
 		this.variantRules = validateVariantRules(this);
 		this.isTwoPlayer = this.data.getRealPlayers() === 2;
@@ -131,6 +132,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 			FENData,
 			copyVariantRules(this.__baseClass.variantRules.fenDataDecorators)
 		);
+		targetObject.data.injectBoard(targetObject);
 		const presumedPieceLetters = new Set<PieceLetter>();
 		let letter: PieceLetter;
 		for (letter in this.controls) {
@@ -533,32 +535,6 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		}
 	}
 
-	private getCastlingMoves(parameters: SpecialMoveGenerationSettings) {
-		const { i, j, baseColor } = parameters;
-		const specialMoves: MoveData[] = [];
-		const royal = this.data.fenOptions.tag("royal")[baseColor];
-
-		if (royal && royal[0] === i && royal[1] === j) {
-			if (this.data.fenOptions.isKingsideCastlingAvailable(baseColor, this)) {
-				specialMoves.push({
-					startCoordinates: [i, j],
-					endCoordinates: this.data.fenOptions.getKingsideCastlingEndCoordinate(baseColor),
-					specialType: SpecialMove.CastlingKingside
-				});
-			}
-
-			if (this.data.fenOptions.isQueensideCastlingAvailable(baseColor, this)) {
-				specialMoves.push({
-					startCoordinates: [i, j],
-					endCoordinates: this.data.fenOptions.getQueensideCastlingEndCoordinate(baseColor),
-					specialType: SpecialMove.CastlingQueenside
-				});
-			}
-		}
-
-		return specialMoves;
-	}
-
 	private getEnPassantMoves(parameters: SpecialMoveGenerationSettings) {
 		const { i, j, baseColor, pieceLetter } = parameters;
 		const specialMoves: MoveData[] = [];
@@ -598,8 +574,8 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		return specialMoves;
 	}
 
-	private getSpecialMoves(parameters: SpecialMoveGenerationSettings) {
-		return [...this.getCastlingMoves(parameters), ...this.getEnPassantMoves(parameters)];
+	getSpecialMoves(parameters: SpecialMoveGenerationSettings) {
+		return [...this.getEnPassantMoves(parameters)];
 	}
 
 	getLegalMoves(i: number, j: number, baseColor = this.data.sideToMove, isSeirawanDrop = false): MoveData[] {

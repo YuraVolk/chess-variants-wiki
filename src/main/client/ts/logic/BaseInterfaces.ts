@@ -1,5 +1,5 @@
 import { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
-import { createTupleFromCallback, Tuple } from "../baseTypes";
+import { assertDevOnly, createTupleFromCallback, Tuple } from "../baseTypes";
 import { boardDimension } from "./movegen/GameInformation/GameData";
 
 export interface Cloneable<T> {
@@ -18,11 +18,11 @@ export const initializeBoardSquares = <T>(baseValue: (v: unknown, k: number) => 
 export const isVerticalPlacement = (color: NumericColor): color is 0 | 2 => color % 2 === 0;
 export function getVerticalPlacementModulus(num: number): 0 | 1 {
 	const result = num % 2;
-	if (result !== 0 && result !== 1) throw new Error(`Invalid number passed: ${num}`);
+	assertDevOnly(result === 0 || result === 1);
 	return result;
 }
 export function getHorizontalPlacementModulus(num: number): 0 | 1 {
 	const result = num % 2 ^ 1;
-	if (result !== 0 && result !== 1) throw new Error(`Invalid number passed: ${num}`);
+	assertDevOnly(result === 0 || result === 1);
 	return result;
 }

@@ -72,6 +72,7 @@ export const GameMetadataRules = () => {
 				</Fragment>
 			);
 		} else if (isSimpleRule) {
+			if (information.textualForm === "") return null;
 			return (
 				<Fragment key={information.tag}>
 					<GameVariantRule information={information} />

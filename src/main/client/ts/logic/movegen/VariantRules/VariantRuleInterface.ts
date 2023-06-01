@@ -92,6 +92,7 @@ export interface VariantDataRules {
 	threefoldRepetition: number | false;
 	selfPartner: boolean;
 	deadKingWalking: boolean;
+	castling: boolean;
 }
 
 export const variantRuleColors = {

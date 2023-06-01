@@ -4,6 +4,9 @@ import type { PieceString } from "../../../GameInformation/GameUnits/PieceString
 import { VariantRule } from "../../VariantRule";
 import { variantRuleColors, VariantRuleHandler } from "../../VariantRuleInterface";
 import { formatOrdinalNumber } from "@utils/StringFormatUtils";
+import { colors, totalPlayers } from "@moveGeneration/GameInformation/GameData";
+import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
+import type { Tuple } from "@client/ts/baseTypes";
 
 const tag = "paradigmChess30";
 export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> implements VariantRuleHandler<Board> {
@@ -67,7 +70,7 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 			information: {
 				name: "Paradigm Chess30",
 				description:
-					"Paradigm Chess30: Dragon bishops combine the movement of bishop and xiangqi horse. 30 semi-random starting positions",
+					"Paradigm Chess30: 30 semi-random starting positions",
 				tag,
 				color: variantRuleColors.startingPosition,
 				displayIcon: chessGlyphIndex.bishop
@@ -97,20 +100,11 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 		return false;
 	}
 
-	getInformation() {
-		return {
-			name: "Paradigm Chess30",
-			description: "Paradigm Chess30: Dragon bishops combine the movement of bishop and xiangqi horse. 30 semi-random starting positions",
-			tag
-		} as const;
-	}
-
 	getParametrizedOptions() {
 		const options = new Map<string, number | false>([["Off", false]]);
-		for (let i = 0; i < ParadigmChess30.paradigmRanges.length; i++) {
-			const [rangeStart, rangeEnd] = ParadigmChess30.paradigmRanges[i];
+		ParadigmChess30.paradigmRanges.forEach(([rangeStart, rangeEnd], i) => {
 			options.set(`${formatOrdinalNumber(i + 1)} rank`, Math.floor(Math.random() * (rangeEnd - rangeStart) + rangeStart));
-		}
+		})
 		return options;
 	}
 
@@ -129,8 +123,8 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 			nr += ParadigmChess30.legacy.twoPlayerAdjustment;
 		}
 		const calcNr = nr - ParadigmChess30.paradigmRanges[rank][0];
-		const ranks = [13 - rank, rank, rank, 13 - rank];
-		const pieceArrays: PieceString[][] = [[], [], [], []];
+		const ranks = [13 - rank, rank, rank, 13 - rank] as const;
+		const pieceArrays: Tuple<PieceString[], typeof totalPlayers> = [[], [], [], []];
 		pieceArrays[0] = boardSquares[ranks[0]].slice(4, 10);
 		pieceArrays[1] = boardSquares.map((row) => row[ranks[1]]).slice(4, 10);
 		pieceArrays[2] = boardSquares[ranks[2]].slice(4, 10);
@@ -138,7 +132,7 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 
 		const royalPieces = data.fenOptions.tag("royal"),
 			dead = data.fenOptions.tag("dead");
-		const replaceRow = (player: number): void => {
+		const replaceRow = (player: NumericColor): void => {
 			const r = royalPieces[player]?.[player % 2 === 0 ? 1 : 0];
 			const pieceCoordinates = [[5, 8], [4, 9], [r === undefined || r >= 7 ? 6 : 7]];
 
@@ -168,7 +162,7 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 			}
 		};
 
-		for (let i = 0; i < 4; i++) replaceRow(i);
+		for (const color of colors) replaceRow(color);
 		for (const decorator of this.wrappingDecorators) decorator.initDecoratorSettings?.();
 	}
 }

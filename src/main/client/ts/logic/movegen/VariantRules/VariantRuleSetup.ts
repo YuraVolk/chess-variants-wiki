@@ -13,6 +13,8 @@ import { PromoteTo } from "./VariantRuleDefinitions/PieceControlDecorators/Promo
 import { PromotionRank } from "./VariantRuleDefinitions/PieceControlDecorators/PromotionRank";
 import { VariantRule, VariantRulePublicProperties } from "./VariantRule";
 import type { AllowedSuperClasses, VariantDataRules, VariantRuleAllowedChecks } from "./VariantRuleInterface";
+import { BoardCastling } from "./VariantRuleDefinitions/WidespreadDecorators/Castling/board";
+import { FENDataCastling } from "./VariantRuleDefinitions/WidespreadDecorators/Castling/fendata";
 
 export interface VariantRuleParsingTypes {
 	boardDecorators: Array<VariantRule<typeof Board, keyof VariantDataRules>>;
@@ -62,7 +64,7 @@ export function parseVariantRules(rules: string): VariantRuleParsingTypes {
 	type VariantRuleConstructor = new (...args: unknown[]) => VariantRule<AllowedSuperClasses, keyof VariantDataRules>;
 	const variantClasses = new Set<VariantRuleConstructor>();
 	const variantRuleList = new Set<VariantRule<AllowedSuperClasses, keyof VariantDataRules>>();
-	const forcedRules = [PromotionRank, PromoteTo, StalemateOptions, FiftyMoveRule, ThreefoldRepetition];
+	const forcedRules = [PromotionRank, PromoteTo, StalemateOptions, FiftyMoveRule, ThreefoldRepetition, BoardCastling, FENDataCastling];
 	for (const variantRule of VariantRule.variantRuleList) {
 		const rv = new variantRule();
 		variantRuleList.add(rv);

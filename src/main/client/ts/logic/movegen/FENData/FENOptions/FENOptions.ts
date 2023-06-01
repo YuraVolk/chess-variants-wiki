@@ -1,7 +1,6 @@
 import { Tuple, createTupleFromCallback, assertNonUndefined } from "@client/ts/baseTypes";
 import {
 	Cloneable,
-	getHorizontalPlacementModulus,
 	getVerticalPlacementModulus,
 	isVerticalPlacement,
 	Memento
@@ -49,11 +48,11 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 	}
 
 	tags = createFENOptionsTags();
-	private castlingKingsideData: Tuple<CastlingData, typeof totalPlayers> = createTupleFromCallback(
+	castlingKingsideData: Tuple<CastlingData, typeof totalPlayers> = createTupleFromCallback(
 		() => ({ endCoordinates: -1, pieceCoordinates: -1, pieceEndCoordinates: -1, checkSquares: [] }),
 		totalPlayers
 	);
-	private castlingQueensideData: Tuple<CastlingData, typeof totalPlayers> = createTupleFromCallback(
+	castlingQueensideData: Tuple<CastlingData, typeof totalPlayers> = createTupleFromCallback(
 		() => ({ endCoordinates: -1, pieceCoordinates: -1, pieceEndCoordinates: -1, checkSquares: [] }),
 		totalPlayers
 	);
@@ -113,92 +112,6 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 		return serializedState as FENOptionsSerializedState;
 	}
 
-	generateCastling(board: Board) {
-		let [dimensionRY, dimensionBG] = this.tag("dim");
-		if (!this.tag("noCorners")) {
-			if (dimensionRY > 8) dimensionRY = 8;
-			if (dimensionBG > 8) dimensionBG = 8;
-		}
-
-		const dimensions: [number, number, number, number] = [dimensionRY, dimensionBG, dimensionRY, dimensionBG];
-		const royalRanks = this.tag("royal").map((r, i) => (r ? r[getVerticalPlacementModulus(i)] : r));
-		const royalCoordinates = this.tag("royal").map((r, i) => (r ? r[getHorizontalPlacementModulus(i)] : r));
-		const kingsideCastlePieceCoordinate: number[] = [];
-		const queensideCastlePieceCoordinate: number[] = [];
-
-		const boardSquares = board.board;
-		for (let i = 0; i < this.tag("royal").length; i++) {
-			const royalCoordinateI = royalCoordinates[i];
-			const royalRanksI = royalRanks[i];
-			if (royalCoordinateI === null || royalRanksI === null) {
-				kingsideCastlePieceCoordinate.push(-1);
-				queensideCastlePieceCoordinate.push(-1);
-				continue;
-			}
-
-			const condition = i % 2 === 0;
-			for (let j = royalCoordinateI; j < 14; j++) {
-				const pieceString = boardSquares[condition ? royalRanksI : j][condition ? j : royalRanksI];
-				if (!pieceString.isEmpty() && pieceString.piece === this.tag("castleWith")) {
-					kingsideCastlePieceCoordinate.push(j);
-					break;
-				} else if (j === 13) {
-					kingsideCastlePieceCoordinate.push(-1);
-				}
-			}
-			for (let j = royalCoordinateI; j > -1; j--) {
-				const pieceString = boardSquares[condition ? royalRanksI : j][condition ? j : royalRanksI];
-				if (!pieceString.isEmpty() && pieceString.piece === this.tag("castleWith")) {
-					queensideCastlePieceCoordinate.push(j);
-					break;
-				} else if (j === 0) {
-					queensideCastlePieceCoordinate.push(-1);
-				}
-			}
-		}
-		for (let i = 0; i < this.tag("royal").length; i++) {
-			const royalCoordinate = royalCoordinates[i];
-			if (royalCoordinate === null) continue;
-
-			const d = dimensions[i] - 6 < 1 ? 1 : dimensions[i] - 6;
-
-			if (kingsideCastlePieceCoordinate[i] === -1) {
-				this.tag("castleKingside")[i] = false;
-			} else {
-				const kArr = [...Array(kingsideCastlePieceCoordinate[i] - royalCoordinate - 1).keys()];
-				const endCoordinates = royalCoordinate + d;
-				const castlingData = {
-					endCoordinates,
-					checkSquares: kArr.map((j) => j + royalCoordinate + 1),
-					pieceCoordinates: kingsideCastlePieceCoordinate[i],
-					pieceEndCoordinates: endCoordinates - 1
-				};
-				if (royalCoordinate <= 6) {
-					this.castlingQueensideData[i] = castlingData;
-				} else {
-					this.castlingKingsideData[i] = castlingData;
-				}
-			}
-			if (queensideCastlePieceCoordinate[i] === -1) {
-				this.tags.castleQueenside.value[i] = false;
-			} else {
-				const qArr = [...Array(royalCoordinate - queensideCastlePieceCoordinate[i] - 1).keys()];
-				const endCoordinates = royalCoordinate - d;
-				const castlingData = {
-					endCoordinates,
-					checkSquares: royalCoordinate <= 6 ? qArr.map((j) => j + royalCoordinate - 2) : qArr.map((j) => j + royalCoordinate - 3),
-					pieceCoordinates: queensideCastlePieceCoordinate[i],
-					pieceEndCoordinates: endCoordinates + 1
-				};
-				if (royalCoordinate <= 6) {
-					this.castlingKingsideData[i] = castlingData;
-				} else {
-					this.castlingQueensideData[i] = castlingData;
-				}
-			}
-		}
-	}
-
 	private isCastlingAvailable(player: NumericColor, board: Board, checks: number[]): boolean {
 		const royal = this.tag("royal")[player];
 		if (royal === null) return false;
@@ -224,19 +137,13 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 
 	isKingsideCastlingAvailable(player: NumericColor, board: Board): boolean {
 		if (!this.tag("castleKingside")[player]) return false;
-		if (this.castlingKingsideData[player].endCoordinates === -1) {
-			this.generateCastling(board);
-		}
-
+		if (this.castlingKingsideData[player].endCoordinates === -1) return false;
 		return this.isCastlingAvailable(player, board, this.castlingKingsideData[player].checkSquares);
 	}
 
 	isQueensideCastlingAvailable(player: NumericColor, board: Board): boolean {
 		if (!this.tag("castleQueenside")[player]) return false;
-		if (this.castlingQueensideData[player].endCoordinates === -1) {
-			this.generateCastling(board);
-		}
-
+		if (this.castlingQueensideData[player].endCoordinates === -1) return false;
 		return this.isCastlingAvailable(player, board, this.castlingQueensideData[player].checkSquares);
 	}
 

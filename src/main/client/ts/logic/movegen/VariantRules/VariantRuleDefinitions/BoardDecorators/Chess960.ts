@@ -112,10 +112,9 @@ export class Chess960 extends VariantRule<typeof Board, typeof tag> implements V
 
 	getParametrizedOptions() {
 		const options = new Map<string, number | false>([["Off", false]]);
-		for (let i = 0; i < Chess960.chess960ranges.length; i++) {
-			const [rangeStart, rangeEnd] = Chess960.chess960ranges[i];
+		Chess960.chess960ranges.forEach(([rangeStart, rangeEnd], i) => {
 			options.set(`${formatOrdinalNumber(i + 1)} rank`, Math.floor(Math.random() * (rangeEnd - rangeStart) + rangeStart));
-		}
+		});
 		return options;
 	}
 

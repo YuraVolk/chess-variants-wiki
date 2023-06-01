@@ -2,21 +2,12 @@ import { throwOnNever, Tuple } from "@client/ts/baseTypes";
 import { truncateNumber } from "@utils/NumberUtils";
 import type { Coordinate, NumericColor } from "./GameUnits/GameUnits";
 
-export type PlayerName = "Red" | "Blue" | "Yellow" | "Green" | "White" | "Black";
-export type IndividualTermination = "Won the Race" | "Checkmated" | "Stalemated" | "Forfeits on Time" | "Resigned" | "Claimed the Win";
-export type GeneralTermination = "King of the Hill" | "King Captured" | "Checkmate" | "Stalemate";
-export type Result = "1-0" | "0-1" | "½-½";
-export type DrawnResult = "Threefold Repetition" | "Insufficient Material" | "Timeout vs Insufficient Material" | "50-move Rule";
 export type Termination =
 	| `${Uppercase<PlayerName>} ${Uppercase<IndividualTermination>}!`
 	| `${Uppercase<GeneralTermination | DrawnResult>} • ${Result}`
 	| `${Uppercase<GeneralTermination>}!`
 	| `${Uppercase<DrawnResult>}`
 	| "½-½ AGREED.";
-export const validateComprehensiveUnionArray =
-	<T>() =>
-	<U extends readonly T[]>(arr: U & ([T] extends [U[number]] ? unknown : never)) =>
-		arr;
 
 export interface TimeControl {
 	baseTime: number;
@@ -24,40 +15,36 @@ export interface TimeControl {
 	isDelay: boolean;
 }
 
-export const playerNames = validateComprehensiveUnionArray<PlayerName>()(["Red", "Blue", "Yellow", "Green", "White", "Black"] as const);
-const individualTerminations = validateComprehensiveUnionArray<IndividualTermination>()([
-	"Won the Race",
-	"Checkmated",
-	"Stalemated",
-	"Forfeits on Time",
-	"Claimed the Win",
-	"Resigned"
-] as const);
-const generalWinningTerminations = validateComprehensiveUnionArray<GeneralTermination>()([
-	"Checkmate",
-	"King Captured",
-	"King of the Hill",
-	"Stalemate"
-] as const);
+export const playerNames = ["Red", "Blue", "Yellow", "Green", "White", "Black"] as const;
+export type PlayerName = (typeof playerNames)[number];
+export const individualTerminations = ["Won the Race", "Checkmated", "Stalemated", "Forfeits on Time", "Claimed the Win", "Resigned"] as const;
+export type IndividualTermination = (typeof individualTerminations)[number];
+const generalWinningTerminations = ["Checkmate", "King Captured", "King of the Hill", "Stalemate"] as const;
+export type GeneralTermination = (typeof generalWinningTerminations)[number];
 export const verifyWinningTermination = (termination: string): termination is GeneralTermination => {
 	const generalWins: readonly string[] = generalWinningTerminations;
 	return generalWins.includes(termination);
 };
-const generalDrawingTerminations = validateComprehensiveUnionArray<DrawnResult>()([
+
+const generalDrawingTerminations = [
 	"50-move Rule",
 	"Insufficient Material",
 	"Threefold Repetition",
 	"Timeout vs Insufficient Material"
-] as const);
+] as const;
+export type DrawnResult = (typeof generalDrawingTerminations)[number];
+
 export const verifyDrawingTermination = (termination: string): termination is DrawnResult => {
 	const generalDraws: readonly string[] = generalDrawingTerminations;
 	return generalDraws.includes(termination);
 };
-const generalTerminations = validateComprehensiveUnionArray<GeneralTermination | DrawnResult>()([
+const generalTerminations = [
 	...generalWinningTerminations,
 	...generalDrawingTerminations
-] as const);
-const results = validateComprehensiveUnionArray<Result>()(["0-1", "1-0", "½-½"]);
+] as const;
+
+const results = ["0-1", "1-0", "½-½"] as const;
+export type Result = (typeof results)[number];
 
 export interface GamePlayerData {
 	elo?: number;

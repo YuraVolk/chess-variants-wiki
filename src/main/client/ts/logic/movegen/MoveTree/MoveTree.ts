@@ -217,7 +217,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 			let totalCount = 0;
 			for (const line of hash) {
 				for (let i = 0; i < line.length; i++) {
-					if (i + (1 % 2) !== 0 && i === line.length - 1) {
+					if (i !== 0 && i === line.length - 1) {
 						totalCount++;
 					} else if (line[i] !== this.currentMove[i]) break;
 				}
