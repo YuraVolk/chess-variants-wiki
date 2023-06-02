@@ -1,14 +1,13 @@
-import { Tuple, createTupleFromCallback, assertNonUndefined, throwOnNever } from "@client/ts/baseTypes";
-import { Cloneable, getVerticalPlacementModulus, isVerticalPlacement, Memento } from "@client/ts/logic/BaseInterfaces";
-import type { NumericColor, Coordinate } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
+import { Tuple, createTupleFromCallback, assertNonUndefined, throwOnNever, createTuple } from "@client/ts/baseTypes";
+import type { BoardSquares, Cloneable, Memento } from "@client/ts/logic/BaseInterfaces";
+import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import {
 	botAlgorithms,
 	ZombieMoveGenerationAlgorithm,
 	ZombieType
 } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface";
 import { copyClass } from "@utils/ObjectUtils";
-import type { Board } from "../../Board/Board";
-import { Termination, getPlayerNameFromColor, totalPlayers } from "../../GameInformation/GameData";
+import { Termination, colors, getPlayerNameFromColor, totalPlayers } from "../../GameInformation/GameData";
 import {
 	createFENOptionsTags,
 	createFENOptionsTagsSnapshot,
@@ -18,13 +17,8 @@ import {
 	FENOptionsTagsSnapshot
 } from "./FENOptionsTagsInterface";
 import { InternalMoveSignature } from "@moveGeneration/MoveTree/MoveTreeInterface";
-
-interface CastlingData {
-	endCoordinates: number;
-	pieceCoordinates: number;
-	pieceEndCoordinates: number;
-	checkSquares: number[];
-}
+import type { CastlingData } from "@moveGeneration/VariantRules/VariantRuleDefinitions/WidespreadDecorators/Castling/fendata";
+import type { PieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 
 export interface FENOptionsSnapshot {
 	tagsSnapshot: FENOptionsTagsSnapshot;
@@ -108,80 +102,6 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 		return serializedState as FENOptionsSerializedState;
 	}
 
-	private isCastlingAvailable(player: NumericColor, board: Board, checks: number[]): boolean {
-		const royal = this.tag("royal")[player];
-		if (royal === null) return false;
-
-		const royalCoordinate = royal[getVerticalPlacementModulus(player)];
-		const squares = board.board;
-
-		for (const checkSquare of checks) {
-			const coordinateA = isVerticalPlacement(player) ? royalCoordinate : checkSquare;
-			const coordinateB = isVerticalPlacement(player) ? checkSquare : royalCoordinate;
-			if (
-				!squares[coordinateA][coordinateB].isEmpty() ||
-				board.preGeneratedAttacks[player].hoppingPieces[coordinateA][coordinateB] > 0 ||
-				board.preGeneratedAttacks[player].slidingPieces[coordinateA][coordinateB] > 0
-			)
-				return false;
-		}
-
-		if (board.isKingInCheck(player)) return false;
-
-		return true;
-	}
-
-	isKingsideCastlingAvailable(player: NumericColor, board: Board): boolean {
-		if (!this.tag("castleKingside")[player]) return false;
-		if (this.castlingKingsideData[player].endCoordinates === -1) return false;
-		return this.isCastlingAvailable(player, board, this.castlingKingsideData[player].checkSquares);
-	}
-
-	isQueensideCastlingAvailable(player: NumericColor, board: Board): boolean {
-		if (!this.tag("castleQueenside")[player]) return false;
-		if (this.castlingQueensideData[player].endCoordinates === -1) return false;
-		return this.isCastlingAvailable(player, board, this.castlingQueensideData[player].checkSquares);
-	}
-
-	private getCastlingEndCoordinate(player: NumericColor, coordinates: number | undefined): [number, number] {
-		const royalCoordinate = this.tag("royal")[player]?.[getVerticalPlacementModulus(player)];
-		assertNonUndefined(coordinates);
-		assertNonUndefined(royalCoordinate);
-		const coordinateA = isVerticalPlacement(player) ? royalCoordinate : coordinates;
-		const coordinateB = isVerticalPlacement(player) ? coordinates : royalCoordinate;
-		return [coordinateA, coordinateB];
-	}
-
-	getKingsideCastlingEndCoordinate(player: NumericColor): [number, number] {
-		return this.getCastlingEndCoordinate(player, this.castlingKingsideData[player].endCoordinates);
-	}
-	getQueensideCastlingEndCoordinate(player: NumericColor): [number, number] {
-		return this.getCastlingEndCoordinate(player, this.castlingQueensideData[player].endCoordinates);
-	}
-	getKingsideCastlingPieceEndCoordinate(player: NumericColor): [number, number] {
-		return this.getCastlingEndCoordinate(player, this.castlingKingsideData[player].pieceEndCoordinates);
-	}
-	getQueensideCastlingPieceEndCoordinate(player: NumericColor): [number, number] {
-		return this.getCastlingEndCoordinate(player, this.castlingQueensideData[player].pieceEndCoordinates);
-	}
-	getKingsideCastlingTandemPiece(player: NumericColor) {
-		return this.castlingKingsideData[player].pieceCoordinates;
-	}
-	getQueensideCastlingTandemPiece(player: NumericColor) {
-		return this.castlingQueensideData[player].pieceCoordinates;
-	}
-
-	getCastlingPieceEndCoordinates(coordinates: Coordinate, color: NumericColor): [Coordinate, Coordinate] {
-		return [
-			isVerticalPlacement(color)
-				? [coordinates[0], this.getKingsideCastlingTandemPiece(color)]
-				: [this.getKingsideCastlingTandemPiece(color), coordinates[1]],
-			isVerticalPlacement(color)
-				? [coordinates[0], this.getQueensideCastlingTandemPiece(color)]
-				: [this.getQueensideCastlingTandemPiece(color), coordinates[1]]
-		];
-	}
-
 	getDefaultZombieAlgorithm(baseColor: NumericColor): ZombieMoveGenerationAlgorithm {
 		const algorithm = botAlgorithms.get(this.tag("resigned")[baseColor] ? this.tag("zombieType")[baseColor] : ZombieType.F_Checker);
 		assertNonUndefined(algorithm);
@@ -203,5 +123,19 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 			default:
 				throwOnNever(move);
 		}
+	}
+
+	getKingCaptures(board: BoardSquares<PieceString>) {
+		const kingCaptures = createTuple(false, totalPlayers);
+		for (const color of colors) {
+			const royalCoordinate = this.tag("royal")[color];
+			if (!royalCoordinate) continue;
+			const pieceString = board[royalCoordinate[0]][royalCoordinate[1]];
+			if (pieceString.isEmpty() || pieceString.color !== color) {
+				kingCaptures[color] = true;
+			}
+		}
+
+		return kingCaptures;
 	}
 }

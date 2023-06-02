@@ -646,13 +646,13 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		return false;
 	}
 
-	function getEval(move: MoveComponent): number {
+	function getEval(move: MoveComponent, legalMoves: MoveComponent[]): number {
 		let totalEval = 0;
-		const { board, data, defaultSideToMove, variantData, royal, isTeams } = boardAccessors;
+		const { board, defaultSideToMove, variantData, royal, isTeams } = boardAccessors;
 		const snapshot = board.createSnapshot();
 
-		const isKingsideCastle = data.fenOptions.isKingsideCastlingAvailable(data.sideToMove, board),
-			isQueensideCastle = data.fenOptions.isQueensideCastlingAvailable(data.sideToMove, board);
+		const isKingsideCastle = legalMoves.find((m) => "specialType" in m && m.specialType === SpecialMove.CastlingKingside) !== undefined,
+			isQueensideCastle = legalMoves.find((m) => "specialType" in m && m.specialType === SpecialMove.CastlingQueenside) !== undefined;
 		board.makeMove([move], true);
 		board.pregenerateAttacks();
 		boardAccessors = { ...boardAccessors, ...augmentBoardAccessorsFromBoard(board) };
@@ -721,8 +721,10 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 						case InternalMoveSignature.ClaimWin:
 							moveValues.set(move, Infinity);
 							break;
+						default:
+							moveValues.set(move, getEval(move, moves));
 					}
-				} else moveValues.set(move, getEval(move));
+				} else moveValues.set(move, getEval(move, moves));
 			}
 
 			return moveValues;

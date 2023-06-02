@@ -1,4 +1,4 @@
-import { Cloneable, isVerticalPlacement, Memento } from "../../BaseInterfaces";
+import { Cloneable, Memento } from "../../BaseInterfaces";
 import type { Board, PlayerBooleanTuple } from "../Board/Board";
 import {
 	createDefaultArmyDeathSettings,
@@ -13,7 +13,6 @@ import {
 	InternalMoveSignature,
 	MoveComponent,
 	MoveData,
-	SpecialMove,
 	verifyDroppingMove,
 	verifyInternalMove,
 	verifyStandardMove
@@ -135,68 +134,16 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 			}
 		}
 
-		const [kingsidePiece, queensidePiece] = this.fenOptions.getCastlingPieceEndCoordinates(moveData.startCoordinates, this.sideToMove);
-		if ("specialType" in moveData) {
-			const type = moveData.specialType;
-
-			switch (type) {
-				case SpecialMove.CastlingKingside: {
-					const secondKPiece = isVerticalPlacement(this.sideToMove)
-						? this.board.board[startI][this.fenOptions.getKingsideCastlingTandemPiece(this.sideToMove)]
-						: this.board.board[this.fenOptions.getKingsideCastlingTandemPiece(this.sideToMove)][startJ];
-					const [kI, kJ] = this.fenOptions.getKingsideCastlingPieceEndCoordinate(this.sideToMove);
-
-					this.board.board[kI][kJ] = secondKPiece;
-					this.board.board[kingsidePiece[0]][kingsidePiece[1]] = emptyPieceString;
-					break;
-				}
-				case SpecialMove.CastlingQueenside: {
-					const secondQPiece = isVerticalPlacement(this.sideToMove)
-						? this.board.board[startI][this.fenOptions.getQueensideCastlingTandemPiece(this.sideToMove)]
-						: this.board.board[this.fenOptions.getQueensideCastlingTandemPiece(this.sideToMove)][startJ];
-					const [qI, qJ] = this.fenOptions.getQueensideCastlingPieceEndCoordinate(this.sideToMove);
-					this.board.board[qI][qJ] = secondQPiece;
-					this.board.board[queensidePiece[0]][queensidePiece[1]] = emptyPieceString;
-					break;
-				}
-				default:
-					if (type === undefined || !(type in SpecialMove)) {
-						console.error(`Unknown special move constant: ${String(type)}`);
-					}
-			}
-		}
-
-		const castleKingside = this.fenOptions.tag("castleKingside"),
-			castleQueenside = this.fenOptions.tag("castleQueenside"),
-			royal = this.fenOptions.tag("royal");
 		this.fenOptions.setTag(
 			"royal",
-			this.fenOptions.tag("royal").map((r, i): Coordinate | null => {
+			this.fenOptions.tag("royal").map((r): Coordinate | null => {
 				if (r) {
 					if (r[0] === startI && r[1] === startJ) {
-						castleKingside[i] = false;
-						castleQueenside[i] = false;
 						return [endI, endJ];
 					} else return [...r];
 				} else return null;
 			})
 		);
-
-		for (const color of colors) {
-			const royalPiece = royal[color];
-			if (!royalPiece) continue;
-			if (compareCoordinates(royalPiece, moveData.startCoordinates)) {
-				castleKingside[color] = false;
-				castleQueenside[color] = false;
-				break;
-			} else if (compareCoordinates(kingsidePiece, moveData.startCoordinates)) {
-				castleKingside[color] = false;
-				break;
-			} else if (compareCoordinates(queensidePiece, moveData.startCoordinates)) {
-				castleQueenside[color] = false;
-				break;
-			}
-		}
 
 		return { endPiece: endPiece.isEmpty() ? [] : [endPiece] };
 	}
@@ -321,20 +268,6 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 		}
 	}
 
-	private getKingCaptures() {
-		const kingCaptures = createTuple(false, totalPlayers);
-		for (const color of colors) {
-			const royalCoordinate = this.fenOptions.tag("royal")[color];
-			if (!royalCoordinate) continue;
-			const pieceString = this.board.board[royalCoordinate[0]][royalCoordinate[1]];
-			if (pieceString.isEmpty() || pieceString.color !== color) {
-				kingCaptures[color] = true;
-			}
-		}
-
-		return kingCaptures;
-	}
-
 	private processPointsForChecks(currentChecks: Tuple<Set<string>, typeof totalPlayers>) {
 		const sideToMove = this.sideToMove;
 		const updatedChecks = this.board.getCurrentChecks(),
@@ -399,7 +332,7 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 			}
 		}
 
-		const kingCaptures = this.getKingCaptures();
+		const kingCaptures = this.fenOptions.getKingCaptures(this.board.board);
 		const dead = this.fenOptions.tag("dead"),
 			resigned = this.fenOptions.tag("resigned");
 		if (this.board.gameType.isFFA()) {

@@ -1,6 +1,9 @@
-import { Tuple, createTuple, verifyTupleType } from "@client/ts/baseTypes";
+import { Tuple, assertNonUndefined, createTuple, verifyTupleType } from "@client/ts/baseTypes";
+import { getVerticalPlacementModulus, isVerticalPlacement } from "@client/ts/logic/BaseInterfaces";
 import { Board } from "@moveGeneration/Board/Board";
+import type { FENOptions } from "@moveGeneration/FENData/FENData";
 import { totalPlayers } from "@moveGeneration/GameInformation/GameData";
+import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { VariantRule } from "@moveGeneration/VariantRules/VariantRule";
 import type { AllowedSuperClasses } from "@moveGeneration/VariantRules/VariantRuleInterface";
 
@@ -18,6 +21,15 @@ export abstract class Castling<T extends AllowedSuperClasses> extends VariantRul
 		) {
 			this.castlingDisplacement = value;
 		} else this.castlingDisplacement = createTuple([0, 0], totalPlayers);
+	}
+
+	protected getCastlingEndCoordinate(fenOptions: FENOptions, player: NumericColor, coordinates: number | undefined): [number, number] {
+		const royalCoordinate = fenOptions.tag("royal")[player]?.[getVerticalPlacementModulus(player)];
+		assertNonUndefined(coordinates);
+		assertNonUndefined(royalCoordinate);
+		const coordinateA = isVerticalPlacement(player) ? royalCoordinate : coordinates;
+		const coordinateB = isVerticalPlacement(player) ? coordinates : royalCoordinate;
+		return [coordinateA, coordinateB];
 	}
 
 	isDisabled() {
