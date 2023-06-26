@@ -113,7 +113,9 @@ export const {
 	changeSimpleParametrizedFENTag,
 	loadFEN4fromString,
 	changeGameMetadataID,
-	changeTimeControl
+	changeTimeControl,
+	changePlayerName,
+	changePlayerElo
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 

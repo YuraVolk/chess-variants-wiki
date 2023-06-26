@@ -180,7 +180,7 @@ export const createPlayerDataTag = (): VariantTag<Tuple<GamePlayerData, typeof t
 				if (name) newCurrentValue[color] = { ...newCurrentValue[color], name };
 				return newCurrentValue;
 			} else if (tagNamesEqual(inputTag, `${playerName}Elo`)) {
-				const elo = Number(unwrapTag(inputTag, playerName));
+				const elo = Number(unwrapTag(inputTag, `${playerName}Elo`));
 				if (!isNaN(elo)) newCurrentValue[color] = { ...newCurrentValue[color], elo };
 				return newCurrentValue;
 			}
