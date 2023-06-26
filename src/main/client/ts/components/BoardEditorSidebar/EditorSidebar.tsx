@@ -6,6 +6,7 @@ import { EditVariantRules } from "./EditVariantRules";
 import { SparePieces } from "./SparePieces";
 import { FENTags } from "./FENTags/FENTags";
 import { FENDisplay } from "./FENDisplay";
+import { GameMetadataTags } from "./GameMetadata/GameMetadataTags";
 
 interface EditorSidebarProps {
 	onApplyChanges: () => void;
@@ -34,6 +35,7 @@ export const EditorSidebar = (props: EditorSidebarProps) => {
 			<EditVariantRules />
 			<SparePieces />
 			<FENTags />
+			<GameMetadataTags />
 			<FENDisplay />
 		</section>
 	);

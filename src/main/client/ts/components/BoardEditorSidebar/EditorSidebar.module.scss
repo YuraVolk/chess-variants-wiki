@@ -414,6 +414,7 @@ $configurationGrayColor: #666564;
     column-gap: 0.3rem;
 	grid-auto-rows: auto;
 	grid-template-columns: repeat(4, 1fr);
+	margin-bottom: 1rem;
 
 	&__text {
 		display: flex;
@@ -515,6 +516,22 @@ $configurationGrayColor: #666564;
 		}
 	}
 
+	&__button {
+		@include index.button;
+		width: 100%;
+		cursor: pointer;
+	}
+
+	&__description-label {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: 400;
+		text-align: center;
+		color: #e4e4e4;
+		cursor: pointer;
+	}
+
 	&__select {
 		width: 100%;
 		background-image: linear-gradient(45deg, transparent 78.8%, #666564 0),linear-gradient(135deg, #666564 21.9%, transparent 0);
@@ -528,6 +545,22 @@ $configurationGrayColor: #666564;
 		appearance: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+	}
+
+	&__input {
+		width: 100%;
+		height: 2.5rem;
+		border: none;
+		padding: 0.3rem;
+		background-color: #444;
+		color: #e2e2e2;
+
+		&::-webkit-input-placeholder,
+		&::-moz-placeholder,
+		&:-moz-placeholder,
+		&:-ms-input-placeholder {
+			color: transparent;
+		}
 	}
 }
 

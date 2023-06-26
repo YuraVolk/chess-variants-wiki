@@ -411,6 +411,7 @@ export class RequestManager {
 		try {
 			clone.gameType.type = settings.variantType;
 			clone.board = settings.boardSquares.map((r) => r.map((p) => PieceString.fromObjectToClass(p)));
+			clone.gameData = settings.gameData;
 			clone.data = FENData.toFENDataFromPublicFENSettings(settings.publicFENSettings);
 			const fenTag = createFENDataTag();
 			const dataReParsing = fenTag.parseTag(wrapTag(fenDataTag, fenTag.externalSerialize?.(clone.board, clone.data) ?? ""));

@@ -46,8 +46,8 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 	preGeneratedAttacks = createTupleFromCallback(createBasePreGeneratedAttacks, totalPlayers);
 	board: BoardSquares<PieceString>;
 	isComplexSetup = createComplexMoveLegalityTracker();
-	readonly gameData: GameData;
-	readonly gameType = createGameTypeSettings();
+	gameData: GameData;
+	gameType = createGameTypeSettings();
 	variantRules: VariantRuleParsingTypes;
 	variantData: VariantDataRules;
 	isTwoPlayer: boolean;

@@ -13,6 +13,7 @@ import { fenTagReducers } from "./reducers/ConcreteFENReducers";
 import { variantRuleReducers } from "./reducers/VariantRuleReducers";
 import { pieceDroppingReducers } from "./reducers/PieceDroppingReducers";
 import { generalFENReducers } from "./reducers/GeneralFENReducers";
+import { gameMetadataReducers } from "./reducers/GameMetadataReducers";
 
 export const sidebarEditorsAdapter = createEntityAdapter<SidebarEditorInterface>();
 export const sidebarEditorsSlice = createSlice({
@@ -23,6 +24,7 @@ export const sidebarEditorsSlice = createSlice({
 		...variantRuleReducers,
 		...pieceDroppingReducers,
 		...generalFENReducers,
+		...gameMetadataReducers,
 		loadFEN4fromString: (state, action: PayloadAction<{ id: number; fen4: string }>) => {
 			const { id, fen4 } = action.payload;
 			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
@@ -47,25 +49,6 @@ export const sidebarEditorsSlice = createSlice({
 					}
 				});
 			} catch { /* empty */ }
-		},
-		changeGameMetadataID: (state, action: PayloadAction<{ id: number; value: string }>) => {
-			const { id, value } = action.payload;
-			const numericValue = value.length ? Number(value) : undefined;
-			const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
-			if (!editor?.gameData || (numericValue !== undefined && (numericValue < 0 || !Number.isSafeInteger(numericValue)))) return;
-
-			sidebarEditorsAdapter.updateOne(state, {
-				type: "sidebarEditors/updateGameMetadataID",
-				payload: {
-					id,
-					changes: {
-						gameData: {
-							...editor.gameData,
-							gameNumber: numericValue
-						}
-					}
-				}
-			});
 		}
 	},
 	extraReducers: (builder) => {
@@ -129,7 +112,8 @@ export const {
 	changeParametrizedFENTag,
 	changeSimpleParametrizedFENTag,
 	loadFEN4fromString,
-	changeGameMetadataID
+	changeGameMetadataID,
+	changeTimeControl
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 

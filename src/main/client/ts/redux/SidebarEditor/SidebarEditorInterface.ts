@@ -95,11 +95,13 @@ function serializeVariantDataToVariantRules(variantDataInput: StripPieceStringOb
 export const stripUnnecessaryBandwidthFromEditor = (information: SidebarEditorInterface) => {
 	assertNonUndefined(information.variantDataRules);
 	assertNonUndefined(information.publicFENSettings);
+	assertNonUndefined(information.gameData);
 	return {
 		variantType: information.variantType,
 		variantRules: serializeVariantDataToVariantRules(information.variantDataRules),
 		boardSquares: information.boardSquares,
-		publicFENSettings: information.publicFENSettings
+		publicFENSettings: information.publicFENSettings,
+		gameData: information.gameData
 	};
 };
 export type EditorConstructSettings = ReturnType<typeof stripUnnecessaryBandwidthFromEditor>;

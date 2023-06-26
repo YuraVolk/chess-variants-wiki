@@ -83,7 +83,7 @@ export const validateTerminationString = (termination: string): termination is T
 export const stringifyTimeControl = (timeControl: TimeControl): string => {
 	const noIncrement = timeControl.increment === 0;
 	let timeControlString = "";
-	if (timeControl.baseTime < 60) {
+	if (timeControl.baseTime <= 60) {
 		timeControlString += noIncrement ? `${timeControl.baseTime * 60} sec` : `${timeControl.baseTime * 60}s`;
 	} else if (timeControl.baseTime > 60 && noIncrement) {
 		timeControlString += `${truncateNumber(timeControl.baseTime / 60, 1)} min`;
@@ -101,6 +101,7 @@ export const stringifyTimeControl = (timeControl: TimeControl): string => {
 
 	return timeControlString;
 };
+
 export const obtainTimeControlType = (timeControl: TimeControl): TimeControlType => {
 	const { baseTime, increment, isDelay } = timeControl;
 	if (isDelay) {
