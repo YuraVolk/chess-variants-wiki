@@ -5,7 +5,8 @@ import {
 	selectGameBoardPGN,
 	selectGameBoardSquares,
 	selectGameBoardType,
-	selectGameBoardVariantData
+	selectGameBoardVariantData,
+	selectGameData
 } from "../logic/index/GameBoardSlice";
 import {
 	selectEditorBoardSquares,
@@ -50,3 +51,7 @@ export const selectSerializedStrings = (parameters: GeneralSelectorParameters) =
 	parameters.stateController === "gameBoards"
 		? selectGameBoardPGN(parameters.state, parameters.id)
 		: selectEditorSidebar(parameters.state, parameters.id).serializedFEN;
+export const selectGeneralGameData = (parameters: GeneralSelectorParameters) =>
+	parameters.stateController === "gameBoards"
+		? selectGameData(parameters.state, parameters.id)
+		: selectEditorSidebar(parameters.state, parameters.id);

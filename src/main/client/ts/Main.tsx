@@ -30,6 +30,7 @@ const themeContextSettings: PersistedStorageParameters<PieceThemeContextInterfac
 		initImagesList();
 	}
 };
+
 const Main = () => {
 	const [themeContext, setThemeContext] = usePersistedStorage(themeContextSettings);
 

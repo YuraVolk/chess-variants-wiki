@@ -13,7 +13,7 @@ import { initializeBoardSquares } from "../../BaseInterfaces";
 import { ChainedMoveSettings, GameBoardObject, gameBoardsAdapter } from "../GameBoardSlice";
 
 export const boardReducers = {
-	getChainedDuckMoves: (state: Draft<EntityState<GameBoardObject>>, action: PayloadAction<{ id: number }>) => {
+	getChainedDuckMoves: (state, action: PayloadAction<{ id: number }>) => {
 		const { id } = action.payload;
 		const gameBoard = gameBoardsAdapter.getSelectors().selectById(state, id);
 		if (!gameBoard?.chainedMoveSettings.duck?.duckMove) return;
@@ -31,10 +31,7 @@ export const boardReducers = {
 			}
 		});
 	},
-	getChainedDuckDrops: (
-		state: Draft<EntityState<GameBoardObject>>,
-		action: PayloadAction<{ id: number; move: StripPieceStringObjects<MoveData | InternalMove> }>
-	) => {
+	getChainedDuckDrops: (state, action: PayloadAction<{ id: number; move: StripPieceStringObjects<MoveData | InternalMove> }>) => {
 		const { id, move } = action.payload;
 		const gameBoard = gameBoardsAdapter.getSelectors().selectById(state, id);
 		if (!move.nextChainedMoves || !gameBoard) return;
@@ -70,7 +67,7 @@ export const boardReducers = {
 			});
 		}
 	},
-	getChainedSeirawanMoves: (state: Draft<EntityState<GameBoardObject>>, action: PayloadAction<{ piece: PieceStringObject; id: number }>) => {
+	getChainedSeirawanMoves: (state, action: PayloadAction<{ piece: PieceStringObject; id: number }>) => {
 		const { id, piece } = action.payload;
 		const gameBoard = gameBoardsAdapter.getSelectors().selectById(state, id);
 		if (!gameBoard?.chainedMoveSettings.seirawanDrops) return;
@@ -88,10 +85,7 @@ export const boardReducers = {
 			payload: { id, changes: { highlightedSquares } }
 		});
 	},
-	setLegalMoves: (
-		state: Draft<EntityState<GameBoardObject>>,
-		action: PayloadAction<{ legalMoves: StripPieceStringObjects<MoveData[] | DroppingMove[]>; id: number }>
-	) => {
+	setLegalMoves: (state, action: PayloadAction<{ legalMoves: StripPieceStringObjects<MoveData[] | DroppingMove[]>; id: number }>) => {
 		const highlightedSquares = initializeBoardSquares<StripPieceStringObjects<Move> | undefined>(() => undefined);
 		const { legalMoves, id } = action.payload;
 
@@ -104,4 +98,4 @@ export const boardReducers = {
 			payload: { id, changes: { highlightedSquares } }
 		});
 	}
-};
+} satisfies Record<string, (state: Draft<EntityState<GameBoardObject>>, action: never) => void>;

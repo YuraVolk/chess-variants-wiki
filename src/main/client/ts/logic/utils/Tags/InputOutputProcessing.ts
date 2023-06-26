@@ -6,6 +6,7 @@ import { compileVariantRuleData } from "@moveGeneration/VariantRules/VariantRule
 import { parsePGN4Moves } from "./Moves/ParsePGNMoves";
 import { serializePGNMoves } from "./Moves/SerializePGNMoves";
 import { createDefaultVariantTags, VariantTags } from "./TagInterface";
+import { assertNonUndefined } from "@client/ts/baseTypes";
 
 export function parsePGN4(pgn4: string) {
 	let pgn4Tags: string[],
@@ -71,8 +72,16 @@ export interface SerializedBoardStrings {
 }
 const defaultTags = createDefaultVariantTags();
 export function serializeBoard(board: Board): SerializedBoardStrings {
+	const currentSnapshot = board.createSnapshot();
+	const snapshot = board.moves.getBoardSnapshot(-1);
+	assertNonUndefined(snapshot);
+	board.loadSnapshot(snapshot.boardSnapshot);
+	const fenTag = defaultTags.startingPosition.serialize(board) ?? "";
+	board.loadSnapshot(currentSnapshot);
+
 	return {
-		board: Object.values(defaultTags)
+		board: fenTag + "\n" + Object.values(defaultTags)
+			.filter(t => t.tag !== "startingPosition")
 			.map((t) => t.serialize(board))
 			.filter<string>((v): v is string => v !== undefined)
 			.join("\n"),

@@ -9,7 +9,7 @@ import {
 	FENOptionsTags,
 	createFENOptionsTags
 } from "@moveGeneration/FENData/FENOptions/FENOptionsTagsInterface";
-import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
+import { GameData, VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import type { Coordinate } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { PieceStringObject } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import type { ProcessSafeMoveWrapper, StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";
@@ -25,6 +25,7 @@ export interface SidebarEditorInterface {
 	variantDataRules?: StripPieceStringObjects<VariantDataRules>;
 	publicFENSettings?: PublicFENSettings;
 	serializedFEN: SerializedBoardStrings;
+	gameData?: GameData;
 	readonly currentMove: [-1];
 	readonly moveTree: ProcessSafeMoveWrapper[];
 	currentDroppedPiece?: PieceStringObject | Coordinate;

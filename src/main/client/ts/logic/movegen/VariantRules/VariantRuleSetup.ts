@@ -15,6 +15,7 @@ import { VariantRule, VariantRulePublicProperties } from "./VariantRule";
 import type { AllowedSuperClasses, VariantDataRules, VariantRuleAllowedChecks } from "./VariantRuleInterface";
 import { BoardCastling } from "./VariantRuleDefinitions/WidespreadDecorators/Castling/board";
 import { FENDataCastling } from "./VariantRuleDefinitions/WidespreadDecorators/Castling/fendata";
+import { filterDuplicatesByClass } from "@utils/ArrayUtils";
 
 export interface VariantRuleParsingTypes {
 	boardDecorators: Array<VariantRule<typeof Board, keyof VariantDataRules>>;
@@ -186,10 +187,11 @@ export function validateVariantRules(board: Board) {
 		gameType: board.gameType.type,
 		fenTags: board.data.fenOptions.tags
 	};
+
 	return {
 		...board.variantRules,
-		boardDecorators: board.variantRules.boardDecorators.filter((rv) => !rv.isDisabled(configuration)),
-		pieceControlDecorators: board.variantRules.pieceControlDecorators.filter((rv) => !rv.isDisabled(configuration)),
-		fenDataDecorators: board.variantRules.fenDataDecorators.filter((rv) => !rv.isDisabled(configuration))
+		boardDecorators: filterDuplicatesByClass(board.variantRules.boardDecorators).filter((rv) => !rv.isDisabled(configuration)),
+		pieceControlDecorators: filterDuplicatesByClass(board.variantRules.pieceControlDecorators).filter((rv) => !rv.isDisabled(configuration)),
+		fenDataDecorators: filterDuplicatesByClass(board.variantRules.fenDataDecorators).filter((rv) => !rv.isDisabled(configuration))
 	};
 }
