@@ -57,7 +57,7 @@ export abstract class VariantRule<C extends AllowedSuperClasses, K extends keyof
 		for (const decorator of this.wrappingDecorators) {
 			if (!verifyHandlerProperty(decorator, method)) continue;
 			const decoratorMethod = decorator[method];
-			assertDevOnly(verifyFunctionType(decoratorMethod));
+			if (!verifyFunctionType(decoratorMethod)) continue;
 			return decoratorMethod.call(decorator, ...args);
 		}
 

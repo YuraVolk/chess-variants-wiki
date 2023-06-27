@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useId } from "react";
+import React, { useState, useEffect, useCallback, useId, useRef } from "react";
 import styles from "./GameController.module.scss";
 import { hashString } from "@utils/StringFormatUtils";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,15 +28,18 @@ interface GameControllerProps extends BoardTemplateProps {
 }
 
 const GameController = (props: GameControllerProps) => {
+	const hasInitializationBeenRun = useRef(false);
 	const [isSidebarOpened, setOpenSidebar] = useState(false);
 	const [currentPerspective, setCurrentPerspective] = useState<NumericColor>(0);
 	const boardId = hashString(useId());
 	const dispatch = useDispatch<AppDispatch>();
 	const [worker] = useState(() => new Worker(new URL("@client/ts/logic/index/GameBoardWorker.ts", import.meta.url)));
 	useEffect(() => {
-		dispatch(createConstructBoardAction({ args: [props.variantname ?? String(boardId), props.pgn4], id: boardId, worker }));
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		if (!hasInitializationBeenRun.current) {
+			hasInitializationBeenRun.current = true;
+			dispatch(createConstructBoardAction({ args: [props.variantname ?? String(boardId), props.pgn4], id: boardId, worker }));
+		}
+	}, [boardId, dispatch, props.pgn4, props.variantname, worker]);
 	const initializationComplete = useSelector<RootState, boolean>(
 		(state) => gameBoardsAdapter.getSelectors().selectById(state.gameBoards, boardId)?.initializationComplete ?? false
 	);

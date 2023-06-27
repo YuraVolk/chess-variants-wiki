@@ -50,8 +50,8 @@ export class Sideways extends VariantRule<typeof PieceControl, typeof tag> imple
 		for (const decorator of this.wrappingDecorators) {
 			if (decorator.getPossibleCells) return decorator.getPossibleCells();
 		}
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const prototype: PieceControl = Object.getPrototypeOf(this.decorator);
+		
+		const prototype = Object.getPrototypeOf(this.decorator) as PieceControl;
 		prototype.getPossibleCells.call(this.decorator);
 	}
 }

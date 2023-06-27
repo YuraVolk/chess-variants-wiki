@@ -527,8 +527,8 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getSpecialMoves(_: SpecialMoveGenerationSettings): MoveData[] {
+	getSpecialMoves(_: SpecialMoveGenerationSettings): MoveData[];
+	getSpecialMoves(): MoveData[] {
 		return [];
 	}
 
@@ -568,8 +568,8 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getDroppingMoves(_piece: PieceString, _sideToMove = this.data.sideToMove): DroppingMove[] {
+	getDroppingMoves(_piece: PieceString, _sideToMove?: NumericColor): DroppingMove[];
+	getDroppingMoves(): DroppingMove[] {
 		return [];
 	}
 
