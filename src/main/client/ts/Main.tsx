@@ -32,7 +32,7 @@ const themeContextSettings: PersistedStorageParameters<PieceThemeContextInterfac
 };
 
 const Main = () => {
-	const [themeContext] = usePersistedStorage(themeContextSettings);
+	const [themeContext, setThemeContext] = usePersistedStorage(themeContextSettings);
 
 	return (
 		<div id="main">

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createTuple, Tuple } from "@client/ts/baseTypes";
 import { BoardSquares, initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { Board } from "@moveGeneration/Board/Board";
@@ -144,7 +143,9 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		const resigned = data.fenOptions.tag("resigned");
 
 		const key = stringifyKey(i, j, color);
-		if (coverageCache.has(key)) return coverageCache.get(key)!;
+		const cachedCoverage = coverageCache.get(key);
+		if (cachedCoverage) return cachedCoverage;
+		
 		const attackers: Coordinate[] = [],
 			defenders: Coordinate[] = [];
 		const cvg = coverage[i][j];
@@ -175,7 +176,7 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		if (!pieceString.isPiece()) return 0;
 		const piece = pieceString.piece;
 		const key = `${coordinates[0]},${coordinates[1]}/${pieceString.color}`;
-		if (pieceValueCache.has(key)) return pieceValueCache.get(key)!;
+		if (pieceValueCache.has(key)) return pieceValueCache.get(key) ?? 0;
 
 		let value = 0;
 		const controlSetting = pieceControlConfigSettings[piece];
@@ -273,7 +274,7 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		const { hangingCache, boardSquares, remaining, data } = boardAccessors;
 
 		const key = stringifyKey(i, j);
-		if (hangingCache.has(key)) return hangingCache.get(key)!;
+		if (hangingCache.has(key)) return hangingCache.get(key) ?? 0;
 		const square = boardSquares[i][j];
 		if (!square.isPiece()) return 0;
 		const { attackers, defenders } = getCoverage(i, j, square.color);
@@ -586,8 +587,7 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 				const y = [kj, kj + d, kj - d];
 				for (const i of x) {
 					for (const j of y) {
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-						if (!boardSquares[i]?.[j]) continue;
+						if (typeof boardSquares[i]?.[j] === "undefined") continue;
 						if (i === ki && j === kj) continue;
 						const pieceString = boardSquares[i][j];
 						if (!pieceString.isPiece()) continue;
@@ -604,8 +604,7 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 				for (let h = -1; h < 2; h++) {
 					const i = ki + k;
 					const j = kj + h;
-					// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-					if (!boardSquares[i]?.[j]) continue;
+					if (typeof boardSquares[i]?.[j] === "undefined") continue;
 					const { attackers, defenders } = getCoverage(i, j, player);
 					kingEval -= 2 * attackers.length;
 					kingEval += 1 * defenders.length;

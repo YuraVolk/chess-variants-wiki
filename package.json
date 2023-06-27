@@ -29,6 +29,7 @@
 		"redux-saga": "^1.2.3",
 		"reflect-metadata": "^0.1.13",
 		"style-loader": "^2.0.0",
+		"typed-redux-saga": "^1.5.0",
 		"use-immer": "^0.8.1",
 		"webpack-cli": "^5.0.1"
 	},
@@ -44,6 +45,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.51.0",
 		"@typescript-eslint/parser": "^5.51.0",
 		"babel-loader": "^9.1.2",
+		"babel-plugin-macros": "^3.1.0",
 		"eslint": "^8.34.0",
 		"eslint-import-resolver-typescript": "^3.5.3",
 		"eslint-plugin-import": "^2.27.5",

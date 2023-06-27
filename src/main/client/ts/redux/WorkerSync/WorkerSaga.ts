@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
-import { call, put, take, fork, select, delay, spawn } from "@redux-saga/core/effects";
+import { call, put, take, fork, select, delay, spawn } from "typed-redux-saga/macro";
 import { Action, createAction } from "@reduxjs/toolkit";
 import { compareArrays } from "@utils/ArrayUtils";
 import {
 	changeCurrentFogPerspective,
 	changeCurrentMove,
 	createNewGameBoard,
-	GameBoardObject,
 	GameBoardObjectSetProperties,
 	getCurrentMove,
 	resetInteractionSettings,
@@ -87,6 +84,10 @@ async function sendMessage<K extends BoardWorkerRequest>(parameters: WorkerSagaR
 	return v;
 }
 
+type WParam<K extends BoardWorkerRequest> = [WorkerSagaRequest<K>];
+type WParams<K extends BoardWorkerRequest> = [WorkerSagaRequest<K>, boolean];
+type WReturn<K extends BoardWorkerRequest> = (parameters: WorkerSagaRequest<K>, isBlocking?: boolean) => Promise<BoardWorkerReturnType<K>>;
+
 function* syncWithWorker<K extends BoardWorkerRequest>(request: WorkerSagaRequest<K>, isInitial: boolean) {
 	try {
 		const results: Partial<GameBoardObjectSetProperties> = {};
@@ -97,7 +98,7 @@ function* syncWithWorker<K extends BoardWorkerRequest>(request: WorkerSagaReques
 				request: dispatch,
 				args: []
 			};
-			const [requestName, returnType]: BoardWorkerReturnType<BoardWorkerRequest> = yield call(sendMessage, payload, true);
+			const [requestName, returnType] = yield* call<WParams<typeof dispatch>, WReturn<typeof dispatch>>(sendMessage, payload, true);
 			const syncProperty = dispatchSyncRecord[requestName];
 			if (syncProperty) results[syncProperty] = returnType as never;
 		}
@@ -119,7 +120,7 @@ export function* watchWorkerConstruct() {
 	const currentVariantNames = new Set<string>();
 
 	for (;;) {
-		const { payload }: ReturnType<typeof constructBoard> = yield take(constructBoard);
+		const { payload } = yield* take(constructBoard);
 		yield spawn(function* () {
 			if (payload.worker.onmessage) return;
 			yield put(restartInitialization({ id: payload.id }));
@@ -128,10 +129,10 @@ export function* watchWorkerConstruct() {
 				while (currentVariantNames.has(variantName)) yield delay(200);
 			}
 
-			const generatedName: VariantGeneratedData = yield select(getVariantName, variantName);
+			const generatedName: VariantGeneratedData | undefined = yield* select(getVariantName, variantName);
 			yield put(createNewGameBoard({ id: payload.id }));
-			if (typeof generatedName !== "undefined") {
-				yield call(sendMessage, {
+			if (generatedName) {
+				yield* call<WParam<"constructWithGeneratedData">, WReturn<"constructWithGeneratedData">>(sendMessage, {
 					request: "constructWithGeneratedData",
 					args: [payload.args[1], generatedName.insufficientMaterialData],
 					worker: payload.worker,
@@ -140,7 +141,7 @@ export function* watchWorkerConstruct() {
 				yield fork(syncWithWorker, payload, true);
 			} else {
 				if (variantName) currentVariantNames.add(variantName);
-				const result: BoardWorkerReturnType<"construct"> = yield call(sendMessage, payload, true);
+				const result = yield* call<WParams<"construct">, WReturn<"construct">>(sendMessage, payload, true);
 				yield fork(syncWithWorker, payload, true);
 				if (variantName) {
 					yield put(addInsufficientMaterialState({ id: variantName, variantData: result[1] }));
@@ -154,12 +155,22 @@ export function* watchWorkerConstruct() {
 export function* watchWorkerChanges() {
 	for (;;) {
 		try {
-			const { payload }: ReturnType<typeof makeMove | typeof playPreferredBotMove> = yield take([makeMove, playPreferredBotMove]);
+			const { payload } = yield* take<ReturnType<typeof makeMove | typeof playPreferredBotMove>>([makeMove, playPreferredBotMove]);
 			if (!payload.worker.onmessage) {
-				const result: BoardWorkerReturnType<"makeMove" | "playPreferredBotMove"> = yield call(sendMessage, payload, true);
+				const result = yield* call<WParams<"makeMove" | "playPreferredBotMove">, WReturn<"makeMove" | "playPreferredBotMove">>(
+					sendMessage,
+					payload,
+					true
+				);
 				if (verifyWorkerRequest("playPreferredBotMove", result)) {
 					const move = result[1];
-					if (move) yield call(sendMessage, { ...payload, request: "makeMove", args: [move] }, true);
+					if (move) {
+						yield* call<WParams<"makeMove">, WReturn<"makeMove">>(
+							sendMessage,
+							{ ...payload, request: "makeMove", args: [move] },
+							true
+						);
+					}
 				}
 				yield fork(syncWithWorker, payload, false);
 			}
@@ -171,9 +182,12 @@ export function* watchWorkerChanges() {
 
 export function* trackLegalMovesChanges() {
 	for (;;) {
-		const { payload }: ReturnType<typeof getLegalMoves | typeof getDroppingMoves> = yield take([getLegalMoves, getDroppingMoves]);
+		const { payload } = yield* take<ReturnType<typeof getLegalMoves | typeof getDroppingMoves>>([getLegalMoves, getDroppingMoves]);
 		if (!payload.worker.onmessage) {
-			const results: BoardWorkerReturnType<BoardWorkerRequest> = yield call(sendMessage, payload);
+			const results = yield* call<WParam<"getLegalMoves" | "getDroppingMoves">, WReturn<"getLegalMoves" | "getDroppingMoves">>(
+				sendMessage,
+				payload
+			);
 			payload.worker.onmessage = null;
 			if (verifyWorkerRequest("getLegalMoves", results) || verifyWorkerRequest("getDroppingMoves", results)) {
 				yield put(setLegalMoves({ id: payload.id, legalMoves: results[1] }));
@@ -191,14 +205,14 @@ function* attemptWorkerSync(payload: WorkerSagaRequest<BoardWorkerRequest>) {
 export function* watchCurrentMoveChanges() {
 	for (;;) {
 		yield take([(pattern?: Action<string>) => Object.values(moveTreeActionTypes).some((t) => t === pattern?.type), changeCurrentMove]);
-		const { payload }: ReturnType<typeof loadSnapshotByPath> = yield take(loadSnapshotByPath);
-		const currentMove: number[] = yield call(sendMessage, {
+		const { payload } = yield* take(loadSnapshotByPath);
+		const currentMove = yield* call<WParam<"getCurrentMove">, WReturn<"getCurrentMove">>(sendMessage, {
 			id: payload.id,
 			request: "getCurrentMove",
 			args: [],
 			worker: payload.worker
 		});
-		const gameBoardObject: GameBoardObject | undefined = yield select(getCurrentMove, payload.id);
+		const gameBoardObject = yield* select(getCurrentMove, payload.id);
 		if (!gameBoardObject || compareArrays(currentMove, gameBoardObject.currentMove)) continue;
 		yield* attemptWorkerSync({ ...payload, args: [gameBoardObject.currentMove] });
 	}
@@ -206,18 +220,18 @@ export function* watchCurrentMoveChanges() {
 
 export function* trackDeleteMoveRequests() {
 	for (;;) {
-		const { payload }: ReturnType<typeof deleteMove> = yield take(deleteMove);
-		yield call(sendMessage, payload);
+		const { payload } = yield* take(deleteMove);
+		yield* call(sendMessage, payload);
 
-		const [, currentMove]: BoardWorkerReturnType<"getCurrentMove"> = yield call(sendMessage, {
+		const [, currentMove] = yield* call<WParam<"getCurrentMove">, WReturn<"getCurrentMove">>(sendMessage, {
 			...payload,
 			request: "getCurrentMove",
 			args: []
 		});
-		const gameBoardObject: GameBoardObject | undefined = yield select(getCurrentMove, payload.id);
+		const gameBoardObject = yield* select(getCurrentMove, payload.id);
 		if (!gameBoardObject) continue;
 		if (compareArrays(gameBoardObject.currentMove, currentMove)) {
-			const [, moveTree]: BoardWorkerReturnType<"getMoveTree"> = yield call(sendMessage, {
+			const [, moveTree] = yield* call<WParam<"getMoveTree">, WReturn<"getMoveTree">>(sendMessage, {
 				...payload,
 				request: "getMoveTree",
 				args: []
@@ -231,9 +245,9 @@ export function* trackDeleteMoveRequests() {
 
 export function* trackFogOfWarPerspective() {
 	for (;;) {
-		const { payload }: ReturnType<typeof changeFogPerspective> = yield take(changeFogPerspective);
-		const [, perspective]: BoardWorkerReturnType<"changeFogPerspective"> = yield call(sendMessage, payload);
-		const [, visibility]: BoardWorkerReturnType<"getSquareVisibility"> = yield call(sendMessage, {
+		const { payload } = yield* take(changeFogPerspective);
+		const [, perspective] = yield* call<WParam<"changeFogPerspective">, WReturn<"changeFogPerspective">>(sendMessage, payload);
+		const [, visibility] = yield* call<WParam<"getSquareVisibility">, WReturn<"getSquareVisibility">>(sendMessage, {
 			...payload,
 			request: "getSquareVisibility",
 			args: []
@@ -245,7 +259,7 @@ export function* trackFogOfWarPerspective() {
 export function* watchEditorConstructions() {
 	for (;;) {
 		try {
-			const { payload }: ReturnType<typeof createBoardFromSettings> = yield take(createBoardFromSettings);
+			const { payload } = yield* take(createBoardFromSettings);
 			yield put(restartInitialization({ id: payload.id }));
 			yield call(sendMessage, payload, true);
 			yield fork(syncWithWorker, payload, true);
