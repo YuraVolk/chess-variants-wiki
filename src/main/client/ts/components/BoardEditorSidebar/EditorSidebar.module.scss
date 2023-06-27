@@ -549,6 +549,7 @@ $configurationGrayColor: #666564;
 
 	&__input {
 		width: 100%;
+		max-width: 60px;
 		height: 2.5rem;
 		border: none;
 		padding: 0.3rem;

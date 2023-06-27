@@ -15,3 +15,5 @@ export function verifyPropertiesInObject<K extends string>(obj: Record<PropertyK
 	}
 	return true;
 }
+
+export const formatToInputLocalDateTime = (date: Date) => new Date(date.toString().split("GMT")[0] + " UTC").toISOString().split(".")[0];
