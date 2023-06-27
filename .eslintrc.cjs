@@ -1,22 +1,22 @@
 module.exports = {
-    extends: [
+    "extends": [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:@typescript-eslint/strict',
         "plugin:react-hooks/recommended"
     ],
-    parser: '@typescript-eslint/parser',
-    parserOptions: {
-        project: ['./tsconfig.json'],
-        tsconfigRootDir: __dirname,
+    "parser": '@typescript-eslint/parser',
+    "parserOptions": {
+        "project": ['./tsconfig.json'],
+        "tsconfigRootDir": __dirname,
     },
-    plugins: [
+    "plugins": [
         '@typescript-eslint',
         'import'
     ],
-    root: true,
-    rules: {
+    "root": true,
+    "rules": {
         "@typescript-eslint/array-type": ["warn", {
             "default": "array-simple",
             "readonly": "array-simple"
@@ -30,9 +30,19 @@ module.exports = {
         "prefer-rest-params": ["off"],
         "no-mixed-spaces-and-tabs": ["off"]
     },
-    settings: {
+    "settings": {
         "import/resolver": {
             "typescript": {}
         }
-    }
+    },
+    "overrides": [
+        {
+            "files": ["VariantRule.ts", "baseTypes.ts", "TemplateInterface.tsx"],
+            "rules": {
+                "@typescript-eslint/no-unsafe-return": "off",
+                "@typescript-eslint/no-unsafe-call": "off",
+                "@typescript-eslint/no-explicit-any": "off"
+            }
+        }
+    ]
 };

@@ -74,9 +74,8 @@ export class RequestManager {
 	private legalMoves = new Map<string, MoveData[]>();
 	private fogOfWarPerspective: NumericColor | false = false;
 
-	private stripPieceStrings<T>(object: T): StripPieceStringObjects<T> {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-		return JSON.parse(JSON.stringify(object));
+	private stripPieceStrings<T>(object: T) {
+		return JSON.parse(JSON.stringify(object)) as StripPieceStringObjects<T>;
 	}
 
 	private generateInitiallyAliveColors() {

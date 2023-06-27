@@ -39,7 +39,6 @@ interface TemplateProps {
 	children?: JSX.Element | JSX.Element[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const templates: Partial<Record<keyof JSX.IntrinsicElements, React.ComponentType<any>>> = {};
 export const addTemplate = <P extends object>(name: keyof JSX.IntrinsicElements, component: React.ComponentType<EnforceLowerCaseProps<P>>) => {
 	const newComponent = (props: TemplateProps & EnforceLowerCaseProps<P>) => {

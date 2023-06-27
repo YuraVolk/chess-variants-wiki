@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FunctionType = (...args: any[]) => any;
 export const verifyFunctionType = (func: unknown): func is FunctionType => typeof func === "function";
 

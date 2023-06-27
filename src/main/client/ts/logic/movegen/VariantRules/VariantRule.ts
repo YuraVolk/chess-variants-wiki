@@ -1,5 +1,5 @@
 import { copyClass } from "@client/ts/utils/ObjectUtils";
-import { verifyFunctionType, importAll, FunctionType } from "../../../baseTypes";
+import { verifyFunctionType, importAll, FunctionType, assertDevOnly } from "../../../baseTypes";
 import type {
 	AllowedSuperClasses,
 	VariantDataRules,
@@ -57,16 +57,14 @@ export abstract class VariantRule<C extends AllowedSuperClasses, K extends keyof
 		for (const decorator of this.wrappingDecorators) {
 			if (!verifyHandlerProperty(decorator, method)) continue;
 			const decoratorMethod = decorator[method];
-			if (!verifyFunctionType(decoratorMethod)) continue;
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+			assertDevOnly(verifyFunctionType(decoratorMethod));
 			return decoratorMethod.call(decorator, ...args);
 		}
 
 		const decoratorType: C = this.getDecoratorType();
-		if (!verifyPrototypeProperty(decoratorType, method)) throw new Error("Method called to callHandler is not a part of prototype");
+		assertDevOnly(verifyPrototypeProperty(decoratorType, method));
 		const prototypeMethod: unknown = decoratorType.prototype[method];
-		if (!verifyFunctionType(prototypeMethod)) throw new Error("Method called to callHandler is not a part of prototype");
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+		assertDevOnly(verifyFunctionType(prototypeMethod));
 		return prototypeMethod.call(this.decorator, ...args);
 	}
 
@@ -149,7 +147,6 @@ export function decorateClassWithVariants<C extends AllowedSuperClasses>(
 				if (verifyFunctionType(decoratorProperties[method])) {
 					Object.defineProperty(decoratorProperties, method, {
 						value: (...args: unknown[]) => {
-							// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
 							return variantFunc.bind(variantDecorator)(...args);
 						},
 						enumerable: false,
