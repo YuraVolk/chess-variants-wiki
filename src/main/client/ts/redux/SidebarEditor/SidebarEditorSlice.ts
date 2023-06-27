@@ -1,10 +1,10 @@
 import { PayloadAction, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import type { SidebarEditorInterface } from "./SidebarEditorInterface";
 import { createNewGameBoard, updateInteractionSettings } from "@client/ts/logic/index/GameBoardSlice";
-import { VariantType } from "@moveGeneration/GameInformation/GameData";
+import { VariantType, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import { emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { initializeBoardSquares } from "@client/ts/logic/BaseInterfaces";
-import { assertDevOnly } from "@client/ts/baseTypes";
+import { assertDevOnly, createTuple } from "@client/ts/baseTypes";
 import type { RootState } from "../store";
 import { createFENDataTag, fenDataTag } from "@client/ts/logic/utils/Tags/TagLogic/FENDataTag";
 import { wrapTag } from "@client/ts/logic/utils/Tags/Utils";
@@ -65,7 +65,8 @@ export const sidebarEditorsSlice = createSlice({
 					currentMove: [-1],
 					moveTree: [],
 					serializedFEN: { board: "", moves: "" },
-					isDroppingEnabled: false
+					isDroppingEnabled: false,
+					initiallyAliveColors: createTuple(true, totalPlayers)
 				}
 			});
 		});
@@ -82,6 +83,7 @@ export const sidebarEditorsSlice = createSlice({
 			if (payload.variantDataRules) resultingObject.variantDataRules = payload.variantDataRules;
 			if (payload.publicFENSettings) resultingObject.publicFENSettings = payload.publicFENSettings;
 			if (payload.gameData) resultingObject.gameData = payload.gameData;
+			if (payload.initiallyAliveColors) resultingObject.initiallyAliveColors = payload.initiallyAliveColors;
 			sidebarEditorsAdapter.updateOne(state, {
 				type: "sidebarEditors/syncSettings",
 				payload: {
@@ -117,7 +119,9 @@ export const {
 	changePlayerName,
 	changePlayerElo,
 	changeOriginatingWebsite,
-	changePlayingDate
+	changePlayingDate,
+	setResult,
+	changeTermination
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 
@@ -143,3 +147,4 @@ export const selectEditorGameData = (state: RootState, id: number) => {
 	assertDevOnly(gameData !== undefined);
 	return gameData;
 };
+export const selectEditorInitiallyAliveColors = (state: RootState, id: number) => selectEditorSidebar(state, id).initiallyAliveColors;

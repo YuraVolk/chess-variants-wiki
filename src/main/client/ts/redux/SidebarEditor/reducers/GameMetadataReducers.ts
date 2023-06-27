@@ -1,7 +1,7 @@
 import type { Draft, EntityState, PayloadAction } from "@reduxjs/toolkit";
 import type { SidebarEditorInterface } from "../SidebarEditorInterface";
 import { sidebarEditorsAdapter } from "../SidebarEditorSlice";
-import type { TimeControl } from "@moveGeneration/GameInformation/GameData";
+import { validateTerminationString, type TimeControl } from "@moveGeneration/GameInformation/GameData";
 import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { URL_REGEX } from "@utils/BrowserUtils";
 import { formatToInputLocalDateTime } from "@utils/ObjectUtils";
@@ -86,7 +86,7 @@ export const gameMetadataReducers = {
 		const { id, index } = action.payload,
 			newValue = Number(action.payload.newValue);
 		const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
-		if (!editor?.gameData || (action.payload.newValue.length && (!Number.isSafeInteger(newValue)) || newValue <= 0 || newValue > 9999)) {
+		if (!editor?.gameData || (action.payload.newValue.length && !Number.isSafeInteger(newValue)) || newValue <= 0 || newValue > 9999) {
 			return;
 		}
 
@@ -120,7 +120,7 @@ export const gameMetadataReducers = {
 		if (newValue.length) {
 			newEditorGameData.site = newValue;
 		} else delete newEditorGameData.site;
-		 
+
 		sidebarEditorsAdapter.updateOne(state, {
 			type: "sidebarEditors/updateOriginatingWebsite",
 			payload: {
@@ -131,7 +131,7 @@ export const gameMetadataReducers = {
 			}
 		});
 	},
-	changePlayingDate: (state, action: PayloadAction<{ id: number, newValue: string }>) => {
+	changePlayingDate: (state, action: PayloadAction<{ id: number; newValue: string }>) => {
 		const { id, newValue } = action.payload;
 		const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
 		if (!editor?.gameData || isNaN(Date.parse(newValue))) return;
@@ -142,7 +142,47 @@ export const gameMetadataReducers = {
 		} else delete newEditorGameData.date;
 
 		sidebarEditorsAdapter.updateOne(state, {
-			type: "sidebarEditors/updateOriginatingWebsite",
+			type: "sidebarEditors/updatePlayingDate",
+			payload: {
+				id,
+				changes: {
+					gameData: newEditorGameData
+				}
+			}
+		});
+	},
+	setResult: (state, action: PayloadAction<{ id: number; newValue: string }>) => {
+		const { id, newValue } = action.payload;
+		const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+		if (!editor?.gameData) return;
+
+		const newEditorGameData = { ...editor.gameData };
+		if (newValue.length) {
+			newEditorGameData.result = newValue;
+		} else delete newEditorGameData.result;
+
+		sidebarEditorsAdapter.updateOne(state, {
+			type: "sidebarEditors/setGameResult",
+			payload: {
+				id,
+				changes: {
+					gameData: newEditorGameData
+				}
+			}
+		});
+	},
+	changeTermination: (state, action: PayloadAction<{ id: number; newValue: string }>) => {
+		const { id, newValue } = action.payload;
+		const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+		if (!editor?.gameData) return;
+
+		const newEditorGameData = { ...editor.gameData };
+		if (newValue.length && validateTerminationString(newValue)) {
+			newEditorGameData.termination = newValue;
+		} else delete newEditorGameData.termination;
+
+		sidebarEditorsAdapter.updateOne(state, {
+			type: "sidebarEditors/updateGameTermination",
 			payload: {
 				id,
 				changes: {

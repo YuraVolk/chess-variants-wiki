@@ -19,14 +19,14 @@ export const playerNames = ["Red", "Blue", "Yellow", "Green", "White", "Black"] 
 export type PlayerName = (typeof playerNames)[number];
 export const individualTerminations = ["Won the Race", "Checkmated", "Stalemated", "Forfeits on Time", "Claimed the Win", "Resigned"] as const;
 export type IndividualTermination = (typeof individualTerminations)[number];
-const generalWinningTerminations = ["Checkmate", "King Captured", "King of the Hill", "Stalemate"] as const;
+export const generalWinningTerminations = ["Checkmate", "King Captured", "King of the Hill", "Stalemate"] as const;
 export type GeneralTermination = (typeof generalWinningTerminations)[number];
 export const verifyWinningTermination = (termination: string): termination is GeneralTermination => {
 	const generalWins: readonly string[] = generalWinningTerminations;
 	return generalWins.includes(termination);
 };
 
-const generalDrawingTerminations = [
+export const generalDrawingTerminations = [
 	"50-move Rule",
 	"Insufficient Material",
 	"Threefold Repetition",
@@ -43,7 +43,7 @@ const generalTerminations = [
 	...generalDrawingTerminations
 ] as const;
 
-const results = ["0-1", "1-0", "½-½"] as const;
+export const results = ["0-1", "1-0", "½-½"] as const;
 export type Result = (typeof results)[number];
 
 export interface GamePlayerData {

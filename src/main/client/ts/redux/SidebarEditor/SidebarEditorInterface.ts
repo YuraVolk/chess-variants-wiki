@@ -1,4 +1,4 @@
-import { assertDevOnly, assertNonUndefined } from "@client/ts/baseTypes";
+import { Tuple, assertDevOnly, assertNonUndefined } from "@client/ts/baseTypes";
 import type { BoardSquares } from "@client/ts/logic/BaseInterfaces";
 import type { PublicFENSettings } from "@client/ts/logic/index/GameBoardWorker";
 import type { SerializedBoardStrings } from "@client/ts/logic/utils/Tags/InputOutputProcessing";
@@ -28,6 +28,7 @@ export interface SidebarEditorInterface {
 	gameData?: GameData;
 	readonly currentMove: [-1];
 	readonly moveTree: ProcessSafeMoveWrapper[];
+	initiallyAliveColors: Tuple<boolean, typeof totalPlayers>;
 	currentDroppedPiece?: PieceStringObject | Coordinate;
 	isDroppingEnabled: boolean;
 	selectedCoordinateFENtag?: keyof FENOptionsTags;

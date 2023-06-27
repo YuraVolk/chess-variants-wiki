@@ -45,7 +45,7 @@ export function parsePGN4(pgn4: string) {
 		timeControl: variantTags.timeControl.currentValue,
 		players: variantTags.playerData.currentValue,
 		termination: variantTags.termination.currentValue,
-		result: undefined
+		result: variantTags.results.currentValue
 	};
 
 	const variantRuleData = compileVariantRuleData(variantTags.variantRules.currentValue);

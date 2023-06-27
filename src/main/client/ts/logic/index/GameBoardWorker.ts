@@ -69,7 +69,7 @@ function workerDataSync(type: "required" | "initial", gameObjectPropertySync: ke
 
 export class RequestManager {
 	private board = new Board("");
-	private initiallyAliveColors: NumericColor[] = [];
+	private initiallyAliveColors = createTuple(true, totalPlayers);
 	private internalMoves: InternalMove[] = [];
 	private legalMoves = new Map<string, MoveData[]>();
 	private fogOfWarPerspective: NumericColor | false = false;
@@ -80,14 +80,9 @@ export class RequestManager {
 	}
 
 	private generateInitiallyAliveColors() {
-		return this.board.data.fenOptions
+		this.initiallyAliveColors = this.board.data.fenOptions
 			.tag("dead")
-			.map((d) => !d)
-			.reduce<NumericColor[]>((p, n, i) => {
-				if (n) {
-					return [...p, i];
-				} else return p;
-			}, []);
+			.map((d) => !d);
 	}
 
 	private generateCurrentMoves() {

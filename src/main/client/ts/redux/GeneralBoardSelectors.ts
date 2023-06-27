@@ -6,11 +6,13 @@ import {
 	selectGameBoardSquares,
 	selectGameBoardType,
 	selectGameBoardVariantData,
-	selectGameData
+	selectGameData,
+	selectInitiallyAliveColors
 } from "../logic/index/GameBoardSlice";
 import {
 	selectEditorBoardSquares,
 	selectEditorFENSettings,
+	selectEditorInitiallyAliveColors,
 	selectEditorSidebar,
 	selectEditorVariantDataRules,
 	selectEditorVariantType
@@ -55,3 +57,7 @@ export const selectGeneralGameData = (parameters: GeneralSelectorParameters) =>
 	parameters.stateController === "gameBoards"
 		? selectGameData(parameters.state, parameters.id)
 		: selectEditorSidebar(parameters.state, parameters.id);
+export const selectGeneralInitiallyAliveColors = (parameters: GeneralSelectorParameters) =>
+	parameters.stateController === "gameBoards"
+		? selectInitiallyAliveColors(parameters.state, parameters.id)
+		: selectEditorInitiallyAliveColors(parameters.state, parameters.id);
