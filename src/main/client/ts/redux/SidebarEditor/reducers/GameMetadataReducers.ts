@@ -3,6 +3,7 @@ import type { SidebarEditorInterface } from "../SidebarEditorInterface";
 import { sidebarEditorsAdapter } from "../SidebarEditorSlice";
 import type { TimeControl } from "@moveGeneration/GameInformation/GameData";
 import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
+import { URL_REGEX } from "@utils/BrowserUtils";
 
 export const gameMetadataReducers = {
 	changeGameMetadataID: (state, action: PayloadAction<{ id: number; value: string }>) => {
@@ -105,6 +106,26 @@ export const gameMetadataReducers = {
 							return playerDataCopy;
 						})
 					}
+				}
+			}
+		});
+	},
+	changeOriginatingWebsite: (state, action: PayloadAction<{ id: number; newValue: string }>) => {
+		const { id, newValue } = action.payload;
+		const editor = sidebarEditorsAdapter.getSelectors().selectById(state, id);
+		if (!editor?.gameData || (newValue.length && !URL_REGEX.test(newValue))) return;
+
+		const newEditorGameData = { ...editor.gameData };
+		if (newValue.length) {
+			newEditorGameData.site = newValue;
+		} else delete newEditorGameData.site;
+		 
+		sidebarEditorsAdapter.updateOne(state, {
+			type: "sidebarEditors/updateOriginatingWebsite",
+			payload: {
+				id,
+				changes: {
+					gameData: newEditorGameData
 				}
 			}
 		});

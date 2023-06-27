@@ -115,7 +115,8 @@ export const {
 	changeGameMetadataID,
 	changeTimeControl,
 	changePlayerName,
-	changePlayerElo
+	changePlayerElo,
+	changeOriginatingWebsite
 } = sidebarEditorsSlice.actions;
 export default sidebarEditorsSlice.reducer;
 
