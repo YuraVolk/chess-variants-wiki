@@ -103,9 +103,7 @@ export const PlayerBoxContainer = () => {
 		const currentTime = !verifyValidMove(selectedMove)
 			? gameData.timeControl.baseTime
 			: selectedMove.metadata.playerClock ?? gameData.timeControl.baseTime;
-		playerBoxes.push(
-			<PlayerBox color={newColor} timeInSeconds={currentTime} key={playerNames[color]} />
-		);
+		playerBoxes.push(<PlayerBox color={newColor} timeInSeconds={currentTime} key={playerNames[color]} />);
 	}
 
 	return <div className={styles["player-box-container"]}>{playerBoxes}</div>;

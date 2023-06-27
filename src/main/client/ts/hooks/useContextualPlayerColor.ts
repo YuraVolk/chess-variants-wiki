@@ -22,15 +22,15 @@ export const useContextualPlayerColor = () => {
 				}
 			// * Fallthrough
 			case 2:
-                if (wb) {
+				if (wb) {
 					return ["Black", userContext.colors.whiteBlackColors[1]];
 				}
-            // * Fallthrough
+			// * Fallthrough
 			case 1:
 			case 3:
-                return [playerNames[color], userContext.colors.pieceColors[color]];
-            default:
-                return throwOnNever(color);
+				return [playerNames[color], userContext.colors.pieceColors[color]];
+			default:
+				return throwOnNever(color);
 		}
 	};
 };

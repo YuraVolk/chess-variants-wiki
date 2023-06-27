@@ -43,7 +43,7 @@ const MakeSVG = (path: string, configuration: PieceImageSettings, toggleInformat
 			}}
 			afterInjection={(_, svg) => {
 				assertNonUndefined(svg);
-				
+
 				Array.from<BasicSVGShapeElement>(svg.querySelectorAll<BasicSVGShapeElement>(svgBasicShapeSelector)).forEach((p) => {
 					const styles = getComputedStyle(p);
 					const fill = styles.fill;
@@ -67,7 +67,7 @@ const MakeSVG = (path: string, configuration: PieceImageSettings, toggleInformat
 
 					p.style.opacity = styles.opacity;
 				});
-				
+
 				svg.closest("*")?.removeAttribute("style");
 				const svgString = `data:image/svg+xml;base64,${window.btoa(serializer.serializeToString(svg))}`;
 				toggleInformation?.(svgString);
@@ -229,7 +229,13 @@ export const PieceImage = (props: PieceImageProps) => {
 			);
 		} else {
 			return (
-				<img src={image.base64} alt={pieceControlConfigSettings[props.pieceString.piece].naming.name} width={configuration.size} height={configuration.size} className={configuration.className} />
+				<img
+					src={image.base64}
+					alt={pieceControlConfigSettings[props.pieceString.piece].naming.name}
+					width={configuration.size}
+					height={configuration.size}
+					className={configuration.className}
+				/>
 			);
 		}
 	} else {

@@ -1,9 +1,5 @@
 import { createMoveAction } from "@client/ts/redux/WorkerSync/WorkerSaga";
-import {
-	ChainedMoveSettings,
-	resetInteractionSettings,
-	selectChainedMoveSettings
-} from "@client/ts/logic/index/GameBoardSlice";
+import { ChainedMoveSettings, resetInteractionSettings, selectChainedMoveSettings } from "@client/ts/logic/index/GameBoardSlice";
 import type { AppDispatch, RootState } from "@client/ts/redux/store";
 import { useTimer } from "@client/ts/hooks/useTimer";
 import { StripPieceStringObjects, MoveComponent, DroppingMove } from "@moveGeneration/MoveTree/MoveTreeInterface";

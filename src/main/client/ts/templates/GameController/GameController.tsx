@@ -43,8 +43,8 @@ const GameController = (props: GameControllerProps) => {
 	const fenSettings = useSelector<RootState, PublicFENSettings | undefined>(
 		(state) => gameBoardsAdapter.getSelectors().selectById(state.gameBoards, boardId)?.publicFENSettings
 	);
-	const editorBoard = useSelector<RootState, SidebarEditorInterface | undefined>(
-		(state) => sidebarEditorsAdapter.getSelectors().selectById(state.sidebarEditors, boardId)
+	const editorBoard = useSelector<RootState, SidebarEditorInterface | undefined>((state) =>
+		sidebarEditorsAdapter.getSelectors().selectById(state.sidebarEditors, boardId)
 	);
 
 	const changePerspective = useCallback(() => {

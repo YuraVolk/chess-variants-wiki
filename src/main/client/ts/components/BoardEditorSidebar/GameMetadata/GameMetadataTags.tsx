@@ -5,9 +5,11 @@ import { PlayerFieldsEditor } from "./PlayerFieldsEditor";
 import { StringFieldsEditor } from "./StringFieldsEditor";
 
 export const GameMetadataTags = () => {
-    return <div className={styles["fen-tags"]}>
-        <NumericFields />
-        <PlayerFieldsEditor />
-        <StringFieldsEditor />
-    </div>
+	return (
+		<div className={styles["fen-tags"]}>
+			<NumericFields />
+			<PlayerFieldsEditor />
+			<StringFieldsEditor />
+		</div>
+	);
 };

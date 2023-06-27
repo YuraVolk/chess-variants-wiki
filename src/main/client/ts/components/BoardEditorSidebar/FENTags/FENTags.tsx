@@ -7,11 +7,13 @@ import { ComplexTags } from "./ComplexTags";
 import { InputTags } from "./InputTags";
 
 export const FENTags = () => {
-    return <div className={styles["fen-tags"]}>
-        <SideToMove />
-        <InputTags />
-        <BooleanTupleTags />
-        <ComplexTags />
-        <CoordinateTags />
-    </div>
+	return (
+		<div className={styles["fen-tags"]}>
+			<SideToMove />
+			<InputTags />
+			<BooleanTupleTags />
+			<ComplexTags />
+			<CoordinateTags />
+		</div>
+	);
 };

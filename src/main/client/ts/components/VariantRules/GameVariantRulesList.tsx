@@ -1,9 +1,4 @@
-import {
-	selectGameBoard,
-	selectGameBoardRules,
-	selectGameBoardType,
-	selectGameBoardVariantData
-} from "@client/ts/logic/index/GameBoardSlice";
+import { selectGameBoard, selectGameBoardRules, selectGameBoardType, selectGameBoardVariantData } from "@client/ts/logic/index/GameBoardSlice";
 import type { RootState } from "@client/ts/redux/store";
 import { VariantType } from "@moveGeneration/GameInformation/GameData";
 import type { StripPieceStringObjects } from "@moveGeneration/MoveTree/MoveTreeInterface";

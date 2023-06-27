@@ -16,7 +16,7 @@ export class BoardEnPassant extends EnPassant<typeof Board> implements VariantRu
 		return Board;
 	}
 
-    private getAvailableEnPassantCaptures(baseColor: NumericColor): Coordinate[] {
+	private getAvailableEnPassantCaptures(baseColor: NumericColor): Coordinate[] {
 		const coordinates: Coordinate[] = [];
 		this.decorator.data.fenOptions.tag("enPassant").forEach((enPassant, i) => {
 			if (i === baseColor) return;
@@ -24,7 +24,7 @@ export class BoardEnPassant extends EnPassant<typeof Board> implements VariantRu
 		});
 
 		return coordinates.map((e) => [...e]);
-    }
+	}
 
 	getSpecialMoves(parameters: SpecialMoveGenerationSettings): MoveData[] {
 		const { i, j, baseColor, pieceLetter } = parameters;

@@ -1,9 +1,5 @@
 import { createDeleteMoveAction } from "@client/ts/redux/WorkerSync/WorkerSaga";
-import {
-	selectGameBoardCurrentMove,
-	selectGameBoardMoveTree,
-	selectGameBoardPGN
-} from "@client/ts/logic/index/GameBoardSlice";
+import { selectGameBoardCurrentMove, selectGameBoardMoveTree, selectGameBoardPGN } from "@client/ts/logic/index/GameBoardSlice";
 import type { AppDispatch, RootState } from "@client/ts/redux/store";
 import { stringColorEnum } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { getMoveFromPathAndTree, ProcessSafeMoveWrapper } from "@moveGeneration/MoveTree/MoveTreeInterface";

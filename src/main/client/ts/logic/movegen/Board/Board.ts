@@ -1,14 +1,7 @@
 import { assertNonUndefined, createTuple, createTupleFromCallback, Tuple } from "../../../baseTypes";
 import { BoardSquares, Cloneable, initializeBoardSquares, Memento } from "../../BaseInterfaces";
 import { createMoveTree, MoveTreeInterface } from "../MoveTree/MoveTree";
-import {
-	createBaseMoveWrapper,
-	DroppingMove,
-	InternalMove,
-	InternalMoveSignature,
-	Move,
-	MoveData
-} from "../MoveTree/MoveTreeInterface";
+import { createBaseMoveWrapper, DroppingMove, InternalMove, InternalMoveSignature, Move, MoveData } from "../MoveTree/MoveTreeInterface";
 import { FENData } from "../FENData/FENData";
 import type { PostMoveResults } from "../FENData/FENDataInterface";
 import { boardDimension, colors, GameData, totalPlayers } from "../GameInformation/GameData";

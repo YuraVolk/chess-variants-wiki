@@ -80,9 +80,7 @@ export class RequestManager {
 	}
 
 	private generateInitiallyAliveColors() {
-		this.initiallyAliveColors = this.board.data.fenOptions
-			.tag("dead")
-			.map((d) => !d);
+		this.initiallyAliveColors = this.board.data.fenOptions.tag("dead").map((d) => !d);
 	}
 
 	private generateCurrentMoves() {

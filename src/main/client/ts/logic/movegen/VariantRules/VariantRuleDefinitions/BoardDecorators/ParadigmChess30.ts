@@ -69,8 +69,7 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 			parameterValue: this.positionId,
 			information: {
 				name: "Paradigm Chess30",
-				description:
-					"Paradigm Chess30: 30 semi-random starting positions",
+				description: "Paradigm Chess30: 30 semi-random starting positions",
 				tag,
 				color: variantRuleColors.startingPosition,
 				displayIcon: chessGlyphIndex.bishop
@@ -104,7 +103,7 @@ export class ParadigmChess30 extends VariantRule<typeof Board, typeof tag> imple
 		const options = new Map<string, number | false>([["Off", false]]);
 		ParadigmChess30.paradigmRanges.forEach(([rangeStart, rangeEnd], i) => {
 			options.set(`${formatOrdinalNumber(i + 1)} rank`, Math.floor(Math.random() * (rangeEnd - rangeStart) + rangeStart));
-		})
+		});
 		return options;
 	}
 

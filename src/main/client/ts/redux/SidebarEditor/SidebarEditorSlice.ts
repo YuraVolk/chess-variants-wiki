@@ -37,7 +37,7 @@ export const sidebarEditorsSlice = createSlice({
 				requestManager.setBoardDataFromFENTag(board, fenData);
 				const newFENSettings = requestManager.unboundGetFENSettings();
 				const boardSquares = requestManager.unboundGetBoard();
-				
+
 				sidebarEditorsAdapter.updateOne(state, {
 					type: "sidebarEditors/loadFEN4fromString",
 					payload: {
@@ -48,7 +48,9 @@ export const sidebarEditorsSlice = createSlice({
 						}
 					}
 				});
-			} catch { /* empty */ }
+			} catch {
+				/* empty */
+			}
 		}
 	},
 	extraReducers: (builder) => {

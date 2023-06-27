@@ -21,7 +21,12 @@ import {
 import { GameDisplaySquare } from "@components/BoardComponents/GameDisplay/GameDisplaySquare";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@client/ts/redux/store";
-import { deleteDroppedPiece, selectEditorSidebar, setCurrentDroppedPiece, toggleEnabledSquares } from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
+import {
+	deleteDroppedPiece,
+	selectEditorSidebar,
+	setCurrentDroppedPiece,
+	toggleEnabledSquares
+} from "@client/ts/redux/SidebarEditor/SidebarEditorSlice";
 import { hashString } from "@utils/StringFormatUtils";
 import { useContextualPlayerColor } from "@client/ts/hooks/useContextualPlayerColor";
 

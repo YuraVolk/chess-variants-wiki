@@ -80,11 +80,14 @@ export function serializeBoard(board: Board): SerializedBoardStrings {
 	board.loadSnapshot(currentSnapshot);
 
 	return {
-		board: fenTag + "\n" + Object.values(defaultTags)
-			.filter(t => t.tag !== "startingPosition")
-			.map((t) => t.serialize(board))
-			.filter<string>((v): v is string => v !== undefined)
-			.join("\n"),
+		board:
+			fenTag +
+			"\n" +
+			Object.values(defaultTags)
+				.filter((t) => t.tag !== "startingPosition")
+				.map((t) => t.serialize(board))
+				.filter<string>((v): v is string => v !== undefined)
+				.join("\n"),
 		moves: serializePGNMoves(board.moves)
 	};
 }

@@ -10,15 +10,15 @@ import { MoveData, SpecialMove } from "@moveGeneration/MoveTree/MoveTreeInterfac
 import { pieceControlConfigSettings } from "@moveGeneration/PieceControl/PieceControlInterface";
 
 export class FENDataEnPassant extends EnPassant<typeof FENData> implements VariantRuleHandler<FENData> {
-    static {
-        VariantRule.initVariantRule(FENDataEnPassant);
-    }
+	static {
+		VariantRule.initVariantRule(FENDataEnPassant);
+	}
 
-    getDecoratorType() {
-        return FENData;
-    }
+	getDecoratorType() {
+		return FENData;
+	}
 
-    processStandardMove(moveData: MoveData): { endPiece: PieceString[] } {
+	processStandardMove(moveData: MoveData): { endPiece: PieceString[] } {
 		const enPassants = this.decorator.fenOptions.tag("enPassant");
 		const {
 			startCoordinates: [startI, startJ],

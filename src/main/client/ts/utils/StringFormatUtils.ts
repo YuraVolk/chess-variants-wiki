@@ -48,7 +48,11 @@ export function convertCamelCaseToKebabCase(baseString: string): string {
 }
 
 export function convertCamelCaseToWording(baseString: string): string {
-	return baseString.replace(/([a-z])([A-Z])/g, "$1 $2").split(" ").map(s => s[0].toUpperCase() + s.slice(1)).join(" ");
+	return baseString
+		.replace(/([a-z])([A-Z])/g, "$1 $2")
+		.split(" ")
+		.map((s) => s[0].toUpperCase() + s.slice(1))
+		.join(" ");
 }
 
 export function hashString(string: string): number {

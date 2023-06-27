@@ -4,30 +4,30 @@ import type { AllowedSuperClasses } from "@moveGeneration/VariantRules/VariantRu
 
 const tag = "enPassant";
 export abstract class EnPassant<T extends AllowedSuperClasses> extends VariantRule<T, typeof tag> {
-    static readonly JUMP_DISTANCE = 2;
-    isDisabled() {
-        return false;
-    }
+	static readonly JUMP_DISTANCE = 2;
+	isDisabled() {
+		return false;
+	}
 
-    getPublicProperties() {
-        return {
-            parameterValue: true,
-            information: {
-                name: "En Passant",
-                textualForm: "",
-                description: "",
-                tag
-            }
-        } as const;
-    }
+	getPublicProperties() {
+		return {
+			parameterValue: true,
+			information: {
+				name: "En Passant",
+				textualForm: "",
+				description: "",
+				tag
+			}
+		} as const;
+	}
 
-    matchesPGNDeclaration(match: string): boolean {
-        return /^EnPassant$/i.test(match);
-    }
+	matchesPGNDeclaration(match: string): boolean {
+		return /^EnPassant$/i.test(match);
+	}
 
-    serializeToParsingForm(): string {
-        if (this.getDecoratorType() === Board) {
-            return "EnPassant";
-        } else return "";
-    }
+	serializeToParsingForm(): string {
+		if (this.getDecoratorType() === Board) {
+			return "EnPassant";
+		} else return "";
+	}
 }

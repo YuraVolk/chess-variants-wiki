@@ -4,11 +4,7 @@ import { compareArrays } from "@client/ts/utils/ArrayUtils";
 import { UserContext } from "@client/ts/services/PersistedStorage/PieceThemeContext";
 import React, { Fragment, useCallback, useContext } from "react";
 import styles from "./GameMoveTree.module.scss";
-import {
-	changeCurrentMove,
-	selectGameBoardCurrentMove,
-	selectGameBoardFENSettings
-} from "@client/ts/logic/index/GameBoardSlice";
+import { changeCurrentMove, selectGameBoardCurrentMove, selectGameBoardFENSettings } from "@client/ts/logic/index/GameBoardSlice";
 import type { AppDispatch, RootState } from "@client/ts/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { GameDisplayContext } from "../BoardContext";

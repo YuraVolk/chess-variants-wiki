@@ -19,7 +19,7 @@ export const PlayerFieldsEditor = () => {
 				{colors.map((index) => {
 					return (
 						<input
-                            key={index}
+							key={index}
 							className={styles["fen-tags__input"]}
 							value={players[index].name}
 							onChange={(e) => dispatch(changePlayerName({ id, index, newValue: e.target.value }))}
@@ -27,16 +27,16 @@ export const PlayerFieldsEditor = () => {
 					);
 				})}
 			</fieldset>
-            <fieldset className={styles["fen-tags__fieldset"]}>
+			<fieldset className={styles["fen-tags__fieldset"]}>
 				<legend className={styles["fen-tags__text"]}>Player Elo Ratings</legend>
 				{colors.map((index) => {
 					return (
 						<input
-                            key={index}
-                            type="number"
-                            min="1"
-                            max="9999"
-                            className={styles["fen-tags__input"]}
+							key={index}
+							type="number"
+							min="1"
+							max="9999"
+							className={styles["fen-tags__input"]}
 							value={players[index].elo}
 							onChange={(e) => dispatch(changePlayerElo({ id, index, newValue: e.target.value }))}
 						/>

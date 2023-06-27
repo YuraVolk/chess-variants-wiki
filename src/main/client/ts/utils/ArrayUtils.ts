@@ -51,7 +51,8 @@ export function findLastIndex<T>(array: T[], callback: (value: T, index: number,
 }
 
 export function filterDuplicatesByClass<T>(array: T[]) {
-	const classes = new Set<unknown>(), result: T[] = [];
+	const classes = new Set<unknown>(),
+		result: T[] = [];
 	for (const object of array) {
 		const construct = array.constructor;
 		if (!classes.has(construct)) {

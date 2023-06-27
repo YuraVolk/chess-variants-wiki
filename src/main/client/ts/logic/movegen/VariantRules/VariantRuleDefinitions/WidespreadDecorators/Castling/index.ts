@@ -55,8 +55,8 @@ export abstract class Castling<T extends AllowedSuperClasses> extends VariantRul
 			matchArray[1].split(",").forEach((value, i) => {
 				const displacement = Number(value);
 				if (isNaN(displacement) || displacement <= 1) return;
-                const numericValue = i % 2;
-                if (numericValue !== 0 && numericValue !== 1) return;
+				const numericValue = i % 2;
+				if (numericValue !== 0 && numericValue !== 1) return;
 				this.castlingDisplacement[i][numericValue] = displacement;
 			});
 		}
@@ -67,7 +67,7 @@ export abstract class Castling<T extends AllowedSuperClasses> extends VariantRul
 	serializeToParsingForm(): string {
 		if (this.getDecoratorType() === Board) {
 			if (this.castlingDisplacement.some((v) => v[0] || v[1])) {
-				return `Castling=${this.castlingDisplacement.map(v => v.join(",")).join(",")}`;
+				return `Castling=${this.castlingDisplacement.map((v) => v.join(",")).join(",")}`;
 			} else return "Castling";
 		} else return "";
 	}

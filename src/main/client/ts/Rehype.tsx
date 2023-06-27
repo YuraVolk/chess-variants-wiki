@@ -35,7 +35,5 @@ Aliquam erat volutpat. Ut viverra tincidunt condimentum. Suspendisse faucibus ar
 `;
 
 export default function MarkdownParse() {
-	return <Markdown options={{ forceBlock: true, overrides: { ...templates } }}>
-		{text}
-	</Markdown>
+	return <Markdown options={{ forceBlock: true, overrides: { ...templates } }}>{text}</Markdown>;
 }

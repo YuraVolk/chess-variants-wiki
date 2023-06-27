@@ -386,7 +386,7 @@ export const createPromotedFromTag = (): FENOptionsTags["promotedFrom"] => ({
 		const newValue = this.createSnapshot();
 		this.loadSnapshot(currentValue);
 
-		const changedIndex = newValue.find(([c, ]) => compareCoordinates(c, start));
+		const changedIndex = newValue.find(([c]) => compareCoordinates(c, start));
 		if (changedIndex) changedIndex[0] = end;
 		return newValue;
 	}

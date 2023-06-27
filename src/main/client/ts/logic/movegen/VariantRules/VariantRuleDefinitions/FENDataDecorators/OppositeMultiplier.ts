@@ -29,7 +29,7 @@ export class OppositeMultiplier extends VariantRule<typeof FENData, typeof tag> 
 			}
 		} as const;
 	}
-	
+
 	matchesPGNDeclaration(match: string): boolean {
 		const matchArray = match.toLowerCase().match(/^OppX=(\d)$/i);
 		if (matchArray) {

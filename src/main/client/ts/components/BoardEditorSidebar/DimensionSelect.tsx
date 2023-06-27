@@ -10,7 +10,7 @@ const dimensionValues = [...Array(boardDimension).keys()].map((k) => k + 1).filt
 export const DimensionSelect = () => {
 	const { id } = useContext(GameDisplayContext);
 	const dispatch = useDispatch<AppDispatch>();
-	const dimension = useSelector<RootState, [number, number]>(state => selectEditorFENSettings(state, id).fenOptions.dim);
+	const dimension = useSelector<RootState, [number, number]>((state) => selectEditorFENSettings(state, id).fenOptions.dim);
 	const onValueChanged = useCallback(
 		(selectedId: 0 | 1, newValue: string) => {
 			dispatch(changeDimensionValue({ id, selectedId, newValue: Number(newValue) }));

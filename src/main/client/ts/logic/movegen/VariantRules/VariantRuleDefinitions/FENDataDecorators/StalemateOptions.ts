@@ -74,7 +74,7 @@ export class StalemateOptions extends VariantRule<typeof FENData, typeof tag> im
 	isDisabled(): boolean {
 		return false;
 	}
-	
+
 	getParametrizedOptions() {
 		return new Map<string, CustomStalemateValue>([
 			["Draw", stalemateOptionsValues.stalemateDraws],

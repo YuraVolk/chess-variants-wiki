@@ -38,10 +38,7 @@ export const verifyDrawingTermination = (termination: string): termination is Dr
 	const generalDraws: readonly string[] = generalDrawingTerminations;
 	return generalDraws.includes(termination);
 };
-const generalTerminations = [
-	...generalWinningTerminations,
-	...generalDrawingTerminations
-] as const;
+const generalTerminations = [...generalWinningTerminations, ...generalDrawingTerminations] as const;
 
 export const results = ["0-1", "1-0", "½-½"] as const;
 export type Result = (typeof results)[number];
