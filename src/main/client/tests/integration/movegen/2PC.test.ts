@@ -1,10 +1,12 @@
 import { assertNonUndefined } from "@client/ts/baseTypes";
-import { Board } from "@moveGeneration/Board/Board";
+import { RequestManager } from "@client/ts/logic/index/GameBoardWorker";
+import { compareCoordinates } from "@moveGeneration/Board/BoardInterface";
+import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 
 test("Load long chess game", () => {
-	const board = new Board(`[StartFen4 "2PC"]
+	const PGN_4 = `[StartFen4 "2PC"]
     [Variant "FFA"]
-    [RuleVariants "EnPassant Play4Mate"]
+    [RuleVariants "EnPassant Play4Mate Prom=11"]
     [CurrentMove "202"]
     [TimeControl "1 | 5"]
     
@@ -108,17 +110,64 @@ test("Load long chess game", () => {
     98. Kf10-g10 .. h6-h5
     99. Kg10-f10 .. h5-h4=Q
     100. Kf10-e10 .. Qh4-h10+
-    101. Ke10-d9 .. Qh10-d10+#`);
+    101. Ke10-d9 .. Qh10-d10+#`;
 
-    expect(board.moves.moves.length).toBe(202);
-    const baseSnapshot = board.moves.getBoardSnapshot(-1);
-    expect(baseSnapshot).toBeTruthy();
-    assertNonUndefined(baseSnapshot);
-    board.loadSnapshot(baseSnapshot.boardSnapshot);
-   /* expect(serializeBoard(startingPosition)).toBe(serializeBoard(board));
-    const lastSnapshot = board.moves.getBoardSnapshot(board.moves.moves[board.moves.moves.length - 1]);
-    expect(baseSnapshot).toBeTruthy();
-    assertNonUndefined(lastSnapshot);
-    expect(lastSnapshot.boardSnapshot.data.fenOptionsSnapshot.tagsSnapshot.dead[2]).toBeTruthy();
-    expect(lastSnapshot.boardSnapshot.data.points[2]).toBeGreaterThan(lastSnapshot.boardSnapshot.data.points[0]); */
+	const requestManager = new RequestManager();
+
+	const start = new Date();
+	requestManager.construct("2PC", PGN_4);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(5);
+	expect(requestManager.getMoveTree().length).toBe(202);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length])).toBeFalsy();
+});
+
+test("Castling in 2PC", () => {
+	const fenStart = `[StartFen4 "2PC"]
+    [Variant "FFA"]
+    [RuleVariants "Castling EnPassant Play4Mate Prom=11"]
+    [TimeControl "1 | 5"]`;
+	const requestManager = new RequestManager();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart}
+    1. Nj4-i6 .. Nj11-i9
+    2. j5-j6 .. j10-j9
+    3. Bi4-j5 .. Bi11-j10
+    4. O-O .. O-O`
+	);
+    requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
+
+	function checkWhetherCastlingOccurred(color: NumericColor, castling: "castleKingside" | "castleQueenside") {
+		const fenSettings = requestManager.getFENSettings();
+		if (fenSettings.fenOptions[castling][color]) return false;
+		const royal = fenSettings.fenOptions.royal[color];
+		if (!royal) return false;
+		const baseSnapshot = requestManager.getBoardInstance().moves.getBoardSnapshot(requestManager.getBoardInstance().moves.moves[0]);
+		assertNonUndefined(baseSnapshot);
+		return !compareCoordinates(baseSnapshot.boardSnapshot.data.fenOptionsSnapshot.tagsSnapshot.royal[color] ?? [-1, -1], royal);
+	}
+
+	expect(checkWhetherCastlingOccurred(0, "castleKingside")).toBeTruthy();
+	expect(checkWhetherCastlingOccurred(0, "castleQueenside")).toBeFalsy();
+	expect(checkWhetherCastlingOccurred(2, "castleKingside")).toBeTruthy();
+	expect(checkWhetherCastlingOccurred(2, "castleQueenside")).toBeFalsy();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart}
+        1. Ne4-f6 .. Ne11-f9
+        2. g5-g7 .. g10-g8
+        3. Qg4-g6 .. Qg11-g9
+        4. Bf4-g5 .. Bf11-g10
+        5. O-O-O .. O-O-O`
+	);
+    requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
+
+    expect(checkWhetherCastlingOccurred(0, "castleKingside")).toBeFalsy();
+	expect(checkWhetherCastlingOccurred(0, "castleQueenside")).toBeTruthy();
+	expect(checkWhetherCastlingOccurred(2, "castleKingside")).toBeFalsy();
+	expect(checkWhetherCastlingOccurred(2, "castleQueenside")).toBeTruthy();
 });

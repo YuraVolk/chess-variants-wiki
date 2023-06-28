@@ -51,8 +51,13 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 					}
 
 					if (!firstStandardMoveSet) {
-						newMoveWrapper.metadata.movingPiece =
-							clonedBoard.board[moveComponent.startCoordinates[0]][moveComponent.startCoordinates[1]];
+						if (validationResult.hasCastling) {
+							newMoveWrapper.moveData[0] = validationResult.hasCastling;
+						} else {
+							newMoveWrapper.metadata.movingPiece =
+								clonedBoard.board[moveComponent.startCoordinates[0]][moveComponent.startCoordinates[1]];
+						}
+
 						firstStandardMoveSet = true;
 					}
 
@@ -62,7 +67,9 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 						newMoveWrapper.metadata.isCapture = true;
 					}
 
-					if (clonedBoard.data.getCapturedPieces(moveComponent).length > 0) newMoveWrapper.metadata.isCapture = true;
+					if (!validationResult.hasCastling && clonedBoard.data.getCapturedPieces(moveComponent).length > 0) {
+						newMoveWrapper.metadata.isCapture = true;
+					}
 				}
 			}
 
@@ -86,7 +93,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 			if (moveWrapper.metadata.playerClock) {
 				currentTimeOnClocks[previousSideToMove] -= moveWrapper.metadata.playerClock;
 			}
-			newMoveWrapper.metadata = { ...moveWrapper.metadata };
+			newMoveWrapper.metadata = { ...moveWrapper.metadata, ...newMoveWrapper.metadata };
 			newMoveWrapper.metadata.playerClock = currentTimeOnClocks[previousSideToMove];
 			const currentMove = clonedBoard.moves.getMove(newMoveWrapper.path);
 			assertValidMove(currentMove);

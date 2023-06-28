@@ -24,7 +24,7 @@ import { assertNonUndefined, createTuple, FunctionType, Tuple } from "@client/ts
 import type { GameBoardObjectSetProperties } from "./GameBoardSlice";
 import { stringifyCoordinate } from "@moveGeneration/Board/BoardInterface";
 import { changeGameTermination, validateMoveTree } from "@moveGeneration/MoveTree/MoveTreeValidator";
-import { assertValidMove } from "@moveGeneration/MoveTree/MoveTree";
+import { verifyValidMove } from "@moveGeneration/MoveTree/MoveTree";
 import { InsufficientMaterialConstructor } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialConstructor";
 import { InsufficientMaterialChecker } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/InsufficientMaterialChecker";
 import * as StateSerializer from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer";
@@ -36,6 +36,7 @@ import { compileVariantRuleData, parseVariantRules, validateVariantRules } from 
 import { createFENDataTag } from "../utils/Tags/TagLogic/FENDataTag";
 import { wrapTag } from "../utils/Tags/Utils";
 import { fenDataTag } from "../utils/Tags/TagLogic/FENDataTag";
+import { IS_NODE_ENV } from "@utils/BrowserUtils";
 
 export const requiredDispatches: Array<keyof RequestManager> = [];
 export const initialDispatches: Array<keyof RequestManager> = [];
@@ -43,15 +44,17 @@ export const dispatchSyncRecord: Partial<Record<keyof RequestManager, keyof Game
 
 function withWorkerResult() {
 	return function (_: RequestManager, propertyKey: string, descriptor: TypedPropertyDescriptor<FunctionType>) {
-		const originalMethod = descriptor.value;
-		assertNonUndefined(originalMethod);
-		descriptor.value = function (...args: unknown[]) {
-			try {
-				postMessage([propertyKey, originalMethod.apply(this, args)]);
-			} catch {
-				postMessage(["", undefined]);
-			}
-		};
+		if (!IS_NODE_ENV) {
+			const originalMethod = descriptor.value;
+			assertNonUndefined(originalMethod);
+			descriptor.value = function (...args: unknown[]) {
+				try {
+					postMessage([propertyKey, originalMethod.apply(this, args)]);
+				} catch {
+					postMessage(["", undefined]);
+				}
+			};
+		}
 	};
 }
 
@@ -89,6 +92,10 @@ export class RequestManager {
 		}
 	}
 
+	getBoardInstance() {
+		return this.board;
+	}
+
 	construct(_variantName: string, pgn4: string, messageName = "construct") {
 		try {
 			let newBoard = new Board(pgn4);
@@ -102,12 +109,12 @@ export class RequestManager {
 				changeGameTermination(newBoard);
 				this.board = newBoard;
 				this.generateCurrentMoves();
-				postMessage([messageName, StateSerializer.serializeInsufficientMaterialState(state)]);
+				if (!IS_NODE_ENV) postMessage([messageName, StateSerializer.serializeInsufficientMaterialState(state)]);
 			});
 			insufficientMaterialModule.generateInsufficientMaterialState();
 		} catch (e) {
 			console.trace(e);
-			postMessage([messageName, undefined]);
+			if (!IS_NODE_ENV) postMessage([messageName, undefined]);
 		}
 
 		return StateSerializer.serializeInsufficientMaterialState(
@@ -222,10 +229,11 @@ export class RequestManager {
 			snapshot = preliminarySnapshot;
 		} else {
 			const currentMove = this.board.moves.getMove(path);
-			assertValidMove(currentMove);
-			const preliminarySnapshot = this.board.moves.getBoardSnapshot(currentMove);
-			if (!preliminarySnapshot) return false;
-			snapshot = preliminarySnapshot;
+			if (verifyValidMove(currentMove)) {
+				const preliminarySnapshot = this.board.moves.getBoardSnapshot(currentMove);
+				if (!preliminarySnapshot) return false;
+				snapshot = preliminarySnapshot;
+			} else return false;
 		}
 
 		this.board.loadSnapshot(snapshot.boardSnapshot);
@@ -426,7 +434,7 @@ export class RequestManager {
 
 			this.construct("", serializeBoard(clone, true).board, "createBoardFromSettings");
 		} catch {
-			postMessage(["createBoardFromSettings", undefined]);
+			if (!IS_NODE_ENV) postMessage(["createBoardFromSettings", undefined]);
 		}
 	}
 }
@@ -440,9 +448,11 @@ export type PublicFENSettings = ReturnType<RequestManager["getFENSettings"]>;
 export type BoardWorkerReturnType<K extends BoardWorkerRequest> = [K, ReturnType<RequestManager[K]>];
 export type BoardWorkerArguments<K extends BoardWorkerRequest> = Parameters<RequestManager[K]>;
 
-const requestManager = new RequestManager();
-self.onmessage = <K extends BoardWorkerRequest>(e: MessageEvent<BoardWorkerRequestBody<K>>) => {
-	if (!(e.data.requestName in RequestManager.prototype)) return;
-	const method: FunctionType = RequestManager.prototype[e.data.requestName];
-	method.apply(requestManager, e.data.parameters);
-};
+if (!IS_NODE_ENV) {
+	const requestManager = new RequestManager();
+	self.onmessage = <K extends BoardWorkerRequest>(e: MessageEvent<BoardWorkerRequestBody<K>>) => {
+		if (!(e.data.requestName in RequestManager.prototype)) return;
+		const method: FunctionType = RequestManager.prototype[e.data.requestName];
+		method.apply(requestManager, e.data.parameters);
+	};
+}
