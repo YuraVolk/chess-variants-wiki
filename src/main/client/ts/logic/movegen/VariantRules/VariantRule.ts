@@ -162,4 +162,39 @@ export function decorateClassWithVariants<C extends AllowedSuperClasses>(
 	return decoratorProperties;
 }
 
+if (process.env.NODE_ENV === "test") {
+	const fs = require("fs");
+	const path = require("path") as { resolve(...paths: string[]): string };
+
+	require.context = (base = ".", scanSubDirectories = false, regularExpression = /\.js$/) => {
+		const files: Record<string, boolean> = {};
+
+		function readDirectory(directory: string) {
+			fs.readdirSync(directory).forEach((file: string) => {
+				const fullPath = path.resolve(directory, file);
+
+				if (fs.statSync(fullPath).isDirectory()) {
+					if (scanSubDirectories) readDirectory(fullPath);
+
+					return;
+				}
+
+				if (!regularExpression.test(fullPath)) return;
+
+				files[fullPath] = true;
+			});
+		}
+
+		readDirectory(path.resolve(__dirname, base));
+
+		function Module(file: string) {
+			return require(file);
+		}
+
+		Module.keys = () => Object.keys(files);
+
+		return Module as __WebpackModuleApi.RequireContext;
+	};
+}
+
 importAll(require.context("./VariantRuleDefinitions", true, /\.ts$/));

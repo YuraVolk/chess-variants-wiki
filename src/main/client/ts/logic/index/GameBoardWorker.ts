@@ -424,7 +424,7 @@ export class RequestManager {
 			clone.variantData = compileVariantRuleData(clone.variantRules);
 			clone.variantRules = validateVariantRules(clone);
 
-			this.construct("", serializeBoard(clone).board, "createBoardFromSettings");
+			this.construct("", serializeBoard(clone, true).board, "createBoardFromSettings");
 		} catch {
 			postMessage(["createBoardFromSettings", undefined]);
 		}

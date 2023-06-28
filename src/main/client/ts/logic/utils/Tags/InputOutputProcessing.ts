@@ -71,13 +71,16 @@ export interface SerializedBoardStrings {
 	moves: string;
 }
 const defaultTags = createDefaultVariantTags();
-export function serializeBoard(board: Board): SerializedBoardStrings {
-	const currentSnapshot = board.createSnapshot();
-	const snapshot = board.moves.getBoardSnapshot(-1);
-	assertNonUndefined(snapshot);
-	board.loadSnapshot(snapshot.boardSnapshot);
-	const fenTag = defaultTags.startingPosition.serialize(board) ?? "";
-	board.loadSnapshot(currentSnapshot);
+export function serializeBoard(board: Board, lastMove = false): SerializedBoardStrings {
+	let fenTag: string;
+	if (!lastMove) {
+		const currentSnapshot = board.createSnapshot();
+		const snapshot = board.moves.getBoardSnapshot(-1);
+		assertNonUndefined(snapshot);
+		board.loadSnapshot(snapshot.boardSnapshot);
+		fenTag = defaultTags.startingPosition.serialize(board) ?? "";
+	 	board.loadSnapshot(currentSnapshot);
+	} else fenTag = defaultTags.startingPosition.serialize(board) ?? "";
 
 	return {
 		board:

@@ -14,7 +14,9 @@ import { binaryMasks, findMinimumOnBoardSquares, oneBitMask, optimizePieceSet } 
 import { disabledRank } from "../../PieceControlDecorators/PromotionRank";
 import { stringifyCoordinate } from "@moveGeneration/Board/BoardInterface";
 import { bitCount } from "@utils/NumberUtils";
-import { PieceMedianCounterReturnType } from "./PieceMedianCounter";
+import type { PieceMedianCounterReturnType } from "./PieceMedianProcessor";
+import { IS_NODE_ENV } from "@utils/BrowserUtils";
+import processPieceMedians from "./PieceMedianProcessor";
 
 export interface InsufficientMaterialState {
 	readonly walls: BoardSquares<boolean>;
@@ -32,7 +34,7 @@ export class InsufficientMaterialConstructor {
 	private readonly pieceMoveRegistry: Record<PieceLetter, Record<symbol, BoardSquares<Uint16Array>>> = {};
 	private readonly possibleRoyals = createTupleFromCallback<string[], typeof totalPlayers>(() => [], totalPlayers);
 	private readonly boardDestinations = new Map<PieceLetter, Uint16Array[]>();
-	private readonly royalPieceSets = createTupleFromCallback(() => new Set<string>(), totalPlayers);
+	private readonly royalPieceSets = createTupleFromCallback(() => new Set<PieceLetter>(), totalPlayers);
 	readonly state: InsufficientMaterialState;
 
 	constructor(board: Board, readonly callback: (state: InsufficientMaterialState) => void) {
@@ -70,7 +72,8 @@ export class InsufficientMaterialConstructor {
 			if (this.possibleRoyals[color].length > 1) {
 				this.royalPieceSets[color] = optimizePieceSet(this.possibleRoyals[color], false);
 			} else if (this.possibleRoyals[color].length === 1) {
-				this.royalPieceSets[color].add(this.possibleRoyals[color][0]);
+				const royal = this.possibleRoyals[color][0];
+				if (verifyPieceLetter(royal)) this.royalPieceSets[color].add(royal);
 			}
 		}
 	}
@@ -340,21 +343,32 @@ export class InsufficientMaterialConstructor {
 			pieceSquareMedians[pieceLetter] = {};
 			const registeredSymbols = Object.getOwnPropertySymbols(pieceMoveRegistry[pieceLetter]);
 			for (const registeredSymbol of registeredSymbols) {
-				const pieceMedianCounter = new Worker(new URL("./PieceMedianCounter.ts", import.meta.url));
-				pieceMedianCounter.postMessage({
-					walls,
-					moveRegistryArray: pieceMoveRegistry[pieceLetter][registeredSymbol].map((r) => r.map((uint) => uint.buffer)),
-					royalMoves: royalMoves.map((board) => board.map((r) => r.map((uint) => uint.buffer))),
-					royalPieceSet: royalPieceSets.map((s) => [...s])
-				});
-				requiredMessages++;
-				pieceMedianCounter.onmessage = (e: MessageEvent<PieceMedianCounterReturnType>) => {
-					pieceSquareMedians[pieceLetter][registeredSymbol] = e.data;
-					pieceMedianCounter.terminate();
-					if (requiredMessages === ++currentMessages) {
-						this.callback(this.state);
-					}
-				};
+				if (IS_NODE_ENV) {
+					const result = processPieceMedians({
+						walls,
+						moveRegistryArray: pieceMoveRegistry[pieceLetter][registeredSymbol].map((r) => r.map((uint) => uint.buffer)),
+						royalMoves: royalMoves.map((board) => board.map((r) => r.map((uint) => uint.buffer))),
+						royalPieceSet: royalPieceSets.map((s) => [...s])
+					});
+					requiredMessages++, currentMessages++;
+					pieceSquareMedians[pieceLetter][registeredSymbol] = result;
+				} else {
+					const pieceMedianCounter = new Worker(new URL("./PieceMedianCounter.ts", import.meta.url));
+					pieceMedianCounter.postMessage({
+						walls,
+						moveRegistryArray: pieceMoveRegistry[pieceLetter][registeredSymbol].map((r) => r.map((uint) => uint.buffer)),
+						royalMoves: royalMoves.map((board) => board.map((r) => r.map((uint) => uint.buffer))),
+						royalPieceSet: royalPieceSets.map((s) => [...s])
+					});
+					requiredMessages++;
+					pieceMedianCounter.onmessage = (e: MessageEvent<PieceMedianCounterReturnType>) => {
+						pieceSquareMedians[pieceLetter][registeredSymbol] = e.data;
+						pieceMedianCounter.terminate();
+						if (requiredMessages === ++currentMessages) {
+							this.callback(this.state);
+						}
+					};
+				}
 			}
 		}
 	}
@@ -366,5 +380,6 @@ export class InsufficientMaterialConstructor {
 		const { royalMoves, oppositionRowEchelon } = this.generateOppositionSquares();
 		this.generateOppositeMedians(oppositionRowEchelon);
 		this.generatePieceMoveMedians(royalMoves);
+		if (IS_NODE_ENV) this.callback(this.state);
 	}
 }
