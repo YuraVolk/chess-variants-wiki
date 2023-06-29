@@ -24,6 +24,8 @@ export class FENDataEnPassant extends EnPassant<typeof FENData> implements Varia
 			startCoordinates: [startI, startJ],
 			endCoordinates: [endI, endJ]
 		} = moveData;
+
+		const endPieces: PieceString[] = [];
 		if (moveData.specialType === SpecialMove.EnPassant) {
 			const eligibleEnPassants: number[] = [];
 			enPassants.forEach((e, i) => {
@@ -33,6 +35,9 @@ export class FENDataEnPassant extends EnPassant<typeof FENData> implements Varia
 			for (const enPassantCoordinate of eligibleEnPassants) {
 				const enPassant = enPassants[enPassantCoordinate];
 				assertNonUndefined(enPassant);
+				if (this.decorator.board.board[enPassant[1][0]][enPassant[1][1]].isPiece()) {
+					endPieces.push(this.decorator.board.board[enPassant[1][0]][enPassant[1][1]]);
+				}
 				this.decorator.board.board[enPassant[1][0]][enPassant[1][1]] = emptyPieceString;
 				enPassants[enPassantCoordinate] = null;
 			}
@@ -55,6 +60,9 @@ export class FENDataEnPassant extends EnPassant<typeof FENData> implements Varia
 			}
 		}
 
-		return this.callHandler("processStandardMove", arguments);
+		const result = this.callHandler("processStandardMove", arguments);
+		if (moveData.specialType === SpecialMove.EnPassant) {
+			return { ...result, endPiece: [...endPieces, ...result.endPiece] };
+		} else return result;
 	}
 }

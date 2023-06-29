@@ -177,3 +177,78 @@ test("Castling", () => {
 	expect(checkWhetherCastlingOccurred(2, "castleKingside")).toBeFalsy();
 	expect(checkWhetherCastlingOccurred(2, "castleQueenside")).toBeTruthy();
 });
+
+test("Checkmates", () => {
+	const requestManager = new RequestManager();
+	requestManager.construct("2PC", `${fenStart} 1. i5-i6 .. h10-h9 2. j5-j7`);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	let start = new Date();
+	let botMove = requestManager.playPreferredBotMove();
+    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(800);
+    assertNonUndefined(botMove);
+    requestManager.makeMove(botMove);
+	
+	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart} 
+    1. h5-h6 .. Ne11-f9
+    2. Bi4-f7 .. e10-e9
+    3. Qg4-i6 .. d10-d8`
+	);
+    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+    expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
+    start = new Date();
+    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(800);
+	botMove = requestManager.playPreferredBotMove();
+    assertNonUndefined(botMove);
+    requestManager.makeMove(botMove);
+    expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
+	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+
+    requestManager.construct(
+		"2PC",
+		`${fenStart} 
+        1. h5-h7 .. h10-h8
+        2. Qg4-k8 .. Kh11-h10
+        3. Qk8xh8+#`
+	);
+    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+    const moveTreeLength = requestManager.getMoveTree().length;
+    expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    expect(requestManager.playPreferredBotMove()).toBeUndefined();
+    expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+});
+
+test("En Passant", () => {
+    const gameOfPointsFEN = `[StartFen4 "2PC"]
+    [Variant "FFA"]
+    [RuleVariants "EnPassant"]
+    [CurrentMove "0"]
+    [TimeControl "1 | 5"]
+    
+    1. h5-h7 .. f10-f8
+    2. h7-h8 .. g10-g8
+    3. h8xg9 .. f8-f7
+    4. e5-e7 .. f7xe6
+    5. i5-i7 .. j10-j8
+    6. i7-i8 .. h10-h8
+    7. i8xh9 .. j8-j7
+    8. k5-k7 .. j7xk6
+    9. f5-f7 .. e10-e9
+    10. f7-f8 .. e9-e8
+    11. f8-e9 { (illegal) }`;
+
+    const requestManager = new RequestManager();
+    const start = new Date();
+    requestManager.construct("2PC", gameOfPointsFEN);
+    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+    expect(requestManager.getMoveTree().length).toBe(20);
+    expect(requestManager.getFENSettings().points[0]).toBe(2);
+    expect(requestManager.getFENSettings().points[2]).toBe(2);
+});
