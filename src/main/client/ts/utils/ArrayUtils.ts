@@ -1,4 +1,5 @@
 import { Tuple } from "../baseTypes";
+import { verifyObjectType } from "./ObjectUtils";
 
 export function shuffleArray<T>(array: T[]): T[];
 export function shuffleArray<T, L extends number>(array: Tuple<T, L>): Tuple<T, L>;
@@ -54,7 +55,9 @@ export function filterDuplicatesByClass<T>(array: T[]) {
 	const classes = new Set<unknown>(),
 		result: T[] = [];
 	for (const object of array) {
-		const construct = array.constructor;
+		const constructedObject: unknown = object;
+		if (!verifyObjectType(constructedObject) || !("constructor" in constructedObject)) continue;
+		const construct: unknown = constructedObject.constructor;
 		if (!classes.has(construct)) {
 			classes.add(construct);
 			result.push(object);

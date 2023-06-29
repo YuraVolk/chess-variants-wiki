@@ -208,7 +208,7 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 		const castleKingside = fenOptions.tag("castleKingside"),
 			castleQueenside = fenOptions.tag("castleQueenside");
 		fenOptions.tag("royal").forEach((royal, color) => {
-			if (royal && royal[0] === endI && royal[1] === endJ) castleKingside[color] = castleQueenside[color] = false;
+			if (royal && royal[0] === endI && royal[1] === endJ) (castleKingside[color] = false), (castleQueenside[color] = false);
 		});
 
 		for (const color of colors) {

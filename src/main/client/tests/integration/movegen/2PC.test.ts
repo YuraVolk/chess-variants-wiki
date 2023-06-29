@@ -1,9 +1,15 @@
 import { assertNonUndefined } from "@client/ts/baseTypes";
 import { RequestManager } from "@client/ts/logic/index/GameBoardWorker";
 import { compareCoordinates } from "@moveGeneration/Board/BoardInterface";
+import { boardDimension } from "@moveGeneration/GameInformation/GameData";
 import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 
-test("Load long chess game", () => {
+const fenStart = `[StartFen4 "2PC"]
+[Variant "FFA"]
+[RuleVariants "Castling EnPassant Play4Mate Prom=11"]
+[TimeControl "1 | 5"]`;
+
+test("Long game", () => {
 	const PGN_4 = `[StartFen4 "2PC"]
     [Variant "FFA"]
     [RuleVariants "EnPassant Play4Mate Prom=11"]
@@ -123,11 +129,7 @@ test("Load long chess game", () => {
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length])).toBeFalsy();
 });
 
-test("Castling in 2PC", () => {
-	const fenStart = `[StartFen4 "2PC"]
-    [Variant "FFA"]
-    [RuleVariants "Castling EnPassant Play4Mate Prom=11"]
-    [TimeControl "1 | 5"]`;
+test("Castling", () => {
 	const requestManager = new RequestManager();
 
 	requestManager.construct(
@@ -138,7 +140,7 @@ test("Castling in 2PC", () => {
     3. Bi4-j5 .. Bi11-j10
     4. O-O .. O-O`
 	);
-    requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
+	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
 	function checkWhetherCastlingOccurred(color: NumericColor, castling: "castleKingside" | "castleQueenside") {
 		const fenSettings = requestManager.getFENSettings();
@@ -147,7 +149,11 @@ test("Castling in 2PC", () => {
 		if (!royal) return false;
 		const baseSnapshot = requestManager.getBoardInstance().moves.getBoardSnapshot(requestManager.getBoardInstance().moves.moves[0]);
 		assertNonUndefined(baseSnapshot);
-		return !compareCoordinates(baseSnapshot.boardSnapshot.data.fenOptionsSnapshot.tagsSnapshot.royal[color] ?? [-1, -1], royal);
+
+		return (
+			!compareCoordinates(baseSnapshot.boardSnapshot.data.fenOptionsSnapshot.tagsSnapshot.royal[color] ?? [-1, -1], royal) &&
+			(castling === "castleKingside" ? royal[1] > boardDimension / 2 : royal[1] <= boardDimension / 2)
+		);
 	}
 
 	expect(checkWhetherCastlingOccurred(0, "castleKingside")).toBeTruthy();
@@ -164,9 +170,9 @@ test("Castling in 2PC", () => {
         4. Bf4-g5 .. Bf11-g10
         5. O-O-O .. O-O-O`
 	);
-    requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
+	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
-    expect(checkWhetherCastlingOccurred(0, "castleKingside")).toBeFalsy();
+	expect(checkWhetherCastlingOccurred(0, "castleKingside")).toBeFalsy();
 	expect(checkWhetherCastlingOccurred(0, "castleQueenside")).toBeTruthy();
 	expect(checkWhetherCastlingOccurred(2, "castleKingside")).toBeFalsy();
 	expect(checkWhetherCastlingOccurred(2, "castleQueenside")).toBeTruthy();
