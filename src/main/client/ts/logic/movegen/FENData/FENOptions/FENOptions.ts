@@ -103,7 +103,7 @@ export class FENOptions implements Cloneable<FENOptions>, Memento<FENOptionsSnap
 	}
 
 	getDefaultZombieAlgorithm(baseColor: NumericColor): ZombieMoveGenerationAlgorithm {
-		const algorithm = botAlgorithms.get(this.tag("resigned")[baseColor] ? this.tag("zombieType")[baseColor] : ZombieType.F_Checker);
+		const algorithm = botAlgorithms.get(this.tag("resigned")[baseColor] ? this.tag("zombieType")[baseColor] : ZombieType.Futer);
 		assertNonUndefined(algorithm);
 		return algorithm;
 	}

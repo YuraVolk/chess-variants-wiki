@@ -9,7 +9,7 @@ const fenStart = `[StartFen4 "2PC"]
 [RuleVariants "Castling EnPassant Play4Mate Prom=11"]
 [TimeControl "1 | 5"]`;
 
-test("Long game", () => {
+test("Long Game Parsing", () => {
 	const PGN_4 = `[StartFen4 "2PC"]
     [Variant "FFA"]
     [RuleVariants "EnPassant Play4Mate Prom=11"]
@@ -129,7 +129,21 @@ test("Long game", () => {
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length])).toBeFalsy();
 });
 
-test("Castling", () => {
+function checkWhetherCastlingOccurred(requestManager: RequestManager, color: NumericColor, castling: "castleKingside" | "castleQueenside") {
+	const fenSettings = requestManager.getFENSettings();
+	if (fenSettings.fenOptions[castling][color]) return false;
+	const royal = fenSettings.fenOptions.royal[color];
+	if (!royal) return false;
+	const baseSnapshot = requestManager.getBoardInstance().moves.getBoardSnapshot(requestManager.getBoardInstance().moves.moves[0]);
+	assertNonUndefined(baseSnapshot);
+
+	return (
+		!compareCoordinates(baseSnapshot.boardSnapshot.data.fenOptionsSnapshot.tagsSnapshot.royal[color] ?? [-1, -1], royal) &&
+		(castling === "castleKingside" ? royal[1] > boardDimension / 2 : royal[1] <= boardDimension / 2)
+	);
+}
+
+test("Castling Kingside", () => {
 	const requestManager = new RequestManager();
 
 	requestManager.construct(
@@ -142,24 +156,14 @@ test("Castling", () => {
 	);
 	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
-	function checkWhetherCastlingOccurred(color: NumericColor, castling: "castleKingside" | "castleQueenside") {
-		const fenSettings = requestManager.getFENSettings();
-		if (fenSettings.fenOptions[castling][color]) return false;
-		const royal = fenSettings.fenOptions.royal[color];
-		if (!royal) return false;
-		const baseSnapshot = requestManager.getBoardInstance().moves.getBoardSnapshot(requestManager.getBoardInstance().moves.moves[0]);
-		assertNonUndefined(baseSnapshot);
+	expect(checkWhetherCastlingOccurred(requestManager, 0, "castleKingside")).toBeTruthy();
+	expect(checkWhetherCastlingOccurred(requestManager, 0, "castleQueenside")).toBeFalsy();
+	expect(checkWhetherCastlingOccurred(requestManager, 2, "castleKingside")).toBeTruthy();
+	expect(checkWhetherCastlingOccurred(requestManager, 2, "castleQueenside")).toBeFalsy();
+});
 
-		return (
-			!compareCoordinates(baseSnapshot.boardSnapshot.data.fenOptionsSnapshot.tagsSnapshot.royal[color] ?? [-1, -1], royal) &&
-			(castling === "castleKingside" ? royal[1] > boardDimension / 2 : royal[1] <= boardDimension / 2)
-		);
-	}
-
-	expect(checkWhetherCastlingOccurred(0, "castleKingside")).toBeTruthy();
-	expect(checkWhetherCastlingOccurred(0, "castleQueenside")).toBeFalsy();
-	expect(checkWhetherCastlingOccurred(2, "castleKingside")).toBeTruthy();
-	expect(checkWhetherCastlingOccurred(2, "castleQueenside")).toBeFalsy();
+test("Castling Queenside", () => {
+	const requestManager = new RequestManager();
 
 	requestManager.construct(
 		"2PC",
@@ -172,25 +176,50 @@ test("Castling", () => {
 	);
 	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
-	expect(checkWhetherCastlingOccurred(0, "castleKingside")).toBeFalsy();
-	expect(checkWhetherCastlingOccurred(0, "castleQueenside")).toBeTruthy();
-	expect(checkWhetherCastlingOccurred(2, "castleKingside")).toBeFalsy();
-	expect(checkWhetherCastlingOccurred(2, "castleQueenside")).toBeTruthy();
+	expect(checkWhetherCastlingOccurred(requestManager, 0, "castleKingside")).toBeFalsy();
+	expect(checkWhetherCastlingOccurred(requestManager, 0, "castleQueenside")).toBeTruthy();
+	expect(checkWhetherCastlingOccurred(requestManager, 2, "castleKingside")).toBeFalsy();
+	expect(checkWhetherCastlingOccurred(requestManager, 2, "castleQueenside")).toBeTruthy();
 });
 
-test("Checkmates", () => {
+test("Diagonal Checkmate by Bot", () => {
 	const requestManager = new RequestManager();
 	requestManager.construct("2PC", `${fenStart} 1. i5-i6 .. h10-h9 2. j5-j7`);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
-	let start = new Date();
-	let botMove = requestManager.playPreferredBotMove();
-    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(800);
-    assertNonUndefined(botMove);
-    requestManager.makeMove(botMove);
-	
+	const start = new Date();
+	const botMove = requestManager.playPreferredBotMove();
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+});
+
+test("Diagonal Checkmate, no move by Bot", () => {
+	const requestManager = new RequestManager();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart} 
+        1. i5-i6 .. h10-h9
+        2. j5-j7 .. Qg11-k7+#`
+	);
+
+    const moveTreeLength = requestManager.getMoveTree().length;
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
+	const start = new Date();
+	expect(requestManager.playPreferredBotMove()).toBeUndefined();
+    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+    expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+});
+
+test("Supported Checkmate by Bot", () => {
+	const requestManager = new RequestManager();
 
 	requestManager.construct(
 		"2PC",
@@ -199,33 +228,134 @@ test("Checkmates", () => {
     2. Bi4-f7 .. e10-e9
     3. Qg4-i6 .. d10-d8`
 	);
-    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
-    expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
-    start = new Date();
-    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(800);
-	botMove = requestManager.playPreferredBotMove();
-    assertNonUndefined(botMove);
-    requestManager.makeMove(botMove);
+
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
+	const start = new Date();
+	const botMove = requestManager.playPreferredBotMove();
+    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
+	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+});
+
+test("Supported Checkmate, no move by Bot", () => {
+	const requestManager = new RequestManager();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart} 
+        1. h5-h6 .. Ne11-f9
+        2. Bi4-f7 .. e10-e9
+        3. Qg4-i6 .. d10-d8
+        4. Qi6xi10+#`
+	);
+
+    const moveTreeLength = requestManager.getMoveTree().length;
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
+	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
+	const start = new Date();
+	expect(requestManager.playPreferredBotMove()).toBeUndefined();
+    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+    expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+});
+
+test("Semi-Smothered Checkmate with Bot", () => {
+	const requestManager = new RequestManager();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart} 
+        1. h5-h7 .. h10-h8
+        2. Qg4-k8 .. Kh11-h10`
+	);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+    const start = new Date();
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	const botMove = requestManager.playPreferredBotMove();
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
     expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+});
 
-    requestManager.construct(
+test("Semi-Smothered Checkmate, no move by Bot", () => {
+	const requestManager = new RequestManager();
+
+	requestManager.construct(
 		"2PC",
 		`${fenStart} 
         1. h5-h7 .. h10-h8
         2. Qg4-k8 .. Kh11-h10
         3. Qk8xh8+#`
 	);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	const moveTreeLength = requestManager.getMoveTree().length;
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+	expect(requestManager.playPreferredBotMove()).toBeUndefined();
+	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+});
+
+test("Discovered Smothered Mate with Bot", () => {
+	const requestManager = new RequestManager();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart}
+    1. g5-g7 .. Nj11-i9
+    2. f5-f7 .. h10-h8
+    3. g7xh8 .. Ni9-j7
+    4. Nj4-i6 .. Ne11-f9
+    5. Bf4-i7 .. Bi11-e7+
+    6. Ne4-g5 .. Qg11-h10
+    7. d5-d6 .. Nj7xh8
+    8. d6xBe7`
+	);
     expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
-    const moveTreeLength = requestManager.getMoveTree().length;
-    expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
-    expect(requestManager.playPreferredBotMove()).toBeUndefined();
-    expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+	expect(requestManager.getMoveTree().length).toBe(15);
+	const start = new Date();
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	const botMove = requestManager.playPreferredBotMove();
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+    expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+});
+
+test("Discovered Smothered Mate, no move by Bot", () => {
+	const requestManager = new RequestManager();
+
+	requestManager.construct(
+		"2PC",
+		`${fenStart}
+        1. g5-g7 .. Nj11-i9
+        2. f5-f7 .. h10-h8
+        3. g7xh8 .. Ni9-j7
+        4. Nj4-i6 .. Ne11-f9
+        5. Bf4-i7 .. Bi11-e7+
+        6. Ne4-g5 .. Qg11-h10
+        7. d5-d6 .. Nj7xh8
+        8. d6xBe7 .. Nh8-g6+#`
+	);
+    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getMoveTree().length).toBe(16);
+	const start = new Date();
+	expect(requestManager.playPreferredBotMove()).toBeUndefined();
+    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+    expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 });
 
 test("En Passant", () => {
-    const gameOfPointsFEN = `[StartFen4 "2PC"]
+	const gameOfPointsFEN = `[StartFen4 "2PC"]
     [Variant "FFA"]
     [RuleVariants "EnPassant"]
     [CurrentMove "0"]
@@ -243,12 +373,12 @@ test("En Passant", () => {
     10. f7-f8 .. e9-e8
     11. f8-e9 { (illegal) }`;
 
-    const requestManager = new RequestManager();
-    const start = new Date();
-    requestManager.construct("2PC", gameOfPointsFEN);
-    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
-    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
-    expect(requestManager.getMoveTree().length).toBe(20);
-    expect(requestManager.getFENSettings().points[0]).toBe(2);
-    expect(requestManager.getFENSettings().points[2]).toBe(2);
+	const requestManager = new RequestManager();
+	const start = new Date();
+	requestManager.construct("2PC", gameOfPointsFEN);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getMoveTree().length).toBe(20);
+	expect(requestManager.getFENSettings().points[0]).toBe(2);
+	expect(requestManager.getFENSettings().points[2]).toBe(2);
 });
