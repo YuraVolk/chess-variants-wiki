@@ -207,15 +207,15 @@ test("Diagonal Checkmate, no move by Bot", () => {
         2. j5-j7 .. Qg11-k7+#`
 	);
 
-    const moveTreeLength = requestManager.getMoveTree().length;
+	const moveTreeLength = requestManager.getMoveTree().length;
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
-    expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
 	const start = new Date();
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
-    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
-    expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
 });
 
 test("Supported Checkmate by Bot", () => {
@@ -233,7 +233,7 @@ test("Supported Checkmate by Bot", () => {
 	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
 	const start = new Date();
 	const botMove = requestManager.playPreferredBotMove();
-    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	assertNonUndefined(botMove);
 	requestManager.makeMove(botMove);
 	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
@@ -253,15 +253,15 @@ test("Supported Checkmate, no move by Bot", () => {
         4. Qi6xi10+#`
 	);
 
-    const moveTreeLength = requestManager.getMoveTree().length;
+	const moveTreeLength = requestManager.getMoveTree().length;
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
-    expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
+	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
 	const start = new Date();
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
-    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
-    expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
 });
 
 test("Semi-Smothered Checkmate with Bot", () => {
@@ -274,13 +274,13 @@ test("Semi-Smothered Checkmate with Bot", () => {
         2. Qg4-k8 .. Kh11-h10`
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
-    const start = new Date();
+	const start = new Date();
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	const botMove = requestManager.playPreferredBotMove();
 	assertNonUndefined(botMove);
 	requestManager.makeMove(botMove);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
-    expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
+	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 });
@@ -317,14 +317,14 @@ test("Discovered Smothered Mate with Bot", () => {
     7. d5-d6 .. Nj7xh8
     8. d6xBe7`
 	);
-    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(15);
 	const start = new Date();
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	const botMove = requestManager.playPreferredBotMove();
 	assertNonUndefined(botMove);
 	requestManager.makeMove(botMove);
-    expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 });
@@ -344,12 +344,12 @@ test("Discovered Smothered Mate, no move by Bot", () => {
         7. d5-d6 .. Nj7xh8
         8. d6xBe7 .. Nh8-g6+#`
 	);
-    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(16);
 	const start = new Date();
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
-    expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
-    expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 });
@@ -381,4 +381,87 @@ test("En Passant", () => {
 	expect(requestManager.getMoveTree().length).toBe(20);
 	expect(requestManager.getFENSettings().points[0]).toBe(2);
 	expect(requestManager.getFENSettings().points[2]).toBe(2);
+});
+
+test("Legal Promotion", () => {
+	const promotionTestPGN4 = `
+    [StartFen4 "R-0,1,0,1-1,1,1,1-1,1,1,1-0,0,0,0-0-{'dim':'8x8','wb':true}-x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,yR,yN,yB,yQ,yK,yB,yN,yR,x,x,x/x,x,x,rP,rP,yP,yP,yP,yP,rP,rP,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,yP,yP,rP,rP,rP,rP,yP,yP,x,x,x/x,x,x,rR,rN,rB,rQ,rK,rB,rN,rR,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x"]
+    [Variant "FFA"]
+    [RuleVariants "EnPassant"]
+    [CurrentMove "0"]
+    [TimeControl "1 | 15D"]
+    
+    1. j10xRk11=B .. j5xRk4=N
+    2. k10xNj11=R .. k5xNj4=R
+    3. d10xNe11=N .. d5xNe4=B
+    4. e10xRd11=Q .. e5xRd4=Q
+    5. Qd11xQd4 .. Be4xf5
+    6. Rj11xRj4 .. Nk4xi5
+    7. Ne11xg10`;
+
+	const requestManager = new RequestManager();
+	const start = new Date();
+	requestManager.construct("2PC", promotionTestPGN4);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getMoveTree().length).toBe(13);
+	expect(requestManager.getFENSettings().points[0]).toBe(31);
+	expect(requestManager.getFENSettings().points[2]).toBe(18);
+});
+
+test("Illegal Promotion to different pieces", () => {
+	const illegalPromotionTestFEN = `
+    [StartFen4 "R-0,1,0,1-1,1,1,1-1,1,1,1-0,0,0,0-0-{'dim':'8x8','wb':true}-x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,yR,yN,yB,yQ,yK,yB,yN,yR,x,x,x/x,x,x,rP,rP,yP,yP,yP,yP,rP,rP,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,yP,yP,rP,rP,rP,rP,yP,yP,x,x,x/x,x,x,rR,rN,rB,rQ,rK,rB,rN,rR,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x"]
+    [Variant "FFA"]
+    [RuleVariants "EnPassant"]
+    [CurrentMove "0"]
+    [TimeControl "1|15D"]
+
+    1. j10xRk11=x .. j5xRk4=X`;
+
+	const requestManager = new RequestManager();
+	const start = new Date();
+	requestManager.construct("2PC", illegalPromotionTestFEN);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1500);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getMoveTree().length).toBe(0);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
+});
+
+test("Illegal Promotion Syntax", () => {
+	const illegalPromotionTestFEN = `
+    [StartFen4 "R-0,1,0,1-1,1,1,1-1,1,1,1-0,0,0,0-0-{'dim':'8x8','wb':true}-x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,yR,yN,yB,yQ,yK,yB,yN,yR,x,x,x/x,x,x,rP,rP,yP,yP,yP,yP,rP,rP,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,yP,yP,rP,rP,rP,rP,yP,yP,x,x,x/x,x,x,rR,rN,rB,rQ,rK,rB,rN,rR,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x"]
+    [Variant "FFA"]
+    [RuleVariants "EnPassant"]
+    [CurrentMove "0"]
+    [TimeControl "1|15D"]
+
+    1. j10xRk11= .. j5xRk4=`;
+
+	const requestManager = new RequestManager();
+	const start = new Date();
+	requestManager.construct("2PC", illegalPromotionTestFEN);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1500);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getMoveTree().length).toBe(0);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
+});
+
+test("Illegal Promotion Rank", () => {
+	const illegalPromotionTestFEN = `
+    [StartFen4 "R-0,1,0,1-1,1,1,1-1,1,1,1-0,0,0,0-0-{'dim':'8x8','wb':true}-x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,yR,yN,yB,yQ,yK,yB,yN,yR,x,x,x/x,x,x,2,yP,yP,yP,yP,2,x,x,x/x,x,x,1,rP,4,rP,1,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,1,yP,4,yP,1,x,x,x/x,x,x,2,rP,rP,rP,rP,2,x,x,x/x,x,x,rR,rN,rB,rQ,rK,rB,rN,rR,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x"]
+    [Variant "FFA"]
+    [RuleVariants "EnPassant"]
+    [CurrentMove "2"]
+    [TimeControl "1|15D"]
+
+    1. j9-j10=Q .. j6-j5=Q`;
+
+	const requestManager = new RequestManager();
+	const start = new Date();
+	requestManager.construct("2PC", illegalPromotionTestFEN);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1500);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getMoveTree().length).toBe(0);
+	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
 });
