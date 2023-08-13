@@ -103,13 +103,18 @@ export class RequestManager {
 			this.generateInitiallyAliveColors();
 
 			const insufficientMaterialModule = new InsufficientMaterialConstructor(newBoard, (state) => {
-				newBoard.insufficientMaterialChecker = new InsufficientMaterialChecker(state, newBoard);
-				newBoard.moves = validateMoveTree(newBoard, newBoard.moves);
-				newBoard.moves.currentMove = [-1];
-				changeGameTermination(newBoard);
-				this.board = newBoard;
-				this.generateCurrentMoves();
-				if (!IS_NODE_ENV) postMessage([messageName, StateSerializer.serializeInsufficientMaterialState(state)]);
+				try {
+					newBoard.insufficientMaterialChecker = new InsufficientMaterialChecker(state, newBoard);
+					newBoard.moves = validateMoveTree(newBoard, newBoard.moves);
+					newBoard.moves.currentMove = [-1];
+					changeGameTermination(newBoard);
+					this.board = newBoard;
+					this.generateCurrentMoves();
+					if (!IS_NODE_ENV) postMessage([messageName, StateSerializer.serializeInsufficientMaterialState(state)]);
+				} catch (e) {
+					console.trace(e);
+					if (!IS_NODE_ENV) postMessage([messageName, undefined]);
+				}
 			});
 			insufficientMaterialModule.generateInsufficientMaterialState();
 		} catch (e) {

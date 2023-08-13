@@ -277,7 +277,7 @@ export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
 					(selectedMove[i] === PGN4_SYNTAX.SPLIT && moves[i + 1] && moves[i + 1] === PGN4_SYNTAX.SPLIT) ||
 					(moves[i].trim() && !isNumNaN && moves[i + 1] && (moves[i + 1] === PGN4_SYNTAX.SPLIT || !isNaN(Number(moves[i + 1]))))
 				) {
-					if (!isNumNaN) i = getEnumeratorIndex(i);
+					if (!isNumNaN) i = Math.max(i, getEnumeratorIndex(i));
 					if (currentMoveData) {
 						processMoveDataInsertion();
 					}
