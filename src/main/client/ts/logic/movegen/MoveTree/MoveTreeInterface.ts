@@ -94,13 +94,19 @@ export interface ProcessSafeMoveWrapper {
 export function compareMoves(move1: MoveComponent, move2: MoveComponent): boolean {
 	if (verifyStandardMove(move1)) {
 		if (!verifyStandardMove(move2)) return false;
-		return (
+		if (!(
 			compareCoordinates(move1.startCoordinates, move2.startCoordinates) &&
 			compareCoordinates(move1.endCoordinates, move2.endCoordinates) &&
 			(move1.specialType === move2.specialType ||
 				move1.specialType === SpecialMove.EnPassant ||
 				move2.specialType === SpecialMove.EnPassant)
-		);
+		)) return false;
+		if (move1.promotion && move2.promotion) {
+			const secondPromotionArray = move2.promotion.map(p => p.piece);
+			if (move1.promotion.filter(p => secondPromotionArray.includes(p.piece)).length === 0) return false;
+		} else if ((move1.promotion && !move2.promotion) || (move2.promotion && !move1.promotion)) return false;
+		
+		return true;
 	} else if (verifyDroppingMove(move1)) {
 		if (!verifyDroppingMove(move2)) return false;
 		return compareCoordinates(move1.endCoordinates, move2.endCoordinates) && PieceString.comparePieceStrings(move1.piece, move2.piece);

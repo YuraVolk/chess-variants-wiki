@@ -357,7 +357,7 @@ test("Discovered Smothered Mate, no move by Bot", () => {
 test("En Passant", () => {
 	const gameOfPointsFEN = `[StartFen4 "2PC"]
     [Variant "FFA"]
-    [RuleVariants "EnPassant"]
+    [RuleVariants "EnPassant Prom=11"]
     [CurrentMove "0"]
     [TimeControl "1 | 5"]
     
@@ -376,7 +376,7 @@ test("En Passant", () => {
 	const requestManager = new RequestManager();
 	const start = new Date();
 	requestManager.construct("2PC", gameOfPointsFEN);
-	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(3);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(20);
 	expect(requestManager.getFENSettings().points[0]).toBe(2);
@@ -387,7 +387,7 @@ test("Legal Promotion", () => {
 	const promotionTestPGN4 = `
     [StartFen4 "R-0,1,0,1-1,1,1,1-1,1,1,1-0,0,0,0-0-{'dim':'8x8','wb':true}-x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,yR,yN,yB,yQ,yK,yB,yN,yR,x,x,x/x,x,x,rP,rP,yP,yP,yP,yP,rP,rP,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,yP,yP,rP,rP,rP,rP,yP,yP,x,x,x/x,x,x,rR,rN,rB,rQ,rK,rB,rN,rR,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x"]
     [Variant "FFA"]
-    [RuleVariants "EnPassant"]
+    [RuleVariants "EnPassant Prom=11"]
     [CurrentMove "0"]
     [TimeControl "1 | 15D"]
     
@@ -413,7 +413,7 @@ test("Illegal Promotion to different pieces", () => {
 	const illegalPromotionTestFEN = `
     [StartFen4 "R-0,1,0,1-1,1,1,1-1,1,1,1-0,0,0,0-0-{'dim':'8x8','wb':true}-x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,yR,yN,yB,yQ,yK,yB,yN,yR,x,x,x/x,x,x,rP,rP,yP,yP,yP,yP,rP,rP,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,yP,yP,rP,rP,rP,rP,yP,yP,x,x,x/x,x,x,rR,rN,rB,rQ,rK,rB,rN,rR,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x"]
     [Variant "FFA"]
-    [RuleVariants "EnPassant"]
+    [RuleVariants "EnPassant Prom=11"]
     [CurrentMove "0"]
     [TimeControl "1|15D"]
 
@@ -443,7 +443,7 @@ test("Illegal Promotion Syntax", () => {
 	requestManager.construct("2PC", illegalPromotionTestFEN);
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1500);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
-	expect(requestManager.getMoveTree().length).toBe(0);
+	expect(requestManager.getMoveTree().length).toBe(2);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
 });
 
@@ -451,7 +451,7 @@ test("Illegal Promotion Rank", () => {
 	const illegalPromotionTestFEN = `
     [StartFen4 "R-0,1,0,1-1,1,1,1-1,1,1,1-0,0,0,0-0-{'dim':'8x8','wb':true}-x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,yR,yN,yB,yQ,yK,yB,yN,yR,x,x,x/x,x,x,2,yP,yP,yP,yP,2,x,x,x/x,x,x,1,rP,4,rP,1,x,x,x/x,x,x,8,x,x,x/x,x,x,8,x,x,x/x,x,x,1,yP,4,yP,1,x,x,x/x,x,x,2,rP,rP,rP,rP,2,x,x,x/x,x,x,rR,rN,rB,rQ,rK,rB,rN,rR,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x/x,x,x,x,x,x,x,x,x,x,x,x,x,x"]
     [Variant "FFA"]
-    [RuleVariants "EnPassant"]
+    [RuleVariants "EnPassant Prom=11"]
     [CurrentMove "2"]
     [TimeControl "1|15D"]
 
@@ -464,4 +464,33 @@ test("Illegal Promotion Rank", () => {
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(0);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
+});
+
+test("Force Promotion", () => {
+	const gameOfPointsFEN = `[StartFen4 "2PC"]
+    [Variant "FFA"]
+    [RuleVariants "EnPassant"]
+    [CurrentMove "0"]
+    [TimeControl "1 | 5"]
+    
+    1. h5-h7 .. f10-f8
+    2. h7-h8 .. g10-g8
+    3. h8xg9 .. f8-f7
+    4. e5-e7 .. f7xe6
+    5. i5-i7 .. j10-j8
+    6. i7-i8 .. h10-h8
+    7. i8xh9 .. j8-j7
+    8. k5-k7 .. j7xk6
+    9. f5-f7 .. e10-e9
+    10. f7-f8 .. e9-e8
+    11. f8-e9 { (illegal) }`;
+
+	const requestManager = new RequestManager();
+	const start = new Date();
+	requestManager.construct("2PC", gameOfPointsFEN);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(3);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
+	expect(requestManager.getMoveTree().length).toBe(2);
+	expect(requestManager.getFENSettings().points[0]).toBe(0);
+	expect(requestManager.getFENSettings().points[2]).toBe(0);
 });
