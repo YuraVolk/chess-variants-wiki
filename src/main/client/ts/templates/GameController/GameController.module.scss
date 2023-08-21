@@ -22,6 +22,7 @@
 	height: 100%;
 	padding: 6% 2%;
 	background-color: var(--ghostboard-square-color);
+	overflow: hidden;
 
 	@media (max-width: 925px) {
 		flex-direction: column;

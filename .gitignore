@@ -32,3 +32,4 @@ docs/tmp
 ### Production Code ###
 /src/main/resources/public/*
 !/src/main/resources/public/.gitkeep
+!/src/main/resources/public/index.html
