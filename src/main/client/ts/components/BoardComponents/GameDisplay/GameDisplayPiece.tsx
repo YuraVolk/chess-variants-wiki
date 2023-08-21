@@ -41,7 +41,7 @@ const MakeSVG = (path: string, configuration: PieceImageSettings, toggleInformat
 				}
 				svg.closest("*")?.setAttribute("style", "opacity: 0;");
 			}}
-			afterInjection={(_, svg: SVGSVGElement | undefined) => {
+			afterInjection={(svg: SVGSVGElement | undefined) => {
 				assertNonUndefined(svg);
 
 				Array.from<BasicSVGShapeElement>(svg.querySelectorAll<BasicSVGShapeElement>(svgBasicShapeSelector)).forEach((p) => {
