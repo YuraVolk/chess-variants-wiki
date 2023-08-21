@@ -23,7 +23,7 @@
 		"react": "^18.2.0",
 		"react-dom": "~18.2.0",
 		"react-modal": "^3.16.1",
-		"react-redux": "^8.0.5",
+		"react-redux": "^8.1.2",
 		"react-svg": "^15.0.4",
 		"react-toastify": "^9.1.1",
 		"react-tooltip": "^5.8.1",
