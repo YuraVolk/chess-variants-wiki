@@ -12,6 +12,6 @@ updates:
       day: "sunday"
   - package-ecosystem: "gradle"
     directory: "/"
-      schedule:
-        interval: "weekly"
-        day: "sunday"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
