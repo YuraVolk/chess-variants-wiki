@@ -1,39 +1,42 @@
 ![Gradle Build](https://github.com/YuraVolk/chess-variants-wiki/actions/workflows/gradle-build.yml/badge.svg)
-# gradle-getting-started
+# Chess Variants Wiki
 
-A barebones Gradle app, which can easily be deployed to Heroku.
+A highly customizable library aimed at support of various chess variants.
+This library is capable of generating legal moves, processing and loading games, rendering boards for arbitrary chess variants, supporting up to 14x14 board size and up to 4 players. The project supports variant configuration through variant rules and FEN data tags, as well as game metadata information and basic computer-controlled players capable of playing every variant possible to define through built-in variant rules.
 
-This application support the [Getting Started with Gradle on Heroku](https://devcenter.heroku.com/articles/getting-started-with-gradle-on-heroku) article - check it out.
+The application is structured in three logical layers:
+1. Move generation layer. Generates and validates the legal moves, is the core move generation engine.
+2. Board rendering layer. Users move generation layer, React and Redux to render game boards.
+3. Page serving layer. Uses the above two layers and a Markdown parser to render the whole page.
 
 ## Running Locally
 
-Make sure you have Java installed. Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
-
+You can run this project either through Java or through Webpack with a static page in case you do not have / are unable to install Java and Gradle and execute this method.
 ```sh
-$ git clone https://github.com/heroku/gradle-getting-started.git
-$ cd gradle-getting-started
-$ ./gradlew stage
+$ git clone https://github.com/YuraVolk/chess-variants-wiki
+$ cd chess-variants-wiki
+```
+
+### Running with Java and Gradle
+
+Make sure you have Java and Gradle installed, these are required to run the application through this method. 
+Run:
+```sh
+$ gradle bootRun
+```
+Or if you have [Heroku Toolbelt](https://toolbelt.heroku.com/) installed:
+```sh
 $ heroku local web
 ```
 
 Your app should now be running on [localhost:5000](http://localhost:5000/).
 
-If you're going to use a database, ensure you have a local `.env` file that reads something like this:
+### Running through Webpack statically
 
-```
-DATABASE_URL=postgres://localhost:5432/gradle_database_name
-```
-
-## Deploying to Heroku
-
+Run:
 ```sh
-$ heroku create
-$ git push heroku master
-$ heroku open
+$ npm install
+$ npm run static
 ```
 
-## Documentation
-
-For more information about using Java on Heroku, see these Dev Center articles:
-
--   [Java on Heroku](https://devcenter.heroku.com/categories/java)
+Your app should now be running on [http://127.0.0.1:5000/src/main/resources/public/index.html](http://127.0.0.1:5000/src/main/resources/public/index.html).
