@@ -269,8 +269,9 @@ export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
 						i = index;
 					} else if (moves[i] === PGN4_SYNTAX.BRACKETS.VARIATION_START) {
 						const index = findBracketIndex(i);
-						currentPath.push(increment + 1, ++variationIncrement);
-						currentMove.alternativeLines?.push([...parseMoves(moves.substring(i + 1, index), currentPath.slice())]);
+						const newCurrentPath = currentPath.slice();
+						newCurrentPath.push(increment + 1, ++variationIncrement);
+						currentMove.alternativeLines?.push([...parseMoves(moves.substring(i + 1, index), newCurrentPath)]);
 						i = index;
 					}
 				} else if (

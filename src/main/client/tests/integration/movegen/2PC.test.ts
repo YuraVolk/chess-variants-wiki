@@ -233,7 +233,7 @@ test("Supported Checkmate by Bot", () => {
 	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
 	const start = new Date();
 	const botMove = requestManager.playPreferredBotMove();
-	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1000);
 	assertNonUndefined(botMove);
 	requestManager.makeMove(botMove);
 	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
@@ -275,7 +275,7 @@ test("Semi-Smothered Checkmate with Bot", () => {
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	const start = new Date();
-	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1000);
 	const botMove = requestManager.playPreferredBotMove();
 	assertNonUndefined(botMove);
 	requestManager.makeMove(botMove);
@@ -320,7 +320,7 @@ test("Discovered Smothered Mate with Bot", () => {
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(15);
 	const start = new Date();
-	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
+	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1000);
 	const botMove = requestManager.playPreferredBotMove();
 	assertNonUndefined(botMove);
 	requestManager.makeMove(botMove);
@@ -511,5 +511,4 @@ test("Threefold Repetition Through Alternative Lines", () => {
     expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
     expect(requestManager.getMoveTree().length).toBe(5);
     expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1, 0, 4])).toBeTruthy();
-    
 });

@@ -3,7 +3,7 @@
         [
             "@babel/preset-env",
             {
-                "targets": ">0.5%, since 2017"
+                "targets": "defaults"
             }
         ],
         "@babel/preset-react",
