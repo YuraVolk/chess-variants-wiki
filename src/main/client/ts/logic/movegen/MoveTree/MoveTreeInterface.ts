@@ -197,8 +197,8 @@ export interface MoveTreeSetNewMoveParameters {
 	move: MoveWrapper;
 	snapshot: MoveTreeRequiredSnapshotValues;
 	fenDataString: string;
+	noPathSlice: boolean;
 }
-
 export interface MoveTreeSnapshot {
 	boardSnapshot: BoardSnapshot;
 	hash: string;

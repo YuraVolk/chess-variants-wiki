@@ -245,7 +245,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 	/*-------------------------------------------------------------------------------------------*/
 	/*---------------------------------------- API ----------------------------------------------*/
 
-	makeMove(move: Move, ignoreNextMoves = false): PostMoveResults {
+	makeMove(move: Move, ignoreNextMoves = false, substituteTreeMove = false): PostMoveResults {
 		let returnValues!: PostMoveResults;
 		const sideToMove = this.data.sideToMove,
 			pregeneratedAttacks = this.preGeneratedAttacks;
@@ -270,6 +270,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		path[path.length - 1]++;
 		this.moves.currentMove = this.moves.setNewMove({
 			move: createBaseMoveWrapper({ path, moveData: move }),
+			noPathSlice: substituteTreeMove,
 			snapshot: {
 				boardSnapshot: this.createSnapshot(),
 				pregeneratedAttacks: pregeneratedAttacks[sideToMove]

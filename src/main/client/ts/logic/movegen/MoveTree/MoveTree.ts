@@ -151,7 +151,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 		},
 		setNewMove(parameters: MoveTreeSetNewMoveParameters): number[] {
 			const { move } = parameters;
-			const moveWrapper = this.getMove(move.path.slice(0, -1));
+			const moveWrapper = this.getMove(parameters.noPathSlice ? move.path : move.path.slice(0, -1));
 			let path = move.path.slice();
 
 			if (!moveWrapper) return path;
