@@ -180,7 +180,10 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 				for (key in move) {
 					if (Object.prototype.hasOwnProperty.call(move, key)) assignMoveWrapperKey(moveWrapper, key, move[key]);
 				}
-				addBoardSnapshot(parameters, this.currentMove);
+				addBoardSnapshot({
+					...parameters,
+					move: moveWrapper
+				}, this.currentMove);
 			}
 
 			return path;
