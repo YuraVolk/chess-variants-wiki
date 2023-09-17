@@ -96,17 +96,15 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 				assertNonUndefined(postMoveSnapshot);
 				clonedBoard.loadSnapshot(snapshot);
 
+				const move = clonedBoard.moves.getMove(clonedBoard.moves.currentMove);
+				assertValidMove(move);
 				for (const line of alternativeLines) {
-					const move = clonedBoard.moves.getMove(clonedBoard.moves.currentMove);
-					assertValidMove(move);
 					move.alternativeLines.push([...line]);
 					clonedBoard.moves.currentMove = line[0].path.slice(0, -1).concat([-1]);
 					const result = traverse(line, currentFullMove, [...currentTimeOnClocks]);
 					if (!result.length) break;
 					newMoveWrapper.alternativeLines.push(result);
-					const snapshot = clonedBoard.moves.getBoardSnapshot(move);
-					assertNonUndefined(snapshot);
-					clonedBoard.loadSnapshot(snapshot.boardSnapshot);
+					clonedBoard.loadSnapshot(snapshot);
 					clonedBoard.moves.currentMove = [...move.path];
 				}
 
