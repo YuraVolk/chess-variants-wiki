@@ -1,3 +1,6 @@
+@use "./Colors.scss";
+@use "./Header.scss";
+
 @font-face {
 	font-family: "ChessGlyph New";
 	font-style: normal;
@@ -11,6 +14,10 @@
 	margin: 0 auto;
 	width: 90vw;
 	overflow-x: hidden;
+	padding: 10px 20px 20px;
+	background-color: #222;
+	border-radius: 1.5vw;
+	box-shadow: inset 1vw 1vw 2vw #161616, inset -1vw -1vw 2vw #161616;
 }
 
 * {
@@ -39,8 +46,8 @@ body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	line-height: 1.42857143;
-	color: #333;
-	background-color: #fff;
+	color: #e2e2e2;
+	background-color: Colors.$bodyColor;
 }
 
 button {

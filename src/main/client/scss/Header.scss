@@ -1,0 +1,71 @@
+@use "./Colors.scss";
+
+.navigation {
+    position: relative;
+    z-index: 1;
+    padding: 10px 15%;
+    background-color: Colors.$bodyColor;
+    box-sizing: border-box;
+
+    &-divider {
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: #fff;
+    }
+
+    &-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 5px;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+
+        &-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            font: small-caps 16px "Segoe UI";
+            text-decoration: none;
+            padding: 5px;
+
+            &__link {
+                color: inherit;
+            }
+
+            &__menu {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                transform: translateY(100%);
+                padding: 0;
+                user-select: none;
+                pointer-events: none;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease-in-out;
+                list-style-type: none;
+
+                &-item {
+                    background-color: Colors.$bodyColor;
+                    padding: 5px;
+                    font-size: 13px;
+
+                    &-link {
+                        color: inherit;
+                    }
+                }
+            }
+
+            &:hover &__menu {
+                user-select: revert;
+                pointer-events: revert;
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+}
