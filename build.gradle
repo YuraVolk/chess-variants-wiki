@@ -40,6 +40,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+npmInstall {
+	onlyIf { !gradle.startParameter.taskNames.contains('bootRun') }
+}
+
 task buildApp(type: NodeTask, dependsOn: 'npmInstall') {
 	script = project.file('node_modules/webpack/bin/webpack.js')
 	args = [
@@ -47,6 +51,7 @@ task buildApp(type: NodeTask, dependsOn: 'npmInstall') {
 			'--entry', './src/main/client/ts/Main',
 			'-o', './src/main/resources/public/scripts/'
 	]
+	onlyIf { !gradle.startParameter.taskNames.contains('bootRun') }
 }
 
 processResources.dependsOn 'buildApp'
