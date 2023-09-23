@@ -10,3 +10,8 @@ WORKDIR /app
 COPY --from=node /app/ /app/
 COPY . .
 RUN gradle build --no-daemon --stacktrace
+
+FROM openjdk:11
+WORKDIR /app
+COPY --from=gradle /app/build/libs/*.jar /app/app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
