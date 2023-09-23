@@ -6,6 +6,7 @@
 		"format": "prettier --write src/**/*.ts{,x}",
 		"lint": "npx eslint src/",
 		"test:integration": "jest",
+		"build": "webpack --mode production --entry ./src/main/client/ts/Main -o ./src/main/resources/public/scripts/",
 		"static": "webpack --mode production --entry ./src/main/client/ts/Main -o ./src/main/resources/public/scripts/ && live-server --no-css-inject --port=5000 --host=0.0.0.0 --open=./src/main/resources/public/index.html --watch=./src/main/resources/public/"
 	},
 	"dependencies": {
