@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,7 +33,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Controller
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class HerokuApplication {
   private DatabaseInterface db;
 
