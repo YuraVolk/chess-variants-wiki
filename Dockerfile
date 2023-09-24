@@ -11,5 +11,5 @@ COPY --from=node /app/ /app/
 COPY . .
 RUN gradle build --no-daemon --stacktrace
 
-EXPOSE 5000 10000
+EXPOSE 10000
 ENTRYPOINT ["gradle","bootRun"]
