@@ -17,6 +17,14 @@ $ git clone https://github.com/YuraVolk/chess-variants-wiki
 $ cd chess-variants-wiki
 ```
 
+### Running with Docker
+```sh
+docker build -t chess-variants-wiki .
+docker run -p 5000:5000 --name ChessVariantsWiki chess-variants-wiki
+```
+
+Your app should now be running on [localhost:5000](http://localhost:5000/).
+
 ### Running with Java and Gradle
 
 Make sure you have Java and Gradle installed, these are required to run the application through this method. 
@@ -24,12 +32,8 @@ Run:
 ```sh
 $ gradle bootRun
 ```
-Or if you have [Heroku Toolbelt](https://toolbelt.heroku.com/) installed:
-```sh
-$ heroku local web
-```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Your app should now be running on [localhost:10000](http://localhost:10000/).
 
 ### Running through Webpack statically
 
