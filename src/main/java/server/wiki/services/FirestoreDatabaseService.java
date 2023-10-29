@@ -1,7 +1,7 @@
-package com.example.heroku.services;
+package server.wiki.services;
 
-import com.example.heroku.data.Page;
-import com.example.heroku.services.interfaces.DatabaseInterface;
+import server.wiki.data.Page;
+import server.wiki.services.interfaces.DatabaseInterface;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
@@ -12,8 +12,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreDatabaseService implements DatabaseInterface {

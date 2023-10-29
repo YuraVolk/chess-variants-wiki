@@ -9,7 +9,11 @@ FROM gradle:jdk11 AS gradle
 WORKDIR /app
 COPY --from=node /app/ /app/
 COPY . .
-RUN gradle build --no-daemon --stacktrace
+RUN gradle bootJar --no-daemon --stacktrace
+
+FROM openjdk:11
+WORKDIR /app
+COPY --from=gradle /app/build/libs/*.jar /app/app.jar
 
 EXPOSE 10000
-ENTRYPOINT ["gradle","bootRun"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]

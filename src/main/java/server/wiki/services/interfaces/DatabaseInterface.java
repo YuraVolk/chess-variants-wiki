@@ -1,6 +1,6 @@
-package com.example.heroku.services.interfaces;
+package server.wiki.services.interfaces;
 
-import com.example.heroku.data.Page;
+import server.wiki.data.Page;
 
 public interface DatabaseInterface {
     Page getPageContent(String documentName);

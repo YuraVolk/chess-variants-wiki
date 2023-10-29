@@ -142,7 +142,7 @@ $ heroku logs --tail
 2019-02-07T18:17:07.989806+00:00 app[web.1]: 2019-02-07 18:17:07.989  INFO 4 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
 2019-02-07T18:17:08.543833+00:00 heroku[web.1]: State changed from starting to up
 2019-02-07T18:17:08.538347+00:00 app[web.1]: 2019-02-07 18:17:08.538  INFO 4 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 48080 (http) with context path ''
-2019-02-07T18:17:08.543461+00:00 app[web.1]: 2019-02-07 18:17:08.543  INFO 4 --- [           main] com.example.heroku.HerokuApplication     : Started HerokuApplication in 4.827 seconds (JVM running for 5.594)
+2019-02-07T18:17:08.543461+00:00 app[web.1]: 2019-02-07 18:17:08.543  INFO 4 --- [           main] server.wiki.HerokuApplication     : Started HerokuApplication in 4.827 seconds (JVM running for 5.594)
 2019-02-07T18:17:20.728559+00:00 app[web.1]: 2019-02-07 18:17:20.728  INFO 4 --- [io-48080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2019-02-07T18:17:20.728692+00:00 app[web.1]: 2019-02-07 18:17:20.728  INFO 4 --- [io-48080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2019-02-07T18:17:20.742328+00:00 app[web.1]: 2019-02-07 18:17:20.742  INFO 4 --- [io-48080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 14 ms

@@ -1,36 +1,19 @@
-package com.example.heroku;
+package server.wiki;
 
-import com.example.heroku.data.Page;
+import server.wiki.data.Page;
 
-import com.example.heroku.services.FirestoreDatabaseService;
-import com.example.heroku.services.interfaces.DatabaseInterface;
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import server.wiki.services.FirestoreDatabaseService;
+import server.wiki.services.interfaces.DatabaseInterface;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @Controller
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })

@@ -1,4 +1,4 @@
-package com.example.heroku.data;
+package server.wiki.data;
 
 import java.util.ArrayList;
 import java.util.List;
