@@ -1,11 +1,11 @@
-import { Board } from "@moveGeneration/Board/Board";
-import type { PostMoveResults } from "../../../FENData/FENDataInterface";
+import type { FENEffectSettings, PostMoveResults } from "../../../FENData/FENDataInterface";
 import { VariantRule } from "../../VariantRule";
 import type { VariantRuleHandler } from "../../VariantRuleInterface";
-import { verifyInternalMove, Move } from "@moveGeneration/MoveTree/MoveTreeInterface";
+import { verifyInternalMove, MoveComponent } from "@moveGeneration/MoveTree/MoveTreeInterface";
+import { FENData } from "@moveGeneration/FENData/FENData";
 
 const tag = "threefoldRepetition";
-export class ThreefoldRepetition extends VariantRule<typeof Board, typeof tag> implements VariantRuleHandler<Board> {
+export class ThreefoldRepetition extends VariantRule<typeof FENData, typeof tag> implements VariantRuleHandler<FENData> {
 	static {
 		VariantRule.initVariantRule(ThreefoldRepetition);
 	}
@@ -21,7 +21,7 @@ export class ThreefoldRepetition extends VariantRule<typeof Board, typeof tag> i
 	}
 
 	getDecoratorType() {
-		return Board;
+		return FENData;
 	}
 
 	getPublicProperties() {
@@ -64,13 +64,13 @@ export class ThreefoldRepetition extends VariantRule<typeof Board, typeof tag> i
 		return options;
 	}
 
-	makeMove(move: Move, ignoreNextMoves = false): PostMoveResults {
-		const results = this.callHandler("makeMove", arguments);
-		if (!verifyInternalMove(move[0]) && !ignoreNextMoves) {
-			const repetitions = this.decorator.moves.getHash(this.decorator.moves.constructPreliminaryHashString(this.decorator));
-			if (repetitions >= this.totalRepetitionsRequired) {
-				this.decorator.data.assignGeneralTermination("Threefold Repetition");
-				this.decorator.data.spreadPointsBetweenPlayersEvenly();
+	affectOptions(move: MoveComponent, settings: FENEffectSettings): PostMoveResults {
+		const results = this.callHandler("affectOptions", arguments);
+		if (!settings.ignoreNextTurn && !verifyInternalMove(move) && !settings.ignoreCheckmateChecks) {
+			const repetitions = this.decorator.board.moves.getHash(this.decorator.board.moves.constructPreliminaryHashString(this.decorator.board));
+			if (repetitions + 1 >= this.totalRepetitionsRequired) {
+				this.decorator.assignGeneralTermination("Threefold Repetition");
+				this.decorator.spreadPointsBetweenPlayersEvenly();
 			}
 		}
 		

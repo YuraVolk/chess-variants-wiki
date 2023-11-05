@@ -514,3 +514,22 @@ test("Threefold Repetition Through Alternative Lines", () => {
     expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
 });
+
+test("Threefold Repetition Through Main Lines", () => {
+    const requestManager = new RequestManager();
+    const start = new Date();
+	requestManager.construct(
+		"2PC",
+		`${fenStart}
+        1. Nj4-i6 .. Nj11-i9
+        2. Ni6-j4 .. Ni9-j11
+        3. Nj4-i6 .. Nj11-i9
+        4. Ni6-j4 .. Ni9-j11`
+	);
+
+    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+    expect(requestManager.getMoveTree().length).toBe(8);
+    expect(requestManager.loadSnapshotByPath([7])).toBeTruthy();
+    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getFENSettings().points[2]).toBe(24);
+});

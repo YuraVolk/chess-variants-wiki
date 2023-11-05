@@ -52,5 +52,15 @@ module.exports = {
                 "@typescript-eslint/no-unsafe-member-access": "off"
             }
         }
+    ],
+    "ignorePatterns": [
+        ".gradle",
+        "build",
+        "!gradle/wrapper/gradle-wrapper.jar",
+        "node_modules",
+        ".eslintrc.cjs",
+        "webpack.config.js",
+        "jest.config.js",
+        "src/main/resources/public"
     ]
 };
