@@ -511,4 +511,6 @@ test("Threefold Repetition Through Alternative Lines", () => {
     expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
     expect(requestManager.getMoveTree().length).toBe(5);
     expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1, 0, 3])).toBeTruthy();
+    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getFENSettings().points[2]).toBe(24);
 });

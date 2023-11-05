@@ -82,6 +82,18 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 			let snapshot: BoardSnapshot | undefined, postMoveSnapshot: BoardSnapshot | undefined;
 			if (alternativeLines.length) snapshot = clonedBoard.createSnapshot();
 			const results = clonedBoard.makeMove(moveData, false, newMoveWrapper.path.length !== 1);
+			const move = clonedBoard.moves.getMove(clonedBoard.moves.currentMove);
+			assertValidMove(move);
+			clonedBoard.moves.setNewMove({
+				move,
+				snapshot: {
+					boardSnapshot: clonedBoard.createSnapshot(),
+					pregeneratedAttacks: clonedBoard.preGeneratedAttacks[clonedBoard.data.sideToMove]
+				},
+				fenDataString: clonedBoard.moves.constructPreliminaryHashString(clonedBoard),
+				noPathSlice: newMoveWrapper.path.length !== 1
+			});
+			
 			if (alternativeLines.length) postMoveSnapshot = clonedBoard.createSnapshot();
 			for (let i = 0; i < totalPlayers; i++) {
 				if (results.checkmates[i]) {
