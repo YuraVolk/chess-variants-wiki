@@ -6,6 +6,10 @@ import { variantRuleColors, VariantRuleHandler } from "../../VariantRuleInterfac
 
 const tag = "royalsCannotCapture";
 export class RoyalsCannotCapture extends VariantRule<typeof PieceControl, typeof tag> implements VariantRuleHandler<PieceControl> {
+	static {
+		VariantRule.initVariantRule(RoyalsCannotCapture);
+	}
+
 	getDecoratorType() {
 		return PieceControl;
 	}
