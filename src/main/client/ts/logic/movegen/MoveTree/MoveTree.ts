@@ -65,9 +65,9 @@ export function assertValidMove<T extends ProcessSafeMoveWrapper>(move: T | T[] 
 	}
 }
 
-export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
+export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 	const snapshots = new WeakMap<MoveWrapper, MoveTreeSnapshot>();
-	const boardHashes = new Map<string, Array<readonly number[]>>();
+	const boardHashes = new Map<string, Array<readonly number[]>>([[constructPreliminaryHashString(board), [[-2]]]]);
 	const moves: MoveWrapper[] = [];
 	const startingSnapshot: MoveTreeSnapshot = {
 		boardSnapshot: baseSnapshot,
@@ -78,6 +78,21 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 			throw new Error("Should not access pregenerated attacks on base move");
 		}
 	};
+
+	function constructPreliminaryHashString(boardObject: Board) {
+		const { board, data } = boardObject;
+		let builder = "";
+		builder += data.sideToMove;
+		let key: keyof FENOptionsTags;
+		for (key in data.fenOptions.tags) {
+			const tag = data.fenOptions.tags[key];
+			if (!verifyDynamicFENOptionKey(tag, key)) continue;
+			const serializedForm = tag.serialize();
+			if (serializedForm) builder += serializedForm;
+		}
+		builder = board.reduce((p, n) => p + n.map((ps) => ps.value || "-").join(""), builder);
+		return builder;
+	}
 
 	function obtainMatchingAlternativeLine(baseMoveWrapper: MoveWrapper, newMoveWrapper: MoveWrapper) {
 		for (const [alternativeFirstMove] of baseMoveWrapper.alternativeLines) {
@@ -220,7 +235,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 			let totalCount = 0;
 			for (const line of hash) {
 				for (let i = 0; i < line.length; i++) {
-					if (i !== 0 && i === line.length - 1) {
+					if (i === line.length - 1) {
 						totalCount++;
 					} else if (line[i] !== this.currentMove[i]) break;
 				}
@@ -290,18 +305,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 			this.stringifyMove(currentMove, Math.max(...board.data.fenOptions.tag("dim")));
 		},
 		constructPreliminaryHashString(boardObject: Board) {
-			const { board, data } = boardObject;
-			let builder = "";
-			builder += data.sideToMove;
-			let key: keyof FENOptionsTags;
-			for (key in data.fenOptions.tags) {
-				const tag = data.fenOptions.tags[key];
-				if (!verifyDynamicFENOptionKey(tag, key)) continue;
-				const serializedForm = tag.serialize();
-				if (serializedForm) builder += serializedForm;
-			}
-			builder = board.reduce((p, n) => p + n.map((ps) => ps.value || "-").join(""), builder);
-			return builder;
+			return constructPreliminaryHashString(boardObject);
 		}
 	};
 };

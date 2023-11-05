@@ -503,12 +503,12 @@ test("Threefold Repetition Through Alternative Lines", () => {
 		`${fenStart}
         1. Nj4-i6 .. Nj11-i9
         2. Ni6-j4 .. Ni9-j11
-        3. Ne4-f6
-        (.. 3. Nj4-i6 .. Nj11-i9
+        3. Ne4-f6 
+            .. (.. 3. Nj4-i6 .. Nj11-i9
             4. Ni6-j4 .. Ni9-j11)`
 	);
 
     expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
     expect(requestManager.getMoveTree().length).toBe(5);
-    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1, 0, 4])).toBeTruthy();
+    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1, 0, 3])).toBeTruthy();
 });

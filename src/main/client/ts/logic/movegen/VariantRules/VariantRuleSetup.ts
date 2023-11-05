@@ -8,7 +8,7 @@ import { Taboo } from "./VariantRuleDefinitions/BoardDecorators/Taboo";
 import { FiftyMoveRule } from "./VariantRuleDefinitions/FENDataDecorators/FiftyMoveRule";
 import { Giveaway } from "./VariantRuleDefinitions/FENDataDecorators/Giveaway";
 import { StalemateOptions } from "./VariantRuleDefinitions/FENDataDecorators/StalemateOptions";
-import { ThreefoldRepetition } from "./VariantRuleDefinitions/FENDataDecorators/ThreefoldRepetition";
+import { ThreefoldRepetition } from "./VariantRuleDefinitions/BoardDecorators/ThreefoldRepetition";
 import { PromoteTo } from "./VariantRuleDefinitions/PieceControlDecorators/PromoteTo";
 import { PromotionRank } from "./VariantRuleDefinitions/PieceControlDecorators/PromotionRank";
 import { VariantRule, VariantRulePublicProperties } from "./VariantRule";

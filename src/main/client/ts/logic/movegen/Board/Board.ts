@@ -69,7 +69,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		this.isTwoPlayer = this.data.getRealPlayers() === 2;
 		this.initPieceControls(parsingResults.pieceSet);
 
-		this.moves = createMoveTree(this.createSnapshot());
+		this.moves = createMoveTree(this.createSnapshot(), this);
 		this.moves.moves = parsingResults.moves;
 		this.pregenerateAttacks();
 	}

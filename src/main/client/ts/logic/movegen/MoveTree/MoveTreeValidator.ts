@@ -10,7 +10,7 @@ import { BoardSnapshot } from "@moveGeneration/Board/BoardInterface";
 
 export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTreeInterface {
 	const clonedBoard = board.createClone();
-	clonedBoard.moves = createMoveTree(clonedBoard.createSnapshot());
+	clonedBoard.moves = createMoveTree(clonedBoard.createSnapshot(), board);
 	clonedBoard.pregenerateAttacks();
 
 	const dimension = Math.max(...clonedBoard.data.fenOptions.tag("dim"));

@@ -148,7 +148,7 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 		return { endPiece: endPiece.isEmpty() ? [] : [endPiece] };
 	}
 
-	protected spreadPointsBetweenPlayersEvenly() {
+ 	spreadPointsBetweenPlayersEvenly() {
 		const resigned = this.fenOptions.tag("resigned"),
 			dead = this.fenOptions.tag("dead");
 		const realPlayers = resigned.reduce((p, n, i) => p + Number(n || dead[i]), 0);

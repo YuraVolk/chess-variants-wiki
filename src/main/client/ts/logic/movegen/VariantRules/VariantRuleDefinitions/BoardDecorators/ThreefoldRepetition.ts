@@ -1,10 +1,11 @@
-import { FENData } from "../../../FENData/FENData";
-import { PostMoveResults } from "../../../FENData/FENDataInterface";
+import { Board } from "@moveGeneration/Board/Board";
+import type { PostMoveResults } from "../../../FENData/FENDataInterface";
 import { VariantRule } from "../../VariantRule";
 import type { VariantRuleHandler } from "../../VariantRuleInterface";
+import { verifyInternalMove, Move } from "@moveGeneration/MoveTree/MoveTreeInterface";
 
 const tag = "threefoldRepetition";
-export class ThreefoldRepetition extends VariantRule<typeof FENData, typeof tag> implements VariantRuleHandler<FENData> {
+export class ThreefoldRepetition extends VariantRule<typeof Board, typeof tag> implements VariantRuleHandler<Board> {
 	static {
 		VariantRule.initVariantRule(ThreefoldRepetition);
 	}
@@ -20,7 +21,7 @@ export class ThreefoldRepetition extends VariantRule<typeof FENData, typeof tag>
 	}
 
 	getDecoratorType() {
-		return FENData;
+		return Board;
 	}
 
 	getPublicProperties() {
@@ -63,17 +64,16 @@ export class ThreefoldRepetition extends VariantRule<typeof FENData, typeof tag>
 		return options;
 	}
 
-	affectOptions(): PostMoveResults {
-		const results = this.callHandler("affectOptions", arguments);
-		const repetitions = this.decorator.board.moves.getHash(this.decorator.board.moves.constructPreliminaryHashString(this.decorator.board));
-
-		if (repetitions + 1 >= this.totalRepetitionsRequired) {
-			this.decorator.assignGeneralTermination("Threefold Repetition");
-			this.injectIntoBaseClass(function (this: FENData) {
-				this.spreadPointsBetweenPlayersEvenly();
-			})();
+	makeMove(move: Move, ignoreNextMoves = false): PostMoveResults {
+		const results = this.callHandler("makeMove", arguments);
+		if (!verifyInternalMove(move[0]) && !ignoreNextMoves) {
+			const repetitions = this.decorator.moves.getHash(this.decorator.moves.constructPreliminaryHashString(this.decorator));
+			if (repetitions >= this.totalRepetitionsRequired) {
+				this.decorator.data.assignGeneralTermination("Threefold Repetition");
+				this.decorator.data.spreadPointsBetweenPlayersEvenly();
+			}
 		}
-
+		
 		return results;
 	}
 }
