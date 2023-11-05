@@ -51,11 +51,11 @@ export class ForcedCapture extends VariantRule<typeof Board, typeof tag> impleme
 	pregenerateAttacks(): void {
 		const {
 			data: { sideToMove },
-			board,
-			preGeneratedAttacks
+			board
 		} = this.decorator;
 		this.callHandler("pregenerateAttacks", arguments);
-
+		const preGeneratedAttacks = this.decorator.preGeneratedAttacks;
+		
 		for (const piece of this.decorator.getPlayerPieces()[sideToMove]) {
 			const moves = preGeneratedAttacks[sideToMove].pieceMovements.get(stringifyCoordinate(piece));
 			if (moves) {
