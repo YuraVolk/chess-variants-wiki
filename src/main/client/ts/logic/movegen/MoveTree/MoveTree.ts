@@ -126,7 +126,8 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 				if (boardHash.length === 1) {
 					boardHashes.delete(hash);
 				} else {
-					const currentLine = boardHash.findIndex((p) => compareArrays(p, currentMove));
+					const newPath = moveWrapper.path.map((v, i, p) => (i === p.length - 1 ? v - 1 : v))
+					const currentLine = boardHash.findIndex((p) => compareArrays(p, newPath));
 					if (currentLine === -1) {
 						console.error("Current line for move wrapper not found in board hashes");
 					} else {
@@ -195,10 +196,13 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 				for (key in move) {
 					if (Object.prototype.hasOwnProperty.call(move, key)) assignMoveWrapperKey(moveWrapper, key, move[key]);
 				}
-				addBoardSnapshot({
-					...parameters,
-					move: moveWrapper
-				}, this.currentMove);
+				addBoardSnapshot(
+					{
+						...parameters,
+						move: moveWrapper
+					},
+					this.currentMove
+				);
 			}
 
 			return path;
