@@ -87,7 +87,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot) => {
 			}
 		}
 
-		return false;
+		return baseMoveWrapper.moveData.every((m, i) => compareMoves(m, newMoveWrapper.moveData[i])) ? baseMoveWrapper.path : false;
 	}
 
 	function stripEmptyAlternativeLines(current = moves) {
