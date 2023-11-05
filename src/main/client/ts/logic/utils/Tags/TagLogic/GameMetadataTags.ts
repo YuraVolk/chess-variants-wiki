@@ -24,7 +24,7 @@ export const createVariantTypeTag = (): VariantTag<VariantType> => ({
 	parseTag(inputTag) {
 		const tagContents = unwrapTag(inputTag, variantTypeTag);
 		for (const type of Object.values(VariantType)) {
-			if (tagContents === type) return type;
+			if (tagContents === String(type)) return type;
 		}
 
 		return VariantType.FFA;

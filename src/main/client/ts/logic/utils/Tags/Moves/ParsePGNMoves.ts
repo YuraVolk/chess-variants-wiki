@@ -60,7 +60,7 @@ function obtainInternalType(type: string): InternalMove | undefined {
 	let internalMove: keyof typeof InternalMoveSignature;
 	for (internalMove in InternalMoveSignature) {
 		if (Object.prototype.hasOwnProperty.call(InternalMoveSignature, internalMove)) {
-			if (InternalMoveSignature[internalMove] === type) return { type: InternalMoveSignature[internalMove] };
+			if (String(InternalMoveSignature[internalMove]) === type) return { type: InternalMoveSignature[internalMove] };
 		}
 	}
 }
