@@ -263,20 +263,23 @@ export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
 						const index = getMoveIndexes(i);
 						currentMoveData = obtainMoveFromInfo(selectedMove.substring(i, index));
 						i = index;
-					} else if (moves[i] === PGN4_SYNTAX.BRACKETS.COMMENT_START) {
+					} else if (selectedMove[i] === PGN4_SYNTAX.BRACKETS.COMMENT_START) {
 						const index = parseComment(i);
-						currentMove.comment = moves.substring(i + 1, index);
+						currentMove.comment = selectedMove.substring(i + 1, index);
 						i = index;
-					} else if (moves[i] === PGN4_SYNTAX.BRACKETS.VARIATION_START) {
+					} else if (selectedMove[i] === PGN4_SYNTAX.BRACKETS.VARIATION_START) {
 						const index = findBracketIndex(i);
 						const newCurrentPath = currentPath.slice();
 						newCurrentPath.push(increment, ++variationIncrement);
-						currentMove.alternativeLines?.push([...parseMoves(moves.substring(i + 1, index), newCurrentPath)]);
+						currentMove.alternativeLines?.push([...parseMoves(selectedMove.substring(i + 1, index), newCurrentPath)]);
 						i = index;
 					}
 				} else if (
-					(selectedMove[i] === PGN4_SYNTAX.SPLIT && moves[i + 1] && moves[i + 1] === PGN4_SYNTAX.SPLIT) ||
-					(moves[i].trim() && !isNumNaN && moves[i + 1] && (moves[i + 1] === PGN4_SYNTAX.SPLIT || !isNaN(Number(moves[i + 1]))))
+					(selectedMove[i] === PGN4_SYNTAX.SPLIT && selectedMove[i + 1] && selectedMove[i + 1] === PGN4_SYNTAX.SPLIT) ||
+					(selectedMove[i].trim() &&
+						!isNumNaN &&
+						selectedMove[i + 1] &&
+						(selectedMove[i + 1] === PGN4_SYNTAX.SPLIT || !isNaN(Number(selectedMove[i + 1]))))
 				) {
 					if (!isNumNaN) i = Math.max(i, getEnumeratorIndex(i));
 					if (currentMoveData) {

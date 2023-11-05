@@ -504,8 +504,8 @@ test("Threefold Repetition Through Alternative Lines", () => {
         1. Nj4-i6 .. Nj11-i9
         2. Ni6-j4 .. Ni9-j11
         3. Ne4-f6
-        (3.. Nj4-i6 .. Nj11-i9
-        4. Ni6-j4 .. Ni9-j11 )`
+        (.. 3. Nj4-i6 .. Nj11-i9
+            4. Ni6-j4 .. Ni9-j11)`
 	);
 
     expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
