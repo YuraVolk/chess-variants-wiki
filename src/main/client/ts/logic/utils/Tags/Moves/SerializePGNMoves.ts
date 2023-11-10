@@ -3,7 +3,7 @@ import type { MoveWrapper } from "@moveGeneration/MoveTree/MoveTreeInterface";
 
 export function serializePGNMoves(moveTree: MoveTreeInterface): string {
 	let resultingString = "";
-
+	
 	const traverse = (moves: MoveWrapper[]) => {
 		for (const moveWrapper of moves) {
 			if (moveWrapper.metadata.currentFullMove) {

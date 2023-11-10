@@ -79,7 +79,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 				newMoveWrapper.metadata.currentFullMove = ++currentFullMove;
 			}
 			newMoveWrapper.metadata.currentSideToMove = previousSideToMove = clonedBoard.data.sideToMove;
-			
+
 			let snapshot: BoardSnapshot | undefined, postMoveSnapshot: BoardSnapshot | undefined;
 			if (alternativeLines.length) snapshot = clonedBoard.createSnapshot();
 			const results = clonedBoard.makeMove(moveData, false, newMoveWrapper.path.length !== 1);
@@ -111,7 +111,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 
 				clonedBoard.loadSnapshot(postMoveSnapshot);
 			}
-			
+
 			if (moveWrapper.metadata.playerClock) {
 				currentTimeOnClocks[previousSideToMove] -= moveWrapper.metadata.playerClock;
 			}
@@ -122,14 +122,15 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 			currentMove.metadata = newMoveWrapper.metadata;
 			currentMove.comment = moveWrapper.comment;
 			currentMove.alternativeLines = newMoveWrapper.alternativeLines;
-			clonedBoard.moves.stringifyMove(currentMove, dimension);
 			moves.push(currentMove);
+			i += clonedBoard.moves.currentMove[clonedBoard.moves.currentMove.length - 1] - newMoveWrapper.path[newMoveWrapper.path.length - 1];
 		}
 
 		return moves;
 	}
 
 	traverse(moves.moves);
+	for (const move of clonedBoard.moves) clonedBoard.moves.stringifyMove(move, dimension);
 	return clonedBoard.moves;
 }
 

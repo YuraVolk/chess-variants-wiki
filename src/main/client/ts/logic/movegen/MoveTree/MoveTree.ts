@@ -115,7 +115,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 		}
 	}
 
-	function stripDeletedMoveHashes(current: MoveWrapper[], currentMove: number[]) {
+	function stripDeletedMoveHashes(current: MoveWrapper[]) {
 		for (const moveWrapper of current) {
 			const snapshot = snapshots.get(moveWrapper);
 			if (!snapshot) continue;
@@ -136,7 +136,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 				}
 			}
 
-			for (const line of moveWrapper.alternativeLines) stripDeletedMoveHashes(line, currentMove);
+			for (const line of moveWrapper.alternativeLines) stripDeletedMoveHashes(line);
 		}
 	}
 
@@ -153,6 +153,13 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 			const hasAdditionalPath = boardHash.find((p) => compareArrays(p, currentMove));
 			boardHashes.set(fenDataString, hasAdditionalPath ? boardHash : [...boardHash, currentMove.slice()]);
 		} else boardHashes.set(fenDataString, [currentMove.slice()]);
+	}
+
+	function* iterateMovesDFS(moveWrapper: MoveWrapper): Generator<MoveWrapper, void, undefined> {
+		yield moveWrapper;
+		for (const alternativeLine of moveWrapper.alternativeLines) {
+			for (const move of alternativeLine) yield* iterateMovesDFS(move);
+		}
 	}
 
 	const assignMoveWrapperKey = <K extends keyof MoveWrapper>(object: MoveWrapper, key: K, value: MoveWrapper[K]) => {
@@ -227,7 +234,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 				}
 			}
 
-			stripDeletedMoveHashes(items, this.currentMove);
+			stripDeletedMoveHashes(items);
 			stripEmptyAlternativeLines();
 			const newCurrentMove = alterCurrentPath(this.currentMove, path);
 			this.currentMove = newCurrentMove.length === 0 ? [-1] : newCurrentMove;
@@ -271,7 +278,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 				currentMove = board.moves.getMove(board.moves.currentMove);
 			assertValidMove(currentMove);
 			if (currentMove.metadata.currentFullMove && currentMove.metadata.currentSideToMove) return;
-			
+
 			if (
 				board.moves.currentMove[board.moves.currentMove.length - 1] === 0 ||
 				findLastIndex(deadColors, (b) => !b) === currentSideToMove
@@ -312,6 +319,9 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 		},
 		constructPreliminaryHashString(boardObject: Board) {
 			return constructPreliminaryHashString(boardObject);
+		},
+		*[Symbol.iterator]() {
+			for (const move of moves) yield* iterateMovesDFS(move);
 		}
 	};
 };
