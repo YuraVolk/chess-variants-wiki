@@ -748,3 +748,68 @@ test("Insufficient Material with two same-color Bishops", () => {
     const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
     expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
+
+
+test("Insufficient Material with a sole Knight", () => {
+    const start = new Date();
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
+        1. d5-d7 .. f10-f8
+        2. g5-g7 .. e10-e9
+        3. j5-j7 .. h10-h9
+        4. Qg4-g5 .. d10-d8
+        5. f5-f6 .. k10-k8
+        6. Qg5-j8 .. Qg11xQj8
+        7. Bf4xQj8 .. k8xj7
+        8. Bi4-j5 .. g10-g8
+        9. k5-k7 .. f8xg7
+        10. f6xg7 .. i10-i9
+        11. Bj8-i7 .. i9-i8
+        12. Bi7-f10 .. Ne11-g10
+        13. Ne4-f6 .. Bi11-e7
+        14. Bj5-i4 .. Be7-h10
+        15. Nf6xg8 .. h9xNg8
+        16. k7-k8 .. Bh10-e7+
+        17. Kh4-g4 .. j10-j8
+        18. i5-i7 .. j7xi6
+        19. Nj4xi6 .. Be7-h10
+        20. Bi4-k6 .. Nj11-k9
+        21. Rk4-j4 .. j8-j7
+        22. Bk6-i4 .. j7xNi6
+        23. h5xi6 .. Rd11-d10
+        24. Rd4-f4 .. Rd10xBf10
+        25. Rf4xRf10 .. Kh11-i10
+        26. Rj4-j9 .. i8-i7
+        27. Rf10-f9 .. Nk9-i8
+        28. k8-k9 .. Ni8xg7
+        29. Rj9-j10+ .. Ki10-h11
+        30. Rf9xBf11+ .. Bh10-g11
+        31. Rf11xBg11+ .. Kh11xRg11
+        32. k9-k10 .. Ng10-i9
+        33. Bi4-g6 .. Ng7xi6
+        34. Bg6-e4 .. Ni9-h11
+        35. Rj10-d10 .. Nh11-i9
+        36. Rd10-j10 .. Ni9-h11
+        37. Rj10-j11 .. Rk11xRj11
+        38. k10xRj11=Q .. g8-g7
+        39. Qj11-g8+ .. Kg11-f10
+        40. Qg8xNi6 .. Nh11-g9
+        41. Qi6xi7 .. Kf10-e10
+        42. Qi7xg7 .. Ng9-f11
+        43. Be4-h7+ .. Ke10-e11
+        44. e5-e7 .. d8xe7
+        45. Qg7xe7 .. Ke11-d10
+        46. Bh7-e10 .. Kd10xBe10
+        47. Qe7xe9+ .. Ke10xQe9
+        48. d7-d8+ .. Ke9xd8`,
+        insufficientMaterialState
+	);
+
+    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+    expect(requestManager.getMoveTree().length).toBe(96);
+    expect(requestManager.loadSnapshotByPath([95])).toBeTruthy();
+    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getFENSettings().points[2]).toBe(24);
+    const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+});

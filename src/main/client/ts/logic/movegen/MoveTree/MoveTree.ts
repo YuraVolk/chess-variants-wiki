@@ -270,6 +270,8 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 			const currentSideToMove = board.data.sideToMove,
 				currentMove = board.moves.getMove(board.moves.currentMove);
 			assertValidMove(currentMove);
+			if (currentMove.metadata.currentFullMove && currentMove.metadata.currentSideToMove) return;
+			
 			if (
 				board.moves.currentMove[board.moves.currentMove.length - 1] === 0 ||
 				findLastIndex(deadColors, (b) => !b) === currentSideToMove
