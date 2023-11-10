@@ -78,12 +78,10 @@ export class FiftyMoveRule extends VariantRule<typeof FENData, typeof tag> imple
 		const results = this.callHandler("affectOptions", arguments);
 		if (move.isIrreversible) {
 			this.decorator.plyCount = 0;
-		} else {
-			this.decorator.plyCount++;
-		}
+		} else this.decorator.plyCount++;
 
 		const alivePlayers = totalPlayers - this.decorator.fenOptions.tag("dead").filter(Boolean).length;
-		if (alivePlayers > 0 && Math.floor(this.decorator.plyCount / alivePlayers) > this.totalFullMoves) {
+		if (alivePlayers > 0 && Math.floor(this.decorator.plyCount / alivePlayers) >= this.totalFullMoves) {
 			this.decorator.assignGeneralTermination("50-move Rule");
 			this.injectIntoBaseClass(function (this: FENData) {
 				this.spreadPointsBetweenPlayersEvenly();

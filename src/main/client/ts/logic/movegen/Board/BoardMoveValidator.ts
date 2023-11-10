@@ -12,6 +12,7 @@ import type { Board } from "./Board";
 export interface SpecialMoveSettings {
 	hasEnPassant: boolean;
 	hasCastling?: MoveComponent;
+	isIrreversible: boolean;
 }
 
 export function validateBoardMove(board: Board, move: Move): SpecialMoveSettings | false {
@@ -31,7 +32,8 @@ export function validateBoardMove(board: Board, move: Move): SpecialMoveSettings
 	} else throw new Error(`Unexpected move signature encountered: ${JSON.stringify(move)}`);
 
 	const specialMoveSettings: SpecialMoveSettings = {
-		hasEnPassant: false
+		hasEnPassant: false,
+		isIrreversible: false
 	};
 	if (board.variantData.duckChess && move.length === 1) return false;
 	for (const moveComponent of move) {
@@ -54,13 +56,9 @@ export function validateBoardMove(board: Board, move: Move): SpecialMoveSettings
 			};
 		}
 
-		if (verifyStandardMove(move) && move.specialType === SpecialMove.EnPassant) {
-			specialMoveSettings.hasEnPassant = true;
-		}
-
-		if (move.nextChainedMoves) {
-			startingMoves = move.nextChainedMoves;
-		}
+		if (verifyStandardMove(move) && move.specialType === SpecialMove.EnPassant) specialMoveSettings.hasEnPassant = true;
+		if (move.isIrreversible) specialMoveSettings.isIrreversible = true;
+		if (move.nextChainedMoves) startingMoves = move.nextChainedMoves;
 	}
 
 	return specialMoveSettings;

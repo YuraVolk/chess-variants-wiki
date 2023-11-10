@@ -23,6 +23,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 
 		let previousSideToMove = -1;
 		for (let i = 0; i < current.length; i++) {
+			if (clonedBoard.data.gameOver) break;
 			const moveWrapper = current[i];
 
 			const { moveData, path, alternativeLines } = moveWrapper;
@@ -67,7 +68,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 						validationResult.hasEnPassant = false;
 						newMoveWrapper.metadata.isCapture = true;
 					}
-
+					if (validationResult.isIrreversible) moveComponent.isIrreversible = true;
 					if (!validationResult.hasCastling && clonedBoard.data.getCapturedPieces(moveComponent).length > 0) {
 						newMoveWrapper.metadata.isCapture = true;
 					}
@@ -82,7 +83,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 			let snapshot: BoardSnapshot | undefined, postMoveSnapshot: BoardSnapshot | undefined;
 			if (alternativeLines.length) snapshot = clonedBoard.createSnapshot();
 			const results = clonedBoard.makeMove(moveData, false, newMoveWrapper.path.length !== 1);
-			
+
 			if (alternativeLines.length) postMoveSnapshot = clonedBoard.createSnapshot();
 			for (let i = 0; i < totalPlayers; i++) {
 				if (results.checkmates[i]) {
