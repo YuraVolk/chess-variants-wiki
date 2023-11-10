@@ -1,13 +1,22 @@
 import { assertNonUndefined } from "@client/ts/baseTypes";
 import { RequestManager } from "@client/ts/logic/index/GameBoardWorker";
 import { compareCoordinates } from "@moveGeneration/Board/BoardInterface";
-import { boardDimension } from "@moveGeneration/GameInformation/GameData";
+import { Termination, boardDimension } from "@moveGeneration/GameInformation/GameData";
 import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
+import { serializeInsufficientMaterialState } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/InsufficientMaterial/StateSerializer";
 
 const fenStart = `[StartFen4 "2PC"]
 [Variant "FFA"]
 [RuleVariants "Castling EnPassant Play4Mate Prom=11"]
 [TimeControl "1 | 5"]`;
+
+const requestManager = new RequestManager();
+const insufficientMaterialState = (() => {
+    requestManager.construct("2PC", fenStart);
+    const insufficientMaterialChecker = requestManager.getBoardInstance().insufficientMaterialChecker;
+    assertNonUndefined(insufficientMaterialChecker);
+    return serializeInsufficientMaterialState(insufficientMaterialChecker.state);
+})();
 
 test("Long Game Parsing", () => {
 	const PGN_4 = `[StartFen4 "2PC"]
@@ -118,15 +127,15 @@ test("Long Game Parsing", () => {
     100. Kf10-e10 .. Qh4-h10+
     101. Ke10-d9 .. Qh10-d10+#`;
 
-	const requestManager = new RequestManager();
-
 	const start = new Date();
-	requestManager.construct("2PC", PGN_4);
+	requestManager.constructWithGeneratedData(PGN_4, insufficientMaterialState);
 	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(5);
 	expect(requestManager.getMoveTree().length).toBe(202);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length])).toBeFalsy();
+    const terminationString: Termination = "CHECKMATE • 0-1";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 function checkWhetherCastlingOccurred(requestManager: RequestManager, color: NumericColor, castling: "castleKingside" | "castleQueenside") {
@@ -144,16 +153,14 @@ function checkWhetherCastlingOccurred(requestManager: RequestManager, color: Num
 }
 
 test("Castling Kingside", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
-		`${fenStart}
-    1. Nj4-i6 .. Nj11-i9
-    2. j5-j6 .. j10-j9
-    3. Bi4-j5 .. Bi11-j10
-    4. O-O .. O-O`
-	);
+	requestManager.constructWithGeneratedData(
+        `${fenStart}
+        1. Nj4-i6 .. Nj11-i9
+        2. j5-j6 .. j10-j9
+        3. Bi4-j5 .. Bi11-j10
+        4. O-O .. O-O`,
+        insufficientMaterialState
+    );
 	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
 	expect(checkWhetherCastlingOccurred(requestManager, 0, "castleKingside")).toBeTruthy();
@@ -163,16 +170,14 @@ test("Castling Kingside", () => {
 });
 
 test("Castling Queenside", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. Ne4-f6 .. Ne11-f9
         2. g5-g7 .. g10-g8
         3. Qg4-g6 .. Qg11-g9
         4. Bf4-g5 .. Bf11-g10
-        5. O-O-O .. O-O-O`
+        5. O-O-O .. O-O-O`,
+        insufficientMaterialState
 	);
 	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
@@ -183,8 +188,7 @@ test("Castling Queenside", () => {
 });
 
 test("Diagonal Checkmate by Bot", () => {
-	const requestManager = new RequestManager();
-	requestManager.construct("2PC", `${fenStart} 1. i5-i6 .. h10-h9 2. j5-j7`);
+	requestManager.constructWithGeneratedData(`${fenStart} 1. i5-i6 .. h10-h9 2. j5-j7`, insufficientMaterialState);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	const start = new Date();
 	const botMove = requestManager.playPreferredBotMove();
@@ -195,16 +199,16 @@ test("Diagonal Checkmate by Bot", () => {
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    const terminationString: Termination = "CHECKMATE • 0-1";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Diagonal Checkmate, no move by Bot", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart} 
         1. i5-i6 .. h10-h9
-        2. j5-j7 .. Qg11-k7+#`
+        2. j5-j7 .. Qg11-k7+#`,
+        insufficientMaterialState
 	);
 
 	const moveTreeLength = requestManager.getMoveTree().length;
@@ -216,17 +220,17 @@ test("Diagonal Checkmate, no move by Bot", () => {
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+    const terminationString: Termination = "CHECKMATE • 0-1";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Supported Checkmate by Bot", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart} 
-    1. h5-h6 .. Ne11-f9
-    2. Bi4-f7 .. e10-e9
-    3. Qg4-i6 .. d10-d8`
+        1. h5-h6 .. Ne11-f9
+        2. Bi4-f7 .. e10-e9
+        3. Qg4-i6 .. d10-d8`,
+        insufficientMaterialState
 	);
 
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
@@ -238,19 +242,18 @@ test("Supported Checkmate by Bot", () => {
 	requestManager.makeMove(botMove);
 	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
-	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    const terminationString: Termination = "CHECKMATE • 1-0";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Supported Checkmate, no move by Bot", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart} 
         1. h5-h6 .. Ne11-f9
         2. Bi4-f7 .. e10-e9
         3. Qg4-i6 .. d10-d8
-        4. Qi6xi10+#`
+        4. Qi6xi10+#`,
+        insufficientMaterialState
 	);
 
 	const moveTreeLength = requestManager.getMoveTree().length;
@@ -262,16 +265,16 @@ test("Supported Checkmate, no move by Bot", () => {
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+    const terminationString: Termination = "CHECKMATE • 1-0";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Semi-Smothered Checkmate with Bot", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart} 
         1. h5-h7 .. h10-h8
-        2. Qg4-k8 .. Kh11-h10`
+        2. Qg4-k8 .. Kh11-h10`,
+        insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	const start = new Date();
@@ -282,40 +285,39 @@ test("Semi-Smothered Checkmate with Bot", () => {
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
-	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    const terminationString: Termination = "CHECKMATE • 1-0";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Semi-Smothered Checkmate, no move by Bot", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart} 
         1. h5-h7 .. h10-h8
         2. Qg4-k8 .. Kh11-h10
-        3. Qk8xh8+#`
+        3. Qk8xh8+#`,
+        insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	const moveTreeLength = requestManager.getMoveTree().length;
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
 	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
+    const terminationString: Termination = "CHECKMATE • 1-0";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Discovered Smothered Mate with Bot", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart}
-    1. g5-g7 .. Nj11-i9
-    2. f5-f7 .. h10-h8
-    3. g7xh8 .. Ni9-j7
-    4. Nj4-i6 .. Ne11-f9
-    5. Bf4-i7 .. Bi11-e7+
-    6. Ne4-g5 .. Qg11-h10
-    7. d5-d6 .. Nj7xh8
-    8. d6xBe7`
+        1. g5-g7 .. Nj11-i9
+        2. f5-f7 .. h10-h8
+        3. g7xh8 .. Ni9-j7
+        4. Nj4-i6 .. Ne11-f9
+        5. Bf4-i7 .. Bi11-e7+
+        6. Ne4-g5 .. Qg11-h10
+        7. d5-d6 .. Nj7xh8
+        8. d6xBe7`,
+        insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(15);
@@ -326,14 +328,12 @@ test("Discovered Smothered Mate with Bot", () => {
 	requestManager.makeMove(botMove);
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
-	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    const terminationString: Termination = "CHECKMATE • 0-1";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Discovered Smothered Mate, no move by Bot", () => {
-	const requestManager = new RequestManager();
-
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. g5-g7 .. Nj11-i9
         2. f5-f7 .. h10-h8
@@ -342,7 +342,8 @@ test("Discovered Smothered Mate, no move by Bot", () => {
         5. Bf4-i7 .. Bi11-e7+
         6. Ne4-g5 .. Qg11-h10
         7. d5-d6 .. Nj7xh8
-        8. d6xBe7 .. Nh8-g6+#`
+        8. d6xBe7 .. Nh8-g6+#`,
+        insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(16);
@@ -351,7 +352,8 @@ test("Discovered Smothered Mate, no move by Bot", () => {
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
-	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
+    const terminationString: Termination = "CHECKMATE • 0-1";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("En Passant", () => {
@@ -373,9 +375,8 @@ test("En Passant", () => {
     10. f7-f8 .. e9-e8
     11. f8-e9 { (illegal) }`;
 
-	const requestManager = new RequestManager();
 	const start = new Date();
-	requestManager.construct("2PC", gameOfPointsFEN);
+	requestManager.constructWithGeneratedData(gameOfPointsFEN, insufficientMaterialState);
 	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(3);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(20);
@@ -399,9 +400,8 @@ test("Legal Promotion", () => {
     6. Rj11xRj4 .. Nk4xi5
     7. Ne11xg10`;
 
-	const requestManager = new RequestManager();
 	const start = new Date();
-	requestManager.construct("2PC", promotionTestPGN4);
+	requestManager.constructWithGeneratedData(promotionTestPGN4, insufficientMaterialState);
 	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(13);
@@ -419,9 +419,8 @@ test("Illegal Promotion to different pieces", () => {
 
     1. j10xRk11=x .. j5xRk4=X`;
 
-	const requestManager = new RequestManager();
 	const start = new Date();
-	requestManager.construct("2PC", illegalPromotionTestFEN);
+	requestManager.constructWithGeneratedData(illegalPromotionTestFEN, insufficientMaterialState);
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1500);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(0);
@@ -438,9 +437,8 @@ test("Illegal Promotion Syntax", () => {
 
     1. j10xRk11= .. j5xRk4=`;
 
-	const requestManager = new RequestManager();
 	const start = new Date();
-	requestManager.construct("2PC", illegalPromotionTestFEN);
+	requestManager.constructWithGeneratedData(illegalPromotionTestFEN, insufficientMaterialState);
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1500);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(2);
@@ -457,9 +455,8 @@ test("Illegal Promotion Rank", () => {
 
     1. j9-j10=Q .. j6-j5=Q`;
 
-	const requestManager = new RequestManager();
 	const start = new Date();
-	requestManager.construct("2PC", illegalPromotionTestFEN);
+	requestManager.constructWithGeneratedData(illegalPromotionTestFEN, insufficientMaterialState);
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(1500);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(0);
@@ -467,7 +464,7 @@ test("Illegal Promotion Rank", () => {
 });
 
 test("Force Promotion", () => {
-	const gameOfPointsFEN = `[StartFen4 "2PC"]
+	const forcePromotionFEN = `[StartFen4 "2PC"]
     [Variant "FFA"]
     [RuleVariants "EnPassant"]
     [CurrentMove "0"]
@@ -485,9 +482,8 @@ test("Force Promotion", () => {
     10. f7-f8 .. e9-e8
     11. f8-e9 { (illegal) }`;
 
-	const requestManager = new RequestManager();
 	const start = new Date();
-	requestManager.construct("2PC", gameOfPointsFEN);
+	requestManager.constructWithGeneratedData(forcePromotionFEN, insufficientMaterialState);
 	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(3);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(2);
@@ -496,16 +492,15 @@ test("Force Promotion", () => {
 });
 
 test("Threefold Repetition Through Alternative Lines", () => {
-    const requestManager = new RequestManager();
     const start = new Date();
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. Nj4-i6 .. Nj11-i9
         2. Ni6-j4 .. Ni9-j11
         3. Ne4-f6 
             .. (.. 3. Nj4-i6 .. Nj11-i9
-            4. Ni6-j4 .. Ni9-j11)`
+            4. Ni6-j4 .. Ni9-j11)`,
+        insufficientMaterialState
 	);
 
     expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
@@ -513,18 +508,19 @@ test("Threefold Repetition Through Alternative Lines", () => {
     expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1, 0, 3])).toBeTruthy();
     expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
+    const terminationString: Termination = "THREEFOLD REPETITION • ½-½";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Threefold Repetition Through Main Lines", () => {
-    const requestManager = new RequestManager();
     const start = new Date();
-	requestManager.construct(
-		"2PC",
+	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. Nj4-i6 .. Nj11-i9
         2. Ni6-j4 .. Ni9-j11
         3. Nj4-i6 .. Nj11-i9
-        4. Ni6-j4 .. Ni9-j11`
+        4. Ni6-j4 .. Ni9-j11`,
+        insufficientMaterialState
 	);
 
     expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
@@ -532,4 +528,97 @@ test("Threefold Repetition Through Main Lines", () => {
     expect(requestManager.loadSnapshotByPath([7])).toBeTruthy();
     expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
+    const terminationString: Termination = "THREEFOLD REPETITION • ½-½";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+});
+
+test("Insufficient Material with sole Bishop", () => {
+    const start = new Date();
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
+        1. e5-e7 .. d10-d8
+        2. f5-f6 .. k10-k8
+        3. j5-j6 .. h10-h9
+        4. k5-k7 .. Nj11-h10
+        5. i5-i7 .. f10-f9
+        6. Nj4-i6 .. j10-j9
+        7. h5-h7 .. i10-i8
+        8. h7xi8 .. h9xi8
+        9. Qg4-h5 .. d8xe7
+        10. f6xe7 .. e10-e8
+        11. Bf4-e5 .. Rk11-k10
+        12. g5-g6 .. g10-g8
+        13. Be5-i9 .. Rk10-i10
+        14. Bi9xNh10 .. Bi11xBh10
+        15. Qh5-e5 .. Bh10xe7+
+        16. Qe5xBe7 .. Qg11-h10+
+        17. Qe7xQh10+ .. Ri10xQh10+
+        18. Ni6-h8 .. f9-f8
+        19. Kh4-i5 .. Rd11xd5+
+        20. Rd4xRd5 .. Rh10-j10
+        21. Rd5-e5 .. Bf11-d9
+        22. Ne4-f6 .. e8-e7
+        23. Nf6xg8 .. Bd9-e10
+        24. Bi4-j5 .. Kh11-g11
+        25. Re5-h5 .. Ne11-d9
+        26. Rk4-h4 .. Rj10-k10
+        27. Rh5-h6 .. Rk10-j10
+        28. Rh4-k4 .. Nd9-f10
+        29. Rk4-f4 .. Be10xNg8
+        30. Bj5xBg8 .. Nf10xBg8
+        31. Rh6-i6 .. Rj10-f10
+        32. Nh8xj9 .. e7-e6
+        33. Rf4-e4 .. Rf10-e10
+        34. Nj9-h8 .. Ng8-f6
+        35. Re4-f4 .. e6-e5
+        36. Rf4xNf6 .. e5-e4=Q
+        37. Rf6xf8 .. Qe4-e9
+        38. g6-g7 .. Re10-f10
+        39. Nh8-f7 .. Qe9-d10
+        40. Rf8-g8+ .. Rf10-g10
+        41. Rg8xRg10+ .. Qd10xRg10
+        42. Nf7-e9 .. Qg10xg7+
+        43. Ki5-j5 .. Qg7xNe9
+        44. Ri6-g6+ .. Kg11-h11
+        45. Kj5-k6 .. Qe9-i5
+        46. Rg6-f6 .. Qi5-i4+
+        47. Kk6-k5 .. Qi4-h5+
+        48. Kk5-k6 .. Qh5-j7+
+        49. Kk6-k5 .. Qj7-g4
+        50. Rf6-f11+ .. Kh11-g10
+        51. Rf11-f8 .. Qg4-g5+
+        52. Kk5-k6 .. Qg5-g6
+        53. Rf8-f4 .. Qg6-i6
+        54. Kk6-k5 .. Kg10-g9
+        55. Rf4-j4 .. Kg9-g8
+        56. Rj4-h4 .. Kg8-g7
+        57. Rh4-j4 .. Kg7-h6
+        58. Rj4-h4+ .. Kh6-i5
+        59. Rh4-j4 .. Qi6-h6
+        60. Kk5-k4 .. Qh6xj6
+        61. Rj4xQj6 .. Ki5xRj6
+        62. Kk4-j4 .. Kj6xi7
+        63. Kj4-i5 .. Ki7-j7
+        64. Ki5-h5 .. Kj7xk7
+        65. Kh5-h6 .. Kk7-j6
+        66. Kh6-g7 .. k8-k7
+        67. Kg7-f6 .. k7-k6
+        68. Kf6-g7 .. k6-k5
+        69. Kg7-f6 .. k5-k4=R
+        70. Kf6-e6 .. Rk4-e4+
+        71. Ke6-f5 .. Re4-e5+
+        72. Kf5xRe5 .. i8-i7
+        73. Ke5-f6 .. i7-i6
+        74. Kf6-f7 .. i6-i5
+        75. Kf7-f8 .. i5-i4=B`,
+        insufficientMaterialState
+	);
+
+    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+    expect(requestManager.getMoveTree().length).toBe(150);
+    expect(requestManager.loadSnapshotByPath([149])).toBeTruthy();
+    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getFENSettings().points[2]).toBe(24);
+    const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
