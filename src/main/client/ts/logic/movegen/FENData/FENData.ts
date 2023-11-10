@@ -458,9 +458,10 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 
 			if (!this.board.isTwoPlayer) throw new Error("Result can only get called for 2P and teams");
 			const max = Math.max(...this.points);
-			let firstAlivePlayer: NumericColor | undefined, maximumIndex: NumericColor | undefined;
+			let firstAlivePlayer: NumericColor | undefined, maximumIndex: NumericColor | undefined, alivePlayers = 0;
 			for (const color of colors) {
 				if (dead[color] || resigned[color]) continue;
+				alivePlayers++;
 				if (this.points[color] === max) {
 					if (maximumIndex === undefined) {
 						maximumIndex = color;
@@ -469,7 +470,9 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 				if (firstAlivePlayer === undefined) firstAlivePlayer = color;
 			}
 
-			return firstAlivePlayer === maximumIndex ? "1-0" : "0-1";
+			return alivePlayers === 1 && firstAlivePlayer !== undefined
+				? firstAlivePlayer < colors.length / 2 ? "1-0" : "0-1"
+				: firstAlivePlayer === maximumIndex ? "1-0" : "0-1";
 		} else {
 			let result: Result = "½-½";
 			for (const color of colors) {
