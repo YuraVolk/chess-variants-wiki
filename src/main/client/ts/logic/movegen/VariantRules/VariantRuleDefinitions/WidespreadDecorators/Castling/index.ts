@@ -2,13 +2,18 @@ import { Tuple, assertNonUndefined, createTuple, verifyTupleType } from "@client
 import { getVerticalPlacementModulus, isVerticalPlacement } from "@client/ts/logic/BaseInterfaces";
 import { Board } from "@moveGeneration/Board/Board";
 import type { FENOptions } from "@moveGeneration/FENData/FENData";
-import { totalPlayers } from "@moveGeneration/GameInformation/GameData";
+import { boardDimension, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import type { NumericColor } from "@moveGeneration/GameInformation/GameUnits/GameUnits";
 import { VariantRule } from "@moveGeneration/VariantRules/VariantRule";
 import type { AllowedSuperClasses } from "@moveGeneration/VariantRules/VariantRuleInterface";
 
 const tag = "castling";
 export abstract class Castling<T extends AllowedSuperClasses> extends VariantRule<T, typeof tag> {
+	protected static INNER_BOARD_SIZE = boardDimension / 2 + 1;
+	protected static INNER_CASTLING_LENGTH = boardDimension / 2 - 1;
+	protected static QUEENSIDE_DIFF_LEAST = Math.floor(Castling.INNER_CASTLING_LENGTH / 3);
+	protected static QUEENSIDE_DIFF_MOST = Math.ceil(Castling.INNER_CASTLING_LENGTH / 2);
+	
 	protected castlingDisplacement: Tuple<[number, number], typeof totalPlayers>;
 	constructor(value?: unknown) {
 		super();

@@ -4,7 +4,7 @@ import type { VariantRuleHandler } from "@moveGeneration/VariantRules/VariantRul
 import { VariantRule } from "@moveGeneration/VariantRules/VariantRule";
 import type { Board } from "@moveGeneration/Board/Board";
 import { Tuple, createTupleFromCallback } from "@client/ts/baseTypes";
-import { boardDimension, colors, totalPlayers } from "@moveGeneration/GameInformation/GameData";
+import { boardDimension, totalPlayers } from "@moveGeneration/GameInformation/GameData";
 import { getVerticalPlacementModulus, getHorizontalPlacementModulus, isVerticalPlacement } from "@client/ts/logic/BaseInterfaces";
 import { MoveData, SpecialMove } from "@moveGeneration/MoveTree/MoveTreeInterface";
 import { PieceString, emptyPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
@@ -39,8 +39,8 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 	private extractDimensions(): Tuple<number, typeof totalPlayers> {
 		let [dimensionRY, dimensionBG] = this.decorator.fenOptions.tag("dim");
 		if (!this.decorator.fenOptions.tag("noCorners")) {
-			if (dimensionRY > 8) dimensionRY = 8;
-			if (dimensionBG > 8) dimensionBG = 8;
+			if (dimensionRY > Castling.INNER_BOARD_SIZE) dimensionRY = Castling.INNER_BOARD_SIZE;
+			if (dimensionBG > Castling.INNER_BOARD_SIZE) dimensionBG = Castling.INNER_BOARD_SIZE;
 		}
 		return [dimensionRY, dimensionBG, dimensionRY, dimensionBG];
 	}
@@ -93,7 +93,10 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 				if (kingsideCastlePieceCoordinate[i] === -1) {
 					this.decorator.fenOptions.tag("castleKingside")[i] = false;
 				} else {
-					const d = this.castlingDisplacement[i][0] || dimensions[i] - 6 < 1 ? 1 : dimensions[i] - 6;
+					const d =
+						this.castlingDisplacement[i][0] || dimensions[i] - Castling.INNER_CASTLING_LENGTH < 1
+							? 1
+							: dimensions[i] - Castling.INNER_CASTLING_LENGTH;
 					const kArr = [...Array(d).keys()];
 					const endCoordinates = royalCoordinate + d;
 					const castlingData = {
@@ -102,7 +105,7 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 						pieceCoordinates: kingsideCastlePieceCoordinate[i],
 						pieceEndCoordinates: endCoordinates - 1
 					};
-					if (royalCoordinate <= 6) {
+					if (royalCoordinate <= Castling.INNER_CASTLING_LENGTH) {
 						this.castlingQueensideData[i] = castlingData;
 						this.decorator.fenOptions.castlingQueensideData[i] = castlingData;
 					} else {
@@ -118,16 +121,22 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 				if (queensideCastlePieceCoordinate[i] === -1) {
 					this.decorator.fenOptions.tag("castleQueenside")[i] = false;
 				} else {
-					const d = this.castlingDisplacement[i][1] || dimensions[i] - 6 < 1 ? 1 : dimensions[i] - 6;
-					const qArr = [...Array(d).keys()];
+					const d =
+						this.castlingDisplacement[i][1] || dimensions[i] - Castling.INNER_CASTLING_LENGTH < 1
+							? 1
+							: dimensions[i] - Castling.INNER_CASTLING_LENGTH;
+					const qArr = [...Array(d + 1).keys()];
 					const endCoordinates = royalCoordinate - d;
 					const castlingData = {
 						endCoordinates,
-						checkSquares: royalCoordinate <= 6 ? qArr.map((j) => j + royalCoordinate - 2) : qArr.map((j) => j + royalCoordinate - 3),
+						checkSquares:
+							royalCoordinate <= Castling.INNER_CASTLING_LENGTH
+								? qArr.map((j) => j + royalCoordinate - Castling.QUEENSIDE_DIFF_LEAST)
+								: qArr.map((j) => j + royalCoordinate - Castling.QUEENSIDE_DIFF_MOST),
 						pieceCoordinates: queensideCastlePieceCoordinate[i],
 						pieceEndCoordinates: endCoordinates + 1
 					};
-					if (royalCoordinate <= 6) {
+					if (royalCoordinate <= Castling.INNER_CASTLING_LENGTH) {
 						this.castlingKingsideData[i] = castlingData;
 						this.decorator.fenOptions.castlingKingsideData[i] = castlingData;
 					} else {
@@ -181,8 +190,10 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 			startCoordinates: [startI, startJ],
 			endCoordinates: [endI, endJ]
 		} = moveData;
+		const royal = fenOptions.tag("royal")[sideToMove];
+		if (!royal) return returnType;
 
-		const [kingsidePiece, queensidePiece] = this.getCastlingPieceEndCoordinates(moveData.startCoordinates, sideToMove);
+		const [kingsidePiece, queensidePiece] = this.getCastlingPieceEndCoordinates(royal, sideToMove);
 		switch (moveData.specialType) {
 			case SpecialMove.CastlingKingside: {
 				const secondKPiece = isVerticalPlacement(sideToMove)
@@ -211,22 +222,12 @@ export class FENDataCastling extends Castling<typeof FENData> implements Variant
 			if (royal && royal[0] === endI && royal[1] === endJ) (castleKingside[color] = false), (castleQueenside[color] = false);
 		});
 
-		for (const color of colors) {
-			const royalPiece = fenOptions.tag("royal")[color];
-			if (!royalPiece) continue;
-			if (compareCoordinates(royalPiece, moveData.startCoordinates)) {
-				castleKingside[color] = false;
-				castleQueenside[color] = false;
-				break;
-			} else if (compareCoordinates(kingsidePiece, moveData.startCoordinates)) {
-				castleKingside[color] = false;
-				break;
-			} else if (compareCoordinates(queensidePiece, moveData.startCoordinates)) {
-				castleQueenside[color] = false;
-				break;
-			}
-		}
-
+		if (compareCoordinates(royal, moveData.startCoordinates)) {
+			castleKingside[sideToMove] = false;
+			castleQueenside[sideToMove] = false;
+		} else if (compareCoordinates(kingsidePiece, moveData.startCoordinates)) {
+			castleKingside[sideToMove] = false;
+		} else if (compareCoordinates(queensidePiece, moveData.startCoordinates)) castleQueenside[sideToMove] = false;
 		return returnType;
 	}
 }

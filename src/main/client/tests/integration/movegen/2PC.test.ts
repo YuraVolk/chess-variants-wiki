@@ -622,3 +622,129 @@ test("Insufficient Material with sole Bishop", () => {
     const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
     expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
+
+test("Insufficient Material with two same-color Bishops", () => {
+    const start = new Date();
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
+        1. d5-d7 .. j10-j8
+        2. k5-k7 .. h10-h9
+        3. f5-f7 .. j8xk7
+        4. Ne4-f6 .. e10-e9
+        5. g5-g7 .. Bi11-e7
+        6. Bf4-g5 .. f10-f8
+        7. g7xf8 .. e9xf8
+        8. j5-j7 .. k7xj6
+        9. i5xj6 .. k10-k8
+        10. Nj4-i6 .. Ne11-f9
+        11. Bg5-j8 .. i10-i9
+        12. Bj8-g5 .. g10-g8
+        13. h5-h7 .. g8xf7
+        14. Bi4xf7 .. h9-h8
+        15. Bf7-g8 .. Nj11-h10
+        16. Ni6xh8 .. i9xNh8
+        17. Bg8-e6 .. Bf11-j7
+        18. Qg4-f4 .. Nh10-j9
+        19. Be6-g8 .. Qg11-g10
+        20. Bg5-j8 .. Bj7-k6
+        21. Qf4-g5 .. d10-d8
+        22. Bg8xNf9 .. Qg10xBf9
+        23. Rk4xBk6 .. Qf9-h9
+        24. Rk6-k4 .. Be7xNf6
+        25. e5xBf6 .. Qh9-j7
+        26. Qg5-h6 .. Qj7-f11
+        27. Qh6-i6 .. Qf11-j7
+        28. Qi6xQj7 .. k8xQj7
+        29. Rk4-k9 .. Rd11-d9
+        30. O-O-O .. Rd9-h9
+        31. Rg4-g11+ .. Kh11-i10
+        32. Rk9xRk11 .. Nj9xRk11
+        33. Rg11xNk11 .. Rh9-j9
+        34. Bj8-h6 .. Rj9-f9
+        35. Bh6-j8 .. Ki10-h9
+        36. Kf4-f5 .. Kh9-g9
+        37. Rk11-e11 .. Kg9-f10
+        38. Re11-g11 .. Kf10-e9
+        39. Bj8-h10 .. Ke9-d9
+        40. Rg11-g9 .. Rf9xRg9
+        41. Bh10xRg9 .. f8-f7
+        42. Bg9xh8 .. Kd9-e9
+        43. Bh8-g7+ .. Ke9-d9
+        44. Bg7-f8 .. Kd9-e10
+        45. Kf5-g5 .. Ke10-f9
+        46. Bf8-g7 .. Kf9-g10
+        47. Bg7-h8 .. Kg10-h9
+        48. Bh8-g7 .. Kh9-i10
+        49. Bg7-h8 .. Ki10-h11
+        50. Kg5-h6 .. Kh11-i10
+        51. Kh6-i5 .. Ki10-h9
+        52. Bh8-i7 .. Kh9-i10
+        53. Bi7-g9 .. Ki10-h9
+        54. Bg9-f10 .. Kh9-i10
+        55. Bf10xd8 .. Ki10-h9
+        56. Bd8-f10 .. Kh9-g10
+        57. Bf10-h8 .. Kg10-h9
+        58. Bh8-i7 .. Kh9-i10
+        59. Bi7-h8 .. Ki10-h11
+        60. Ki5-h6 .. Kh11-g10
+        61. Kh6-g5 .. Kg10-h9
+        62. Bh8-g7 .. Kh9-g10
+        63. Bg7-i9 .. Kg10-h9
+        64. Bi9-j10 .. Kh9-i10
+        65. Bj10-h8 .. Ki10-h11
+        66. Kg5-f5 .. Kh11-i10
+        67. Kf5-e5 .. Ki10-h9
+        68. Bh8-g7 .. Kh9-g10
+        69. Bg7-h8 .. Kg10-f11
+        70. Ke5-f5 .. Kf11-e10
+        71. Kf5-g5 .. Ke10-d9
+        72. Bh8-f10 .. Kd9-e10
+        73. Bf10-d8 .. Ke10-d9
+        74. Bd8-e7 .. Kd9-e10
+        75. Be7-g9 .. Ke10-d9
+        76. Bg9-h8 .. Kd9-e9
+        77. Bh8-g7+ .. Ke9-d9
+        78. Kg5-h6 .. Kd9-e10
+        79. Bg7-h8 .. Ke10-d9
+        80. Bh8-f10 .. Kd9-e10
+        81. Bf10-d8 .. Ke10-d9
+        82. Bd8-e7 .. Kd9-e10
+        83. Be7-f8 .. Ke10-d9
+        84. Kh6-g7 .. Kd9-e10
+        85. Kg7xf7 .. Ke10-d9
+        86. Bf8-e7 .. Kd9-e10
+        87. Be7-d8 .. Ke10-d9
+        88. Kf7-e7 .. Kd9-e10
+        89. f6-f7 .. Ke10-d11
+        90. Ke7-f8 .. Kd11-e10
+        91. Kf8-g7 .. Ke10-d9
+        92. Bd8-f10 .. Kd9-e10
+        93. Bf10-i7 .. Ke10-d9
+        94. d7-d8 .. Kd9xd8
+        95. f7-f8 .. Kd8-e8
+        96. f8-f9 .. Ke8xf9
+        97. Bi7-g9 .. Kf9xBg9
+        98. h7-h8+ .. Kg9-f9
+        99. Kg7-h7 .. Kf9-f8
+        100. Kh7-i7 .. Kf8-e9
+        101. Ki7xj7 .. Ke9-f8
+        102. Kj7-i8 .. Kf8-e8
+        103. j6-j7 .. Ke8-f8
+        104. j7-j8 .. Kf8-e7
+        105. j8-j9 .. Ke7-f6
+        106. j9-j10 .. Kf6-g7
+        107. j10-j11=B .. Kg7-h6
+        108. h8-h9 .. Kh6-i6
+        109. h9-h10 .. Ki6-h6
+        110. h10-h11=B`,
+        insufficientMaterialState
+	);
+
+    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+    expect(requestManager.getMoveTree().length).toBe(219);
+    expect(requestManager.loadSnapshotByPath([218])).toBeTruthy();
+    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getFENSettings().points[2]).toBe(24);
+    const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
+    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+});
