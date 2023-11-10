@@ -82,9 +82,7 @@ function obtainDroppingMove(move: string): DroppingMove | undefined {
 function obtainStandardMove(move: string): MoveData | undefined {
 	const moveData: MoveData = { startCoordinates: [-1, -1], endCoordinates: [-1, -1] };
 	const promotionMatch = move.match(/.*?=([A-Zx])/);
-	if (promotionMatch?.[1]) {
-		moveData.promotion = [createPieceFromData(deadColorIndex, promotionMatch[1].charAt(0))];
-	}
+	if (promotionMatch?.[1]) moveData.promotion = [createPieceFromData(deadColorIndex, promotionMatch[1].charAt(0))];
 
 	const moveCoordinates = move.match(PGN4_SYNTAX.MOVE_CAPTURING_REGEX);
 	if (moveCoordinates) {
@@ -100,9 +98,7 @@ function obtainStandardMove(move: string): MoveData | undefined {
 	} else {
 		if (/O-O-O.*/.test(move)) {
 			return { ...moveData, specialType: SpecialMove.CastlingQueenside };
-		} else if (/O-O.*/.test(move)) {
-			return { ...moveData, specialType: SpecialMove.CastlingKingside };
-		}
+		} else if (/O-O.*/.test(move)) return { ...moveData, specialType: SpecialMove.CastlingKingside };
 	}
 }
 
@@ -113,12 +109,9 @@ function cloneMoveData(move: MoveComponent): MoveComponent {
 				startCoordinates: [...move.startCoordinates],
 				endCoordinates: [...move.endCoordinates]
 			};
-			if ("specialType" in move) {
-				newMove.specialType = move.specialType;
-			}
-			if ("promotion" in move) {
-				newMove.promotion = move.promotion;
-			}
+			if ("specialType" in move) newMove.specialType = move.specialType;
+			if ("promotion" in move) newMove.promotion = move.promotion;
+
 			return newMove;
 		} else {
 			return {
@@ -126,9 +119,7 @@ function cloneMoveData(move: MoveComponent): MoveComponent {
 				piece: move.piece
 			};
 		}
-	} else {
-		return { type: move.type };
-	}
+	} else return { type: move.type };
 }
 
 export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
@@ -162,9 +153,7 @@ export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
 						depth++;
 						break;
 					case PGN4_SYNTAX.BRACKETS.VARIATION_END:
-						if (--depth === 0) {
-							return i;
-						}
+						if (--depth === 0) return i;
 						break;
 				}
 			}
@@ -216,9 +205,7 @@ export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
 
 				if (verifyMoveWrapperProperties(currentMove)) {
 					moveList.push(Object.assign({}, currentMove));
-				} else {
-					console.error(`Not all properties of move wrapper are filled out: ${JSON.stringify(currentMove)}`);
-				}
+				} else console.error(`Not all properties of move wrapper are filled out: ${JSON.stringify(currentMove)}`);
 
 				currentMove = {
 					alternativeLines: [],
@@ -271,7 +258,9 @@ export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
 						const index = findBracketIndex(i);
 						const newCurrentPath = currentPath.slice();
 						newCurrentPath.push(increment, ++variationIncrement);
-						currentMove.alternativeLines?.push([...parseMoves(selectedMove.substring(i + 1, index), newCurrentPath)]);
+						moveList[moveList.length - 1].alternativeLines.push([
+							...parseMoves(selectedMove.substring(i + 1, index), newCurrentPath)
+						]);
 						i = index;
 					}
 				} else if (
@@ -284,6 +273,7 @@ export const parsePGN4Moves = (moves: string): MoveWrapper[] => {
 					if (!isNumNaN) i = Math.max(i, getEnumeratorIndex(i));
 					if (currentMoveData) {
 						processMoveDataInsertion();
+						variationIncrement = -1;
 					}
 				}
 			}

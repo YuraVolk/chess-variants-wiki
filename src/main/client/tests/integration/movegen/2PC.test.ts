@@ -749,7 +749,6 @@ test("Insufficient Material with two same-color Bishops", () => {
     expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
-
 test("Insufficient Material with a sole Knight", () => {
     const start = new Date();
 	requestManager.constructWithGeneratedData(
@@ -812,4 +811,52 @@ test("Insufficient Material with a sole Knight", () => {
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
     const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
     expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+});
+
+test("Illegal Castling (Kingside Main Line)", () => {
+    const start = new Date();
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
+        1. Nj4-i6 .. Nj11-i9 
+        2. f5-f6 .. 
+            (..  3. O-O )
+           f10-f9 .. 
+            (..  3. O-O )
+            (..  3. h10-h8 ) 
+        3. Ne4-d6 .. Ne11-d9 
+        4. e5-e7 .. e10-e8 
+        5. Bf4-e5 .. Bf11-e10 
+        6. O-O .. O-O`,
+        insufficientMaterialState
+	);
+
+    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+    expect(requestManager.getMoveTree().length).toBe(10);
+    expect(requestManager.loadSnapshotByPath([2, 0, 0])).toBeFalsy();
+    expect(requestManager.loadSnapshotByPath([3, 1, 0])).toBeFalsy();
+    expect(requestManager.loadSnapshotByPath([3, 0, 0])).toBeTruthy();
+});
+
+test("Illegal Castling (Queenside Main Line)", () => {
+    const start = new Date();
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
+        1. Ne4-f6 .. Ne11-f9 
+        2. e5-e6 .. e10-e9 
+        3. Bf4-e5 .. Bf11-e10 
+        4. Nj4-i6 .. 
+            (..  5. O-O-O )
+           Nj11-i9 .. 
+            (..  5. h10-h8 ) 
+            (..  5. O-O-O ) 
+        5. h5-h6 .. h10-h9 
+        6. O-O-O .. O-O-O`,
+        insufficientMaterialState
+	);
+
+    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+    expect(requestManager.getMoveTree().length).toBe(10);
+    expect(requestManager.loadSnapshotByPath([6, 0, 0])).toBeFalsy();
+    expect(requestManager.loadSnapshotByPath([7, 1, 0])).toBeFalsy();
+    expect(requestManager.loadSnapshotByPath([7, 0, 0])).toBeTruthy();
 });

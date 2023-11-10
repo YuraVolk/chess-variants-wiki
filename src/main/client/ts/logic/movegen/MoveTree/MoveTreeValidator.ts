@@ -103,8 +103,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 					move.alternativeLines.push([...line]);
 					clonedBoard.moves.currentMove = line[0].path.slice(0, -1).concat([-1]);
 					const result = traverse(line, currentFullMove, [...currentTimeOnClocks]);
-					if (!result.length) break;
-					newMoveWrapper.alternativeLines.push(result);
+					if (result.length) newMoveWrapper.alternativeLines.push(result);
 					clonedBoard.loadSnapshot(snapshot);
 					clonedBoard.moves.currentMove = [...move.path];
 				}
