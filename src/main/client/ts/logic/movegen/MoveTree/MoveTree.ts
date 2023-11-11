@@ -130,7 +130,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 				if (boardHash.length === 1) {
 					boardHashes.delete(hash);
 				} else {
-					const newPath = moveWrapper.path.map((v, i, p) => (i === p.length - 1 ? v - 1 : v))
+					const newPath = moveWrapper.path.map((v, i, p) => (i === p.length - 1 ? v - 1 : v));
 					const currentLine = boardHash.findIndex((p) => compareArrays(p, newPath));
 					if (currentLine === -1) {
 						console.error("Current line for move wrapper not found in board hashes");

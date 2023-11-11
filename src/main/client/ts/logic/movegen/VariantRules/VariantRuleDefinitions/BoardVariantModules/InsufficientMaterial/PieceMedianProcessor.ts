@@ -14,7 +14,7 @@ export interface PieceMedianCounterSettings {
 }
 
 export default function processPieceMedians(data: PieceMedianCounterSettings) {
-    const { walls, royalPieceSet, royalMoves, moveRegistryArray } = data;
+	const { walls, royalPieceSet, royalMoves, moveRegistryArray } = data;
 	const resultingMedianArray = createTupleFromCallback<BoardSquares<number> | undefined, typeof totalPlayers>(
 		() => initializeBoardSquares(() => 0),
 		totalPlayers
@@ -48,10 +48,10 @@ export default function processPieceMedians(data: PieceMedianCounterSettings) {
 		}
 	}
 
-    return resultingMedianArray.map((arr) => {
-        if (arr) {
-            const minimum = countMinimumOf2DArrayExcludingZero(arr);
-            return minimum === Infinity ? 0 : minimum;
-        } else return arr;
-    });
+	return resultingMedianArray.map((arr) => {
+		if (arr) {
+			const minimum = countMinimumOf2DArrayExcludingZero(arr);
+			return minimum === Infinity ? 0 : minimum;
+		} else return arr;
+	});
 }

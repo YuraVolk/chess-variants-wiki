@@ -67,13 +67,15 @@ export class ThreefoldRepetition extends VariantRule<typeof FENData, typeof tag>
 	affectOptions(move: MoveComponent, settings: FENEffectSettings): PostMoveResults {
 		const results = this.callHandler("affectOptions", arguments);
 		if (!settings.ignoreNextTurn && !verifyInternalMove(move) && !settings.ignoreCheckmateChecks) {
-			const repetitions = this.decorator.board.moves.getHash(this.decorator.board.moves.constructPreliminaryHashString(this.decorator.board));
+			const repetitions = this.decorator.board.moves.getHash(
+				this.decorator.board.moves.constructPreliminaryHashString(this.decorator.board)
+			);
 			if (repetitions + 1 >= this.totalRepetitionsRequired) {
 				this.decorator.assignGeneralTermination("Threefold Repetition");
 				this.decorator.spreadPointsBetweenPlayersEvenly();
 			}
 		}
-		
+
 		return results;
 	}
 }

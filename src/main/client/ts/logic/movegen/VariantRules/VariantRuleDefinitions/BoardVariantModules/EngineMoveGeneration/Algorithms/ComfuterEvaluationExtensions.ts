@@ -12,7 +12,7 @@ import { Board } from "@moveGeneration/Board/Board";
 
 export const createComfuterBasedAlgorithm = (
 	algorithm: Omit<ZombieMoveGenerationAlgorithm, "pickPreferredMove">
-): ZombieMoveGenerationAlgorithm & { canHaveAlternativeLines(board: Board): boolean; } => ({
+): ZombieMoveGenerationAlgorithm & { canHaveAlternativeLines(board: Board): boolean } => ({
 	...algorithm,
 	pickPreferredMove(...args) {
 		return comfuterAlgorithm.pickPreferredMove.apply(this, args);

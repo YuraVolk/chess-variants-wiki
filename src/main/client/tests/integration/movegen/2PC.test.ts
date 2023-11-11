@@ -13,10 +13,10 @@ const fenStart = `[StartFen4 "2PC"]
 
 const requestManager = new RequestManager();
 const insufficientMaterialState = (() => {
-    requestManager.construct("2PC", fenStart);
-    const insufficientMaterialChecker = requestManager.getBoardInstance().insufficientMaterialChecker;
-    assertNonUndefined(insufficientMaterialChecker);
-    return serializeInsufficientMaterialState(insufficientMaterialChecker.state);
+	requestManager.construct("2PC", fenStart);
+	const insufficientMaterialChecker = requestManager.getBoardInstance().insufficientMaterialChecker;
+	assertNonUndefined(insufficientMaterialChecker);
+	return serializeInsufficientMaterialState(insufficientMaterialChecker.state);
 })();
 
 test("Long Game Parsing", () => {
@@ -135,8 +135,8 @@ test("Long Game Parsing", () => {
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length])).toBeFalsy();
-    const terminationString: Termination = "CHECKMATE • 0-1";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 0-1";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 function checkWhetherCastlingOccurred(requestManager: RequestManager, color: NumericColor, castling: "castleKingside" | "castleQueenside") {
@@ -155,13 +155,13 @@ function checkWhetherCastlingOccurred(requestManager: RequestManager, color: Num
 
 test("Castling Kingside", () => {
 	requestManager.constructWithGeneratedData(
-        `${fenStart}
+		`${fenStart}
         1. Nj4-i6 .. Nj11-i9
         2. j5-j6 .. j10-j9
         3. Bi4-j5 .. Bi11-j10
         4. O-O .. O-O`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
 	expect(checkWhetherCastlingOccurred(requestManager, 0, "castleKingside")).toBeTruthy();
@@ -178,7 +178,7 @@ test("Castling Queenside", () => {
         3. Qg4-g6 .. Qg11-g9
         4. Bf4-g5 .. Bf11-g10
         5. O-O-O .. O-O-O`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 	requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1]);
 
@@ -200,8 +200,8 @@ test("Diagonal Checkmate by Bot", () => {
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
-    const terminationString: Termination = "CHECKMATE • 0-1";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 0-1";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Diagonal Checkmate, no move by Bot", () => {
@@ -209,7 +209,7 @@ test("Diagonal Checkmate, no move by Bot", () => {
 		`${fenStart} 
         1. i5-i6 .. h10-h9
         2. j5-j7 .. Qg11-k7+#`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
 	const moveTreeLength = requestManager.getMoveTree().length;
@@ -221,8 +221,8 @@ test("Diagonal Checkmate, no move by Bot", () => {
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
-    const terminationString: Termination = "CHECKMATE • 0-1";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 0-1";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Supported Checkmate by Bot", () => {
@@ -231,7 +231,7 @@ test("Supported Checkmate by Bot", () => {
         1. h5-h6 .. Ne11-f9
         2. Bi4-f7 .. e10-e9
         3. Qg4-i6 .. d10-d8`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
@@ -243,8 +243,8 @@ test("Supported Checkmate by Bot", () => {
 	requestManager.makeMove(botMove);
 	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
-    const terminationString: Termination = "CHECKMATE • 1-0";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 1-0";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Supported Checkmate, no move by Bot", () => {
@@ -254,7 +254,7 @@ test("Supported Checkmate, no move by Bot", () => {
         2. Bi4-f7 .. e10-e9
         3. Qg4-i6 .. d10-d8
         4. Qi6xi10+#`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
 	const moveTreeLength = requestManager.getMoveTree().length;
@@ -266,8 +266,8 @@ test("Supported Checkmate, no move by Bot", () => {
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
-    const terminationString: Termination = "CHECKMATE • 1-0";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 1-0";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Semi-Smothered Checkmate with Bot", () => {
@@ -275,7 +275,7 @@ test("Semi-Smothered Checkmate with Bot", () => {
 		`${fenStart} 
         1. h5-h7 .. h10-h8
         2. Qg4-k8 .. Kh11-h10`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	const start = new Date();
@@ -286,8 +286,8 @@ test("Semi-Smothered Checkmate with Bot", () => {
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 	expect(requestManager.getFENSettings().fenOptions.dead[2]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[2]).toBeLessThan(requestManager.getFENSettings().points[0]);
-    const terminationString: Termination = "CHECKMATE • 1-0";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 1-0";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Semi-Smothered Checkmate, no move by Bot", () => {
@@ -296,15 +296,15 @@ test("Semi-Smothered Checkmate, no move by Bot", () => {
         1. h5-h7 .. h10-h8
         2. Qg4-k8 .. Kh11-h10
         3. Qk8xh8+#`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	const moveTreeLength = requestManager.getMoveTree().length;
 	expect(requestManager.getBoardInstance().data.gameOver).toBeTruthy();
 	expect(requestManager.playPreferredBotMove()).toBeUndefined();
 	expect(requestManager.getMoveTree().length).toBe(moveTreeLength);
-    const terminationString: Termination = "CHECKMATE • 1-0";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 1-0";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Discovered Smothered Mate with Bot", () => {
@@ -318,7 +318,7 @@ test("Discovered Smothered Mate with Bot", () => {
         6. Ne4-g5 .. Qg11-h10
         7. d5-d6 .. Nj7xh8
         8. d6xBe7`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(15);
@@ -329,8 +329,8 @@ test("Discovered Smothered Mate with Bot", () => {
 	requestManager.makeMove(botMove);
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
-    const terminationString: Termination = "CHECKMATE • 0-1";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 0-1";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Discovered Smothered Mate, no move by Bot", () => {
@@ -344,7 +344,7 @@ test("Discovered Smothered Mate, no move by Bot", () => {
         6. Ne4-g5 .. Qg11-h10
         7. d5-d6 .. Nj7xh8
         8. d6xBe7 .. Nh8-g6+#`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1])).toBeTruthy();
 	expect(requestManager.getMoveTree().length).toBe(16);
@@ -353,8 +353,8 @@ test("Discovered Smothered Mate, no move by Bot", () => {
 	expect(new Date().getMilliseconds() - start.getMilliseconds()).toBeLessThanOrEqual(600);
 	expect(requestManager.getFENSettings().fenOptions.dead[0]).toBeTruthy();
 	expect(requestManager.getFENSettings().points[0]).toBeLessThan(requestManager.getFENSettings().points[2]);
-    const terminationString: Termination = "CHECKMATE • 0-1";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 0-1";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("En Passant", () => {
@@ -493,7 +493,7 @@ test("Force Promotion", () => {
 });
 
 test("Threefold Repetition Through Alternative Lines", () => {
-    const start = new Date();
+	const start = new Date();
 	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. Nj4-i6 .. Nj11-i9
@@ -501,40 +501,40 @@ test("Threefold Repetition Through Alternative Lines", () => {
         3. Ne4-f6 
             .. (.. 3. Nj4-i6 .. Nj11-i9
             4. Ni6-j4 .. Ni9-j11)`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
-    expect(requestManager.getMoveTree().length).toBe(5);
-    expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1, 0, 3])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(requestManager.getMoveTree().length).toBe(5);
+	expect(requestManager.loadSnapshotByPath([requestManager.getMoveTree().length - 1, 0, 3])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "THREEFOLD REPETITION • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "THREEFOLD REPETITION • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Threefold Repetition Through Main Lines", () => {
-    const start = new Date();
+	const start = new Date();
 	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. Nj4-i6 .. Nj11-i9
         2. Ni6-j4 .. Ni9-j11
         3. Nj4-i6 .. Nj11-i9
         4. Ni6-j4 .. Ni9-j11`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
-    expect(requestManager.getMoveTree().length).toBe(8);
-    expect(requestManager.loadSnapshotByPath([7])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(requestManager.getMoveTree().length).toBe(8);
+	expect(requestManager.loadSnapshotByPath([7])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "THREEFOLD REPETITION • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "THREEFOLD REPETITION • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Insufficient Material with sole Bishop", () => {
-    const start = new Date();
+	const start = new Date();
 	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. e5-e7 .. d10-d8
@@ -612,20 +612,20 @@ test("Insufficient Material with sole Bishop", () => {
         73. Ke5-f6 .. i7-i6
         74. Kf6-f7 .. i6-i5
         75. Kf7-f8 .. i5-i4=B`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
-    expect(requestManager.getMoveTree().length).toBe(150);
-    expect(requestManager.loadSnapshotByPath([149])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(requestManager.getMoveTree().length).toBe(150);
+	expect(requestManager.loadSnapshotByPath([149])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Insufficient Material with two same-color Bishops", () => {
-    const start = new Date();
+	const start = new Date();
 	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. d5-d7 .. j10-j8
@@ -738,16 +738,16 @@ test("Insufficient Material with two same-color Bishops", () => {
         108. h8-h9 .. Kh6-i6
         109. h9-h10 .. Ki6-h6
         110. h10-h11=B`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(3);
-    expect(requestManager.getMoveTree().length).toBe(219);
-    expect(requestManager.loadSnapshotByPath([218])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(3);
+	expect(requestManager.getMoveTree().length).toBe(219);
+	expect(requestManager.loadSnapshotByPath([218])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Insufficient Material with a sole Knight", () => {
@@ -801,15 +801,15 @@ test("Insufficient Material with a sole Knight", () => {
         46. Bh7-e10 .. Kd10xBe10
         47. Qe7xe9+ .. Ke10xQe9
         48. d7-d8+ .. Ke9xd8`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(requestManager.getMoveTree().length).toBe(96);
-    expect(requestManager.loadSnapshotByPath([95])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getMoveTree().length).toBe(96);
+	expect(requestManager.loadSnapshotByPath([95])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "INSUFFICIENT MATERIAL • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Sufficient Material with a sole Rook", () => {
@@ -897,17 +897,16 @@ test("Sufficient Material with a sole Rook", () => {
         80. Kd8-e8 .. Ke10-e11
         81. Ke8-e9 .. Ke11-d11
         82. Rf9-f11+#`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(requestManager.getMoveTree().length).toBe(163);
-    expect(requestManager.loadSnapshotByPath([162])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(48);
+	expect(requestManager.getMoveTree().length).toBe(163);
+	expect(requestManager.loadSnapshotByPath([162])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(48);
 	expect(requestManager.getFENSettings().points[2]).toBe(0);
-    const terminationString: Termination = "CHECKMATE • 1-0";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 1-0";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
-
 
 test("Sufficient Material with a sole Queen", () => {
 	requestManager.constructWithGeneratedData(
@@ -994,15 +993,15 @@ test("Sufficient Material with a sole Queen", () => {
         80. Kf8-g8 .. Kj10-i11
         81. Kg8-h9 .. Ki11-h11
         82. Qh7-d11+#`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(requestManager.getMoveTree().length).toBe(163);
-    expect(requestManager.loadSnapshotByPath([162])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(48);
+	expect(requestManager.getMoveTree().length).toBe(163);
+	expect(requestManager.loadSnapshotByPath([162])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(48);
 	expect(requestManager.getFENSettings().points[2]).toBe(0);
-    const terminationString: Termination = "CHECKMATE • 1-0";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 1-0";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Sufficient Material with Bishop and Knight on opposite Sides", () => {
@@ -1079,19 +1078,19 @@ test("Sufficient Material with Bishop and Knight on opposite Sides", () => {
         69. Kj4-k4 .. Ki6-j6 
         70. Bg5-h6 .. Kj6-k6 
         71. Bh6-j4 72. Nh5-j6#`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(requestManager.getMoveTree().length).toBe(142);
-    expect(requestManager.loadSnapshotByPath([141])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(0);
+	expect(requestManager.getMoveTree().length).toBe(142);
+	expect(requestManager.loadSnapshotByPath([141])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(0);
 	expect(requestManager.getFENSettings().points[2]).toBe(48);
-    const terminationString: Termination = "CHECKMATE • 0-1";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "CHECKMATE • 0-1";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Illegal Castling (Kingside Main Line)", () => {
-    const start = new Date();
+	const start = new Date();
 	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. Nj4-i6 .. Nj11-i9 
@@ -1104,18 +1103,18 @@ test("Illegal Castling (Kingside Main Line)", () => {
         4. e5-e7 .. e10-e8 
         5. Bf4-e5 .. Bf11-e10 
         6. O-O .. O-O`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
-    expect(requestManager.getMoveTree().length).toBe(10);
-    expect(requestManager.loadSnapshotByPath([2, 0, 0])).toBeFalsy();
-    expect(requestManager.loadSnapshotByPath([3, 1, 0])).toBeFalsy();
-    expect(requestManager.loadSnapshotByPath([3, 0, 0])).toBeTruthy();
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(requestManager.getMoveTree().length).toBe(10);
+	expect(requestManager.loadSnapshotByPath([2, 0, 0])).toBeFalsy();
+	expect(requestManager.loadSnapshotByPath([3, 1, 0])).toBeFalsy();
+	expect(requestManager.loadSnapshotByPath([3, 0, 0])).toBeTruthy();
 });
 
 test("Illegal Castling (Queenside Main Line)", () => {
-    const start = new Date();
+	const start = new Date();
 	requestManager.constructWithGeneratedData(
 		`${fenStart}
         1. Ne4-f6 .. Ne11-f9 
@@ -1128,14 +1127,14 @@ test("Illegal Castling (Queenside Main Line)", () => {
             (..  5. O-O-O ) 
         5. h5-h6 .. h10-h9 
         6. O-O-O .. O-O-O`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
-    expect(requestManager.getMoveTree().length).toBe(10);
-    expect(requestManager.loadSnapshotByPath([6, 0, 0])).toBeFalsy();
-    expect(requestManager.loadSnapshotByPath([7, 1, 0])).toBeFalsy();
-    expect(requestManager.loadSnapshotByPath([7, 0, 0])).toBeTruthy();
+	expect(new Date().getSeconds() - start.getSeconds()).toBeLessThanOrEqual(2);
+	expect(requestManager.getMoveTree().length).toBe(10);
+	expect(requestManager.loadSnapshotByPath([6, 0, 0])).toBeFalsy();
+	expect(requestManager.loadSnapshotByPath([7, 1, 0])).toBeFalsy();
+	expect(requestManager.loadSnapshotByPath([7, 0, 0])).toBeTruthy();
 });
 
 const stalemateBaseString = `
@@ -1188,127 +1187,127 @@ const stalemateBaseString = `
     47. Kk5-j4`;
 
 test("Stalemate", () => {
-    requestManager.constructWithGeneratedData(
-        `${fenStart}
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
         ${stalemateBaseString} .. Rh6-h5
         48. S`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 
-    expect(requestManager.getMoveTree().length).toBe(95);
-    expect(requestManager.loadSnapshotByPath([94])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getMoveTree().length).toBe(95);
+	expect(requestManager.loadSnapshotByPath([94])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "STALEMATE • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "STALEMATE • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Stalemate in Alternative Lines", () => {
-    requestManager.constructWithGeneratedData(
-        `${fenStart}
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
         ${stalemateBaseString} .. Ki10-j10 .. (..  1. O-O ) .. (..  1. Rh6-h5 )`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 
-    expect(requestManager.getMoveTree().length).toBe(94);
-    expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getMoveTree().length).toBe(94);
+	expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "STALEMATE • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "STALEMATE • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("Stalemate in Alternative Lines (Reverse invalid line order)", () => {
-    requestManager.constructWithGeneratedData(
-        `${fenStart}
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
         ${stalemateBaseString} .. Ki10-j10 .. (..  1. Rh6-h5 .. S ) .. (..  1. O-O )`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 
-    expect(requestManager.getMoveTree().length).toBe(94);
-    expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getMoveTree().length).toBe(94);
+	expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "STALEMATE • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "STALEMATE • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("No Stalemate through Making a Futer Move", () => {
-    requestManager.constructWithGeneratedData(
-        `${fenStart}
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
         ${stalemateBaseString}`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 
-    expect(requestManager.getMoveTree().length).toBe(93);
-    expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
-    const botMove = requestManager.playPreferredBotMove();
-    expect(botMove).toBeDefined();
-    assertNonUndefined(botMove);
-    requestManager.makeMove(botMove);
-    expect(requestManager.getMoveTree().length).toBe(94);
-    expect(requestManager.loadSnapshotByPath([93])).toBeTruthy();
-    expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
+	expect(requestManager.getMoveTree().length).toBe(93);
+	expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
+	const botMove = requestManager.playPreferredBotMove();
+	expect(botMove).toBeDefined();
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+	expect(requestManager.getMoveTree().length).toBe(94);
+	expect(requestManager.loadSnapshotByPath([93])).toBeTruthy();
+	expect(requestManager.getBoardInstance().data.gameOver).toBeFalsy();
 });
 
 test("Stalemate through Making a Patzer Move", () => {
-    requestManager.constructWithGeneratedData(
-        `${fenStart}
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
         ${stalemateBaseString}`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 
-    expect(requestManager.getMoveTree().length).toBe(93);
-    expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
-    const botMove = requestManager.playPreferredBotMove(patzerAlgorithm);
-    expect(botMove).toBeDefined();
-    assertNonUndefined(botMove);
-    requestManager.makeMove(botMove);
-    expect(requestManager.getMoveTree().length).toBe(95);
-    expect(requestManager.loadSnapshotByPath([94])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getMoveTree().length).toBe(93);
+	expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
+	const botMove = requestManager.playPreferredBotMove(patzerAlgorithm);
+	expect(botMove).toBeDefined();
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+	expect(requestManager.getMoveTree().length).toBe(95);
+	expect(requestManager.loadSnapshotByPath([94])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "STALEMATE • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "STALEMATE • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("No Stalemate through Making a Futer Move in Alternative Lines", () => {
-    requestManager.constructWithGeneratedData(
-        `${fenStart}
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
         ${stalemateBaseString} .. Ki10-j10`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 
-    expect(requestManager.getMoveTree().length).toBe(94);
-    expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
-    const botMove = requestManager.playPreferredBotMove();
-    expect(botMove).toBeDefined();
-    assertNonUndefined(botMove);
-    requestManager.makeMove(botMove);
-    expect(requestManager.getMoveTree().length).toBe(94);
-    expect(requestManager.loadSnapshotByPath([93, 0, 0])).toBeTruthy();
-    expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeFalsy();
+	expect(requestManager.getMoveTree().length).toBe(94);
+	expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
+	const botMove = requestManager.playPreferredBotMove();
+	expect(botMove).toBeDefined();
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+	expect(requestManager.getMoveTree().length).toBe(94);
+	expect(requestManager.loadSnapshotByPath([93, 0, 0])).toBeTruthy();
+	expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeFalsy();
 });
 
 test("Stalemate through Making a Patzer Move in Alternative Lines", () => {
-    requestManager.constructWithGeneratedData(
-        `${fenStart}
+	requestManager.constructWithGeneratedData(
+		`${fenStart}
         ${stalemateBaseString} .. Ki10-j10`,
-        insufficientMaterialState
-    );
+		insufficientMaterialState
+	);
 
-    expect(requestManager.getMoveTree().length).toBe(94);
-    expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
-    const botMove = requestManager.playPreferredBotMove(patzerAlgorithm);
-    expect(botMove).toBeDefined();
-    assertNonUndefined(botMove);
-    requestManager.makeMove(botMove);
-    expect(requestManager.getMoveTree().length).toBe(94);
-    expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getMoveTree().length).toBe(94);
+	expect(requestManager.loadSnapshotByPath([92])).toBeTruthy();
+	const botMove = requestManager.playPreferredBotMove(patzerAlgorithm);
+	expect(botMove).toBeDefined();
+	assertNonUndefined(botMove);
+	requestManager.makeMove(botMove);
+	expect(requestManager.getMoveTree().length).toBe(94);
+	expect(requestManager.loadSnapshotByPath([93, 0, 1])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "STALEMATE • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "STALEMATE • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });
 
 test("50-Move Rule", () => {
@@ -1513,13 +1512,13 @@ test("50-Move Rule", () => {
         197. Bg6-h7+ .. Kj5-k5
         198. Nf6-h5 .. Kk5-k6
         199. Bh7-i8+`,
-        insufficientMaterialState
+		insufficientMaterialState
 	);
 
-    expect(requestManager.getMoveTree().length).toBe(397);
-    expect(requestManager.loadSnapshotByPath([396])).toBeTruthy();
-    expect(requestManager.getFENSettings().points[0]).toBe(24);
+	expect(requestManager.getMoveTree().length).toBe(397);
+	expect(requestManager.loadSnapshotByPath([396])).toBeTruthy();
+	expect(requestManager.getFENSettings().points[0]).toBe(24);
 	expect(requestManager.getFENSettings().points[2]).toBe(24);
-    const terminationString: Termination = "50-MOVE RULE • ½-½";
-    expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
+	const terminationString: Termination = "50-MOVE RULE • ½-½";
+	expect(requestManager.getBoardInstance().data.gameOver).toBe(terminationString);
 });

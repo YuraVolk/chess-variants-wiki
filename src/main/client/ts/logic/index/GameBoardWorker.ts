@@ -283,10 +283,10 @@ export class RequestManager {
 				return board.makeMove(move);
 			}
 		});
-		
+
 		const rootMoves = board.moves.getMove(board.moves.currentMove.slice(0, -1));
 		if (Array.isArray(rootMoves)) {
-			const filteredMoves = rootMoves.filter(move => Object.values(move.cachedNames).some(n => n.length === 0));
+			const filteredMoves = rootMoves.filter((move) => Object.values(move.cachedNames).some((n) => n.length === 0));
 			if (filteredMoves.length) {
 				const currentSnapshot = board.createSnapshot();
 				for (const move of filteredMoves) {
@@ -310,7 +310,7 @@ export class RequestManager {
 							board.loadSnapshot(moveSnapshot.boardSnapshot);
 							board.moves.currentMove = [...move.path];
 							return moveSnapshot.postMoveResults;
-						},
+						}
 					});
 				}
 
