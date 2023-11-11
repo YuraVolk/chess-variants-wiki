@@ -282,6 +282,41 @@ export class RequestManager {
 				return board.makeMove(move);
 			}
 		});
+		
+		const rootMoves = board.moves.getMove(board.moves.currentMove.slice(0, -1));
+		if (Array.isArray(rootMoves)) {
+			const filteredMoves = rootMoves.filter(move => Object.values(move.cachedNames).some(n => n.length === 0));
+			if (filteredMoves.length) {
+				const currentSnapshot = board.createSnapshot();
+				for (const move of filteredMoves) {
+					let previousMove = board.moves.getMove([...move.path.slice(0, -1), move.path[move.path.length - 1] - 1]);
+					if (!verifyValidMove(previousMove)) {
+						if (move.path.length <= 1) continue;
+						const baseRootMove = board.moves.getMove(board.moves.currentMove.slice(0, -2));
+						if (!verifyValidMove(baseRootMove)) continue;
+						previousMove = baseRootMove;
+					}
+					const boardSnapshot = board.moves.getBoardSnapshot(previousMove);
+					if (!boardSnapshot) continue;
+					board.loadSnapshot(boardSnapshot.boardSnapshot);
+
+					board.moves.augmentMoveWithMetadata({
+						move: move.moveData,
+						board,
+						makeMoveFunction() {
+							const moveSnapshot = board.moves.getBoardSnapshot(move);
+							assertNonUndefined(moveSnapshot);
+							board.loadSnapshot(moveSnapshot.boardSnapshot);
+							board.moves.currentMove = [...move.path];
+							return moveSnapshot.postMoveResults;
+						},
+					});
+				}
+
+				board.moves.currentMove[board.moves.currentMove.length - 1] = rootMoves.length - 1;
+				board.loadSnapshot(currentSnapshot);
+			}
+		}
 
 		this.generateCurrentMoves();
 	}
