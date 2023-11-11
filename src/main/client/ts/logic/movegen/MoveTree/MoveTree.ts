@@ -12,8 +12,8 @@ import {
 	MoveTreeIteratorCallbacks
 } from "./MoveTreeInterface";
 import { moveNotation } from "./MoveNotationStringifier";
-import { compareArrays, findLastIndex } from "@utils/ArrayUtils";
-import type { Board, PlayerBooleanTuple } from "@moveGeneration/Board/Board";
+import { compareArrays } from "@utils/ArrayUtils";
+import type { Board } from "@moveGeneration/Board/Board";
 import type { PostMoveResults } from "@moveGeneration/FENData/FENDataInterface";
 import { pawnPieceString } from "@moveGeneration/GameInformation/GameUnits/PieceString";
 import { colors } from "@moveGeneration/GameInformation/GameData";
@@ -278,20 +278,16 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 		},
 		augmentMoveWithMetadata(parameters: { move: Move; board: Board; makeMoveFunction: () => PostMoveResults }) {
 			const { move, board, makeMoveFunction } = parameters;
+			const previousSideToMove = board.data.sideToMove;
 			const standardMove = move.find<MoveData>((m): m is MoveData => verifyStandardMove(m));
 			const movingPiece = standardMove ? board.board[standardMove.startCoordinates[0]][standardMove.startCoordinates[1]] : pawnPieceString;
 			const capturedPieces = standardMove ? board.data.getCapturedPieces(standardMove).length !== 0 : false;
-			const postMoveResults = makeMoveFunction();
-			const deadColors: PlayerBooleanTuple = [...board.data.fenOptions.tag("dead")];
-			const currentSideToMove = board.data.sideToMove,
+			const alivePieces = board.data.fenOptions.tag("dead").map((d) => !d),
+				postMoveResults = makeMoveFunction(),
 				currentMove = board.moves.getMove(board.moves.currentMove);
 			assertValidMove(currentMove);
 			if (currentMove.metadata.currentFullMove && currentMove.metadata.currentSideToMove) return;
-
-			if (
-				board.moves.currentMove[board.moves.currentMove.length - 1] === 0 ||
-				findLastIndex(deadColors, (b) => !b) === currentSideToMove
-			) {
+			if (board.moves.currentMove[board.moves.currentMove.length - 1] === 0 || alivePieces.findIndex(Boolean) === previousSideToMove) {
 				const lastCurrentMoves = board.moves.getMove(board.moves.currentMove.slice(0, -1));
 				if (!Array.isArray(lastCurrentMoves)) throw new Error("The selected move is not within an array");
 				for (let i = lastCurrentMoves.length - 1; i >= 0; i--) {
@@ -313,7 +309,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 					}
 				}
 			}
-			currentMove.metadata.currentSideToMove = currentSideToMove;
+			currentMove.metadata.currentSideToMove = previousSideToMove;
 			currentMove.metadata.isCapture = capturedPieces;
 			currentMove.metadata.movingPiece = movingPiece;
 			for (const color of colors) {
