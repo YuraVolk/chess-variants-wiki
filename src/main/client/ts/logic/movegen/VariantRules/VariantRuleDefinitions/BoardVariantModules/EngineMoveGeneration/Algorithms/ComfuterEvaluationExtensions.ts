@@ -1,14 +1,24 @@
-import { MoveComponent, verifyStandardMove, SpecialMove, verifyInternalMove } from "@moveGeneration/MoveTree/MoveTreeInterface";
+import {
+	MoveComponent,
+	verifyStandardMove,
+	SpecialMove,
+	verifyInternalMove,
+	InternalMoveSignature
+} from "@moveGeneration/MoveTree/MoveTreeInterface";
 import { pieceControlConfigSettings } from "@moveGeneration/PieceControl/PieceControlInterface";
 import { createBotAlgorithm, ZombieMoveGenerationAlgorithm, ZombieType } from "../BotInterface";
-import { comfuterAlgorithm } from "./ComfuterEvaluation";
+import { comfuterAlgorithm, comfuterBaseAlgorithm } from "./ComfuterEvaluation";
+import { Board } from "@moveGeneration/Board/Board";
 
 export const createComfuterBasedAlgorithm = (
 	algorithm: Omit<ZombieMoveGenerationAlgorithm, "pickPreferredMove">
-): ZombieMoveGenerationAlgorithm => ({
+): ZombieMoveGenerationAlgorithm & { canHaveAlternativeLines(board: Board): boolean } => ({
 	...algorithm,
 	pickPreferredMove(...args) {
 		return comfuterAlgorithm.pickPreferredMove.apply(this, args);
+	},
+	canHaveAlternativeLines(board) {
+		return comfuterBaseAlgorithm.canHaveAlternativeLines.call(this, board);
 	}
 });
 
@@ -85,8 +95,17 @@ export const patzerAlgorithm = createBotAlgorithm(
 		stringifiedType: ZombieType.Patzer,
 		evaluate(moves, defaultBoard): Map<MoveComponent, number> {
 			const baseEvaluations = comfuterAlgorithm.evaluate.call(this, moves, defaultBoard);
+
 			for (const [move, evaluation] of baseEvaluations) {
-				baseEvaluations.set(move, -evaluation);
+				if (
+					verifyInternalMove(move) &&
+					(move.type === InternalMoveSignature.Resign ||
+						move.type === InternalMoveSignature.ClaimWin ||
+						move.type === InternalMoveSignature.DrawByAgreement ||
+						move.type === InternalMoveSignature.Timeout)
+				) {
+					baseEvaluations.set(move, -Infinity);
+				} else baseEvaluations.set(move, -evaluation);
 			}
 
 			return baseEvaluations;

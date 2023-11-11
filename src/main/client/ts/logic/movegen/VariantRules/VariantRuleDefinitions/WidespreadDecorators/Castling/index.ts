@@ -13,7 +13,7 @@ export abstract class Castling<T extends AllowedSuperClasses> extends VariantRul
 	protected static INNER_CASTLING_LENGTH = boardDimension / 2 - 1;
 	protected static QUEENSIDE_DIFF_LEAST = Math.floor(Castling.INNER_CASTLING_LENGTH / 3);
 	protected static QUEENSIDE_DIFF_MOST = Math.ceil(Castling.INNER_CASTLING_LENGTH / 2);
-	
+
 	protected castlingDisplacement: Tuple<[number, number], typeof totalPlayers>;
 	constructor(value?: unknown) {
 		super();

@@ -50,7 +50,7 @@ export class Sideways extends VariantRule<typeof PieceControl, typeof tag> imple
 		for (const decorator of this.wrappingDecorators) {
 			if (decorator.getPossibleCells) return decorator.getPossibleCells();
 		}
-		
+
 		const prototype = Object.getPrototypeOf(this.decorator) as PieceControl;
 		prototype.getPossibleCells.call(this.decorator);
 	}

@@ -1,19 +1,17 @@
 import { assertNonUndefined, createTuple } from "@client/ts/baseTypes";
-import { findLastIndex } from "@utils/ArrayUtils";
 import type { Board } from "../Board/Board";
 import { SpecialMoveSettings, validateBoardMove } from "../Board/BoardMoveValidator";
 import { colors, getPlayerNameFromColor, totalPlayers, VariantType } from "../GameInformation/GameData";
 import { createPieceFromData } from "../GameInformation/GameUnits/PieceString";
 import { assertValidMove, createMoveTree, MoveTreeInterface, verifyValidMove } from "./MoveTree";
 import { createBaseMoveWrapper, MoveWrapper, SpecialMove, verifyStandardMove } from "./MoveTreeInterface";
-import { BoardSnapshot } from "@moveGeneration/Board/BoardInterface";
+import type { BoardSnapshot } from "@moveGeneration/Board/BoardInterface";
 
 export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTreeInterface {
 	const clonedBoard = board.createClone();
 	clonedBoard.moves = createMoveTree(clonedBoard.createSnapshot(), board);
 	clonedBoard.pregenerateAttacks();
 
-	const dimension = Math.max(...clonedBoard.data.fenOptions.tag("dim"));
 	function traverse(
 		current: MoveWrapper[],
 		currentFullMove = 0,
@@ -53,49 +51,27 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 					}
 
 					if (!firstStandardMoveSet) {
-						if (validationResult.hasCastling) {
-							newMoveWrapper.moveData[0] = validationResult.hasCastling;
-						} else {
-							newMoveWrapper.metadata.movingPiece =
-								clonedBoard.board[moveComponent.startCoordinates[0]][moveComponent.startCoordinates[1]];
-						}
-
+						if (validationResult.hasCastling) newMoveWrapper.moveData[0] = validationResult.hasCastling;
 						firstStandardMoveSet = true;
 					}
 
 					if (validationResult.hasEnPassant) {
 						moveComponent.specialType = SpecialMove.EnPassant;
 						validationResult.hasEnPassant = false;
-						newMoveWrapper.metadata.isCapture = true;
 					}
 					if (validationResult.isIrreversible) moveComponent.isIrreversible = true;
-					if (!validationResult.hasCastling && clonedBoard.data.getCapturedPieces(moveComponent).length > 0) {
-						newMoveWrapper.metadata.isCapture = true;
-					}
 				}
 			}
 
-			if (i === 0 || findLastIndex(clonedBoard.data.fenOptions.tag("dead"), (b) => !b) === previousSideToMove) {
-				newMoveWrapper.metadata.currentFullMove = ++currentFullMove;
-			}
-			newMoveWrapper.metadata.currentSideToMove = previousSideToMove = clonedBoard.data.sideToMove;
-			
+			previousSideToMove = clonedBoard.data.sideToMove;
 			let snapshot: BoardSnapshot | undefined, postMoveSnapshot: BoardSnapshot | undefined;
 			if (alternativeLines.length) snapshot = clonedBoard.createSnapshot();
-			const results = clonedBoard.makeMove(moveData, false, newMoveWrapper.path.length !== 1);
+			clonedBoard.makeMove(moveData, false, newMoveWrapper.path.length !== 1);
 
-			if (alternativeLines.length) postMoveSnapshot = clonedBoard.createSnapshot();
-			for (let i = 0; i < totalPlayers; i++) {
-				if (results.checkmates[i]) {
-					newMoveWrapper.metadata.checkmates++;
-				} else if (results.checks[i]) {
-					newMoveWrapper.metadata.checks++;
-				}
-			}
-
+			let invalidLinesBefore = 0;
 			if (alternativeLines.length) {
 				assertNonUndefined(snapshot);
-				assertNonUndefined(postMoveSnapshot);
+				postMoveSnapshot = clonedBoard.createSnapshot();
 				clonedBoard.loadSnapshot(snapshot);
 
 				const move = clonedBoard.moves.getMove(clonedBoard.moves.currentMove);
@@ -104,17 +80,26 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 					move.alternativeLines.push([...line]);
 					clonedBoard.moves.currentMove = line[0].path.slice(0, -1).concat([-1]);
 					const result = traverse(line, currentFullMove, [...currentTimeOnClocks]);
-					if (result.length) newMoveWrapper.alternativeLines.push(result);
+					if (result.length) {
+						const alternativeLine = [...result, ...move.alternativeLines[move.alternativeLines.length - 1].slice(result.length)];
+						newMoveWrapper.alternativeLines.push(
+							invalidLinesBefore
+								? alternativeLine.map((move) => {
+										move.path[move.path.length - 2] -= invalidLinesBefore;
+										return move;
+								  })
+								: alternativeLine
+						);
+						invalidLinesBefore = 0;
+					} else invalidLinesBefore++;
 					clonedBoard.loadSnapshot(snapshot);
 					clonedBoard.moves.currentMove = [...move.path];
 				}
 
 				clonedBoard.loadSnapshot(postMoveSnapshot);
 			}
-			
-			if (moveWrapper.metadata.playerClock) {
-				currentTimeOnClocks[previousSideToMove] -= moveWrapper.metadata.playerClock;
-			}
+
+			if (moveWrapper.metadata.playerClock) currentTimeOnClocks[previousSideToMove] -= moveWrapper.metadata.playerClock;
 			newMoveWrapper.metadata = { ...moveWrapper.metadata, ...newMoveWrapper.metadata };
 			newMoveWrapper.metadata.playerClock = currentTimeOnClocks[previousSideToMove];
 			const currentMove = clonedBoard.moves.getMove(newMoveWrapper.path);
@@ -122,14 +107,43 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 			currentMove.metadata = newMoveWrapper.metadata;
 			currentMove.comment = moveWrapper.comment;
 			currentMove.alternativeLines = newMoveWrapper.alternativeLines;
-			clonedBoard.moves.stringifyMove(currentMove, dimension);
 			moves.push(currentMove);
+			i += clonedBoard.moves.currentMove[clonedBoard.moves.currentMove.length - 1] - newMoveWrapper.path[newMoveWrapper.path.length - 1];
 		}
 
 		return moves;
 	}
 
 	traverse(moves.moves);
+
+	let previousMovePath = [-1];
+	const loadSnapshotCallback = (move: MoveWrapper) => {
+		previousMovePath = [...move.path];
+	};
+
+	for (const move of clonedBoard.moves.parametrizedIterator({
+		onAlternativeLineStart: loadSnapshotCallback,
+		onAllAlternativeLinesEnd: loadSnapshotCallback
+	})) {
+		const previousMove = clonedBoard.moves.getMove(previousMovePath);
+		const boardSnapshot = clonedBoard.moves.getBoardSnapshot(verifyValidMove(previousMove) ? previousMove : -1);
+		assertNonUndefined(boardSnapshot);
+		clonedBoard.loadSnapshot(boardSnapshot.boardSnapshot);
+
+		clonedBoard.moves.augmentMoveWithMetadata({
+			move: move.moveData,
+			board: clonedBoard,
+			makeMoveFunction() {
+				const currentSnapshot = clonedBoard.moves.getBoardSnapshot(move);
+				assertNonUndefined(currentSnapshot);
+				clonedBoard.loadSnapshot(currentSnapshot.boardSnapshot);
+				clonedBoard.moves.currentMove = [...move.path];
+				return currentSnapshot.postMoveResults;
+			}
+		});
+		previousMovePath = move.path;
+	}
+
 	return clonedBoard.moves;
 }
 

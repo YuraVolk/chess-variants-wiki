@@ -99,7 +99,6 @@ export class StalemateOptions extends VariantRule<typeof FENData, typeof tag> im
 
 	processInternalMove(internalMove: InternalMove): { stalemates: [boolean, boolean, boolean, boolean] } {
 		const currentTurn = this.decorator.sideToMove;
-		const returnValues = this.callHandler("processInternalMove", arguments);
 		if (internalMove.type === InternalMoveSignature.Stalemate) {
 			const pointsForMate = this.decorator.obtainPointsForMate();
 			switch (this.type) {
@@ -122,12 +121,13 @@ export class StalemateOptions extends VariantRule<typeof FENData, typeof tag> im
 				default:
 					throwOnNever(this.type);
 			}
-
-			if (this.decorator.getRealPlayers() === 1) {
-				this.decorator.assignGeneralTermination("Stalemate", currentTurn);
-			}
 		}
 
-		return returnValues;
+		const results = this.callHandler("processInternalMove", arguments);
+		if (internalMove.type === InternalMoveSignature.Stalemate && this.decorator.getRealPlayers() === 1) {
+			this.decorator.assignGeneralTermination("Stalemate", currentTurn);
+		}
+
+		return results;
 	}
 }

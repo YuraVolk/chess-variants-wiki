@@ -79,7 +79,7 @@ export function serializeBoard(board: Board, lastMove = false): SerializedBoardS
 		assertNonUndefined(snapshot);
 		board.loadSnapshot(snapshot.boardSnapshot);
 		fenTag = defaultTags.startingPosition.serialize(board) ?? "";
-	 	board.loadSnapshot(currentSnapshot);
+		board.loadSnapshot(currentSnapshot);
 	} else fenTag = defaultTags.startingPosition.serialize(board) ?? "";
 
 	return {

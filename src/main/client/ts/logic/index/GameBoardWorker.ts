@@ -37,6 +37,7 @@ import { createFENDataTag } from "../utils/Tags/TagLogic/FENDataTag";
 import { wrapTag } from "../utils/Tags/Utils";
 import { fenDataTag } from "../utils/Tags/TagLogic/FENDataTag";
 import { IS_NODE_ENV } from "@utils/BrowserUtils";
+import type { ZombieMoveGenerationAlgorithm } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface";
 
 export const requiredDispatches: Array<keyof RequestManager> = [];
 export const initialDispatches: Array<keyof RequestManager> = [];
@@ -283,6 +284,41 @@ export class RequestManager {
 			}
 		});
 
+		const rootMoves = board.moves.getMove(board.moves.currentMove.slice(0, -1));
+		if (Array.isArray(rootMoves)) {
+			const filteredMoves = rootMoves.filter((move) => Object.values(move.cachedNames).some((n) => n.length === 0));
+			if (filteredMoves.length) {
+				const currentSnapshot = board.createSnapshot();
+				for (const move of filteredMoves) {
+					let previousMove = board.moves.getMove([...move.path.slice(0, -1), move.path[move.path.length - 1] - 1]);
+					if (!verifyValidMove(previousMove)) {
+						if (move.path.length <= 1) continue;
+						const baseRootMove = board.moves.getMove(board.moves.currentMove.slice(0, -2));
+						if (!verifyValidMove(baseRootMove)) continue;
+						previousMove = baseRootMove;
+					}
+					const boardSnapshot = board.moves.getBoardSnapshot(previousMove);
+					if (!boardSnapshot) continue;
+					board.loadSnapshot(boardSnapshot.boardSnapshot);
+
+					board.moves.augmentMoveWithMetadata({
+						move: move.moveData,
+						board,
+						makeMoveFunction() {
+							const moveSnapshot = board.moves.getBoardSnapshot(move);
+							assertNonUndefined(moveSnapshot);
+							board.loadSnapshot(moveSnapshot.boardSnapshot);
+							board.moves.currentMove = [...move.path];
+							return moveSnapshot.postMoveResults;
+						}
+					});
+				}
+
+				board.moves.currentMove[board.moves.currentMove.length - 1] = rootMoves.length - 1;
+				board.loadSnapshot(currentSnapshot);
+			}
+		}
+
 		this.generateCurrentMoves();
 	}
 
@@ -366,7 +402,7 @@ export class RequestManager {
 	}
 
 	@withWorkerResult()
-	playPreferredBotMove() {
+	playPreferredBotMove(overrideAlgorithm?: ZombieMoveGenerationAlgorithm) {
 		if (this.board.data.getRealPlayers() <= 1) return;
 		const legalMoves: MoveComponent[] = [];
 		for (const piece of this.board.getPlayerPieces()[this.board.data.sideToMove]) {
@@ -377,7 +413,7 @@ export class RequestManager {
 		legalMoves.push(...this.board.preGeneratedAttacks[this.board.data.sideToMove].pieceDrops.pawn);
 		legalMoves.push(...this.internalMoves);
 
-		const algorithm = this.board.data.fenOptions.getDefaultZombieAlgorithm(this.board.data.sideToMove);
+		const algorithm = overrideAlgorithm ?? this.board.data.fenOptions.getDefaultZombieAlgorithm(this.board.data.sideToMove);
 		const moves = algorithm.evaluate(legalMoves, this.board);
 		return this.stripPieceStrings(algorithm.pickPreferredMove(moves));
 	}
