@@ -81,10 +81,15 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 					clonedBoard.moves.currentMove = line[0].path.slice(0, -1).concat([-1]);
 					const result = traverse(line, currentFullMove, [...currentTimeOnClocks]);
 					if (result.length) {
-						newMoveWrapper.alternativeLines.push(invalidLinesBefore ? result.map(move => {
-							move.path[move.path.length - 2] -= invalidLinesBefore;
-							return move;
-						}) : result);
+						const alternativeLine = [...result, ...move.alternativeLines[move.alternativeLines.length - 1].slice(result.length)];
+						newMoveWrapper.alternativeLines.push(
+							invalidLinesBefore
+								? alternativeLine.map((move) => {
+										move.path[move.path.length - 2] -= invalidLinesBefore;
+										return move;
+								  })
+								: alternativeLine
+						);
 						invalidLinesBefore = 0;
 					} else invalidLinesBefore++;
 					clonedBoard.loadSnapshot(snapshot);

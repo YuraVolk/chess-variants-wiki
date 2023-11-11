@@ -37,6 +37,7 @@ import { createFENDataTag } from "../utils/Tags/TagLogic/FENDataTag";
 import { wrapTag } from "../utils/Tags/Utils";
 import { fenDataTag } from "../utils/Tags/TagLogic/FENDataTag";
 import { IS_NODE_ENV } from "@utils/BrowserUtils";
+import type { ZombieMoveGenerationAlgorithm } from "@moveGeneration/VariantRules/VariantRuleDefinitions/BoardVariantModules/EngineMoveGeneration/BotInterface";
 
 export const requiredDispatches: Array<keyof RequestManager> = [];
 export const initialDispatches: Array<keyof RequestManager> = [];
@@ -401,7 +402,7 @@ export class RequestManager {
 	}
 
 	@withWorkerResult()
-	playPreferredBotMove() {
+	playPreferredBotMove(overrideAlgorithm?: ZombieMoveGenerationAlgorithm) {
 		if (this.board.data.getRealPlayers() <= 1) return;
 		const legalMoves: MoveComponent[] = [];
 		for (const piece of this.board.getPlayerPieces()[this.board.data.sideToMove]) {
@@ -412,7 +413,7 @@ export class RequestManager {
 		legalMoves.push(...this.board.preGeneratedAttacks[this.board.data.sideToMove].pieceDrops.pawn);
 		legalMoves.push(...this.internalMoves);
 
-		const algorithm = this.board.data.fenOptions.getDefaultZombieAlgorithm(this.board.data.sideToMove);
+		const algorithm = overrideAlgorithm ?? this.board.data.fenOptions.getDefaultZombieAlgorithm(this.board.data.sideToMove);
 		const moves = algorithm.evaluate(legalMoves, this.board);
 		return this.stripPieceStrings(algorithm.pickPreferredMove(moves));
 	}

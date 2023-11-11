@@ -453,15 +453,10 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 
 	getCurrentResult(): Result {
 		if (this.board.gameType.isFFA()) {
-			const dead = this.fenOptions.tag("dead"),
-				resigned = this.fenOptions.tag("resigned");
-
 			if (!this.board.isTwoPlayer) throw new Error("Result can only get called for 2P and teams");
 			const max = Math.max(...this.points);
-			let firstAlivePlayer: NumericColor | undefined, maximumIndex: NumericColor | undefined, alivePlayers = 0;
+			let firstAlivePlayer: NumericColor | undefined, maximumIndex: NumericColor | undefined;
 			for (const color of colors) {
-				if (dead[color] || resigned[color]) continue;
-				alivePlayers++;
 				if (this.points[color] === max) {
 					if (maximumIndex === undefined) {
 						maximumIndex = color;
@@ -470,9 +465,7 @@ class FENData implements VariantHandlerTarget<FENData>, Cloneable<FENData>, Meme
 				if (firstAlivePlayer === undefined) firstAlivePlayer = color;
 			}
 
-			return alivePlayers === 1 && firstAlivePlayer !== undefined
-				? firstAlivePlayer < colors.length / 2 ? "1-0" : "0-1"
-				: firstAlivePlayer === maximumIndex ? "1-0" : "0-1";
+			return firstAlivePlayer === maximumIndex ? "1-0" : "0-1";
 		} else {
 			let result: Result = "½-½";
 			for (const color of colors) {
