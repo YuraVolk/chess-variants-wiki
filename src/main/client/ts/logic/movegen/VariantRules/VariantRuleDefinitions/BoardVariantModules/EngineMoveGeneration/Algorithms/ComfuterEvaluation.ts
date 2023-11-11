@@ -63,7 +63,7 @@ interface FlattenedBoardSettings extends Readonly<ReadonlyFlattenedBoardSettings
 	hangingCache: Map<string, number>;
 }
 
-function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
+function createComfuterAlgorithm() {
 	let boardAccessors: FlattenedBoardSettings;
 	function augmentBoardAccessorsFromBoard(board: Board): Omit<FlattenedBoardSettings, keyof ReadonlyFlattenedBoardSettings> {
 		return {
@@ -145,7 +145,7 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		const key = stringifyKey(i, j, color);
 		const cachedCoverage = coverageCache.get(key);
 		if (cachedCoverage) return cachedCoverage;
-		
+
 		const attackers: Coordinate[] = [],
 			defenders: Coordinate[] = [];
 		const cvg = coverage[i][j];
@@ -645,7 +645,7 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		return false;
 	}
 
-	function getEval(move: MoveComponent, legalMoves: MoveComponent[]): number {
+	function getEval(move: MoveComponent, legalMoves: MoveComponent[], canHaveAlternativeLines = false): number {
 		let totalEval = 0;
 		const { board, defaultSideToMove, variantData, royal, isTeams } = boardAccessors;
 		const snapshot = board.createSnapshot();
@@ -690,11 +690,12 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		if (isZombieEatZombie(move)) {
 			totalEval -= 10000;
 		}
+
 		switch (board.moves.getHash(board.moves.constructPreliminaryHashString(board))) {
-			case 1:
+			case 1 + Number(canHaveAlternativeLines):
 				totalEval -= 10000;
 				break;
-			case 2:
+			case 2 + Number(canHaveAlternativeLines):
 				totalEval -= 20000;
 				break;
 		}
@@ -706,24 +707,30 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 
 	return {
 		stringifiedType: ZombieType.Futer,
+		canHaveAlternativeLines(board) {
+			const currentMove = board.moves.getMove(board.moves.currentMove.slice(0, -1));
+			return Array.isArray(currentMove) ? board.moves.currentMove[board.moves.currentMove.length - 1] !== currentMove.length - 1 : false;
+		},
 		evaluate(moves, board): Map<MoveComponent, number> {
 			initializeBoardAccessorsFromBoard(board.createClone());
 
+			const canHaveAlternativeLines = this.canHaveAlternativeLines(board);
 			const moveValues = new Map<MoveComponent, number>();
 			for (const move of moves) {
 				if (verifyInternalMove(move)) {
 					switch (move.type) {
 						case InternalMoveSignature.Resign:
 						case InternalMoveSignature.Timeout:
+						case InternalMoveSignature.DrawByAgreement:
 							moveValues.set(move, -Infinity);
 							break;
 						case InternalMoveSignature.ClaimWin:
 							moveValues.set(move, Infinity);
 							break;
 						default:
-							moveValues.set(move, getEval(move, moves));
+							moveValues.set(move, getEval(move, moves, canHaveAlternativeLines));
 					}
-				} else moveValues.set(move, getEval(move, moves));
+				} else moveValues.set(move, getEval(move, moves, canHaveAlternativeLines));
 			}
 
 			return moveValues;
@@ -747,6 +754,8 @@ function createComfuterAlgorithm(): ZombieMoveGenerationAlgorithm {
 		getName() {
 			return "Comfuter";
 		}
-	};
+	} satisfies { canHaveAlternativeLines(board: Board): boolean } & ZombieMoveGenerationAlgorithm;
 }
-export const comfuterAlgorithm = createBotAlgorithm(createComfuterAlgorithm());
+
+export const comfuterBaseAlgorithm = createComfuterAlgorithm();
+export const comfuterAlgorithm = createBotAlgorithm(comfuterBaseAlgorithm);
