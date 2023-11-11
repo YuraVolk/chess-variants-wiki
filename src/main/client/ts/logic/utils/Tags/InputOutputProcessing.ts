@@ -89,7 +89,7 @@ export function serializeBoard(board: Board, lastMove = false): SerializedBoardS
 			Object.values(defaultTags)
 				.filter((t) => t.tag !== "startingPosition")
 				.map((t) => t.serialize(board))
-				.filter<string>((v): v is string => v !== undefined)
+				.filter<string>((v): v is string => Boolean(v))
 				.join("\n"),
 		moves: serializePGNMoves(board.moves)
 	};

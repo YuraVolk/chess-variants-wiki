@@ -8,7 +8,7 @@ const text = `# Hello world!
 
 <div><board-display variantname="2PC" pgn4='${`[StartFen4 "2PC"]
 [Variant "FFA"]
-[RuleVariants "EnPassant Play4Mate Teammate=1"]
+[RuleVariants "EnPassant Play4Mate Prom=11"]
 [CurrentMove "0"]
 [TimeControl "1|5"]`
 	.replace(/'/g, "&#39;")
@@ -26,7 +26,7 @@ Aliquam erat volutpat. Ut viverra tincidunt condimentum. Suspendisse faucibus ar
 
 <game-controller variantname="2PC" pgn4='${`[StartFen4 "2PC"]
 [Variant "FFA"]
-[RuleVariants "EnPassant Play4Mate Teammate=1"]
+[RuleVariants "EnPassant Play4Mate Prom=11"]
 [CurrentMove "0"]
 [TimeControl "1|5"]`
 	.replace(/'/g, "&#39;")
