@@ -68,6 +68,7 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 			if (alternativeLines.length) snapshot = clonedBoard.createSnapshot();
 			clonedBoard.makeMove(moveData, false, newMoveWrapper.path.length !== 1);
 
+			let invalidLinesBefore = 0;
 			if (alternativeLines.length) {
 				assertNonUndefined(snapshot);
 				postMoveSnapshot = clonedBoard.createSnapshot();
@@ -79,7 +80,13 @@ export function validateMoveTree(board: Board, moves: MoveTreeInterface): MoveTr
 					move.alternativeLines.push([...line]);
 					clonedBoard.moves.currentMove = line[0].path.slice(0, -1).concat([-1]);
 					const result = traverse(line, currentFullMove, [...currentTimeOnClocks]);
-					if (result.length) newMoveWrapper.alternativeLines.push(result);
+					if (result.length) {
+						newMoveWrapper.alternativeLines.push(invalidLinesBefore ? result.map(move => {
+							move.path[move.path.length - 2] -= invalidLinesBefore;
+							return move;
+						}) : result);
+						invalidLinesBefore = 0;
+					} else invalidLinesBefore++;
 					clonedBoard.loadSnapshot(snapshot);
 					clonedBoard.moves.currentMove = [...move.path];
 				}
