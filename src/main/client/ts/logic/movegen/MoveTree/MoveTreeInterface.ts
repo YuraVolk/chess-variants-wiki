@@ -1,3 +1,4 @@
+import type { PostMoveResults } from "@moveGeneration/FENData/FENDataInterface";
 import { BoardSnapshot, compareCoordinates, PreGeneratedAttacks } from "../Board/BoardInterface";
 import type { Coordinate, NumericColor } from "../GameInformation/GameUnits/GameUnits";
 import { pawnPieceString, PieceString, PieceStringObject } from "../GameInformation/GameUnits/PieceString";
@@ -203,5 +204,13 @@ export interface MoveTreeSnapshot {
 	boardSnapshot: BoardSnapshot;
 	hash: string;
 	pregeneratedAttacks: PreGeneratedAttacks;
+	postMoveResults: PostMoveResults;
 }
 export type MoveTreeRequiredSnapshotValues = Omit<MoveTreeSnapshot, "hash">;
+
+export interface MoveTreeIteratorCallbacks {
+	onAllAlternativeLinesStart?: (move: MoveWrapper) => void;
+	onAlternativeLineStart?: (move: MoveWrapper, line: MoveWrapper[]) => void;
+	onAlternativeLineEnd?: (move: MoveWrapper, line: MoveWrapper[]) => void;
+	onAllAlternativeLinesEnd?: (move: MoveWrapper) => void;
+}

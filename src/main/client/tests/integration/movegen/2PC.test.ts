@@ -1196,11 +1196,9 @@ test("Stalemate", () => {
         45. Ki5-j6 .. Rf11-h11
         46. Kj6-k5 .. Rh11xh6
         47. Kk5-j4 .. Rh6-h5
-        48. S
-        `,
+        48. S`,
         insufficientMaterialState
     );
-    
 });
 
 test("50-Move Rule", () => {

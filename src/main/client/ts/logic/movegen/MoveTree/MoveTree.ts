@@ -8,7 +8,8 @@ import {
 	Move,
 	MoveData,
 	verifyStandardMove,
-	ProcessSafeMoveWrapper
+	ProcessSafeMoveWrapper,
+	MoveTreeIteratorCallbacks
 } from "./MoveTreeInterface";
 import { moveNotation } from "./MoveNotationStringifier";
 import { compareArrays, findLastIndex } from "@utils/ArrayUtils";
@@ -71,6 +72,9 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 	const moves: MoveWrapper[] = [];
 	const startingSnapshot: MoveTreeSnapshot = {
 		boardSnapshot: baseSnapshot,
+		get postMoveResults(): PostMoveResults {
+			throw new Error("Should not access post move results on base move");
+		},
 		get hash(): string {
 			throw new Error("Should not access hash on base move");
 		},
@@ -143,8 +147,7 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 	function addBoardSnapshot(parameters: MoveTreeSetNewMoveParameters, currentMove: number[]) {
 		const { move, snapshot, fenDataString } = parameters;
 		snapshots.set(move, {
-			boardSnapshot: snapshot.boardSnapshot,
-			pregeneratedAttacks: snapshot.pregeneratedAttacks,
+			...snapshot,
 			hash: fenDataString
 		});
 
@@ -155,11 +158,17 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 		} else boardHashes.set(fenDataString, [currentMove.slice()]);
 	}
 
-	function* iterateMovesDFS(moveWrapper: MoveWrapper): Generator<MoveWrapper, void, undefined> {
+	function* iterateMovesDFS(moveWrapper: MoveWrapper, callbacks: MoveTreeIteratorCallbacks): Generator<MoveWrapper, void, undefined> {
 		yield moveWrapper;
+
+		if (moveWrapper.alternativeLines.length) callbacks.onAllAlternativeLinesStart?.(moveWrapper);
 		for (const alternativeLine of moveWrapper.alternativeLines) {
-			for (const move of alternativeLine) yield* iterateMovesDFS(move);
+			callbacks.onAlternativeLineStart?.(moveWrapper, alternativeLine);
+			for (const move of alternativeLine) yield* iterateMovesDFS(move, callbacks);
+			callbacks.onAlternativeLineEnd?.(moveWrapper, alternativeLine);
 		}
+
+		if (moveWrapper.alternativeLines.length) callbacks.onAllAlternativeLinesEnd?.(moveWrapper);
 	}
 
 	const assignMoveWrapperKey = <K extends keyof MoveWrapper>(object: MoveWrapper, key: K, value: MoveWrapper[K]) => {
@@ -320,8 +329,11 @@ export const createMoveTree = (baseSnapshot: BoardSnapshot, board: Board) => {
 		constructPreliminaryHashString(boardObject: Board) {
 			return constructPreliminaryHashString(boardObject);
 		},
+		*parametrizedIterator(callbacks: MoveTreeIteratorCallbacks) {
+			for (const move of moves) yield* iterateMovesDFS(move, callbacks);
+		},
 		*[Symbol.iterator]() {
-			for (const move of moves) yield* iterateMovesDFS(move);
+			for (const move of moves) yield* iterateMovesDFS(move, {});
 		}
 	};
 };

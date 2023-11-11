@@ -273,7 +273,8 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 			noPathSlice: substituteTreeMove,
 			snapshot: {
 				boardSnapshot: this.createSnapshot(),
-				pregeneratedAttacks: pregeneratedAttacks[sideToMove]
+				pregeneratedAttacks: pregeneratedAttacks[sideToMove],
+				postMoveResults: returnValues
 			},
 			fenDataString: this.moves.constructPreliminaryHashString(this)
 		});
