@@ -1,5 +1,6 @@
 ![Gradle Build](https://github.com/YuraVolk/chess-variants-wiki/actions/workflows/gradle-build.yml/badge.svg)
 ![Docker Image](https://github.com/YuraVolk/chess-variants-wiki/actions/workflows/docker-image.yml/badge.svg)
+[![codecov](https://codecov.io/gh/YuraVolk/chess-variants-wiki/graph/badge.svg?token=R9I7ISNHJ4)](https://codecov.io/gh/YuraVolk/chess-variants-wiki)
 # Chess Variants Wiki
 
 A highly customizable library aimed at support of various chess variants.
