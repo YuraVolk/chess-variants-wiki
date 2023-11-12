@@ -20,7 +20,8 @@ import {
 	createBasePreGeneratedAttacks,
 	compareCoordinates,
 	stringifyCoordinate,
-	SpecialMoveGenerationSettings
+	SpecialMoveGenerationSettings,
+	PreGeneratedAttacksSettings
 } from "./BoardInterface";
 import type { VariantDataRules, VariantHandlerTarget } from "../VariantRules/VariantRuleInterface";
 import { copyClass } from "@client/ts/utils/ObjectUtils";
@@ -288,12 +289,12 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 		return returnValues;
 	}
 
-	pregenerateAttacks(exclusiveSideToMoveGeneration: NumericColor | false = false): void {
+	pregenerateAttacks(settings?: PreGeneratedAttacksSettings): void {
 		const royal = this.data.fenOptions.tag("royal");
 
 		this.preGeneratedAttacks = createTupleFromCallback(createBasePreGeneratedAttacks, totalPlayers);
 		this.getPlayerPieces().forEach((army, armyColor) => {
-			if (exclusiveSideToMoveGeneration !== false && exclusiveSideToMoveGeneration !== armyColor) return;
+			if (settings?.exclusiveSideToMoveGeneration && settings.exclusiveSideToMoveGeneration !== armyColor) return;
 			const preGeneratedAttacks = this.preGeneratedAttacks[armyColor];
 			for (const coordinate of army) {
 				const square = this.board[coordinate[0]][coordinate[1]];
@@ -307,9 +308,11 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 				let control = controlBuilder.setBaseImmunePieces(this.gameType.getBaseColors(color)).constructPieceControl();
 				resultingMoves.push(...control.getPseudoLegalMoves());
 
+				const coverage: PieceControlGeneratedMove[] = [];
 				control = controlBuilder.setBaseImmunePieces(baseImmunes).constructPieceControl();
 				if (setting.moveGenerationSettings.isJumping) {
 					const attacks = control.rayGenJumpingAttacks();
+					if (settings?.generateCoverage) coverage.push(...attacks);
 					for (const { move: attack } of attacks) {
 						for (const color of colors) {
 							if (color === armyColor) continue;
@@ -327,6 +330,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 				if (setting.moveGenerationSettings.isSliding) {
 					const attacks = control.rayGenSlidingAttacks();
 					for (const attack of attacks) {
+						if (settings?.generateCoverage) coverage.push(...attack);
 						for (const color of colors) {
 							if (color === armyColor) continue;
 							const preGeneratedAttacks = this.preGeneratedAttacks[color];
@@ -374,6 +378,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 				}
 
 				preGeneratedAttacks.pieceMovements.set(stringifyCoordinate(coordinate), resultingMoves);
+				if (settings?.generateCoverage) preGeneratedAttacks.pieceCoverage.set(stringifyCoordinate(coordinate), coverage);
 			}
 
 			preGeneratedAttacks.pieceDrops.piece = this.getDroppingMoves(createPieceFromData(armyColor, nonPlayablePieces.wall));
@@ -407,7 +412,7 @@ export class Board implements VariantHandlerTarget<Board>, Cloneable<Board>, Mem
 
 			let isKingInCheck = checks[color] || checkmates[color];
 			if (!isKingInCheck) {
-				this.pregenerateAttacks(color);
+				this.pregenerateAttacks({ exclusiveSideToMoveGeneration: color });
 				isKingInCheck = this.isKingInCheck(color);
 			}
 			this.loadSnapshot(snapshot);

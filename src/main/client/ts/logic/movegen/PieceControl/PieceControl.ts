@@ -267,6 +267,5 @@ export class PieceControl implements VariantHandlerTarget<PieceControl> {
 		this.getPossibleCells();
 		return this.moves.splice(0);
 	}
-
 	/*------------------------------- OUTPUT GENERATION -----------------------------------------*/
 }

@@ -128,7 +128,7 @@ function createComfuterAlgorithm() {
 			for (const coordinate of pieces[color]) {
 				const pc = boardSquares[coordinate[0]][coordinate[1]];
 				if (!pc.isPiece()) continue;
-				const destinations = board.preGeneratedAttacks[color].pieceMovements.get(stringifyCoordinate(coordinate));
+				const destinations = board.preGeneratedAttacks[color].pieceCoverage.get(stringifyCoordinate(coordinate));
 				if (!destinations) continue;
 
 				for (const dest of destinations) {
@@ -155,11 +155,9 @@ function createComfuterAlgorithm() {
 				if (!piece.isPiece()) continue;
 				const pieceColor = piece.color;
 				if (resigned[pieceColor] && zombieType[pieceColor] === ZombieType.Rando) continue;
-				if (board.gameType.isSameTeam(pieceColor, defaultSideToMove)) {
+				if (board.gameType.isSameTeam(pieceColor, color)) {
 					defenders.push(pieceC);
-				} else {
-					attackers.push(pieceC);
-				}
+				} else attackers.push(pieceC);
 			}
 		}
 
@@ -271,7 +269,7 @@ function createComfuterAlgorithm() {
 	}
 
 	function hanging(i: number, j: number, pieceValue = getPieceValue(i, j)): number {
-		const { hangingCache, boardSquares, remaining, data } = boardAccessors;
+		const { hangingCache, boardSquares, remaining, data, defaultSideToMove } = boardAccessors;
 
 		const key = stringifyKey(i, j);
 		if (hangingCache.has(key)) return hangingCache.get(key) ?? 0;
@@ -307,14 +305,14 @@ function createComfuterAlgorithm() {
 		const underDefended = attackers.length - defenders.length > 0;
 		if (underDefended) h = pieceValue;
 		if (underDefended && pawnDefends) h = 0;
-		if (pawnDefends && attackers.length - defenders.length > 1) {
+		if (pawnDefends && (attackers.length - defenders.length > 1)) {
 			h = getPieceValue(pawnDefends[0], pawnDefends[1]);
 		}
 		if (!h && threatened > 0) h = threatened;
 		if (!h && attackedFromLeft && threatened >= -2) {
 			h = -threatened;
 		}
-		if (h && canRespondDirectlyToThreat(square.color, attackers)) {
+		if (defaultSideToMove !== square.color && h && canRespondDirectlyToThreat(square.color, attackers)) {
 			h /= 6;
 		}
 
@@ -653,7 +651,7 @@ function createComfuterAlgorithm() {
 		const isKingsideCastle = legalMoves.find((m) => "specialType" in m && m.specialType === SpecialMove.CastlingKingside) !== undefined,
 			isQueensideCastle = legalMoves.find((m) => "specialType" in m && m.specialType === SpecialMove.CastlingQueenside) !== undefined;
 		board.makeMove([move], true);
-		board.pregenerateAttacks();
+		board.pregenerateAttacks({ generateCoverage: true });
 		boardAccessors = { ...boardAccessors, ...augmentBoardAccessorsFromBoard(board) };
 		inspectCoverage();
 

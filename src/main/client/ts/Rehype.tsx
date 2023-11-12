@@ -30,6 +30,7 @@ Aliquam erat volutpat. Ut viverra tincidunt condimentum. Suspendisse faucibus ar
 [CurrentMove "0"]
 [TimeControl "1|5"]`
 	.replace(/'/g, "&#39;")
+	
 	.replace(/\n/g, " ")}'></game-controller>
 
 `;

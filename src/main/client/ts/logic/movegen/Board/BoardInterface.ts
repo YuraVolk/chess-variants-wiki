@@ -33,6 +33,7 @@ export interface PreGeneratedAttacks {
 		hasCaptures?: boolean;
 	};
 	pieceMovements: Map<string, PieceControlGeneratedMove[]>;
+	pieceCoverage: Map<string, PieceControlGeneratedMove[]>;
 	pieceDrops: {
 		pawn: DroppingMove[];
 		piece: DroppingMove[];
@@ -94,6 +95,11 @@ export const createComplexMoveLegalityTracker = () => ({
 	hasComplexRules: false
 });
 
+export interface PreGeneratedAttacksSettings {
+	exclusiveSideToMoveGeneration?: NumericColor;
+	generateCoverage?: boolean;
+}
+
 export const createBasePreGeneratedAttacks = (): PreGeneratedAttacks => {
 	return {
 		hoppingPieces: initializeBoardSquares(() => 0),
@@ -103,6 +109,7 @@ export const createBasePreGeneratedAttacks = (): PreGeneratedAttacks => {
 		slidingPiecesRayTracing: [],
 		attackingColors: initializeBoardSquares(() => 0),
 		pieceMovements: new Map<string, PieceControlGeneratedMove[]>(),
+		pieceCoverage: new Map<string, PieceControlGeneratedMove[]>(),
 		pieceDrops: {
 			pawn: [],
 			piece: []
