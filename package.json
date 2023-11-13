@@ -8,7 +8,7 @@
 		"test:integration": "jest",
 		"coverage:integration": "jest --coverage",
 		"build": "webpack --mode production --entry ./src/main/client/ts/Main -o ./src/main/resources/public/scripts/",
-		"static": "webpack --mode production --entry ./src/main/client/ts/Main -o ./src/main/resources/public/scripts/ && live-server --no-css-inject --port=5000 --host=0.0.0.0 --open=./src/main/resources/public/index.html --watch=./src/main/resources/public/"
+		"static": "webpack --mode production --entry ./src/main/client/ts/Main -o ./src/main/resources/public/scripts/ && live-server --no-css-inject --port=5000 --host=0.0.0.0 --open=./src/main/resources/public/development.html --watch=./src/main/resources/public/"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.9.3",

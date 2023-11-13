@@ -12,6 +12,7 @@ COPY . .
 RUN gradle bootJar --no-daemon --stacktrace
 
 FROM openjdk:11
+VOLUME /tmp
 WORKDIR /app
 COPY --from=gradle /app/build/libs/*.jar /app/app.jar
 

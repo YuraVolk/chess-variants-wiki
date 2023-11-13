@@ -45,4 +45,4 @@ $ npm install
 $ npm run static
 ```
 
-Your app should now be running on [http://127.0.0.1:5000/src/main/resources/public/index.html](http://127.0.0.1:5000/src/main/resources/public/index.html).
+Your app should now be running on [http://127.0.0.1:5000/src/main/resources/public/development.html](http://127.0.0.1:5000/src/main/resources/public/development.html).
