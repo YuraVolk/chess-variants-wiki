@@ -22,7 +22,7 @@ $ cd chess-variants-wiki
 ### Running with Docker
 ```sh
 docker build -t chess-variants-wiki .
-docker run -p 5000:5000 --name ChessVariantsWiki chess-variants-wiki
+docker run -p 10000:10000 --name ChessVariantsWiki chess-variants-wiki
 ```
 
 Your app should now be running on [localhost:5000](http://localhost:5000/).
