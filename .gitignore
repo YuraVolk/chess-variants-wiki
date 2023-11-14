@@ -37,3 +37,6 @@ docs/tmp
 /src/main/resources/public/*
 !/src/main/resources/public/.gitkeep
 !/src/main/resources/public/development.html
+
+## Environment Variables
+/.env
