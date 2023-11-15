@@ -3,30 +3,43 @@ package server.wiki.controller
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.*
 import server.wiki.model.Page
-import server.wiki.repository.PagesService
+import server.wiki.service.PagesService
+import java.util.*
 
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
 @RequestMapping("/api/page")
-class PageController(@Autowired val pagesService: PagesService) {
+open class PageController(@Autowired val pagesService: PagesService) {
     @PostMapping
-    fun addPage(@RequestBody page: Page): ResponseEntity<String> {
+    @PreAuthorize("hasRole('ADMIN')")
+    open fun addPage(@RequestBody page: Page): ResponseEntity<String> {
         pagesService.addPage(page)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     @PatchMapping
-    fun updatePage(@RequestBody page: Page): ResponseEntity<String> {
+    @PreAuthorize("hasRole('EDITOR') or hasRole('ADMIN')")
+    open fun updatePage(@RequestBody page: Page): ResponseEntity<String> {
         pagesService.updatePage(page)
         return ResponseEntity.ok().build()
     }
 
     @GetMapping
-    fun getAllPages(): ResponseEntity<List<Page>> = ResponseEntity.ok(pagesService.getAllPages())
+    open fun getAllPages(): ResponseEntity<List<Page>> = ResponseEntity.ok(pagesService.getAllPages())
+
+    @GetMapping("/id/{id}")
+    open fun getPageById(@PathVariable id: String): ResponseEntity<Optional<Page>> = ResponseEntity.ok(pagesService.getPageById(id))
+
+    @GetMapping("/title/{title}")
+    open fun getPageByTitle(@PathVariable title: String): ResponseEntity<Page> = ResponseEntity.ok(pagesService.getPageByTitle((title)))
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('VIEWER')")
+    open fun deletePage(@PathVariable id: String): ResponseEntity<String> {
+        pagesService.deletePage(id)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+    }
 }
