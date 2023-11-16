@@ -1,7 +1,7 @@
 package server.wiki.model.user
 
 enum class UserRole {
-    VIEWER,
-    EDITOR,
-    ADMIN
+    ROLE_VIEWER,
+    ROLE_EDITOR,
+    ROLE_ADMIN
 }

@@ -64,7 +64,7 @@ open class AuthController(
         }
 
         userRepository.save(User(signUpRequest.username, encoder.encode(signUpRequest.password), signUpRequest.email,
-            setOf(roleRepository.findByName(UserRole.VIEWER) ?: throw RuntimeException("Role not found"))))
+            setOf(roleRepository.findByName(UserRole.ROLE_VIEWER) ?: throw RuntimeException("Role not found"))))
         return ResponseEntity.ok<Any>(AuthenticationPayload.MessageResponse("User registered successfully!"))
     }
 }

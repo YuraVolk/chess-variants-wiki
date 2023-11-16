@@ -42,29 +42,18 @@ open class SecurityConfig(
     }
 
     @Bean
-    open fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
+    open fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
     open fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { csrf: CsrfConfigurer<HttpSecurity> -> csrf.disable() }
             .exceptionHandling { exception: ExceptionHandlingConfigurer<HttpSecurity?> ->
-                exception.authenticationEntryPoint(
-                    unauthorizedHandler
-                )
+                exception.authenticationEntryPoint(unauthorizedHandler)
             }
             .sessionManagement { session: SessionManagementConfigurer<HttpSecurity?> ->
-                session.sessionCreationPolicy(
-                    SessionCreationPolicy.STATELESS
-                )
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
-            .authorizeHttpRequests { auth ->
-                auth
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/api/**").permitAll()
-                    .anyRequest().authenticated()
-            }
+            .authorizeHttpRequests { auth -> auth.anyRequest().permitAll() }
         http.authenticationProvider(authenticationProvider())
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
