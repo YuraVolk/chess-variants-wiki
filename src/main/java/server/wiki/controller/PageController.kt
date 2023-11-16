@@ -14,7 +14,7 @@ import java.util.*
 @RequestMapping("/api/page")
 open class PageController(@Autowired val pagesService: PagesService) {
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('EDITOR') or hasRole('ADMIN')")
     open fun addPage(@RequestBody page: Page): ResponseEntity<String> {
         pagesService.addPage(page)
         return ResponseEntity.status(HttpStatus.CREATED).build()
@@ -37,7 +37,7 @@ open class PageController(@Autowired val pagesService: PagesService) {
     open fun getPageByTitle(@PathVariable title: String): ResponseEntity<Page> = ResponseEntity.ok(pagesService.getPageByTitle((title)))
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('EDITOR') or hasRole('ADMIN')")
     open fun deletePage(@PathVariable id: String): ResponseEntity<String> {
         pagesService.deletePage(id)
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
