@@ -1,6 +1,9 @@
 package server.wiki.controller
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpHeaders
+import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -12,12 +15,12 @@ import server.wiki.model.user.UserRole
 import server.wiki.payload.AuthenticationPayload
 import server.wiki.repository.RoleRepository
 import server.wiki.repository.UserRepository
+import server.wiki.security.SecurityConfig
 import server.wiki.security.jwt.JwtUtils
 import server.wiki.security.services.UserDetailsImplementation
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
-@CrossOrigin(origins = ["*"], maxAge = 3600)
+@CrossOrigin(origins = ["*"], maxAge = SecurityConfig.SESSION_DURATION_SECONDS)
 @RestController
 @RequestMapping("/api/auth")
 open class AuthController(
@@ -32,19 +35,29 @@ open class AuthController(
     @Autowired
     val jwtUtils: JwtUtils
 ) {
+    @Value("\${wiki.jwtExpirationMs}")
+    private val jwtExpirationMs = 0
+
     @PostMapping("/signin")
     fun authenticateUser(@RequestBody loginRequest: AuthenticationPayload.LoginRequest, response: HttpServletResponse): ResponseEntity<*> {
         val authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
         )
         SecurityContextHolder.getContext().authentication = authentication
-        val jwt = jwtUtils.generateJwtToken(authentication)
-        response.addCookie(Cookie("jwtToken", jwt).apply { isHttpOnly = true; maxAge = 3600 })
+        response.addHeader(
+            HttpHeaders.SET_COOKIE,
+            ResponseCookie.from(SecurityConfig.COOKIE_TOKEN_NAME, jwtUtils.generateJwtToken(authentication))
+                .secure(true)
+                .httpOnly(true)
+                .maxAge(jwtExpirationMs.toLong())
+                .sameSite("Strict")
+                .path("/")
+                .build().toString()
+        )
         val userDetails = authentication.principal as? UserDetailsImplementation
             ?: return ResponseEntity.badRequest().build<ResponseEntity<*>>()
         return ResponseEntity.ok<Any>(
             AuthenticationPayload.JwtResponse(
-                jwt,
                 userDetails.id,
                 userDetails.getUsername(),
                 userDetails.email,

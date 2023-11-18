@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
+import server.wiki.security.SecurityConfig
 import server.wiki.security.services.UserDetailsServiceImplementation
 import java.io.IOException
 import javax.servlet.FilterChain
@@ -52,6 +53,6 @@ class AuthTokenFilter : OncePerRequestFilter() {
         val headerAuth = request.getHeader("Authorization")
         return if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             headerAuth.substring(7, headerAuth.length)
-        } else null
+        } else request.cookies?.find { it.name == SecurityConfig.COOKIE_TOKEN_NAME }?.value
     }
 }

@@ -6,10 +6,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import server.wiki.model.Page
+import server.wiki.security.SecurityConfig
 import server.wiki.service.PagesService
 import java.util.*
 
-@CrossOrigin(origins = ["*"], maxAge = 3600)
+@CrossOrigin(origins = ["*"], maxAge = SecurityConfig.SESSION_DURATION_SECONDS)
 @RestController
 @RequestMapping("/api/page")
 open class PageController(@Autowired val pagesService: PagesService) {

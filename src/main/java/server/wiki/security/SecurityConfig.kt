@@ -25,6 +25,11 @@ open class SecurityConfig(
     private val userDetailsService: UserDetailsServiceImplementation,
     private val unauthorizedHandler: AuthEntryPointJwt
 ) {
+    companion object {
+        const val SESSION_DURATION_SECONDS = 3600L
+        const val COOKIE_TOKEN_NAME = "jwtToken"
+    }
+
     @Bean
     open fun authenticationJwtTokenFilter() = AuthTokenFilter()
 

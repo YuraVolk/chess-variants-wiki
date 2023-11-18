@@ -7,9 +7,10 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import server.wiki.model.user.UserRole
 import server.wiki.payload.UserRolePayload
+import server.wiki.security.SecurityConfig
 import server.wiki.service.UserRolesService
 
-@CrossOrigin(origins = ["*"], maxAge = 3600)
+@CrossOrigin(origins = ["*"], maxAge = SecurityConfig.SESSION_DURATION_SECONDS)
 @RestController
 @RequestMapping("/api/role")
 @PreAuthorize("hasRole('ADMIN')")
