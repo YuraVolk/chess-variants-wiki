@@ -14,6 +14,8 @@ import server.wiki.repository.RoleRepository
 import server.wiki.repository.UserRepository
 import server.wiki.security.jwt.JwtUtils
 import server.wiki.security.services.UserDetailsImplementation
+import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletResponse
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
@@ -31,12 +33,13 @@ open class AuthController(
     val jwtUtils: JwtUtils
 ) {
     @PostMapping("/signin")
-    fun authenticateUser(@RequestBody loginRequest: AuthenticationPayload.LoginRequest): ResponseEntity<*> {
+    fun authenticateUser(@RequestBody loginRequest: AuthenticationPayload.LoginRequest, response: HttpServletResponse): ResponseEntity<*> {
         val authentication = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password)
         )
         SecurityContextHolder.getContext().authentication = authentication
         val jwt = jwtUtils.generateJwtToken(authentication)
+        response.addCookie(Cookie("jwtToken", jwt).apply { isHttpOnly = true; maxAge = 3600 })
         val userDetails = authentication.principal as? UserDetailsImplementation
             ?: return ResponseEntity.badRequest().build<ResponseEntity<*>>()
         return ResponseEntity.ok<Any>(

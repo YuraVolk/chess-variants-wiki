@@ -32,14 +32,12 @@ class JwtUtils {
             .compact()
     }
 
-    private fun key(): Key {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
-    }
+    private fun key(): Key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
 
-    fun getUserNameFromJwtToken(token: String?): String {
-        return Jwts.parserBuilder().setSigningKey(key()).build()
+    fun getUserNameFromJwtToken(token: String?): String = Jwts.parserBuilder()
+            .setSigningKey(key())
+            .build()
             .parseClaimsJws(token).body.subject
-    }
 
     fun validateJwtToken(authToken: String?): Boolean {
         try {

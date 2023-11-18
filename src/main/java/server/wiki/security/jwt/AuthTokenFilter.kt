@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class AuthTokenFilter : OncePerRequestFilter() {
+    companion object {
+        private val logger = LoggerFactory.getLogger(AuthTokenFilter::class.java)
+    }
+
     @Autowired
     lateinit var jwtUtils: JwtUtils
     @Autowired
@@ -49,9 +53,5 @@ class AuthTokenFilter : OncePerRequestFilter() {
         return if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             headerAuth.substring(7, headerAuth.length)
         } else null
-    }
-
-    companion object {
-        private val logger = LoggerFactory.getLogger(AuthTokenFilter::class.java)
     }
 }
