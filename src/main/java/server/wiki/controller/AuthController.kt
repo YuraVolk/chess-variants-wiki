@@ -18,6 +18,7 @@ import server.wiki.repository.UserRepository
 import server.wiki.security.SecurityConfig
 import server.wiki.security.jwt.JwtUtils
 import server.wiki.security.services.UserDetailsImplementation
+import server.wiki.service.UserService
 import javax.servlet.http.HttpServletResponse
 
 @CrossOrigin(origins = ["*"], maxAge = SecurityConfig.SESSION_DURATION_SECONDS)
@@ -27,11 +28,7 @@ open class AuthController(
     @Autowired
     val authenticationManager: AuthenticationManager,
     @Autowired
-    val userRepository: UserRepository,
-    @Autowired
-    val roleRepository: RoleRepository,
-    @Autowired
-    val encoder: PasswordEncoder,
+    val userService: UserService,
     @Autowired
     val jwtUtils: JwtUtils
 ) {
@@ -68,19 +65,23 @@ open class AuthController(
 
     @PostMapping("/signup")
     fun registerUser(@RequestBody signUpRequest: AuthenticationPayload.SignupRequest): ResponseEntity<*> {
-        if (userRepository.existsByUsername(signUpRequest.username)) {
-            return ResponseEntity
-                .badRequest()
-                .body<Any>(AuthenticationPayload.MessageResponse("Error: Username is already taken!"))
+        return try {
+            userService.saveUser(signUpRequest)
+            ResponseEntity.ok<Any>(AuthenticationPayload.MessageResponse(
+                    "User registered successfully! " +
+                    "A verification message was sent to specified email."))
+        } catch (e: RuntimeException) {
+            ResponseEntity.badRequest().body(e.localizedMessage)
         }
-        if (userRepository.existsByEmail(signUpRequest.email)) {
-            return ResponseEntity
-                .badRequest()
-                .body<Any>(AuthenticationPayload.MessageResponse("Error: Email is already in use!"))
-        }
+    }
 
-        userRepository.save(User(signUpRequest.username, encoder.encode(signUpRequest.password), signUpRequest.email,
-            setOf(roleRepository.findByName(UserRole.ROLE_VIEWER) ?: throw RuntimeException("Role not found"))))
-        return ResponseEntity.ok<Any>(AuthenticationPayload.MessageResponse("User registered successfully!"))
+    @RequestMapping(value = ["/confirm-account"], method = [RequestMethod.GET, RequestMethod.POST])
+    fun confirmUserAccount(@RequestParam("token") token: String): ResponseEntity<*> {
+        return try {
+            userService.confirmEmail(token)
+            ResponseEntity.ok<Any>(AuthenticationPayload.MessageResponse("User email verified successfully!"))
+        } catch (e: RuntimeException) {
+            ResponseEntity.badRequest().body(e.localizedMessage)
+        }
     }
 }

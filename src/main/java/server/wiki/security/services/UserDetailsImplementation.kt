@@ -11,7 +11,8 @@ class UserDetailsImplementation(
     private val username: String,
     val email: String,
     @JsonIgnore private val password: String,
-    private val authorities: Collection<GrantedAuthority>
+    private val authorities: Collection<GrantedAuthority>,
+    private val isVerified: Boolean
 ) : UserDetails {
     companion object {
         fun build(user: User): UserDetailsImplementation {
@@ -20,7 +21,8 @@ class UserDetailsImplementation(
                 user.username,
                 user.email,
                 user.password,
-                user.roles.map { role -> SimpleGrantedAuthority(role.name.name) }
+                user.roles.map { role -> SimpleGrantedAuthority(role.name.name) },
+                user.isVerified
             )
         }
     }
@@ -31,5 +33,5 @@ class UserDetailsImplementation(
     override fun isAccountNonExpired() = true
     override fun isAccountNonLocked() = true
     override fun isCredentialsNonExpired() = true
-    override fun isEnabled() = true
+    override fun isEnabled() = isVerified
 }

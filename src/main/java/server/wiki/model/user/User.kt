@@ -14,7 +14,9 @@ data class User(
     @Field(name = "email")
     val email: String,
     @DBRef
-    var roles: Set<Role> = setOf()
+    var roles: Set<Role> = setOf(),
+    @Field(name = "isVerified")
+    var isVerified: Boolean = false
 ) {
     @Id
     lateinit var id: String

@@ -9,6 +9,8 @@ import server.wiki.model.user.User
 interface UserRepository : MongoRepository<User, String> {
     @Query("{'username':?0}")
     fun findByUsername(username: String): User?
+    @Query("{'email':?0}")
+    fun findByEmail(email: String): User?
     fun existsByUsername(username: String): Boolean
     fun existsByEmail(email: String): Boolean
 }
