@@ -24,7 +24,7 @@
 		"react-dom": "~18.2.0",
 		"react-modal": "^3.16.1",
 		"react-redux": "^8.1.2",
-		"react-svg": "^16.1.22",
+		"react-svg": "^16.1.30",
 		"react-toastify": "^9.1.1",
 		"react-tooltip": "^5.8.1",
 		"react-transition-group": "^4.4.5",
