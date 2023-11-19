@@ -8,13 +8,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
-import server.wiki.model.user.User
-import server.wiki.model.user.UserRole
 import server.wiki.payload.AuthenticationPayload
-import server.wiki.repository.RoleRepository
-import server.wiki.repository.UserRepository
 import server.wiki.security.SecurityConfig
 import server.wiki.security.jwt.JwtUtils
 import server.wiki.security.services.UserDetailsImplementation
