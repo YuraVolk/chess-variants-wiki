@@ -20,7 +20,7 @@ $ cd chess-variants-wiki
 ```
 
 ### Running with Docker
-You will need to initialize four environment variables: MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_CLUSTER and JWT_SECRET.
+You will need to initialize four environment variables: MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_CLUSTER, JWT_SECRET, MAIL_USERNAME, MAIL_PASSWORD and DOMAIN_NAME.
 
 ```sh
 docker build -t chess-variants-wiki .
@@ -31,7 +31,7 @@ Your app should now be running on [localhost:5000](http://localhost:5000/).
 
 ### Running with Java and Gradle
 Make sure you have Java and Gradle installed, these are required to run the application through this method.
-You will need to initialize four environment variables: MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_CLUSTER and JWT_SECRET.
+You will need to initialize four environment variables: MONGODB_USERNAME, MONGODB_PASSWORD, MONGODB_CLUSTER, JWT_SECRET, MAIL_USERNAME, MAIL_PASSWORD and DOMAIN_NAME.
 Run:
 ```sh
 $ gradle bootRun
