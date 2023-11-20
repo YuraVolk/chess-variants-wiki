@@ -14,6 +14,7 @@ import server.wiki.security.SecurityConfig
 import server.wiki.security.jwt.JwtUtils
 import server.wiki.security.services.UserDetailsImplementation
 import server.wiki.service.UserService
+import java.time.Duration
 import javax.servlet.http.HttpServletResponse
 
 @CrossOrigin(origins = ["*"], maxAge = SecurityConfig.SESSION_DURATION_SECONDS)
@@ -41,7 +42,7 @@ open class AuthController(
             ResponseCookie.from(SecurityConfig.COOKIE_TOKEN_NAME, jwtUtils.generateJwtToken(authentication))
                 .secure(true)
                 .httpOnly(true)
-                .maxAge(jwtExpirationMs.toLong())
+                .maxAge(Duration.ofMillis(jwtExpirationMs.toLong()))
                 .sameSite("Strict")
                 .path("/")
                 .build().toString()
