@@ -10,6 +10,5 @@ data class ConfirmationToken(
     @Field("email")
     var email: String,
     @Id
-    @Field("token")
-    var token: String = UUID.randomUUID().toString()
+    var id: String = UUID.randomUUID().toString()
 )

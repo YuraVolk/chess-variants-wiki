@@ -2,6 +2,7 @@ package server.wiki.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -54,12 +55,12 @@ class UserService(
             setTo(token.email)
             subject = "Verify your email for Chess Variants Wiki"
             text = "To confirm your account, please click here: " +
-                    "$domainName/api/auth/confirm-account?token=${token.token}"
+                    "$domainName/api/auth/confirm-account?token=${token.id}"
         }).also { confirmationTokenRepository.save(token) }
     }
 
     fun confirmEmail(token: String) {
-        val foundToken = confirmationTokenRepository.findByToken(token) ?: throw RuntimeException("Invalid token!")
+        val foundToken = confirmationTokenRepository.findByIdOrNull(token) ?: throw RuntimeException("Invalid token!")
         userRepository.findByEmail(foundToken.email)?.apply { isVerified = true }?.let {
             userRepository.save(it)
             confirmationTokenRepository.delete(foundToken)
