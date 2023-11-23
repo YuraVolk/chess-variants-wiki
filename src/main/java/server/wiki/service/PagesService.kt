@@ -2,12 +2,14 @@ package server.wiki.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import server.wiki.model.Page
 import server.wiki.repository.PagesRepository
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 @Service
+@Transactional
 class PagesService(@Autowired val pagesRepository: PagesRepository) {
     fun addPage(page: Page): Page = pagesRepository.insert(page)
     fun updatePage(page: Page) {

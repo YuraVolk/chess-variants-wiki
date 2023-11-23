@@ -6,6 +6,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import server.wiki.model.user.ConfirmationToken
 import server.wiki.model.user.User
 import server.wiki.model.user.UserRole
@@ -16,6 +17,7 @@ import server.wiki.repository.RoleRepository
 import server.wiki.repository.UserRepository
 
 @Service
+@Transactional
 class UserService(
     @Autowired
     val userRepository: UserRepository,
@@ -46,7 +48,7 @@ class UserService(
         if (userRepository.existsByEmail(payload.email)) throw RuntimeException("The email is already taken!")
         userRepository.save(
             User(payload.username, encoder.encode(payload.password), payload.email,
-            setOf(roleRepository.findByName(if (userRepository.count() == 0L) UserRole.ROLE_VIEWER else UserRole.ROLE_ADMIN)
+            setOf(roleRepository.findByName(if (userRepository.count() == 0L) UserRole.ROLE_ADMIN else UserRole.ROLE_VIEWER)
                 ?: throw RuntimeException("Role not found")))
         )
 
