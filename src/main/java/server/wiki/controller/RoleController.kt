@@ -12,7 +12,7 @@ import server.wiki.service.UserService
 
 @CrossOrigin(origins = ["*"], maxAge = SecurityConfig.SESSION_DURATION_SECONDS)
 @RestController
-@RequestMapping("/api/role")
+@RequestMapping("/api/roles")
 @PreAuthorize("hasRole('ADMIN')")
 open class RoleController(@Autowired val userService: UserService) {
     @PostMapping("/admin")

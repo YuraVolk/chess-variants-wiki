@@ -12,7 +12,7 @@ import java.util.*
 
 @CrossOrigin(origins = ["*"], maxAge = SecurityConfig.SESSION_DURATION_SECONDS)
 @RestController
-@RequestMapping("/api/page")
+@RequestMapping("/api/pages")
 open class PageController(@Autowired val pagesService: PagesService) {
     @PostMapping
     @PreAuthorize("hasRole('EDITOR') or hasRole('ADMIN')")
