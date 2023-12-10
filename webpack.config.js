@@ -2,14 +2,28 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const path = require("path");
+const glob = require('glob');
 
 const productionMode = process.env.NODE_ENV === "production";
 const devMode = !productionMode;
 
+const pagesEntry = glob.sync('./src/main/client/ts/pages/**/Page.tsx').reduce((entry, file) => {
+	const entryName = file.replace(/^\.\/src\/main\/client\/ts\/pages\//, "").replace(/\/Page\.tsx$/, "");
+	return { ...entry, [`${entryName}`]: file };
+}, {});
+
 module.exports = {
+    mode: "production",
     devtool: 'source-map',
     output: {
-        filename: 'react-app.js'
+        path: path.resolve(__dirname, "./src/main/resources/public/scripts/"),
+        filename: '[name].bundle.js',
+        clean: true
+    },
+    entry: {
+        main: "./src/main/client/ts/Main",
+        ...pagesEntry
     },
     module: {
         rules: [{
@@ -26,7 +40,10 @@ module.exports = {
                             dts: true,
                             optimizeConstEnums: true
                         }]
-                    ], plugins: [["@babel/plugin-proposal-decorators", { "version": "legacy" }]]
+                    ],
+                    plugins: [
+                        ["@babel/plugin-proposal-decorators", { "version": "legacy" }]
+                    ]
                 }
             }
         }, {

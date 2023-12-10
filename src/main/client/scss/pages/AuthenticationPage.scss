@@ -1,0 +1,16 @@
+body {
+    display: flex;
+    flex-direction: column;
+
+    #main {
+        width: fit-content;
+        font: small-caps 16px "Segoe UI";
+    }
+ 
+    #react-mountpoint {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
