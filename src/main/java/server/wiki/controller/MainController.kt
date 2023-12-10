@@ -10,5 +10,8 @@ import server.wiki.security.SecurityConfig
 @RestController
 class MainController {
     @RequestMapping("/sign-up")
-    fun login() = ModelAndView().apply { viewName = "sign-up" }
+    fun signUp() = ModelAndView().apply { viewName = "sign-up" }
+
+    @RequestMapping("/login")
+    fun login() = ModelAndView().apply { viewName = "login" }
 }
