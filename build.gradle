@@ -55,11 +55,6 @@ npmInstall {
 tasks.register('buildApp', NodeTask) {
 	dependsOn 'npmInstall'
 	script = project.file('node_modules/webpack/bin/webpack.js')
-	args = [
-			'--mode', 'production',
-			'--entry', './src/main/client/ts/Main',
-			'-o', './src/main/resources/public/scripts/'
-	]
 	onlyIf { !gradle.startParameter.taskNames.contains('bootRun') }
 }
 
