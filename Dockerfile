@@ -1,9 +1,8 @@
-FROM node:20.9 AS node
+FROM node:20 AS node
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
 
 FROM gradle:jdk11 AS gradle
 WORKDIR /app
